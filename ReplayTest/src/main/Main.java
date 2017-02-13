@@ -4,6 +4,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
 import game.Game;
+import level.Level;
 
 public class Main {
 	private static int SCREEN_HEIGHT, SCREEN_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH;
@@ -25,6 +26,7 @@ public class Main {
 		updateLoop = new UpdateLoop();
 		Game.init();
 		Window.init();
+		Level.init();
 		Thread update = new Thread(updateLoop, "Loop");
 		update.start();
 	}
