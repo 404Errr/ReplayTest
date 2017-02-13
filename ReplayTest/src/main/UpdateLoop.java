@@ -1,11 +1,13 @@
 package main;
 
-public class UpdateLoop implements Runnable {
+import data.Data;
+
+public class UpdateLoop implements Runnable, Data {
 
 	@Override
 	public void run() {
-		System.out.println("UPS: "+Main.UPS);
-		final long updateSpeed = 1000000000/Main.UPS;
+		System.out.println("UPS: "+UPS);
+		final long updateSpeed = 1000000000/UPS;
 		long startTime = 0, wait = 0;
 		while (Main.RUNNING) {
 			startTime = System.nanoTime();

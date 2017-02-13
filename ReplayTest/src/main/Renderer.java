@@ -2,6 +2,8 @@ package main;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 
@@ -23,7 +25,9 @@ public class Renderer extends JPanel {
 		for (int r = 0;r<Level.getTiles().length;r++) {
 			for (int c = 0;c<Level.getTiles()[0].length;c++) {
 				g.setColor(ColorData.getTileColor(Level.getTiles()[r][c].getType()));
-				g.fill(Level.getTiles()[r][c].getBounds());
+				Rectangle2D b = Level.getTiles()[r][c].getBounds();
+				g.fill(new Rectangle((int)b.getX(), (int)b.getY(), (int)b.getWidth(), (int)b.getHeight()));
+				
 			}
 		}
 	}
