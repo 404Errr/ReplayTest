@@ -1,7 +1,5 @@
 package main;
 
-import player.Cursor;
-
 public class UpdateLoop implements Runnable {
 
 	@Override
@@ -27,7 +25,10 @@ public class UpdateLoop implements Runnable {
 
 	private void update() {
 		try {
-			System.out.println(Cursor.getX()+","+Cursor.getY());
+//			System.out.println(Cursor.getX()+","+Cursor.getY());
+
+
+
 		}
 		catch (Exception e) {
 			System.out.println("-UPDATE ERROR");

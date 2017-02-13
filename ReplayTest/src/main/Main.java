@@ -3,6 +3,8 @@ package main;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
+import game.Game;
+
 public class Main {
 	private static int SCREEN_HEIGHT, SCREEN_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH;
 
@@ -21,6 +23,7 @@ public class Main {
 		System.out.println("WxH: "+width+"x"+height);
 
 		updateLoop = new UpdateLoop();
+		Game.init();
 		Window.init();
 		Thread update = new Thread(updateLoop, "Loop");
 		update.start();
