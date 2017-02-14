@@ -13,22 +13,21 @@ public class Main {
 
 	private static UpdateLoop updateLoop;
 	private static int scale;
-	
+
 	public static void main(String[] args) {
 		GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int width = screen.getDisplayMode().getWidth(), height = screen.getDisplayMode().getHeight();
 		int screenSize =  (Level.getWidth()>Level.getHeight())?width:height;
 		int layoutSize = Math.max(Level.getWidth(), Level.getHeight());
-		scale = (int)((screenSize*7/8)/layoutSize);
-		
-	
+		scale = (screenSize*7/8)/layoutSize;
+
 		SCREEN_WIDTH = scale*Level.getWidth();
 		SCREEN_HEIGHT = scale*Level.getHeight();
 		WINDOW_WIDTH = SCREEN_WIDTH+3+3;
 		WINDOW_HEIGHT = SCREEN_HEIGHT+25+3;
-		
+
 		System.out.println("WxH: "+width+"x"+height+" WxH: "+WINDOW_WIDTH+"x"+WINDOW_HEIGHT+" SCALE: "+scale);
-		
+
 		Level.init();
 		Game.init();
 		Window.init();

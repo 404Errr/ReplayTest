@@ -9,6 +9,7 @@ import main.Main;
 public class Tile implements MapData {
 	private int r, c, type;
 	private Rectangle2D bounds;
+	private boolean solid;
 
 	public Tile(int r, int c, int type) {
 		this.r = r;
@@ -27,6 +28,14 @@ public class Tile implements MapData {
 
 	public Rectangle2D getBounds() {
 		return bounds;
+	}
+
+	public boolean isSolid() {
+		return solid;
+	}
+
+	public void setSolid(boolean solid) {
+		this.solid = solid;
 	}
 
 	public int getType() {

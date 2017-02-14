@@ -1,6 +1,8 @@
 package main;
 
 import data.Data;
+import game.Game;
+import player.Player;
 
 public class UpdateLoop implements Runnable, Data {
 
@@ -27,10 +29,9 @@ public class UpdateLoop implements Runnable, Data {
 
 	private void update() {
 		try {
-//			System.out.println(Cursor.getX()+","+Cursor.getY());
-
-
-
+			for (Player player:Game.getPlayers()) {
+				player.tick();
+			}
 		}
 		catch (Exception e) {
 			System.out.println("-UPDATE ERROR");

@@ -8,15 +8,39 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-public class PlayerInput implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener {
+import data.Controls;
+import game.Game;
+
+public class PlayerInput implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, Controls {
 	@Override
 	public void keyPressed(KeyEvent e) {
-
+		playerMovement(e, true);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		playerMovement(e, false);
+	}
 
+	private void playerMovement(KeyEvent e, boolean pressed) {
+		switch (e.getKeyCode()) {
+		case UP_KEY_0:
+		case UP_KEY_1:
+			Game.getPlayer().setMovingUp(pressed);
+			break;
+		case DOWN_KEY_0:
+		case DOWN_KEY_1:
+			Game.getPlayer().setMovingDown(pressed);
+			break;
+		case LEFT_KEY_0:
+		case LEFT_KEY_1:
+			Game.getPlayer().setMovingLeft(pressed);
+			break;
+		case RIGHT_KEY_0:
+		case RIGHT_KEY_1:
+			Game.getPlayer().setMovingRight(pressed);
+			break;
+		}
 	}
 
 	@Override
