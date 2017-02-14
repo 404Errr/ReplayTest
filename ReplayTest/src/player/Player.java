@@ -7,14 +7,14 @@ import data.PlayerData;
 public class Player implements PlayerData {
 	private double x, y, dX, dY, ddX, ddY, facing;
 	private boolean movingUp, movingDown, movingLeft, movingRight;
-	private Point[][] hitboxPoints = new Point[2][2];
+	private HitboxPoint[][] hitboxPoints = new HitboxPoint[2][2];
 
 	public Player(int x, int y) {
 		this.x = x;
 		this.y = y;
 		for (int i = 0;i<2;i++) {
 			for (int j = 0;j<2;j++) {
-				hitboxPoints[i][j] = new Point();
+				hitboxPoints[i][j] = new HitboxPoint();
 			}
 		}
 		updateHitbox();
@@ -28,15 +28,28 @@ public class Player implements PlayerData {
 		for (int r = topLeft.y1;r<bottomRight.y2;r++) {
 			for (int c = topLeft.x1;c<bottomRight.x2;c++) {
 				//TODO
+				for (int i = 0;i<2;i++) {
+					for (int j = 0;j<2;j++) {
+						hitboxPoints[i][j].setTouching(Game.getLevel().getTile(r, c).getBounds().intersects(hitBoxPoints[i][j].getX(), hitBoxPoints[i][j].getY())); 
+					}
+				}
 			}
 		}
 	}
 
 	private void updateHitbox() {
-		hitboxPoints[0][0].setLocation(x,y);
-		hitboxPoints[0][1].setLocation(x+PLAYER_SIZE,y);
-		hitboxPoints[1][0].setLocation(x,y+PLAYER_SIZE);
-		hitboxPoints[1][1].setLocation(x+PLAYER_SIZE,y+PLAYER_SIZE);
+		//hitboxPoints[0][0].move(x,y);
+		//hitboxPoints[0][1].move(x+PLAYER_SIZE,y);
+		//hitboxPoints[1][0].move(x,y+PLAYER_SIZE);
+		//hitboxPoints[1][1].move(x+PLAYER_SIZE,y+PLAYER_SIZE);
+	//TODO	//
+		for (int i = 0;i<2;i++) {
+			for (int j = 0;j<2;j++) {
+				hitboxPoints[i][j].move(x+i*PLAYER_SIZE, y+j*PLAYER_SIZE);
+			}
+		}
+
+
 	}
 
 	public void tick() {
