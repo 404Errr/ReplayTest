@@ -5,8 +5,7 @@ import java.awt.Point;
 import data.PlayerData;
 
 public class Player implements PlayerData {
-	private double x, y, dX, dY, ddX, ddY;
-	private double facing;
+	private double x, y, dX, dY, ddX, ddY, facing;
 	private boolean movingUp, movingDown, movingLeft, movingRight;
 	private Point[][] hitboxPoints = new Point[2][2];
 
@@ -21,15 +20,34 @@ public class Player implements PlayerData {
 		updateHitbox();
 	}
 
+	private void checkWallCollision() {
+		final int radius = 3;
+		//TODO
+		Point topLeft = new Point((x/Main.getScale())-(PLAYER_SIZE*radius), (y/Main.getScale())-(PLAYER_SIZE*radius));
+		Point bottomRight = new Point((x/Main.getScale())+(PLAYER_SIZE*radius), (y/Main.getScale())+(PLAYER_SIZE*radius));
+		for (int r = topLeft.y1;r<bottomRight.y2;r++) {
+			for (int c = topLeft.x1;c<bottomRight.x2;c++) {
+				//TODO
+			}
+		}
+	}
+
 	private void updateHitbox() {
-//		hitboxPoints[0][0].setLocation(x, y);//FIXME
+		hitboxPoints[0][0].setLocation(x,y);
+		hitboxPoints[0][1].setLocation(x+PLAYER_SIZE,y);
+		hitboxPoints[1][0].setLocation(x,y+PLAYER_SIZE);
+		hitboxPoints[1][1].setLocation(x+PLAYER_SIZE,y+PLAYER_SIZE);
 	}
 
 	public void tick() {
-//		turn();
+		turn();
 		updateHitbox();
 		move();
 
+	}
+
+	private void turn() {
+		//TODO
 	}
 
 	private void move() {
