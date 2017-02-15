@@ -9,12 +9,14 @@ import level.Level;
 import main.Main;
 
 public class Player implements PlayerData, Data {
+	private final int UP = 3, DOWN = 1, LEFT = 2, RIGHT = 0;
+
 	private double x, y, dX, dY, ddX, ddY, facing;
 	private boolean movingUp, movingDown, movingLeft, movingRight;
 	private HitboxPoint[][] hitboxPoints = new HitboxPoint[2][2];
-	private final int UP = 3, DOWN = 1, LEFT = 2, RIGHT = 0;
+	private HitboxBar[] hitboxBars = new HitboxBar[4];
 	private boolean[] canMove = new boolean[4];//r,d,l,u
-	
+
 	public Player(double x, double y) {
 		this.x = x;
 		this.y = y;
@@ -26,10 +28,13 @@ public class Player implements PlayerData, Data {
 				hitboxPoints[i][j] = new HitboxPoint();
 			}
 		}
+		for (int i = 0;i<4;i++) {
+			hitboxBars[i] = new HitboxBar();
+		}
 	}
 
 	private void checkWallCollision() {//TODO
-		final int radius = 3;
+		final int radius = 2;
 		setAllCanMove(true);
 		for (int i = 0;i<2;i++) {
 			for (int j = 0;j<2;j++) {
@@ -37,23 +42,43 @@ public class Player implements PlayerData, Data {
 				getHitboxPoint(i, j).setTouching(false);
 			}
 		}
+		for (int i = 0;i<4;i++) {
+			getHitboxBar(i).setTouching(false);
+		}
+
+		getHitboxBar(UP).move(x-(1d/Main.getScale()), y-(1d/Main.getScale()), x+PLAYER_SIZE+(1d/Main.getScale()), y-(1d/Main.getScale()));
+		getHitboxBar(DOWN).move(x-(1d/Main.getScale()), y+PLAYER_SIZE+(1d/Main.getScale()), x+PLAYER_SIZE+(1d/Main.getScale()), y+PLAYER_SIZE+(1d/Main.getScale()));
+		getHitboxBar(LEFT).move(x-(1d/Main.getScale()), y-(1d/Main.getScale()), x-(1d/Main.getScale()), y+PLAYER_SIZE+(1d/Main.getScale()));
+		getHitboxBar(RIGHT).move(x+PLAYER_SIZE+(1d/Main.getScale()), y-(1d/Main.getScale()), x+PLAYER_SIZE+(1d/Main.getScale()), y+PLAYER_SIZE+(1d/Main.getScale()));
+
 		for (int r = (int)(y-radius);r<y+radius;r++) {
 			for (int c = (int)(x-radius);c<x+radius;c++) {
 				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).isSolid()) {
-					for (int i = 0;i<2;i++) {
+					/*for (int i = 0;i<2;i++) {
 						for (int j = 0;j<2;j++) {
 							if (Level.getTile(r, c).getBounds().contains(getHitboxPoint(i, j).getX(), getHitboxPoint(i, j).getY())) {
 								getHitboxPoint(i, j).setTouching(true);
 							}
 						}
+					}*/
+					for (int i = 0;i<4;i++) {
+						if (Level.getTile(r, c).getBounds().intersectsLine(getHitboxBar(i).getBar())) {
+							getHitboxBar(i).setTouching(true);
+						}
 					}
 				}
 			}
 		}
-		if (getHitboxPoint(0, 0).isTouching()&&getHitboxPoint(1, 0).isTouching()) setCanMove(UP, false);
+		/*if (getHitboxPoint(0, 0).isTouching()&&getHitboxPoint(1, 0).isTouching()) setCanMove(UP, false);
 		if (getHitboxPoint(0, 1).isTouching()&&getHitboxPoint(1, 1).isTouching()) setCanMove(DOWN, false);
 		if (getHitboxPoint(0, 0).isTouching()&&getHitboxPoint(0, 1).isTouching()) setCanMove(LEFT, false);
-		if (getHitboxPoint(1, 0).isTouching()&&getHitboxPoint(1, 1).isTouching()) setCanMove(RIGHT, false);
+		if (getHitboxPoint(1, 0).isTouching()&&getHitboxPoint(1, 1).isTouching()) setCanMove(RIGHT, false);*/
+
+		if (getHitboxBar(UP).isTouching()) setCanMove(UP, false);
+		if (getHitboxBar(DOWN).isTouching()) setCanMove(DOWN, false);
+		if (getHitboxBar(LEFT).isTouching()) setCanMove(LEFT, false);
+		if (getHitboxBar(RIGHT).isTouching()) setCanMove(RIGHT, false);
+
 
 	}
 
@@ -77,7 +102,7 @@ public class Player implements PlayerData, Data {
 		deccelerate();
 		speedLimitCheck();
 		notMovingCheck();
-		
+
 		move(dX, dY);
 	}
 
@@ -89,12 +114,8 @@ public class Player implements PlayerData, Data {
 			checkWallCollision();
 			if (sign>0&&!getCanMove(RIGHT)) break;
 			if (sign<0&&!getCanMove(LEFT)) break;
-			if (remaining>=inc) {
-				x+=inc*sign;
-			}
-			else {
-				x+=remaining*sign;
-			}
+			if (remaining>=inc) x+=inc*sign;
+			else x+=remaining*sign;
 			remaining-=inc;
 		}
 		remaining = Math.abs(dY);
@@ -103,18 +124,12 @@ public class Player implements PlayerData, Data {
 			checkWallCollision();
 			if (sign<0&&!getCanMove(UP)) break;
 			if (sign>0&&!getCanMove(DOWN)) break;
-			if (remaining>=inc) {
-				y+=inc*sign;
-			}
-			else {
-				y+=remaining*sign;
-			}
+			if (remaining>=inc) y+=inc*sign;
+			else y+=remaining*sign;
 			remaining-=inc;
 		}
-		
-		
 	}
-	
+
 	private void accelerate() {//affects ddX and ddY
 		if (isMovingUp()) {
 			ddY-=PLAYER_ACCELERATION;
@@ -179,8 +194,20 @@ public class Player implements PlayerData, Data {
 		}
 	}
 
+	public HitboxBar[] getHitboxBars() {
+		return hitboxBars;
+	}
+
+	public boolean[] getCanMove() {
+		return canMove;
+	}
+
 	public HitboxPoint getHitboxPoint(int x, int y) {
 		return hitboxPoints[x][y];
+	}
+
+	public HitboxBar getHitboxBar(int side) {
+		return hitboxBars[side];
 	}
 
 	public double getFacing() {
@@ -210,21 +237,21 @@ public class Player implements PlayerData, Data {
 	public double getddY() {
 		return ddY;
 	}
-	
+
 	private void setAllCanMove(boolean value) {
 		for (int i = 0;i<4;i++) {
 			canMove[i] = value;
 		}
 	}
-	
+
 	private void setCanMove(int direction, boolean value) {
 		canMove[direction] = value;
 	}
-	
+
 	public boolean getCanMove(int direction) {
 		return canMove[direction];
 	}
-	
+
 	public boolean isMovingUp() {
 		return movingUp;
 	}

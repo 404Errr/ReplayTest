@@ -10,10 +10,10 @@ import player.PlayerInput;
 public class Window extends JFrame {
 	private static JFrame frame;
 	private static PlayerInput input;
-	static Renderer renderer;
+	static Renderer rendererer;
 
 	static void init() {
-		renderer = new Renderer();
+		rendererer = new Renderer();
 		input = new PlayerInput();
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -26,7 +26,7 @@ public class Window extends JFrame {
 		frame.addMouseMotionListener(input);
 		frame.addMouseListener(input);
 		frame.addMouseWheelListener(input);
-		frame.add(renderer);
+		frame.add(rendererer);
 		frame.setVisible(true);
 	}
 }

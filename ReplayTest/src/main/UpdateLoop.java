@@ -15,7 +15,7 @@ public class UpdateLoop implements Runnable, Data {
 			startTime = System.nanoTime();
 
 			update();//update
-			Window.renderer.repaint();//refresh the screen
+			Window.rendererer.repaint();//refresh the screen
 
 			wait = (updateSpeed-(System.nanoTime()-startTime))/1000000;
 			try {

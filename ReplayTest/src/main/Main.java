@@ -17,7 +17,7 @@ public class Main {
 	public static void main(String[] args) {
 		GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int width = screen.getDisplayMode().getWidth(), height = screen.getDisplayMode().getHeight();
-		int screenSize =  (Level.getWidth()>Level.getHeight())?width:height;
+		int screenSize = (Level.getWidth()>Level.getHeight())?width:height;
 		int layoutSize = Math.max(Level.getWidth(), Level.getHeight());
 		scale = (screenSize*7/8)/layoutSize;
 
