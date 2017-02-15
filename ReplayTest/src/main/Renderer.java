@@ -44,8 +44,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 
 	private void drawPlayer() {
 		g.setColor(COLOR_PLAYER);
-		g.fill(new Rectangle((int)(Game.getPlayer().getX()*Main.getScale()), (int)(Game.getPlayer().getY()*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale())));
-
+		g.fill(Game.getPlayer().getBounds(0, 0));
 		g.drawLine(Main.getWINDOW_WIDTH()/2, Main.getWINDOW_HEIGHT()/2, (int)(Game.getPlayer().getX()*Main.getScale()+PLAYER_SIZE*Main.getScale()/2), (int)(Game.getPlayer().getY()*Main.getScale()+PLAYER_SIZE*Main.getScale()/2));
 	}
 

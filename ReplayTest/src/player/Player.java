@@ -1,16 +1,26 @@
 package player;
 
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
+
+import data.Data;
 import data.PlayerData;
 import level.Level;
+import main.Main;
 
-public class Player implements PlayerData {
+public class Player implements PlayerData, Data {
 	private double x, y, dX, dY, ddX, ddY, facing;
 	private boolean movingUp, movingDown, movingLeft, movingRight;
 	private HitboxPoint[][] hitboxPoints = new HitboxPoint[2][2];
-
+	private final int UP = 3, DOWN = 1, LEFT = 2, RIGHT = 0;
+	private boolean[] canMove = new boolean[4];//r,d,l,u
+	
 	public Player(double x, double y) {
 		this.x = x;
 		this.y = y;
+		for (int i = 0;i<4;i++) {
+			canMove[i] = false;
+		}
 		for (int i = 0;i<2;i++) {
 			for (int j = 0;j<2;j++) {
 				hitboxPoints[i][j] = new HitboxPoint();
@@ -20,26 +30,30 @@ public class Player implements PlayerData {
 
 	private void checkWallCollision() {//TODO
 		final int radius = 3;
+		setAllCanMove(true);
 		for (int i = 0;i<2;i++) {
 			for (int j = 0;j<2;j++) {
-				hitboxPoints[i][j].move(x+i*PLAYER_SIZE, y+j*PLAYER_SIZE);
-				hitboxPoints[i][j].setTouching(false);
+				getHitboxPoint(i, j).move(x+i*PLAYER_SIZE, y+j*PLAYER_SIZE);
+				getHitboxPoint(i, j).setTouching(false);
 			}
 		}
 		for (int r = (int)(y-radius);r<y+radius;r++) {
 			for (int c = (int)(x-radius);c<x+radius;c++) {
-				if (Level.getTile(r, c).isSolid()&&r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()) {
+				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).isSolid()) {
 					for (int i = 0;i<2;i++) {
 						for (int j = 0;j<2;j++) {
-							if (Level.getTile(r, c).getBounds().contains(hitboxPoints[i][j].getX(), hitboxPoints[i][j].getY())) {
-								hitboxPoints[i][j].setTouching(true);
+							if (Level.getTile(r, c).getBounds().contains(getHitboxPoint(i, j).getX(), getHitboxPoint(i, j).getY())) {
+								getHitboxPoint(i, j).setTouching(true);
 							}
 						}
 					}
 				}
 			}
 		}
-
+		if (getHitboxPoint(0, 0).isTouching()&&getHitboxPoint(1, 0).isTouching()) setCanMove(UP, false);
+		if (getHitboxPoint(0, 1).isTouching()&&getHitboxPoint(1, 1).isTouching()) setCanMove(DOWN, false);
+		if (getHitboxPoint(0, 0).isTouching()&&getHitboxPoint(0, 1).isTouching()) setCanMove(LEFT, false);
+		if (getHitboxPoint(1, 0).isTouching()&&getHitboxPoint(1, 1).isTouching()) setCanMove(RIGHT, false);
 
 	}
 
@@ -63,10 +77,44 @@ public class Player implements PlayerData {
 		deccelerate();
 		speedLimitCheck();
 		notMovingCheck();
-		x+=dX;
-		y+=dY;
+		
+		move(dX, dY);
 	}
 
+	private void move(double dX, double dY) {//TODO
+		double inc = 1d/UPS, remaining, sign;
+		remaining = Math.abs(dX);
+		sign = Math.signum(dX);
+		while (remaining>0) {
+			checkWallCollision();
+			if (sign>0&&!getCanMove(RIGHT)) break;
+			if (sign<0&&!getCanMove(LEFT)) break;
+			if (remaining>=inc) {
+				x+=inc*sign;
+			}
+			else {
+				x+=remaining*sign;
+			}
+			remaining-=inc;
+		}
+		remaining = Math.abs(dY);
+		sign = Math.signum(dY);
+		while (remaining>0) {
+			checkWallCollision();
+			if (sign<0&&!getCanMove(UP)) break;
+			if (sign>0&&!getCanMove(DOWN)) break;
+			if (remaining>=inc) {
+				y+=inc*sign;
+			}
+			else {
+				y+=remaining*sign;
+			}
+			remaining-=inc;
+		}
+		
+		
+	}
+	
 	private void accelerate() {//affects ddX and ddY
 		if (isMovingUp()) {
 			ddY-=PLAYER_ACCELERATION;
@@ -87,10 +135,10 @@ public class Player implements PlayerData {
 	}
 
 	private void notAcceleratingCheck() {//affects ddX and ddY
-		if (!isMovingUp()&&!isMovingDown()) {
+		if (isMovingUp()==isMovingDown()) {
 			ddY = 0;
 		}
-		if (!isMovingLeft()&&!isMovingRight()) {
+		if (isMovingLeft()==isMovingRight()) {
 			ddX = 0;
 		}
 	}
@@ -162,7 +210,21 @@ public class Player implements PlayerData {
 	public double getddY() {
 		return ddY;
 	}
-
+	
+	private void setAllCanMove(boolean value) {
+		for (int i = 0;i<4;i++) {
+			canMove[i] = value;
+		}
+	}
+	
+	private void setCanMove(int direction, boolean value) {
+		canMove[direction] = value;
+	}
+	
+	public boolean getCanMove(int direction) {
+		return canMove[direction];
+	}
+	
 	public boolean isMovingUp() {
 		return movingUp;
 	}
@@ -200,5 +262,7 @@ public class Player implements PlayerData {
 		return hitboxPoints;
 	}
 
-
+	public Rectangle2D getBounds(double offsetX, double offsetY) {
+		return new Rectangle((int)((x+offsetX)*Main.getScale()), (int)((y+offsetY)*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()));
+	}
 }
