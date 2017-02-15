@@ -10,7 +10,7 @@ public class Game {
 
 	public static void init() {
 		players = new ArrayList<>();
-		players.add(new Player(600,450));
+		players.add(new Player(16,14));
 		player = players.get(0);
 	}
 

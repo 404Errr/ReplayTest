@@ -4,26 +4,16 @@ import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 import data.MapData;
-import main.Main;
 
 public class Tile implements MapData {
-	private int r, c, type;
+	private int type;
 	private Rectangle2D bounds;
 	private boolean solid;
 
 	public Tile(int r, int c, int type) {
-		this.r = r;
-		this.c = c;
 		this.type = type;
-		this.bounds = new Rectangle(c*Main.getScale(), r*Main.getScale(), Main.getScale(), Main.getScale());//switched r and c
-	}
-
-	public int getR() {
-		return r;
-	}
-
-	public int getC() {
-		return c;
+		if (type==1) solid = true;
+		this.bounds = new Rectangle(c, r, 1, 1);//switched r and c
 	}
 
 	public Rectangle2D getBounds() {

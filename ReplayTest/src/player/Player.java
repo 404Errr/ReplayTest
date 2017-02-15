@@ -1,15 +1,14 @@
 package player;
 
-import java.awt.Point;
-
 import data.PlayerData;
+import level.Level;
 
 public class Player implements PlayerData {
 	private double x, y, dX, dY, ddX, ddY, facing;
 	private boolean movingUp, movingDown, movingLeft, movingRight;
 	private HitboxPoint[][] hitboxPoints = new HitboxPoint[2][2];
 
-	public Player(int x, int y) {
+	public Player(double x, double y) {
 		this.x = x;
 		this.y = y;
 		for (int i = 0;i<2;i++) {
@@ -17,35 +16,27 @@ public class Player implements PlayerData {
 				hitboxPoints[i][j] = new HitboxPoint();
 			}
 		}
-		updateHitbox();
 	}
 
-	private void checkWallCollision() {
+	private void checkWallCollision() {//TODO
 		final int radius = 3;
-		//TODO
-		Point topLeft = new Point((x/Main.getScale())-(PLAYER_SIZE*radius), (y/Main.getScale())-(PLAYER_SIZE*radius));
-		Point bottomRight = new Point((x/Main.getScale())+(PLAYER_SIZE*radius), (y/Main.getScale())+(PLAYER_SIZE*radius));
-		for (int r = topLeft.y1;r<bottomRight.y2;r++) {
-			for (int c = topLeft.x1;c<bottomRight.x2;c++) {
-				//TODO
-				for (int i = 0;i<2;i++) {
-					for (int j = 0;j<2;j++) {
-						hitboxPoints[i][j].setTouching(Game.getLevel().getTile(r, c).getBounds().intersects(hitBoxPoints[i][j].getX(), hitBoxPoints[i][j].getY())); 
-					}
-				}
-			}
-		}
-	}
-
-	private void updateHitbox() {
-		//hitboxPoints[0][0].move(x,y);
-		//hitboxPoints[0][1].move(x+PLAYER_SIZE,y);
-		//hitboxPoints[1][0].move(x,y+PLAYER_SIZE);
-		//hitboxPoints[1][1].move(x+PLAYER_SIZE,y+PLAYER_SIZE);
-	//TODO	//
 		for (int i = 0;i<2;i++) {
 			for (int j = 0;j<2;j++) {
 				hitboxPoints[i][j].move(x+i*PLAYER_SIZE, y+j*PLAYER_SIZE);
+				hitboxPoints[i][j].setTouching(false);
+			}
+		}
+		for (int r = (int)(y-radius);r<y+radius;r++) {
+			for (int c = (int)(x-radius);c<x+radius;c++) {
+				if (Level.getTile(r, c).isSolid()&&r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()) {
+					for (int i = 0;i<2;i++) {
+						for (int j = 0;j<2;j++) {
+							if (Level.getTile(r, c).getBounds().contains(hitboxPoints[i][j].getX(), hitboxPoints[i][j].getY())) {
+								hitboxPoints[i][j].setTouching(true);
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -54,8 +45,8 @@ public class Player implements PlayerData {
 
 	public void tick() {
 		turn();
-		updateHitbox();
 		move();
+		checkWallCollision();
 
 	}
 
@@ -140,23 +131,19 @@ public class Player implements PlayerData {
 		}
 	}
 
+	public HitboxPoint getHitboxPoint(int x, int y) {
+		return hitboxPoints[x][y];
+	}
+
 	public double getFacing() {
 		return facing;
 	}
 
-	public int getX() {
-		return (int)x;
-	}
-
-	public int getY() {
-		return (int)y;
-	}
-
-	public double getXDouble() {
+	public double getX() {
 		return x;
 	}
 
-	public double getYDouble() {
+	public double getY() {
 		return y;
 	}
 
@@ -206,6 +193,11 @@ public class Player implements PlayerData {
 
 	public void setMovingRight(boolean movingRight) {
 		this.movingRight = movingRight;
+	}
+
+	public HitboxPoint[][] getHitboxPoints() {
+		// TODO Auto-generated method stub
+		return hitboxPoints;
 	}
 
 

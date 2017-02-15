@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -11,6 +13,7 @@ import data.ColorData;
 import data.PlayerData;
 import game.Game;
 import level.Level;
+import player.HitboxPoint;
 
 @SuppressWarnings("serial")
 public class Renderer extends JPanel implements ColorData, PlayerData {
@@ -23,21 +26,35 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 		drawTiles();
 //		drawPlayers();
 		drawPlayer();
+
+
+		g.setStroke(new BasicStroke(5));
+		for (HitboxPoint[] points:Game.getPlayer().getHitboxPoints()) {
+			for (HitboxPoint point:points) {
+				if (point.isTouching()) {
+					g.setColor(Color.GREEN);
+				}
+				else {
+					g.setColor(Color.MAGENTA);
+				}
+				g.drawLine((int)(point.getX()*Main.getScale()), (int)(point.getY()*Main.getScale()), (int)(point.getX()*Main.getScale()), (int)(point.getY()*Main.getScale()));
+			}
+		}
 	}
 
 	private void drawPlayer() {
 		g.setColor(COLOR_PLAYER);
-		g.fill(new Rectangle(Game.getPlayer().getX(), Game.getPlayer().getY(), PLAYER_SIZE, PLAYER_SIZE));
+		g.fill(new Rectangle((int)(Game.getPlayer().getX()*Main.getScale()), (int)(Game.getPlayer().getY()*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale())));
 
-		g.drawLine(Main.getWINDOW_WIDTH()/2, Main.getWINDOW_HEIGHT()/2, Game.getPlayer().getX()+PLAYER_SIZE/2, Game.getPlayer().getY()+PLAYER_SIZE/2);
+		g.drawLine(Main.getWINDOW_WIDTH()/2, Main.getWINDOW_HEIGHT()/2, (int)(Game.getPlayer().getX()*Main.getScale()+PLAYER_SIZE*Main.getScale()/2), (int)(Game.getPlayer().getY()*Main.getScale()+PLAYER_SIZE*Main.getScale()/2));
 	}
 
 	private void drawTiles() {
 		for (int r = 0;r<Level.getHeight();r++) {
 			for (int c = 0;c<Level.getWidth();c++) {
 				g.setColor(ColorData.getTileColor(Level.getTile(r, c).getType()));
-				Rectangle2D b = Level.getTile(r, c).getBounds();
-				g.fill(new Rectangle((int)b.getX(), (int)b.getY(), (int)b.getWidth(), (int)b.getHeight()));
+				Rectangle2D b = Level.getTile(r, c).getBounds();//for scrolling (maybe)
+				g.fill(new Rectangle((int)(b.getX()*Main.getScale()), (int)(b.getY()*Main.getScale()), (int)(b.getWidth()*Main.getScale()), (int)(b.getHeight()*Main.getScale())));
 
 			}
 		}

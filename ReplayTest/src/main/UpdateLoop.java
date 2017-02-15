@@ -32,6 +32,16 @@ public class UpdateLoop implements Runnable, Data {
 			for (Player player:Game.getPlayers()) {
 				player.tick();
 			}
+			System.out.println(Game.getPlayer().getX()+","+Game.getPlayer().getY());
+
+			System.out.println(""
+					+ Game.getPlayer().getHitboxPoint(0, 0).isTouching()+"|"//tl
+					+ Game.getPlayer().getHitboxPoint(1, 0).isTouching()+"|"//tr
+					+ Game.getPlayer().getHitboxPoint(0, 1).isTouching()+"|"//bl
+					+ Game.getPlayer().getHitboxPoint(1, 1).isTouching()+"|"//br
+					+ ""
+			);
+
 		}
 		catch (Exception e) {
 			System.out.println("-UPDATE ERROR");
