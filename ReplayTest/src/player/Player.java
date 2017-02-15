@@ -13,7 +13,7 @@ public class Player implements PlayerData, Data {
 
 	private double x, y, dX, dY, ddX, ddY, facing;
 	private boolean movingUp, movingDown, movingLeft, movingRight;
-	private HitboxPoint[][] hitboxPoints = new HitboxPoint[2][2];
+	//private HitboxPoint[][] hitboxPoints = new HitboxPoint[2][2];
 	private HitboxBar[] hitboxBars = new HitboxBar[4];
 	private boolean[] canMove = new boolean[4];//r,d,l,u
 
@@ -23,11 +23,11 @@ public class Player implements PlayerData, Data {
 		for (int i = 0;i<4;i++) {
 			canMove[i] = false;
 		}
-		for (int i = 0;i<2;i++) {
-			for (int j = 0;j<2;j++) {
-				hitboxPoints[i][j] = new HitboxPoint();
-			}
-		}
+		//for (int i = 0;i<2;i++) {
+		//	for (int j = 0;j<2;j++) {
+		//		hitboxPoints[i][j] = new HitboxPoint();
+		//	}
+		//}
 		for (int i = 0;i<4;i++) {
 			hitboxBars[i] = new HitboxBar();
 		}
@@ -36,20 +36,20 @@ public class Player implements PlayerData, Data {
 	private void checkWallCollision() {//TODO
 		final int radius = 2;
 		setAllCanMove(true);
-		for (int i = 0;i<2;i++) {
-			for (int j = 0;j<2;j++) {
-				getHitboxPoint(i, j).move(x+i*PLAYER_SIZE, y+j*PLAYER_SIZE);
-				getHitboxPoint(i, j).setTouching(false);
-			}
-		}
+		//for (int i = 0;i<2;i++) {
+		//	for (int j = 0;j<2;j++) {
+		//		getHitboxPoint(i, j).move(x+i*PLAYER_SIZE, y+j*PLAYER_SIZE);
+		//		getHitboxPoint(i, j).setTouching(false);
+		//	}
+		//}
 		for (int i = 0;i<4;i++) {
 			getHitboxBar(i).setTouching(false);
 		}
 
-		getHitboxBar(UP).move(x-(1d/Main.getScale()), y-(1d/Main.getScale()), x+PLAYER_SIZE+(1d/Main.getScale()), y-(1d/Main.getScale()));
-		getHitboxBar(DOWN).move(x-(1d/Main.getScale()), y+PLAYER_SIZE+(1d/Main.getScale()), x+PLAYER_SIZE+(1d/Main.getScale()), y+PLAYER_SIZE+(1d/Main.getScale()));
-		getHitboxBar(LEFT).move(x-(1d/Main.getScale()), y-(1d/Main.getScale()), x-(1d/Main.getScale()), y+PLAYER_SIZE+(1d/Main.getScale()));
-		getHitboxBar(RIGHT).move(x+PLAYER_SIZE+(1d/Main.getScale()), y-(1d/Main.getScale()), x+PLAYER_SIZE+(1d/Main.getScale()), y+PLAYER_SIZE+(1d/Main.getScale()));
+		getHitboxBar(UP).move(x-(1d/Main.getScale()), y, x+PLAYER_SIZE+(1d/Main.getScale()), y);
+		getHitboxBar(DOWN).move(x-(1d/Main.getScale()), y+PLAYER_SIZE, x+PLAYER_SIZE+(1d/Main.getScale()), y+PLAYER_SIZE);
+		getHitboxBar(LEFT).move(x, y-(1d/Main.getScale()), x, y+PLAYER_SIZE+(1d/Main.getScale()));
+		getHitboxBar(RIGHT).move(x+PLAYER_SIZE, y-(1d/Main.getScale()), x+PLAYER_SIZE, y+PLAYER_SIZE+(1d/Main.getScale()));
 
 		for (int r = (int)(y-radius);r<y+radius;r++) {
 			for (int c = (int)(x-radius);c<x+radius;c++) {
