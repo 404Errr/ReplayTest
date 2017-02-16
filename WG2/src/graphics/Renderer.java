@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -29,6 +30,14 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 //		drawPlayers();
 		drawPlayer();
 
+//		draw the hitbox (sorta)
+//		g.setStroke(new BasicStroke(2));
+//		g.setColor(Color.MAGENTA);
+//		for (int i = 0;i<4;i++) {
+//			Rectangle2D s = Game.getPlayer().getHitbox().getSide(i);
+//			g.drawLine((int)(s.getX()*Main.getScale()), (int)(s.getY()*Main.getScale()), (int)(s.getMaxX()*Main.getScale()), (int)(s.getMaxY()*Main.getScale()));
+//		}
+
 		g.setColor(new Color(0,180,0,255));
 		g.setFont(new Font("Helvetica", Font.BOLD, 15));
 		g.drawString("x, y: "+Game.getPlayer().getX()+","+Game.getPlayer().getY(), 20, 30);
@@ -38,10 +47,11 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 	}
 
 	private void drawPlayer() {
+		int p = (int)(PLAYER_SIZE*Main.getScale()), w = Main.getSCREEN_WIDTH()/2, h = Main.getSCREEN_HEIGHT()/2;
 		g.setColor(COLOR_PLAYER);
 		if (!Camera.lockToPlayer()) g.fill(Game.getPlayer().getBounds(0, 0));
-		else g.fillRect((int)(Main.getSCREEN_WIDTH()/2-1+PLAYER_SIZE*Main.getScale()/2), (int)(Main.getSCREEN_HEIGHT()/2-1+PLAYER_SIZE*Main.getScale()/2), (int)(PLAYER_SIZE*Main.getScale()-1/Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()));
-		g.drawLine((int)(Main.getSCREEN_WIDTH()/2+PLAYER_SIZE*Main.getScale()), (int)(Main.getSCREEN_HEIGHT()/2+PLAYER_SIZE*Main.getScale()), (int)Util.getXComp(Game.getPlayer().getFacing(), 100)+Main.getSCREEN_WIDTH()/2, (int)-Util.getYComp(Game.getPlayer().getFacing(), 100)+Main.getSCREEN_HEIGHT()/2);
+		else g.fillRect(w-p/2, h-p/2, p, p);
+		g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), 100)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), 100)+h));
 	}
 
 	private void drawTiles() {
@@ -49,7 +59,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 			for (int c = 0;c<Level.getWidth();c++) {
 				g.setColor(ColorData.getTileColor(Level.getTile(r, c).getType()));
 				Rectangle2D b = Level.getTile(r, c).getBounds();//for scrolling (maybe)
-				g.fill(new Rectangle((int)((b.getX()-Camera.getX())*Main.getScale()+PLAYER_SIZE/2*Main.getScale()+((Camera.lockToPlayer())?Main.getSCREEN_WIDTH()/2:0)), (int)((b.getY()-Camera.getY())*Main.getScale()+PLAYER_SIZE/2*Main.getScale()+((Camera.lockToPlayer())?Main.getSCREEN_HEIGHT()/2:0)), (int)(b.getWidth()*Main.getScale()), (int)(b.getHeight()*Main.getScale())));
+				g.fill(new Rectangle((int)((b.getX()-Camera.getX())*Main.getScale()-PLAYER_SIZE/2*Main.getScale()+((Camera.lockToPlayer())?Main.getSCREEN_WIDTH()/2:0)), (int)((b.getY()-Camera.getY())*Main.getScale()-PLAYER_SIZE/2*Main.getScale()+((Camera.lockToPlayer())?Main.getSCREEN_HEIGHT()/2:0)), (int)(b.getWidth()*Main.getScale()), (int)(b.getHeight()*Main.getScale())));
 
 			}
 		}

@@ -32,10 +32,15 @@ public class PlayerHitbox implements Data, PlayerData {
 		for (int i = 0;i<4;i++) {
 			touching[i] = false;
 		}
-		sides[UP].setRect(x, y-1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale(), 1d/Main.getScale());
-		sides[DOWN].setRect(x, y+PLAYER_SIZE-1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale(), 1d/Main.getScale());
-		sides[LEFT].setRect(x-1d/Main.getScale(), y, 1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale());
-		sides[RIGHT].setRect(x+PLAYER_SIZE-2d/Main.getScale(), y, 1d/Main.getScale(), PLAYER_SIZE-1d/Main.getScale());
+//		sides[UP].setRect(x, y-1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale(), 1d/Main.getScale());
+//		sides[DOWN].setRect(x, y+PLAYER_SIZE-1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale(), 1d/Main.getScale());
+//		sides[LEFT].setRect(x-1d/Main.getScale(), y, 1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale());
+//		sides[RIGHT].setRect(x+PLAYER_SIZE-1d/Main.getScale(), y, 1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale());
+		final double pS = PLAYER_SIZE, s = 0.015d;//player size, width of hitbox rectangle
+		sides[UP].setRect(x, y-s, pS-s, s);
+		sides[DOWN].setRect(x, y+pS, pS-s, s);
+		sides[RIGHT].setRect(x+pS, y, s, pS-s);
+		sides[LEFT].setRect(x-s, y, s, pS-s);
 	}
 
 	public Rectangle2D getSide(int side) {

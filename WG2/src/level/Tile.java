@@ -19,6 +19,10 @@ public class Tile implements MapData {
 	public Rectangle2D getBounds() {
 		return bounds;
 	}
+	
+	public Rectangle2D getBounds(double xOffset, double yOffset) {
+		return new Rectangle(bounds.getX()+xOffset, bounds.getY()+yOffset)//TODO FIXME
+	}
 
 	public boolean isSolid() {
 		return solid;

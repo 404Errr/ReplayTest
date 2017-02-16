@@ -62,7 +62,7 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void turn() {
-		setFacing(Util.getAngle(x+PLAYER_SIZE/2, y+PLAYER_SIZE/2, Cursor.getGridX(), Cursor.getGridY()));
+		setFacing(Util.getAngle(x+PLAYER_SIZE, y+PLAYER_SIZE, Cursor.getGridX(), Cursor.getGridY()));
 	}
 
 	private void move() {
@@ -79,7 +79,7 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void move(double dX, double dY) {
-		double inc = 1d/UPS, remaining, sign;
+		double inc = 0.5d/UPS, remaining, sign;
 		remaining = Math.abs(dX);
 		sign = Math.signum(dX);
 		while (remaining>0) {
@@ -225,7 +225,7 @@ public class Player implements PlayerData, Data {
 	}
 
 	public Rectangle2D getBounds(double offsetX, double offsetY) {
-		return new Rectangle((int)((x+offsetX)*Main.getScale()), (int)((y+offsetY)*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()));
+		return new Rectangle((int)((x+offsetX+PLAYER_SIZE/2)*Main.getScale()), (int)((y+offsetY+PLAYER_SIZE/2)*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()));
 	}
 
 	public PlayerHitbox getHitbox() {
