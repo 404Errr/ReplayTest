@@ -58,6 +58,7 @@ public class Player implements PlayerData, Data {
 	public void tick() {
 		turn();//rotate the player toward cursor
 		move();//move the player
+		checkCollision();//check for collision (neccessary)
 	}
 
 	private void turn() {
