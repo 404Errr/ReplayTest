@@ -30,6 +30,10 @@ public class Util {
 		}
 		return result;
 	}
+	
+	public static double getAngleDegrees(double x, double y, double xT, double yT) {
+		return getAngleDegrees((int)x, (int)y, (int)xT, (int)yT);
+	}
 
 	public static double getAngleSpread(double angle, double spread) {
 		double offset = (Math.random()-0.5)*spread;
@@ -65,11 +69,11 @@ public class Util {
 		return new Rectangle(x, y, sizeX, sizeY);
 	}
 
-	public static double getXComp(double angle, double mag) {
-		return Math.cos(Math.toRadians(angle))*mag;
+	public static double getXComp(double angle, double magnitude) {
+		return Math.cos(Math.toRadians(angle))*magnitude;
 	}
 
-	public static double getYComp(double angle, double mag) {
-		return Math.sin(Math.toRadians(angle))*mag;
+	public static double getYComp(double angle, double magnitude) {
+		return Math.sin(Math.toRadians(angle))*magnitude;
 	}
 }

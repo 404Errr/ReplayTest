@@ -8,6 +8,7 @@ public class Camera {
 	
 	public static void init() {
 		setLockToPlayer(true);
+//		setLockToPlayer(false);
 	}
 	
 	public static void tick() {

@@ -4,6 +4,7 @@ import data.Data;
 import game.Game;
 import graphics.Camera;
 import graphics.Window;
+import player.Cursor;
 import player.Player;
 
 public class UpdateLoop implements Runnable, Data {
@@ -35,7 +36,7 @@ public class UpdateLoop implements Runnable, Data {
 				player.tick();
 			}
 			Camera.tick();
-			
+			System.out.println(Cursor.getGridX()+","+Cursor.getGridY());
 //			System.out.println(Game.getPlayer().getX()+","+Game.getPlayer().getY());
 
 //			System.out.println(""

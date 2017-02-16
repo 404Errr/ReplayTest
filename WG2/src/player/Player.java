@@ -7,6 +7,7 @@ import data.Data;
 import data.PlayerData;
 import level.Level;
 import main.Main;
+import util.Util;
 
 public class Player implements PlayerData, Data {
 	private double x, y, dX, dY, ddX, ddY, facing;
@@ -61,7 +62,7 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void turn() {
-		//TODO
+		setFacing(Util.getAngleDegrees(x, y, Cursor.getGridX(), Cursor.getGridY()));
 	}
 
 	private void move() {
@@ -157,11 +158,11 @@ public class Player implements PlayerData, Data {
 	}
 
 	public void notMovingCheck() {//affects dX and dY
-		if (Math.abs(dX)<0.0001d) {
-			dX = 0;
-		}
-		if (Math.abs(dY)<0.0001d) {
+		if (Math.abs(dY)<0.0001d||(!canMove(UP)&&dY<0)||(!canMove(DOWN)&&dY>0)) {
 			dY = 0;
+		}
+		if (Math.abs(dX)<0.0001d||(!canMove(LEFT)&&dX<0)||(!canMove(RIGHT)&&dX>0)) {
+			dX = 0;
 		}
 	}
 
@@ -171,6 +172,10 @@ public class Player implements PlayerData, Data {
 
 	public double getFacing() {
 		return facing;
+	}
+
+	public void setFacing(double facing) {
+		this.facing = facing;
 	}
 
 	public double getX() {
