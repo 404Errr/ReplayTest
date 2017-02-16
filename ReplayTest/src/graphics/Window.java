@@ -1,18 +1,19 @@
-package main;
+package graphics;
 
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
+import main.Main;
 import player.PlayerInput;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame {
 	private static JFrame frame;
 	private static PlayerInput input;
-	static Renderer rendererer;
+	private static Renderer rendererer;
 
-	static void init() {
+	public static void init() {
 		rendererer = new Renderer();
 		input = new PlayerInput();
 		frame = new JFrame();
@@ -28,5 +29,9 @@ public class Window extends JFrame {
 		frame.addMouseWheelListener(input);
 		frame.add(rendererer);
 		frame.setVisible(true);
+	}
+
+	public static Renderer getRendererer() {
+		return rendererer;
 	}
 }

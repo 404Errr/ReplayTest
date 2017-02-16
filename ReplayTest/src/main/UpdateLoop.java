@@ -2,6 +2,8 @@ package main;
 
 import data.Data;
 import game.Game;
+import graphics.Camera;
+import graphics.Window;
 import player.Player;
 
 public class UpdateLoop implements Runnable, Data {
@@ -15,7 +17,7 @@ public class UpdateLoop implements Runnable, Data {
 			startTime = System.nanoTime();
 
 			update();//update
-			Window.rendererer.repaint();//refresh the screen
+			Window.getRendererer().repaint();//refresh the screen
 
 			wait = (updateSpeed-(System.nanoTime()-startTime))/1000000;
 			try {
@@ -32,15 +34,17 @@ public class UpdateLoop implements Runnable, Data {
 			for (Player player:Game.getPlayers()) {
 				player.tick();
 			}
-			System.out.println(Game.getPlayer().getX()+","+Game.getPlayer().getY());
+			Camera.tick();
+			
+//			System.out.println(Game.getPlayer().getX()+","+Game.getPlayer().getY());
 
-			/*System.out.println(""
-					+ Game.getPlayer().getHitboxPoint(0, 0).isTouching()+"|"//tl
-					+ Game.getPlayer().getHitboxPoint(1, 0).isTouching()+"|"//tr
-					+ Game.getPlayer().getHitboxPoint(0, 1).isTouching()+"|"//bl
-					+ Game.getPlayer().getHitboxPoint(1, 1).isTouching()+"|"//br
-					+ ""
-			);*/
+//			System.out.println(""
+//					+ Game.getPlayer().getHitboxPoint(0, 0).isTouching()+"|"//tl
+//					+ Game.getPlayer().getHitboxPoint(1, 0).isTouching()+"|"//tr
+//					+ Game.getPlayer().getHitboxPoint(0, 1).isTouching()+"|"//bl
+//					+ Game.getPlayer().getHitboxPoint(1, 1).isTouching()+"|"//br
+//					+ ""
+//			);
 
 		}
 		catch (Exception e) {
