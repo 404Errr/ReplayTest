@@ -4,8 +4,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
+import client.main.Main;
 import client.player.PlayerInput;
-import main.Main;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame {

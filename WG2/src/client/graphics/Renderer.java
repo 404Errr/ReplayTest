@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 
 import client.game.Game;
 import client.level.Level;
+import client.main.Main;
 import data.ColorData;
 import data.PlayerData;
-import main.Main;
 import util.Util;
 
 @SuppressWarnings("serial")

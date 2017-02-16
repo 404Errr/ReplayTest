@@ -1,4 +1,4 @@
-package main;
+package client.main;
 
 import client.game.Game;
 import client.graphics.Camera;

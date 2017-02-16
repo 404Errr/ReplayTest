@@ -4,8 +4,8 @@ import java.awt.event.MouseEvent;
 
 import client.game.Game;
 import client.graphics.Camera;
+import client.main.Main;
 import client.projectile.Projectile;
-import main.Main;
 
 public class Cursor {
 	private static int x, y;//the coords of the cursor based on the screen

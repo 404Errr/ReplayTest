@@ -1,4 +1,4 @@
-package main;
+package client.main;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;

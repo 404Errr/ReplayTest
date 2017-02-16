@@ -4,9 +4,9 @@ import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 import client.level.Level;
+import client.main.Main;
 import data.Data;
 import data.PlayerData;
-import main.Main;
 import util.Util;
 
 public class Player implements PlayerData, Data {
