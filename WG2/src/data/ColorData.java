@@ -6,8 +6,7 @@ public interface ColorData {
 	public static final Color COLOR_PLAYER = Color.BLUE;
 
 	public static final Color COLOR_DEBUG_GREEN = new Color(0,180,0,255);
-
-	public static final Color COLOR_TILE_ERROR = Color.MAGENTA;
+	public static final Color COLOR_ERROR = Color.MAGENTA;
 
 	public static final Color COLOR_TILE_0 = Color.LIGHT_GRAY;
 	public static final Color COLOR_TILE_1 = Color.BLACK;
@@ -23,7 +22,7 @@ public interface ColorData {
 	public static final Color COLOR_TILE_9 = Color.BLACK;
 
 	public static Color getTileColor(int type) {
-		Color color = COLOR_TILE_ERROR;
+		Color color = COLOR_ERROR;
 		switch (type) {
 		case 0:
 			color = COLOR_TILE_0;
