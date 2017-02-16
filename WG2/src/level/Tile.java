@@ -19,9 +19,9 @@ public class Tile implements MapData {
 	public Rectangle2D getBounds() {
 		return bounds;
 	}
-	
+
 	public Rectangle2D getBounds(double xOffset, double yOffset) {
-		return new Rectangle(bounds.getX()+xOffset, bounds.getY()+yOffset)//TODO FIXME
+		return new Rectangle2D.Double(bounds.getX()+xOffset, bounds.getY()+yOffset, bounds.getWidth(), bounds.getHeight());//TODO FIXME
 	}
 
 	public boolean isSolid() {

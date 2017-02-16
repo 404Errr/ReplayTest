@@ -62,7 +62,7 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void turn() {
-		setFacing(Util.getAngle(x+PLAYER_SIZE, y+PLAYER_SIZE, Cursor.getGridX(), Cursor.getGridY()));
+		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));
 	}
 
 	private void move() {

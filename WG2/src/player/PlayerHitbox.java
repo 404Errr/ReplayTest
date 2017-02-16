@@ -5,7 +5,6 @@ import java.awt.geom.Rectangle2D;
 import data.Data;
 import data.PlayerData;
 import level.Tile;
-import main.Main;
 
 public class PlayerHitbox implements Data, PlayerData {
 
@@ -36,11 +35,11 @@ public class PlayerHitbox implements Data, PlayerData {
 //		sides[DOWN].setRect(x, y+PLAYER_SIZE-1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale(), 1d/Main.getScale());
 //		sides[LEFT].setRect(x-1d/Main.getScale(), y, 1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale());
 //		sides[RIGHT].setRect(x+PLAYER_SIZE-1d/Main.getScale(), y, 1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale());
-		final double pS = PLAYER_SIZE, s = 0.015d;//player size, width of hitbox rectangle
-		sides[UP].setRect(x, y-s, pS-s, s);
-		sides[DOWN].setRect(x, y+pS, pS-s, s);
-		sides[RIGHT].setRect(x+pS, y, s, pS-s);
-		sides[LEFT].setRect(x-s, y, s, pS-s);
+		final double pS = PLAYER_SIZE, s = 0.02d;//player size, width of hitbox rectangle
+		sides[UP].setRect(x+s, y, pS-s, s);
+		sides[DOWN].setRect(x+s, y+pS, pS-s, s);
+		sides[RIGHT].setRect(x+pS, y+s, s, pS-s);
+		sides[LEFT].setRect(x, y+s, s, pS-s);
 	}
 
 	public Rectangle2D getSide(int side) {
