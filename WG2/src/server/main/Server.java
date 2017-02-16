@@ -1,10 +1,5 @@
 package server.main;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-
 import data.NetData;
 
 public class Server implements NetData {
@@ -18,7 +13,7 @@ public class Server implements NetData {
 		Thread update = new Thread(updateLoop, "Loop");
 		update.start();*/
 
-		try {
+		/*try {
 			ServerSocket listener = new ServerSocket(PORT);
 			try {
 				while (RUNNING) {
@@ -33,11 +28,6 @@ public class Server implements NetData {
 						socket.close();
 					}
 
-
-
-
-
-
 				}
 			}
 			finally {
@@ -48,7 +38,7 @@ public class Server implements NetData {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 
 	}
 
