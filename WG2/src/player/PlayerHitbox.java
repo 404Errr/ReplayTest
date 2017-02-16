@@ -28,14 +28,14 @@ public class PlayerHitbox implements Data, PlayerData {
 		}
 	}
 
-	public void move(double x, double y) {
+	public void move(double x, double y) {//FIXME
 		for (int i = 0;i<4;i++) {
 			touching[i] = false;
 		}
-		sides[UP].setRect(x, y-1d/Main.getScale(), PLAYER_SIZE-1d/Main.getScale(), 1d/Main.getScale());
-		sides[DOWN].setRect(x, y+PLAYER_SIZE-1d/Main.getScale(), PLAYER_SIZE-1d/Main.getScale(), 1d/Main.getScale());
-		sides[LEFT].setRect(x-1d/Main.getScale(), y, 1d/Main.getScale(), PLAYER_SIZE-1d/Main.getScale());
-		sides[RIGHT].setRect(x+PLAYER_SIZE-1d/Main.getScale(), y, 1d/Main.getScale(), PLAYER_SIZE-1d/Main.getScale());
+		sides[UP].setRect(x, y-1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale(), 1d/Main.getScale());
+		sides[DOWN].setRect(x, y+PLAYER_SIZE-1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale(), 1d/Main.getScale());
+		sides[LEFT].setRect(x-1d/Main.getScale(), y, 1d/Main.getScale(), PLAYER_SIZE-2d/Main.getScale());
+		sides[RIGHT].setRect(x+PLAYER_SIZE-2d/Main.getScale(), y, 1d/Main.getScale(), PLAYER_SIZE-1d/Main.getScale());
 	}
 
 	public Rectangle2D getSide(int side) {

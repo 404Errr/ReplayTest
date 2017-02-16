@@ -10,7 +10,7 @@ import main.Main;
 import util.Util;
 
 public class Player implements PlayerData, Data {
-	private double x, y, dX, dY, ddX, ddY, facing;
+	private double x, y, dX, dY, ddX, ddY, facing;//facing is in radians
 	private PlayerHitbox hitbox;
 	private boolean[] canMove, movementKeyPressed;//r,d,l,u
 
@@ -62,7 +62,7 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void turn() {
-		setFacing(Util.getAngleDegrees(x, y, Cursor.getGridX(), Cursor.getGridY()));
+		setFacing(Util.getAngle(x+PLAYER_SIZE/2, y+PLAYER_SIZE/2, Cursor.getGridX(), Cursor.getGridY()));
 	}
 
 	private void move() {

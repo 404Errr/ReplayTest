@@ -23,7 +23,7 @@ public class Util {
 		return Math.hypot(x1-x2, y1-y2);
 	}
 
-	public static double getAngleDegrees(int x, int y, int xT, int yT) {
+	public static double getAngleDegrees(int x, int y, int xT, int yT) {//inaccurate
 		double result = Math.toDegrees(Math.atan2(-(xT-x), -(yT-y)))+90;
 		if (result<0) {
 			result+=360;
@@ -31,8 +31,16 @@ public class Util {
 		return result;
 	}
 	
-	public static double getAngleDegrees(double x, double y, double xT, double yT) {
+	public static double getAngleDegrees(double x, double y, double xT, double yT) {//inaccurate
 		return getAngleDegrees((int)x, (int)y, (int)xT, (int)yT);
+	}
+	
+	public static double getAngle(int x, int y, int xT, int yT) {
+		return Math.atan2(-(xT-x), -(yT-y))+Math.toRadians(90);
+	}
+	
+	public static double getAngle(double x, double y, double xT, double yT) {
+		return getAngle((int)x, (int)y, (int)xT, (int)yT);
 	}
 
 	public static double getAngleSpread(double angle, double spread) {
@@ -69,11 +77,19 @@ public class Util {
 		return new Rectangle(x, y, sizeX, sizeY);
 	}
 
-	public static double getXComp(double angle, double magnitude) {
+	public static double getXCompDegrees(double angle, double magnitude) {
 		return Math.cos(Math.toRadians(angle))*magnitude;
 	}
 
-	public static double getYComp(double angle, double magnitude) {
+	public static double getYCompDegrees(double angle, double magnitude) {
 		return Math.sin(Math.toRadians(angle))*magnitude;
+	}
+	
+	public static double getXComp(double angle, double magnitude) {
+		return Math.cos(angle)*magnitude;
+	}
+
+	public static double getYComp(double angle, double magnitude) {
+		return Math.sin(angle)*magnitude;
 	}
 }

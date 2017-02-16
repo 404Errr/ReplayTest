@@ -6,6 +6,7 @@ import graphics.Camera;
 import graphics.Window;
 import player.Cursor;
 import player.Player;
+import projectile.Projectile;
 
 public class UpdateLoop implements Runnable, Data {
 
@@ -32,21 +33,16 @@ public class UpdateLoop implements Runnable, Data {
 
 	private void update() {
 		try {
+			Cursor.tick();
 			for (Player player:Game.getPlayers()) {
 				player.tick();
 			}
+			for (Projectile projectile:Game.getProjectiles()) {
+				projectile.tick();
+			}
 			Camera.tick();
-			System.out.println(Cursor.getGridX()+","+Cursor.getGridY());
+//			System.out.println(Cursor.getGridX()+","+Cursor.getGridY());
 //			System.out.println(Game.getPlayer().getX()+","+Game.getPlayer().getY());
-
-//			System.out.println(""
-//					+ Game.getPlayer().getHitboxPoint(0, 0).isTouching()+"|"//tl
-//					+ Game.getPlayer().getHitboxPoint(1, 0).isTouching()+"|"//tr
-//					+ Game.getPlayer().getHitboxPoint(0, 1).isTouching()+"|"//bl
-//					+ Game.getPlayer().getHitboxPoint(1, 1).isTouching()+"|"//br
-//					+ ""
-//			);
-
 		}
 		catch (Exception e) {
 			System.out.println("-UPDATE ERROR");
