@@ -49,7 +49,7 @@ public class PlayerInput implements KeyListener, MouseMotionListener, MouseListe
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 	@Override
-	public void mouseDragged(MouseEvent e) {}
+	public void mouseDragged(MouseEvent e) {Cursor.updateMouse(e);}
 	@Override
 	public void mouseEntered(MouseEvent e) {}
 	@Override

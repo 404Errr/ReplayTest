@@ -1,6 +1,6 @@
 package graphics;
 
-import java.awt.Color;
+import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -27,22 +27,25 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 		super.paintComponent(g);
 		drawTiles();
 //		drawPlayers();
+
+		drawDebug();
+
 		drawPlayer();
 
-//		draw the hitbox (sorta)
-//		g.setStroke(new BasicStroke(2));
-//		g.setColor(Color.MAGENTA);
-//		for (int i = 0;i<4;i++) {
-//			Rectangle2D s = Game.getPlayer().getHitbox().getSide(i);
-//			g.drawLine((int)(s.getX()*Main.getScale()), (int)(s.getY()*Main.getScale()), (int)(s.getMaxX()*Main.getScale()), (int)(s.getMaxY()*Main.getScale()));
-//		}
+	}
 
-		g.setColor(new Color(0,180,0,255));
+	private void drawDebug() {
+		g.setColor(COLOR_DEBUG_GREEN);
 		g.setFont(new Font("Helvetica", Font.BOLD, 15));
 		g.drawString("x, y: "+Game.getPlayer().getX()+","+Game.getPlayer().getY(), 20, 30);
 		g.drawString("dx, dy: "+Game.getPlayer().getdX()+","+Game.getPlayer().getdY(), 20, 45);
 		g.drawString("ddx, ddy: "+Game.getPlayer().getddX()+","+Game.getPlayer().getddY(), 20, 60);
 		g.drawString("Facing: "+Game.getPlayer().getFacing()+" ("+Math.toDegrees(Game.getPlayer().getFacing())+")", 20, 75);
+
+		//direction player is facing
+		g.setStroke(new BasicStroke(1));
+		final int w = Main.getSCREEN_WIDTH()/2, h = Main.getSCREEN_HEIGHT()/2;
+		g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), 100)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), 100)+h));
 	}
 
 	private void drawPlayer() {
@@ -50,7 +53,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 		g.setColor(COLOR_PLAYER);
 		if (!Camera.lockToPlayer()) g.fill(Game.getPlayer().getBounds(0, 0));
 		else g.fillRect(w-p/2, h-p/2, p, p);
-		g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), 100)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), 100)+h));
+
 	}
 
 	private void drawTiles() {
