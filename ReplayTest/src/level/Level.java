@@ -4,7 +4,7 @@ import data.MapData;
 
 public class Level implements MapData {
 	private static Tile[][] tiles;
-	private static int[][] layout = map0;
+	private static int[][] layout = MapData.getMap();
 
 	public static void init() {
 		tiles = new Tile[layout.length][layout[0].length];

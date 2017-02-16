@@ -22,6 +22,16 @@ public class Player implements PlayerData, Data {
 		setAllCanMove(false);
 	}
 
+	public void move(double x, double y, double dX, double dY, double ddX, double ddY, double facing) {
+		this.x = x;
+		this.y = y;
+		this.dX = dX;
+		this.dY = dY;
+		this.ddX = ddX;
+		this.ddY = ddY;
+		this.facing = facing;
+	}
+
 	private void checkWallCollision() {//TODO
 		final int radius = 2;
 		for (int r = (int)y-radius;r<y+radius;r++) {
@@ -111,16 +121,12 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void notAcceleratingCheck() {//affects ddX and ddY
-		if (isMovementKeyPressed(UP)==isMovementKeyPressed(DOWN)) {
+		if ((isMovementKeyPressed(UP)==isMovementKeyPressed(DOWN))||(!canMove(UP)&&ddY<0)||(!canMove(DOWN)&&ddY>0)) {
 			ddY = 0;
 		}
-		if (isMovementKeyPressed(LEFT)==isMovementKeyPressed(RIGHT)) {
+		if ((isMovementKeyPressed(LEFT)==isMovementKeyPressed(RIGHT))||(!canMove(LEFT)&&ddX<0)||(!canMove(RIGHT)&&ddX>0)) {
 			ddX = 0;
 		}
-		if (!canMove(UP)&&ddY<0) ddY = 0;
-		if (!canMove(DOWN)&&ddY>0) ddY = 0;
-		if (!canMove(LEFT)&&ddX<0) ddX = 0;
-		if (!canMove(RIGHT)&&ddX>0) ddX = 0;
 	}
 
 	private void acceleratingLimitCheck() {//affects ddX and ddY

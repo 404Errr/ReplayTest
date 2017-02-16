@@ -30,7 +30,8 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 		g.setStroke(new BasicStroke(3));
 		g.setColor(Color.MAGENTA);
 		for (int i = 0;i<4;i++) {
-			g.fill(Game.getPlayer().getHitbox().getSide(i));
+			Rectangle2D s = Game.getPlayer().getHitbox().getSide(i);
+			g.fill(new Rectangle.Double(s.getX()*Main.getScale(), s.getY()*Main.getScale(), s.getWidth()*Main.getScale(), s.getHeight()*Main.getScale()));
 		}
 	}
 
