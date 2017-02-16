@@ -3,6 +3,8 @@ package data;
 import java.awt.event.KeyEvent;
 
 public interface Controls {
+	public static int DEBUG_KEY = KeyEvent.VK_F3;
+
 	public static int UP_KEY_0 = KeyEvent.VK_W;
 	public static int DOWN_KEY_0 = KeyEvent.VK_S;
 	public static int LEFT_KEY_0 = KeyEvent.VK_A;

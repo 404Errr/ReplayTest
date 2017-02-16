@@ -8,15 +8,16 @@ import client.graphics.Camera;
 import client.graphics.Window;
 import client.level.Level;
 
-public class Main {
+public class Client {
 	private static int SCREEN_HEIGHT, SCREEN_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH;
 
 	public static boolean RUNNING = true;
 
-	private static UpdateLoop updateLoop;
+	private static ClientUpdateLoop updateLoop;
 	private static int SCALE;
 
-	public static void main(String[] args) {
+	public static void run() {
+		System.out.println("CLIENT STARTED");
 		GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int width = screen.getDisplayMode().getWidth(), height = screen.getDisplayMode().getHeight();
 		int screenSize = (Level.getWidth()>Level.getHeight())?width:height;
@@ -34,7 +35,7 @@ public class Main {
 		Game.init();
 		Window.init();
 		Camera.init();
-		updateLoop = new UpdateLoop();
+		updateLoop = new ClientUpdateLoop();
 		Thread update = new Thread(updateLoop, "Loop");
 		update.start();
 	}
@@ -60,7 +61,7 @@ public class Main {
 	}
 
 	public static void setScale(int scale) {
-		Main.SCALE = scale;
+		Client.SCALE = scale;
 	}
 
 }

@@ -8,14 +8,14 @@ import client.player.Player;
 import client.projectile.Projectile;
 import data.Data;
 
-public class UpdateLoop implements Runnable, Data {
+public class ClientUpdateLoop implements Runnable, Data {
 
 	@Override
 	public void run() {
 		System.out.println("UPS: "+UPS);
 		final long updateSpeed = 1000000000/UPS;
 		long startTime = 0, wait = 0;
-		while (Main.RUNNING) {
+		while (Client.RUNNING) {
 			startTime = System.nanoTime();
 
 			update();//update

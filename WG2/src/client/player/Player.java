@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 import client.level.Level;
-import client.main.Main;
+import client.main.Client;
 import data.Data;
 import data.PlayerData;
 import util.Util;
@@ -225,7 +225,7 @@ public class Player implements PlayerData, Data {
 	}
 
 	public Rectangle2D getBounds(double offsetX, double offsetY) {//get the bounds of the player offset
-		return new Rectangle((int)((x+offsetX+PLAYER_SIZE/2)*Main.getScale()), (int)((y+offsetY+PLAYER_SIZE/2)*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()));
+		return new Rectangle((int)((x+offsetX+PLAYER_SIZE/2)*Client.getScale()), (int)((y+offsetY+PLAYER_SIZE/2)*Client.getScale()), (int)(PLAYER_SIZE*Client.getScale()), (int)(PLAYER_SIZE*Client.getScale()));
 	}
 
 	public PlayerHitbox getHitbox() {

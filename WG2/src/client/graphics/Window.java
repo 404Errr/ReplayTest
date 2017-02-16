@@ -4,23 +4,23 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
-import client.main.Main;
-import client.player.PlayerInput;
+import client.main.Client;
+import client.player.UserInput;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame {
 	private static JFrame frame;
-	private static PlayerInput input;
+	private static UserInput input;
 	private static Renderer rendererer;
 
 	public static void init() {
 		rendererer = new Renderer();
-		input = new PlayerInput();
+		input = new UserInput();
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout());
-		frame.setSize(Main.getWINDOW_WIDTH(), Main.getWINDOW_HEIGHT());
-		frame.setTitle(Main.getWINDOW_WIDTH()+"x"+Main.getWINDOW_HEIGHT());
+		frame.setSize(Client.getWINDOW_WIDTH(), Client.getWINDOW_HEIGHT());
+		frame.setTitle(Client.getWINDOW_WIDTH()+"x"+Client.getWINDOW_HEIGHT());
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.addKeyListener(input);

@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 
 import client.game.Game;
 import client.graphics.Camera;
-import client.main.Main;
+import client.main.Client;
 import client.projectile.Projectile;
 
 public class Cursor {
@@ -21,8 +21,8 @@ public class Cursor {
 	}
 
 	public static void tick() {
-		gridX = (double)x/Main.getScale()+Camera.getX()-Main.getSCREEN_WIDTH()/2d/Main.getScale();
-		gridY = (double)y/Main.getScale()+Camera.getY()-Main.getSCREEN_HEIGHT()/2d/Main.getScale();
+		gridX = (double)x/Client.getScale()+Camera.getX()-Client.getSCREEN_WIDTH()/2d/Client.getScale();
+		gridY = (double)y/Client.getScale()+Camera.getY()-Client.getSCREEN_HEIGHT()/2d/Client.getScale();
 	}
 
 	public static int getX() {

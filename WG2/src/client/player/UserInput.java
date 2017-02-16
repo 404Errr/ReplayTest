@@ -9,13 +9,20 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import client.game.Game;
+import client.graphics.Renderer;
 import data.Controls;
 import data.Data;
 
-public class PlayerInput implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, Controls, Data {
+public class UserInput implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, Controls, Data {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		playerMovement(e, true);
+
+		switch (e.getKeyCode()) {
+		case DEBUG_KEY:
+			Renderer.toggleDebug();
+			break;
+		}
 	}
 
 	@Override
