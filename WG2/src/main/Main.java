@@ -3,10 +3,10 @@ package main;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
-import game.Game;
-import graphics.Camera;
-import graphics.Window;
-import level.Level;
+import client.game.Game;
+import client.graphics.Camera;
+import client.graphics.Window;
+import client.level.Level;
 
 public class Main {
 	private static int SCREEN_HEIGHT, SCREEN_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH;

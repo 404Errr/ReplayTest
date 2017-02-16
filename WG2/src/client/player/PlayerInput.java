@@ -1,4 +1,4 @@
-package player;
+package client.player;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,9 +8,9 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import client.game.Game;
 import data.Controls;
 import data.Data;
-import game.Game;
 
 public class PlayerInput implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, Controls, Data {
 	@Override

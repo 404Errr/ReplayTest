@@ -1,4 +1,4 @@
-package projectile;
+package client.projectile;
 
 public class Projectile {//TODO
 	private double x, y, dX, dY, ddX, ddY;

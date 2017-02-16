@@ -1,11 +1,11 @@
-package graphics;
+package client.graphics;
 
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
+import client.player.PlayerInput;
 import main.Main;
-import player.PlayerInput;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame {

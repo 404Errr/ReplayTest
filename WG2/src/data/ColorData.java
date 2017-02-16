@@ -22,7 +22,7 @@ public interface ColorData {
 	public static final Color COLOR_TILE_9 = Color.BLACK;
 
 	public static Color getTileColor(int type) {
-		Color color = COLOR_ERROR;
+		Color color = COLOR_ERROR;//default
 		switch (type) {
 		case 0:
 			color = COLOR_TILE_0;

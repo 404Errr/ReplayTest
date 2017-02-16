@@ -1,4 +1,4 @@
-package graphics;
+package client.graphics;
 
 import java.awt.BasicStroke;
 import java.awt.Font;
@@ -9,10 +9,10 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 
+import client.game.Game;
+import client.level.Level;
 import data.ColorData;
 import data.PlayerData;
-import game.Game;
-import level.Level;
 import main.Main;
 import util.Util;
 

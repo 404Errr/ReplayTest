@@ -1,12 +1,12 @@
 package main;
 
+import client.game.Game;
+import client.graphics.Camera;
+import client.graphics.Window;
+import client.player.Cursor;
+import client.player.Player;
+import client.projectile.Projectile;
 import data.Data;
-import game.Game;
-import graphics.Camera;
-import graphics.Window;
-import player.Cursor;
-import player.Player;
-import projectile.Projectile;
 
 public class UpdateLoop implements Runnable, Data {
 

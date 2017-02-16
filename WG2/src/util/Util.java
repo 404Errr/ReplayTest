@@ -45,7 +45,7 @@ public class Util {
 		else return new Ellipse2D.Double(x, y, size, size);
 	}
 
-	public static Polygon getPoly(int x, int y, int sides, int size) {
+	public static Polygon getPoly(int x, int y, int sides, int size) {//for TD
 		Polygon poly = new Polygon();
 		double a, shift = 0;
 		for (int i = 0;i<=sides;i++) {

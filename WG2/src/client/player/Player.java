@@ -1,11 +1,11 @@
-package player;
+package client.player;
 
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
+import client.level.Level;
 import data.Data;
 import data.PlayerData;
-import level.Level;
 import main.Main;
 import util.Util;
 
@@ -20,7 +20,7 @@ public class Player implements PlayerData, Data {
 		hitbox = new PlayerHitbox();
 		canMove = new boolean[4];
 		movementKeyPressed = new boolean[4];
-		setAllCanMove(false);
+		setAllCanMove(false);//set all values in canMove to false
 	}
 
 	public void move(double x, double y, double dX, double dY, double ddX, double ddY, double facing) {
@@ -35,59 +35,58 @@ public class Player implements PlayerData, Data {
 
 	private void checkWallCollision() {
 		final int radius = 2;
-		for (int r = (int)y-radius;r<y+radius;r++) {
-			for (int c = (int)x-radius;c<x+radius;c++) {
-				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).isSolid()) {
-					hitbox.checkCollision(Level.getTile(r, c));
+		for (int r = (int)y-radius;r<y+radius;r++) {//for each row within the radius
+			for (int c = (int)x-radius;c<x+radius;c++) {//for each collumn within the radius
+				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).isSolid()) {//bounds check and if tile is solid
+					hitbox.checkCollision(Level.getTile(r, c));//feed tile to hitbox
 				}
 			}
 		}
-		for (int i = 0;i<4;i++) {
+		for (int i = 0;i<4;i++) {//for canMove
 			if (hitbox.getSides()[i]) {
-				setCanMove(i, false);
+				setCanMove(i, false);//set canMove to the corresponding touching value in hitbox
 			}
 		}
 	}
 
 	private void checkCollision() {
-		setAllCanMove(true);
-		hitbox.move(x, y);
-		checkWallCollision();
+		setAllCanMove(true);//set all of canMove to true
+		hitbox.move(x, y);//move the hitbox to the player's current location
+		checkWallCollision();//check for a wall collision
 	}
 
 	public void tick() {
-		turn();
-		move();
-		checkCollision();
+		turn();//rotate the player toward cursor
+		move();//move the player
 	}
 
 	private void turn() {
-		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));
+		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
 	}
 
 	private void move() {
-		accelerate();
-		acceleratingLimitCheck();
-		notAcceleratingCheck();
+		accelerate();//accelerate based on if movement keys are pressed
+		acceleratingLimitCheck();//checks if acceleration is over the limit, sets it to the limit if it is
+		notAcceleratingCheck();//checks if it shouldnt be accelerating
 		dX+=ddX;
 		dY+=ddY;
-		deccelerate();
-		speedLimitCheck();
-		notMovingCheck();
+		deccelerate();//deccelerate the player
+		speedLimitCheck();//checks if velocity is over the limit, sets it to the limit if it is
+		notMovingCheck();//chceks if player shouldnt be able to move in a direction or if dX/dY need to be rounded to 0
 
-		move(dX, dY);
+		move(dX, dY);//move the player by the velocity
 	}
 
 	private void move(double dX, double dY) {
-		double inc = 0.5d/UPS, remaining, sign;
-		remaining = Math.abs(dX);
-		sign = Math.signum(dX);
+		double inc = 0.5d/UPS, remaining, sign;//inc - the increment between collision checks
+		remaining = Math.abs(dX);//the magnitude of dX
+		sign = Math.signum(dX);//the sign of dX
 		while (remaining>0) {
-			checkCollision();
-			if (sign>0&&!canMove(RIGHT)) break;
-			if (sign<0&&!canMove(LEFT)) break;
-			if (remaining>=inc) x+=inc*sign;
-			else x+=remaining*sign;
+			checkCollision();//check for collision
+			if (sign>0&&!canMove(RIGHT)) break;//if cant move right, stop changing x
+			if (sign<0&&!canMove(LEFT)) break;//if cant move left, stop changing x
+			if (remaining>=inc) x+=inc*sign;//if remaining isnt smaller than increment, change x by increment
+			else x+=remaining*sign;//if it is, change x by remaining
 			remaining-=inc;
 		}
 		remaining = Math.abs(dY);
@@ -103,9 +102,9 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void accelerate() {//affects ddX and ddY
-		if (isMovementKeyPressed(UP)) {
-			ddY-=PLAYER_ACCELERATION;
-			if (ddY>0) ddY = 0;
+		if (isMovementKeyPressed(UP)) {//if the movement key is pressed
+			ddY-=PLAYER_ACCELERATION;//change acceleration by PLAYER_ACCELERATION
+			if (ddY>0) ddY = 0;//if acceleration is in the opposite direction of the movement key, reset it to 0
 		}
 		if (isMovementKeyPressed(DOWN)) {
 			ddY+=PLAYER_ACCELERATION;
@@ -122,8 +121,8 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void notAcceleratingCheck() {//affects ddX and ddY
-		if ((isMovementKeyPressed(UP)==isMovementKeyPressed(DOWN))||(!canMove(UP)&&ddY<0)||(!canMove(DOWN)&&ddY>0)) {
-			ddY = 0;
+		if ((isMovementKeyPressed(UP)==isMovementKeyPressed(DOWN))||(!canMove(UP)&&ddY<0)||(!canMove(DOWN)&&ddY>0)) {//if opposite movement keys have the same value or if cant move in the direction acceleration is set to
+			ddY = 0;//stop accelerating
 		}
 		if ((isMovementKeyPressed(LEFT)==isMovementKeyPressed(RIGHT))||(!canMove(LEFT)&&ddX<0)||(!canMove(RIGHT)&&ddX>0)) {
 			ddX = 0;
@@ -131,8 +130,8 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void acceleratingLimitCheck() {//affects ddX and ddY
-		if (Math.abs(ddX)>PLAYER_ACCELERATION_LIMIT) {
-			ddX = Math.signum(ddX)*PLAYER_ACCELERATION_LIMIT;
+		if (Math.abs(ddX)>PLAYER_ACCELERATION_LIMIT) {//if over the limit
+			ddX = Math.signum(ddX)*PLAYER_ACCELERATION_LIMIT;//set to the limit
 		}
 		if (Math.abs(ddY)>PLAYER_ACCELERATION_LIMIT) {
 			ddY = Math.signum(ddY)*PLAYER_ACCELERATION_LIMIT;
@@ -140,8 +139,8 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void deccelerate() {//affects dX and dY
-		if (Math.abs(dX)>0) {
-			dX*=PLAYER_DECCELERATION;
+		if (Math.abs(dX)>0) {//if velocity>0
+			dX*=PLAYER_DECCELERATION;//multiply velocity by PLAYER_DECCELERATION (less than 1)
 		}
 		if (Math.abs(dY)>0) {
 			dY*=PLAYER_DECCELERATION;
@@ -149,8 +148,8 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void speedLimitCheck() {//affects dX and dY
-		if (Math.abs(dX)>PLAYER_SPEED_LIMIT) {
-			dX = Math.signum(dX)*PLAYER_SPEED_LIMIT;
+		if (Math.abs(dX)>PLAYER_SPEED_LIMIT) {//if over the limit
+			dX = Math.signum(dX)*PLAYER_SPEED_LIMIT;//set to the limit
 		}
 		if (Math.abs(dY)>PLAYER_SPEED_LIMIT) {
 			dY = Math.signum(dY)*PLAYER_SPEED_LIMIT;
@@ -158,8 +157,8 @@ public class Player implements PlayerData, Data {
 	}
 
 	public void notMovingCheck() {//affects dX and dY
-		if (Math.abs(dY)<0.0001d||(!canMove(UP)&&dY<0)||(!canMove(DOWN)&&dY>0)) {
-			dY = 0;
+		if (Math.abs(dY)<0.0001d||(!canMove(UP)&&dY<0)||(!canMove(DOWN)&&dY>0)) {//if velocity should be rounded to 0 or if cant move in the direction the velocity is set to
+			dY = 0;//set velocity to 0
 		}
 		if (Math.abs(dX)<0.0001d||(!canMove(LEFT)&&dX<0)||(!canMove(RIGHT)&&dX>0)) {
 			dX = 0;
@@ -202,7 +201,7 @@ public class Player implements PlayerData, Data {
 		return ddY;
 	}
 
-	private void setAllCanMove(boolean value) {
+	private void setAllCanMove(boolean value) {//set all values in canMove to the given value
 		for (int i = 0;i<4;i++) {
 			canMove[i] = value;
 		}
@@ -224,7 +223,7 @@ public class Player implements PlayerData, Data {
 		movementKeyPressed[direction] = value;
 	}
 
-	public Rectangle2D getBounds(double offsetX, double offsetY) {
+	public Rectangle2D getBounds(double offsetX, double offsetY) {//get the bounds of the player offset
 		return new Rectangle((int)((x+offsetX+PLAYER_SIZE/2)*Main.getScale()), (int)((y+offsetY+PLAYER_SIZE/2)*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()));
 	}
 

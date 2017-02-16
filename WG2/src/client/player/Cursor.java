@@ -1,18 +1,18 @@
-package player;
+package client.player;
 
 import java.awt.event.MouseEvent;
 
-import game.Game;
-import graphics.Camera;
+import client.game.Game;
+import client.graphics.Camera;
+import client.projectile.Projectile;
 import main.Main;
-import projectile.Projectile;
 
 public class Cursor {
-	private static int x, y;
-	private static double gridX, gridY;
+	private static int x, y;//the coords of the cursor based on the screen
+	private static double gridX, gridY;//the coords of the cursor based on the grid
 
 	public static void click(MouseEvent e, boolean down) {
-		Game.addProjectile(new Projectile(Game.getPlayer().getX(), Game.getPlayer().getY(), 1, 1));
+		Game.addProjectile(new Projectile(Game.getPlayer().getX(), Game.getPlayer().getY(), 1, 1));//temp
 	}
 
 	public static void updateMouse(MouseEvent e) {
@@ -24,7 +24,7 @@ public class Cursor {
 		gridX = (double)x/Main.getScale()+Camera.getX()-Main.getSCREEN_WIDTH()/2d/Main.getScale();
 		gridY = (double)y/Main.getScale()+Camera.getY()-Main.getSCREEN_HEIGHT()/2d/Main.getScale();
 	}
-	
+
 	public static int getX() {
 		return x;
 	}
