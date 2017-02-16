@@ -13,8 +13,6 @@ import data.ColorData;
 import data.PlayerData;
 import game.Game;
 import level.Level;
-import player.HitboxBar;
-import player.HitboxPoint;
 
 @SuppressWarnings("serial")
 public class Renderer extends JPanel implements ColorData, PlayerData {
@@ -23,17 +21,17 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 	@Override
 	public void paint(Graphics g0) {
 		g = (Graphics2D) g0;
-		Graphics2D g = (Graphics2D) g0; 
+		Graphics2D g = (Graphics2D) g0;
 		super.paintComponent(g);
 		drawTiles();
 //		drawPlayers();
 		drawPlayer();
-		
+
 		g.setStroke(new BasicStroke(3));
 		g.setColor(Color.MAGENTA);
-		for (HitboxBar bar:Game.getPlayer().getHitboxBars()) {
+		/*for (HitboxBar bar:Game.getPlayer().getHitboxBars()) {
 			g.fill(bar.getBar());
-		}
+		}*/
 		/*
 		g.setStroke(new BasicStroke(5));
 		for (HitboxPoint[] points:Game.getPlayer().getHitboxPoints()) {

@@ -9,9 +9,10 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import data.Controls;
+import data.Data;
 import game.Game;
 
-public class PlayerInput implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, Controls {
+public class PlayerInput implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, Controls, Data {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		playerMovement(e, true);
@@ -26,19 +27,19 @@ public class PlayerInput implements KeyListener, MouseMotionListener, MouseListe
 		switch (e.getKeyCode()) {
 		case UP_KEY_0:
 		case UP_KEY_1:
-			Game.getPlayer().setMovingUp(pressed);
+			Game.getPlayer().setMovementKeyPressed(UP, pressed);
 			break;
 		case DOWN_KEY_0:
 		case DOWN_KEY_1:
-			Game.getPlayer().setMovingDown(pressed);
+			Game.getPlayer().setMovementKeyPressed(DOWN, pressed);
 			break;
 		case LEFT_KEY_0:
 		case LEFT_KEY_1:
-			Game.getPlayer().setMovingLeft(pressed);
+			Game.getPlayer().setMovementKeyPressed(LEFT, pressed);
 			break;
 		case RIGHT_KEY_0:
 		case RIGHT_KEY_1:
-			Game.getPlayer().setMovingRight(pressed);
+			Game.getPlayer().setMovementKeyPressed(RIGHT, pressed);
 			break;
 		}
 	}
