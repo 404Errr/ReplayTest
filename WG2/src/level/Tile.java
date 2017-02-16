@@ -12,7 +12,7 @@ public class Tile implements MapData {
 
 	public Tile(int r, int c, int type) {
 		this.type = type;
-		if (type==1) solid = true;
+		if (type!=0) solid = true;
 		this.bounds = new Rectangle(c, r, 1, 1);//switched r and c
 	}
 

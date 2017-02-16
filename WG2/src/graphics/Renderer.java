@@ -41,7 +41,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 		g.setColor(COLOR_PLAYER);
 		if (!Camera.lockToPlayer()) g.fill(Game.getPlayer().getBounds(0, 0));
 		else g.fillRect((int)(Main.getSCREEN_WIDTH()/2-1), (int)(Main.getSCREEN_HEIGHT()/2-1), (int)(PLAYER_SIZE*Main.getScale()-1/Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()));
-		g.drawLine(Main.getSCREEN_WIDTH()/2, Main.getSCREEN_HEIGHT()/2, (int)Util.getXComp(Game.getPlayer().getFacing(), 100)+Main.getSCREEN_WIDTH()/2, (int)Util.getYComp(Game.getPlayer().getFacing(), 100)+Main.getSCREEN_HEIGHT()/2);
+		g.drawLine((int)(Main.getSCREEN_WIDTH()/2+PLAYER_SIZE*Main.getScale()/2), (int)(Main.getSCREEN_HEIGHT()/2+PLAYER_SIZE*Main.getScale()/2), (int)Util.getXComp(Game.getPlayer().getFacing(), 100)+Main.getSCREEN_WIDTH()/2, (int)-Util.getYComp(Game.getPlayer().getFacing(), 100)+Main.getSCREEN_HEIGHT()/2);
 	//	g.drawLine(Main.getWINDOW_WIDTH()/2, Main.getWINDOW_HEIGHT()/2, (int)(Game.getPlayer().getX()*Main.getScale()+PLAYER_SIZE*Main.getScale()/2), (int)(Game.getPlayer().getY()*Main.getScale()+PLAYER_SIZE*Main.getScale()/2));
 	}
 

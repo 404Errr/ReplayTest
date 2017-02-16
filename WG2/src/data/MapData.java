@@ -1,7 +1,7 @@
 package data;
 
 public interface MapData {
-	/*public static int[][] getMap() {
+	public static int[][] getMap() {
 		int[][] map = map0;
 		int[][] output = new int[map.length+2][map[0].length+2];
 
@@ -16,7 +16,7 @@ public interface MapData {
 			}
 		}
 		return output;
-	}*/
+	}
 
 	public static final int[][] map0 = {
 			{0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
