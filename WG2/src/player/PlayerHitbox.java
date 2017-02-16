@@ -27,7 +27,7 @@ public class PlayerHitbox implements Data, PlayerData {
 		}
 	}
 
-	public void move(double x, double y) {//FIXME
+	public void move(double x, double y) {
 		for (int i = 0;i<4;i++) {
 			touching[i] = false;
 		}
