@@ -10,37 +10,44 @@ import main.Main;
 
 public class Player implements PlayerData, Data {
 	private double x, y, dX, dY, ddX, ddY, facing;
-	private boolean[] canMove = new boolean[4], movementKeyPressed = new boolean[4];//r,d,l,u
+	private PlayerHitbox hitbox;
+	private boolean[] canMove, movementKeyPressed;//r,d,l,u
 
 	public Player(double x, double y) {
 		this.x = x;
 		this.y = y;
-		for (int i = 0;i<4;i++) {
-			canMove[i] = false;
-		}
+		hitbox = new PlayerHitbox();
+		canMove = new boolean[4];
+		movementKeyPressed = new boolean[4];
+		setAllCanMove(false);
 	}
 
 	private void checkWallCollision() {//TODO
 		final int radius = 2;
-		setAllCanMove(true);
 		for (int r = (int)y-radius;r<y+radius;r++) {
 			for (int c = (int)x-radius;c<x+radius;c++) {
 				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).isSolid()) {
-					if (Level.getTile(r, c).getBounds().contains(x, y)) {
-
-					}
+					hitbox.checkCollision(Level.getTile(r, c));
 				}
 			}
 		}
+		for (int i = 0;i<4;i++) {
+			if (hitbox.getSides()[i]) {
+				setCanMove(i, false);
+			}
+		}
+	}
 
-
+	private void checkCollision() {
+		setAllCanMove(true);
+		hitbox.move(x, y);
+		checkWallCollision();
 	}
 
 	public void tick() {
 		turn();
 		move();
-		checkWallCollision();
-
+		checkCollision();
 	}
 
 	private void turn() {
@@ -60,14 +67,14 @@ public class Player implements PlayerData, Data {
 		move(dX, dY);
 	}
 
-	private void move(double dX, double dY) {//TODO
+	private void move(double dX, double dY) {
 		double inc = 1d/UPS, remaining, sign;
 		remaining = Math.abs(dX);
 		sign = Math.signum(dX);
 		while (remaining>0) {
-			checkWallCollision();
-			if (sign>0&&!getCanMove(RIGHT)) break;
-			if (sign<0&&!getCanMove(LEFT)) break;
+			checkCollision();
+			if (sign>0&&!canMove(RIGHT)) break;
+			if (sign<0&&!canMove(LEFT)) break;
 			if (remaining>=inc) x+=inc*sign;
 			else x+=remaining*sign;
 			remaining-=inc;
@@ -75,9 +82,9 @@ public class Player implements PlayerData, Data {
 		remaining = Math.abs(dY);
 		sign = Math.signum(dY);
 		while (remaining>0) {
-			checkWallCollision();
-			if (sign<0&&!getCanMove(UP)) break;
-			if (sign>0&&!getCanMove(DOWN)) break;
+			checkCollision();
+			if (sign<0&&!canMove(UP)) break;
+			if (sign>0&&!canMove(DOWN)) break;
 			if (remaining>=inc) y+=inc*sign;
 			else y+=remaining*sign;
 			remaining-=inc;
@@ -85,31 +92,35 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void accelerate() {//affects ddX and ddY
-		if (getMovementKeyPressed(UP)) {
+		if (isMovementKeyPressed(UP)) {
 			ddY-=PLAYER_ACCELERATION;
 			if (ddY>0) ddY = 0;
 		}
-		if (getMovementKeyPressed(DOWN)) {
+		if (isMovementKeyPressed(DOWN)) {
 			ddY+=PLAYER_ACCELERATION;
 			if (ddY<0) ddY = 0;
 		}
-		if (getMovementKeyPressed(LEFT)) {
+		if (isMovementKeyPressed(LEFT)) {
 			ddX-=PLAYER_ACCELERATION;
 			if (ddX>0) ddX = 0;
 		}
-		if (getMovementKeyPressed(RIGHT)) {
+		if (isMovementKeyPressed(RIGHT)) {
 			ddX+=PLAYER_ACCELERATION;
 			if (ddX<0) ddX = 0;
 		}
 	}
 
 	private void notAcceleratingCheck() {//affects ddX and ddY
-		if (getMovementKeyPressed(UP)==getMovementKeyPressed(DOWN)) {
+		if (isMovementKeyPressed(UP)==isMovementKeyPressed(DOWN)) {
 			ddY = 0;
 		}
-		if (getMovementKeyPressed(LEFT)==getMovementKeyPressed(RIGHT)) {
+		if (isMovementKeyPressed(LEFT)==isMovementKeyPressed(RIGHT)) {
 			ddX = 0;
 		}
+		if (!canMove(UP)&&ddY<0) ddY = 0;
+		if (!canMove(DOWN)&&ddY>0) ddY = 0;
+		if (!canMove(LEFT)&&ddX<0) ddX = 0;
+		if (!canMove(RIGHT)&&ddX>0) ddX = 0;
 	}
 
 	private void acceleratingLimitCheck() {//affects ddX and ddY
@@ -190,11 +201,11 @@ public class Player implements PlayerData, Data {
 		canMove[direction] = value;
 	}
 
-	public boolean getCanMove(int direction) {
+	public boolean canMove(int direction) {
 		return canMove[direction];
 	}
 
-	public boolean getMovementKeyPressed(int direction) {
+	public boolean isMovementKeyPressed(int direction) {
 		return movementKeyPressed[direction];
 	}
 
@@ -205,4 +216,10 @@ public class Player implements PlayerData, Data {
 	public Rectangle2D getBounds(double offsetX, double offsetY) {
 		return new Rectangle((int)((x+offsetX)*Main.getScale()), (int)((y+offsetY)*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()), (int)(PLAYER_SIZE*Main.getScale()));
 	}
+
+	public PlayerHitbox getHitbox() {
+		return hitbox;
+	}
+
+
 }

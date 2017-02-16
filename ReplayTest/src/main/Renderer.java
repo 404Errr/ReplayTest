@@ -29,22 +29,9 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 
 		g.setStroke(new BasicStroke(3));
 		g.setColor(Color.MAGENTA);
-		/*for (HitboxBar bar:Game.getPlayer().getHitboxBars()) {
-			g.fill(bar.getBar());
-		}*/
-		/*
-		g.setStroke(new BasicStroke(5));
-		for (HitboxPoint[] points:Game.getPlayer().getHitboxPoints()) {
-			for (HitboxPoint point:points) {
-				if (point.isTouching()) {
-					g.setColor(Color.GREEN);
-				}
-				else {
-					g.setColor(Color.MAGENTA);
-				}
-				g.drawLine((int)(point.getX()*Main.getScale()), (int)(point.getY()*Main.getScale()), (int)(point.getX()*Main.getScale()), (int)(point.getY()*Main.getScale()));
-			}
-		}*/
+		for (int i = 0;i<4;i++) {
+			g.fill(Game.getPlayer().getHitbox().getSide(i));
+		}
 	}
 
 	private void drawPlayer() {
