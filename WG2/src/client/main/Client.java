@@ -16,8 +16,18 @@ public class Client {
 	private static ClientUpdateLoop updateLoop;
 	private static int SCALE;
 
-	public static void run() {
-		System.out.println("CLIENT STARTED");
+	public static void run(boolean online) {
+
+		/*if (online) {//if should use server
+			System.out.println("CLIENT STARTED");
+			ClientUDPSenderThread client = new ClientUDPSenderThread();
+			Thread clientThread = new Thread(client, "CLIENT THREAD");
+			clientThread.start();
+		}
+		else {
+			System.out.println("OFFLINE CLIENT STARTED");
+		}*/
+
 		GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int width = screen.getDisplayMode().getWidth(), height = screen.getDisplayMode().getHeight();
 		int screenSize = (Level.getWidth()>Level.getHeight())?width:height;

@@ -8,38 +8,10 @@ public class Server implements NetData {
 //	private static ServerUpdateLoop updateLoop;
 
 	public static void run(){
-		System.out.println("SERVER STARTED");
-		/*updateLoop = new ServerUpdateLoop();
-		Thread update = new Thread(updateLoop, "Loop");
-		update.start();*/
-
-		/*try {
-			ServerSocket listener = new ServerSocket(PORT);
-			try {
-				while (RUNNING) {
-					Socket socket = listener.accept();
-					try {
-
-						PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-						out.println("test message");
-
-					}
-					finally {
-						socket.close();
-					}
-
-				}
-			}
-			finally {
-				listener.close();
-			}
-
-
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
-
+		/*System.out.println("SERVER STARTED");
+		ServerUDPRecieverThread server = new ServerUDPRecieverThread();
+		Thread serverThread = new Thread(server, "SERVER THREAD");
+		serverThread.start();*/
 	}
 
 }
