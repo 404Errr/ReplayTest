@@ -21,7 +21,7 @@ public class Window extends JFrame {
 		frame.setLayout(new GridLayout());
 		frame.setSize(Client.getWINDOW_WIDTH(), Client.getWINDOW_HEIGHT());
 		frame.setTitle(Client.getWINDOW_WIDTH()+"x"+Client.getWINDOW_HEIGHT());
-		frame.setResizable(false);
+//		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.addKeyListener(input);
 		frame.addMouseMotionListener(input);

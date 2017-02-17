@@ -7,40 +7,29 @@ import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Window;
 import client.level.Level;
+import data.GraphicsData;
 
-public class Client {
+public class Client implements GraphicsData {
 	private static int SCREEN_HEIGHT, SCREEN_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH;
 
 	public static boolean RUNNING = true;
 
 	private static ClientUpdateLoop updateLoop;
 	private static int SCALE;
-
+	private static GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 	public static void run(boolean online) {
-
-		/*if (online) {//if should use server
+		if (online) {//if should use server
 			System.out.println("CLIENT STARTED");
-			ClientUDPSenderThread client = new ClientUDPSenderThread();
-			Thread clientThread = new Thread(client, "CLIENT THREAD");
-			clientThread.start();
 		}
 		else {
 			System.out.println("OFFLINE CLIENT STARTED");
-		}*/
-
-		GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		}
+		
 		int width = screen.getDisplayMode().getWidth(), height = screen.getDisplayMode().getHeight();
-		int screenSize = (Level.getWidth()>Level.getHeight())?width:height;
-		int layoutSize = Math.max(Level.getWidth(), Level.getHeight());
-		SCALE = (screenSize*7/8)/layoutSize;
-
-		SCREEN_WIDTH = SCALE*Level.getWidth();
-		SCREEN_HEIGHT = SCALE*Level.getHeight();
-		WINDOW_WIDTH = SCREEN_WIDTH+3+3;
-		WINDOW_HEIGHT = SCREEN_HEIGHT+25+3;
-
-		System.out.println("WxH: "+width+"x"+height+" WxH: "+WINDOW_WIDTH+"x"+WINDOW_HEIGHT+" SCALE: "+SCALE);
-
+		int screenSize = Math.min(width, height);
+		SCALE = (int)(screenSize*SCALE_RATIO);
+		updateScreenSize();
+		System.out.println("WxH of screen: "+width+"x"+height+" WxH of window: "+getWINDOW_WIDTH()+"x"+getWINDOW_HEIGHT()+" SCALE: "+SCALE);
 		Level.init();
 		Game.init();
 		Window.init();
@@ -50,6 +39,13 @@ public class Client {
 		update.start();
 	}
 
+	public static void updateScreenSize() {
+		SCREEN_WIDTH = (int)(screen.getDisplayMode().getWidth()*WINDOW_SCREEN_RATIO);
+		SCREEN_HEIGHT = (int)(screen.getDisplayMode().getHeight()*WINDOW_SCREEN_RATIO);
+		WINDOW_WIDTH = SCREEN_WIDTH+3+3;
+		WINDOW_HEIGHT = SCREEN_HEIGHT+25+3;
+	}
+	
 	public static int getWINDOW_HEIGHT() {
 		return WINDOW_HEIGHT;
 	}

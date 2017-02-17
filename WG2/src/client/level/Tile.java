@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 import data.MapData;
+import data.TileData;
 
 public class Tile implements MapData {
 	private int type;//the type
@@ -12,7 +13,7 @@ public class Tile implements MapData {
 
 	public Tile(int r, int c, int type) {
 		this.type = type;
-		if (type!=0) solid = true;//if type isnt 0, make it solid
+		solid = TileData.getSolid(type);
 		this.bounds = new Rectangle(c, r, 1, 1);//switched r and c
 	}
 

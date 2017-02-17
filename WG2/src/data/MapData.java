@@ -1,19 +1,24 @@
 package data;
 
 public interface MapData {
-
 	public static int[][] getMap() {//takes given map and adds 1's around it
-		final int[][] map = map0;//<<														<<CHANGE THIS FOR A DIFFERENT MAP<<
-		int[][] output = new int[map.length+2][map[0].length+2];
-
+		final int[][] map = map0;//<<														<<CHANGE THIS FOR A DIFFERENT MAP<<		
+		System.out.println("Map size: "+map.length+","+map[0].length);
+		int[][] output = new int[map.length+2][map[0].length+2];//new array size of map +1 on every side
 		for (int r = 0;r<output.length;r++) {
 			for (int c = 0;c<output[0].length;c++) {
-				output[r][c] = 1;
+				output[r][c] = 1;//sets all to 1
 			}
 		}
 		for (int r = 0;r<map.length;r++) {
 			for (int c = 0;c<map[0].length;c++) {
-				output[r+1][c+1] = map[r][c];
+				try {
+					output[r+1][c+1] = map[r][c];
+				}
+				catch (Exception e) {//if there is nothing in the given array at r,c
+					System.out.println("Map is not rectanglular. Error at: "+r+","+c);
+					output[r+1][c+1] = -1;
+				}
 			}
 		}
 		return output;

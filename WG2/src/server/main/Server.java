@@ -8,8 +8,8 @@ public class Server implements NetData {
 //	private static ServerUpdateLoop updateLoop;
 
 	public static void run(){
-		/*System.out.println("SERVER STARTED");
-		ServerUDPRecieverThread server = new ServerUDPRecieverThread();
+		System.out.println("SERVER STARTED");
+		/*ServerUDPRecieverThread server = new ServerUDPRecieverThread();
 		Thread serverThread = new Thread(server, "SERVER THREAD");
 		serverThread.start();*/
 	}
