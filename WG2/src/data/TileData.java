@@ -3,19 +3,18 @@ package data;
 public interface TileData {
 	public static boolean getSolid(int type) {
 		boolean solid;
-		
 		switch (type) {
-		case 0:
+		case 0://empty don't change
 			solid = false;
 			break;
-		case 1:
+		case 1://wall don't change
 			solid = true;
 			break;
 		case 2:
 			solid = false;
 			break;
 		case 3:
-			solid = false;
+		        solid = false;
 			break;
 		case 4:
 			solid = false;
@@ -38,9 +37,6 @@ public interface TileData {
 		default:
 			solid = false;
 		}
-		
-		
-		
 		return solid;
 	}
 }
