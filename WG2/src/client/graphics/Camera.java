@@ -1,7 +1,7 @@
 package client.graphics;
 
 import client.game.Game;
-import data.WindowData;
+import shared.data.WindowData;
 
 public class Camera implements WindowData {
 	private static double x, y, scaleRatio;

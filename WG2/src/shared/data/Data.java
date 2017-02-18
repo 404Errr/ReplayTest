@@ -1,4 +1,4 @@
-package data;
+package shared.data;
 
 public interface Data {
 	public static final int UPS = 60;//the updates per second

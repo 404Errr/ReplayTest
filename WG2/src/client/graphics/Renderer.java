@@ -10,11 +10,11 @@ import javax.swing.JPanel;
 import client.game.Game;
 import client.input.Cursor;
 import client.level.Level;
-import data.ColorData;
-import data.Data;
-import data.PlayerData;
-import data.WindowData;
-import util.Util;
+import shared.data.ColorData;
+import shared.data.Data;
+import shared.data.PlayerData;
+import shared.data.WindowData;
+import shared.util.Util;
 
 @SuppressWarnings("serial")
 public class Renderer extends JPanel implements ColorData, PlayerData, WindowData {

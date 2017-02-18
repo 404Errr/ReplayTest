@@ -1,4 +1,4 @@
-package data;
+package shared.data;
 
 public interface MapData {
 	public static final String MAP = "map0";

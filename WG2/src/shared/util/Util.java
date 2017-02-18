@@ -1,4 +1,4 @@
-package util;
+package shared.util;
 
 import java.awt.Polygon;
 import java.awt.Rectangle;

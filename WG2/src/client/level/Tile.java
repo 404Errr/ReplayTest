@@ -2,8 +2,8 @@ package client.level;
 
 import java.awt.geom.Rectangle2D;
 
-import data.MapData;
-import data.TileData;
+import shared.data.MapData;
+import shared.data.TileData;
 
 public class Tile implements MapData {
 	private int type;//the type

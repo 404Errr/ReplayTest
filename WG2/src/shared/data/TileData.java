@@ -1,4 +1,4 @@
-package data;
+package shared.data;
 
 public interface TileData {
 	public static boolean getSolid(int type) {

@@ -3,8 +3,8 @@ package client.player;
 import java.awt.geom.Rectangle2D;
 
 import client.level.Tile;
-import data.Data;
-import data.PlayerData;
+import shared.data.Data;
+import shared.data.PlayerData;
 
 public class PlayerHitbox implements Data, PlayerData {
 

@@ -1,4 +1,4 @@
-package data;
+package shared.data;
 
 import java.awt.event.KeyEvent;
 

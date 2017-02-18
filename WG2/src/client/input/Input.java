@@ -16,8 +16,8 @@ import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Renderer;
 import client.graphics.Window;
-import data.Controls;
-import data.Data;
+import shared.data.Controls;
+import shared.data.Data;
 
 public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, Controls, Data {
 	@Override

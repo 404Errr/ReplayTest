@@ -7,7 +7,7 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 
 import client.input.Input;
-import data.WindowData;
+import shared.data.WindowData;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame implements WindowData {

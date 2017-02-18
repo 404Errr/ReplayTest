@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import data.NetData;
+import shared.data.NetData;
 
 public class ServerConnector implements NetData {
 	private static ArrayList<Socket> sockets = new ArrayList<>();
@@ -16,6 +16,7 @@ public class ServerConnector implements NetData {
 		ServerSocket serverSocket = null;
 		try {
 			serverSocket = new ServerSocket(PORT);
+			System.out.println("Server started with port: "+PORT+"\nWaiting...");
 		}
 		catch (Exception e) {
 			System.err.println("Failed with port: "+PORT);
@@ -23,22 +24,19 @@ public class ServerConnector implements NetData {
 			System.exit(0);
 		}
 		try {
-			System.out.println("Server started with port: "+PORT+"\nWaiting...");
-			//while (running) {
+			while (true) {
 				Socket clientSocket = serverSocket.accept();
 				sockets.add(clientSocket);
-				System.out.println("Client connected: "+clientSocket.getInetAddress()+":"+clientSocket.getPort());
-				ServerTCPSender sender = new ServerTCPSender();
-				ServerTCPReciever reciever = new ServerTCPReciever();
-				sender.setSocket(clientSocket);
-				reciever.setSocket(clientSocket);
+				System.out.println("Client connected: "+clientSocket.getInetAddress().toString().substring(1)+":"+clientSocket.getPort());
+				ServerTCPSender sender = new ServerTCPSender(clientSocket);
+				ServerTCPReciever reciever = new ServerTCPReciever(clientSocket);
 				tcpSenders.add(sender);
 				tcpRecievers.add(reciever);
 				Thread senderThread = new Thread(sender, "Sender "+tcpSenders.indexOf(sender));
 				Thread recieverThread = new Thread(reciever, "Reciever "+tcpSenders.indexOf(reciever));
 				senderThread.start();
 				recieverThread.start();
-			//}
+			}
 		}
 		catch (IOException e) {}
 	}

@@ -1,4 +1,4 @@
-package data;
+package shared.data;
 
 public interface WindowData {
 	public static final double DEFAULT_SCALE_RATIO = 0.035d;

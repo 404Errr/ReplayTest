@@ -1,4 +1,4 @@
-package data;
+package shared.data;
 
 public interface PlayerData {
 	public static final double PLAYER_SIZE = 1;//size of the player relative to the size of each tile

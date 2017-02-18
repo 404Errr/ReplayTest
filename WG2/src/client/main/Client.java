@@ -5,7 +5,7 @@ import client.graphics.Camera;
 import client.graphics.Window;
 import client.level.Level;
 import client.net.ClientConnector;
-import data.NetData;
+import shared.data.NetData;
 
 public class Client implements NetData {
 	public static boolean RUNNING = true;

@@ -1,7 +1,7 @@
 package server.main;
 
-import data.NetData;
 import server.net.ServerConnector;
+import shared.data.NetData;
 
 public class Server implements NetData {
 //	private static ServerUpdateLoop updateLoop;

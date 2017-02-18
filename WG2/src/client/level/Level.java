@@ -1,6 +1,6 @@
 package client.level;
 
-import data.MapData;
+import shared.data.MapData;
 
 public class Level implements MapData {
 	private static Tile[][] tiles;
