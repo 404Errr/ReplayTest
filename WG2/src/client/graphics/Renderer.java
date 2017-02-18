@@ -24,13 +24,9 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 	@Override
 	public void paint(Graphics g0) {
 		g = (Graphics2D) g0;
-		Graphics2D g = (Graphics2D) g0;
 		super.paintComponent(g);
 		drawTiles();
-//		drawPlayers();
-
 		if (debug) drawDebug();
-
 		drawPlayer();
 	}
 
