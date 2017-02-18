@@ -44,9 +44,10 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 		g.drawString("Facing = "+Game.getPlayer().getFacing()+" ("+a+")", 20, 120);
 		g.drawString("Cursor = "+Cursor.getX()+","+Cursor.getY()+" ("+Cursor.getXGrid()+","+Cursor.getYGrid()+")", 20, 135);
 
+		g.setColor(COLOR_DEBUG_GREEN);
 		g.setStroke(new BasicStroke(1));
-		final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2;
-		g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), 100)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), 100)+h));
+		final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2, lineLength = 150;
+		g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));
 	}
 
 	private void drawPlayer() {
@@ -57,6 +58,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 	}
 
 	private void drawTiles() {
+		if (Game.getPlayer()==null) return;
 		int renderDistanceX = RENDER_DISTANCE_X, renderDistanceY = RENDER_DISTANCE_Y;
 		if ((renderDistanceX<0||renderDistanceY<0)&&Window.getScale()!=0) {
 			renderDistanceX = Window.getWindowWidth()/Window.getScale()/2+2;

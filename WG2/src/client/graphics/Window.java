@@ -1,5 +1,6 @@
 package client.graphics;
 
+import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
@@ -14,7 +15,6 @@ public class Window extends JFrame implements WindowData {
 	private static JFrame frame;
 	private static Input input;
 	private static Renderer rendererer;
-	private static GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 	private static int scale;
 
 	public static void init() {
@@ -24,9 +24,11 @@ public class Window extends JFrame implements WindowData {
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout());
 		frame.setTitle("WG2");
-		frame.setSize((int)(screen.getDisplayMode().getWidth()*DEFAULT_WINDOW_SCREEN_RATIO), (int)(screen.getDisplayMode().getHeight()*DEFAULT_WINDOW_SCREEN_RATIO));
-		frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH);
+		GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		frame.setPreferredSize(new Dimension((int)(screen.getDisplayMode().getWidth()*DEFAULT_WINDOW_SCREEN_RATIO), (int)(screen.getDisplayMode().getHeight()*DEFAULT_WINDOW_SCREEN_RATIO)));
+		frame.pack();
 		frame.setLocationRelativeTo(null);
+		frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH);
 		frame.addKeyListener(input);
 		frame.addMouseMotionListener(input);
 		frame.addMouseListener(input);
@@ -35,8 +37,8 @@ public class Window extends JFrame implements WindowData {
 		frame.addComponentListener(input);
 		frame.add(rendererer);
 		updateScale();
-		frame.setVisible(true);
 		System.out.println("Window: "+getWindowWidth()+","+getWindowHeight()+" SCALE: "+getScale());
+		frame.setVisible(true);
 	}
 
 	public static void updateScale() {//can go below 0 (potential bug)
