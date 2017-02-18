@@ -3,37 +3,31 @@ package client.game;
 import java.util.ArrayList;
 
 import client.player.ControlledPlayer;
-import client.projectile.Projectile;
+import client.player.Player;
 
 public class Game {
 	private static ControlledPlayer player;//the user's player
-	private static ArrayList<ControlledPlayer> players;//all players
-	private static ArrayList<Projectile> projectiles;//all projectiles
+	private static ArrayList<Player> players;//all players
 
 	public static void init() {
 		players = new ArrayList<>();
-		projectiles = new ArrayList<>();
-		players.add(new ControlledPlayer(1,1));
-		player = players.get(0);//player is the first player in players
+		player = new ControlledPlayer(1,1);//the human player is the first player in players
+		players.add(player);
+	}
+
+	public static void addPlayer(Player player) {
+		players.add(player);
 	}
 
 	public static ControlledPlayer getPlayer() {
 		return player;
 	}
 
-	public static ArrayList<ControlledPlayer> getPlayers() {
+	public static Player getPlayer(int player) {
+		return players.get(player);
+	}
+
+	public static ArrayList<Player> getPlayers() {
 		return players;
-	}
-
-	public static void addProjectile(Projectile projectile) {
-		projectiles.add(projectile);
-	}
-
-	public static ArrayList<Projectile> getProjectiles() {
-		return projectiles;
-	}
-
-	public static Projectile getProjectile(int projectile) {
-		return projectiles.get(projectile);
 	}
 }

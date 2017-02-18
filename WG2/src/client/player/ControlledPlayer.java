@@ -20,7 +20,7 @@ public class ControlledPlayer extends Player implements PlayerData, Data {
 		super.checkCollision();//check for collision (neccessary)
 	}
 
-	private void turn() {//FIXME
+	private void turn() {
 		setFacing(Util.getAngle(x, y, Cursor.getXGrid(), Cursor.getYGrid()));//rotate the player toward cursor
 	}
 

@@ -4,8 +4,7 @@ import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Window;
 import client.input.Cursor;
-import client.player.ControlledPlayer;
-import client.projectile.Projectile;
+import client.player.Player;
 import shared.data.Data;
 
 public class ClientUpdateLoop implements Runnable, Data {
@@ -32,11 +31,8 @@ public class ClientUpdateLoop implements Runnable, Data {
 	private void update() {
 		try {
 			Cursor.tick();
-			for (ControlledPlayer player:Game.getPlayers()) {
+			for (Player player:Game.getPlayers()) {
 				player.tick();
-			}
-			for (Projectile projectile:Game.getProjectiles()) {
-				projectile.tick();
 			}
 			Camera.tick();
 		}
