@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Main {
-	private static final boolean SHOW_DIALOG = true;
+	private static final boolean SHOW_DIALOG = false;
 
 	public static void main(String[] args) {
 		if (SHOW_DIALOG) {

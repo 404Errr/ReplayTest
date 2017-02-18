@@ -6,26 +6,18 @@ import data.MapData;
 import data.TileData;
 
 public class Tile implements MapData {
-	private int c, r, type;//the type
+	private int type;//the type
 	private boolean solid;//if its solid (wall collision)
+	private Rectangle2D bounds;
 
 	public Tile(int r, int c, int type) {
 		this.type = type;
 		solid = TileData.getSolid(type);
-		this.c = c;
-		this.r = r;
+		bounds = new Rectangle2D.Double(c, r, 1, 1);
 	}
 
 	public Rectangle2D getBounds() {
-		return new Rectangle2D.Double(c, r, 1, 1);
-	}
-
-	public int getC() {
-		return c;
-	}
-
-	public int getR() {
-		return r;
+		return bounds;
 	}
 
 	public boolean isSolid() {

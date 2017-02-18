@@ -1,6 +1,5 @@
 package client.graphics;
 
-import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
@@ -16,7 +15,7 @@ public class Window extends JFrame implements WindowData {
 	private static Input input;
 	private static Renderer rendererer;
 	private static GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-	private static int windowHeight, windowWidth, scale;
+	private static int scale;
 
 	public static void init() {
 		rendererer = new Renderer();
@@ -24,12 +23,8 @@ public class Window extends JFrame implements WindowData {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout());
-		int width = screen.getDisplayMode().getWidth(), height = screen.getDisplayMode().getHeight();
-		windowWidth = (int)(width*DEFAULT_WINDOW_SCREEN_RATIO);
-		windowHeight = (int)(height*DEFAULT_WINDOW_SCREEN_RATIO);
-		frame.setSize(new Dimension(windowWidth, windowHeight));
+		frame.setSize((int)(screen.getDisplayMode().getWidth()*DEFAULT_WINDOW_SCREEN_RATIO), (int)(screen.getDisplayMode().getHeight()*DEFAULT_WINDOW_SCREEN_RATIO));
 		frame.setTitle("WG2");
-		updateScreenSize();
 		frame.setLocationRelativeTo(null);
 		frame.addKeyListener(input);
 		frame.addMouseMotionListener(input);
@@ -38,17 +33,14 @@ public class Window extends JFrame implements WindowData {
 		frame.addWindowListener(input);
 		frame.addComponentListener(input);
 		frame.add(rendererer);
+		updateScreenSize();
 		frame.setVisible(true);
-		System.out.println("Window: "+windowWidth+","+windowHeight+" SCALE: "+getScale());
+		System.out.println("Window: "+getWindowWidth()+","+getWindowHeight()+" SCALE: "+getScale());
 	}
 
-
 	public static void updateScreenSize() {
-		int width = frame.getWidth(), height = frame.getHeight();
-		int screenSize = Math.min(width, height);
+		int screenSize = Math.min(frame.getWidth(), frame.getHeight());
 		scale = (int)(screenSize*SCALE_RATIO);
-		windowWidth = (int)(width*DEFAULT_WINDOW_SCREEN_RATIO);
-		windowHeight = (int)(height*DEFAULT_WINDOW_SCREEN_RATIO);
 	}
 
 	public static Renderer getRendererer() {
@@ -56,11 +48,11 @@ public class Window extends JFrame implements WindowData {
 	}
 
 	public static int getWindowHeight() {
-		return windowHeight;
+		return frame.getHeight();
 	}
 
 	public static int getWindowWidth() {
-		return windowWidth;
+		return frame.getWidth();
 	}
 
 	public static int getScale() {

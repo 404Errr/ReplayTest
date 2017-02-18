@@ -4,6 +4,9 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Util {
 
@@ -83,5 +86,26 @@ public class Util {
 
 	public static double getYComp(double angle, double magnitude) {
 		return Math.sin(angle)*magnitude;
+	}
+
+	public static String fileToString(String path) {
+		try {
+			File theFile = new File(path);
+			Scanner scan = new Scanner(theFile);
+			StringBuilder output = new StringBuilder();
+			while (scan.hasNextLine()) {
+				output.append(scan.nextLine());
+			}
+			try {
+				return output.toString();
+			}
+			finally {
+				scan.close();
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("Can't find file at: "+path);
+			System.exit(0);
+		}
+		return null;
 	}
 }
