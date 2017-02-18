@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import client.game.Game;
 import client.input.Cursor;
 import client.level.Level;
+import client.projectile.Projectile;
 import shared.data.ColorData;
 import shared.data.Data;
 import shared.data.PlayerData;
@@ -27,13 +28,26 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 		super.paintComponent(g);
 		drawTiles();
 		if (debug) drawDebug();
+		drawProjectiles();
 		drawPlayer();
+
+
+	}
+
+	private void drawProjectiles() {
+		for (int i = 0;i<Game.getProjectiles().size();i++) {
+			drawProjectile(Game.getProjectiles().get(i));
+		}
+	}
+
+	private void drawProjectile(Projectile projectile) {
+		g.setColor(projectile.color);
 	}
 
 	private void drawDebug() {
 		g.setColor(COLOR_DEBUG_GREEN);
 		g.setFont(new Font("Helvetica", Font.BOLD, 15));
-		g.drawString("Window = "+Window.getWindowWidth()+"x"+Window.getWindowHeight()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Window.getScale(), 20, 30);
+		g.drawString("Window = "+Window.getWindowWidth()+"x"+Window.getWindowHeight()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Window.getScale()+" Zoomed = "+Camera.cursorZoom(), 20, 30);
 		g.drawString("X, Y = "+Game.getPlayer().getXTile()+", "+Game.getPlayer().getYTile(), 20, 45);
 		g.drawString("X, Y = ("+Game.getPlayer().getX()+", "+Game.getPlayer().getY()+")", 20, 60);
 		g.drawString("velocity (m/s) = "+Math.hypot(Game.getPlayer().getdX(), Game.getPlayer().getdY())*Data.UPS, 20, 75);
@@ -42,19 +56,26 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 		double a = Math.toDegrees(Game.getPlayer().getFacing());
 		if (a<0) a+=360;
 		g.drawString("Facing = "+Game.getPlayer().getFacing()+" ("+a+")", 20, 120);
-		g.drawString("Cursor = "+Cursor.getX()+","+Cursor.getY()+" ("+Cursor.getXGrid()+","+Cursor.getYGrid()+")", 20, 135);
+		g.drawString("Cursor = "+Cursor.getX()+","+Cursor.getY()+" ("+Cursor.getXPlayer()+","+Cursor.getYPlayer()+")", 20, 135);
 
 		g.setColor(COLOR_DEBUG_GREEN);
 		g.setStroke(new BasicStroke(1));
 		final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2, lineLength = 150;
 		g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));
+
+		g.drawLine(w, h, (int)(Cursor.getXPlayer()*Window.getScale()+w), (int)(Cursor.getYPlayer()*Window.getScale()+h));
 	}
 
 	private void drawPlayer() {
 		g.setColor(COLOR_PLAYER);
 		int offset = 0;
 		if (Window.getScale()%2!=0) offset = -1;
-		g.fillRect(Window.getWindowWidth()/2-(int)(PLAYER_SIZE*Window.getScale()/2)+offset, Window.getWindowHeight()/2-(int)(PLAYER_SIZE*Window.getScale()/2)+offset, (int)(PLAYER_SIZE*Window.getScale()), (int)(PLAYER_SIZE*Window.getScale()));
+		if (Camera.cursorZoom()) {
+			g.fillRect(Window.getWindowWidth()/2-(int)(PLAYER_SIZE*Window.getScale()/2)+offset-(int)(Cursor.getXPlayer()*Window.getScale()), Window.getWindowHeight()/2-(int)(PLAYER_SIZE*Window.getScale()/2)+offset-(int)(Cursor.getYPlayer()*Window.getScale()), (int)(PLAYER_SIZE*Window.getScale()), (int)(PLAYER_SIZE*Window.getScale()));
+		}
+		else {
+			g.fillRect(Window.getWindowWidth()/2-(int)(PLAYER_SIZE*Window.getScale()/2)+offset, Window.getWindowHeight()/2-(int)(PLAYER_SIZE*Window.getScale()/2)+offset, (int)(PLAYER_SIZE*Window.getScale()), (int)(PLAYER_SIZE*Window.getScale()));
+		}
 	}
 
 	private void drawTiles() {
@@ -64,8 +85,8 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 			renderDistanceX = Window.getWindowWidth()/Window.getScale()/2+2;
 			renderDistanceY = Window.getWindowHeight()/Window.getScale()/2+2;
 		}
-		for (int r = Game.getPlayer().getYTile()-renderDistanceY;r<Game.getPlayer().getYTile()+renderDistanceY;r++) {
-			for (int c = Game.getPlayer().getXTile()-renderDistanceX;c<Game.getPlayer().getXTile()+renderDistanceX;c++) {
+		for (int r = Camera.getYTile()-renderDistanceY;r<Camera.getYTile()+renderDistanceY;r++) {
+			for (int c = Camera.getXTile()-renderDistanceX;c<Camera.getXTile()+renderDistanceX;c++) {
 				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()) {
 					g.setColor(ColorData.getTileColor(Level.getTile(r, c).getType()));
 					g.fillRect((int)((c-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((r-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2), Window.getScale(), Window.getScale());

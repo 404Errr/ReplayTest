@@ -79,16 +79,29 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		Cursor.updateMouse(e);
 	}
 
+	public static void click(MouseEvent e, boolean down) {
+		switch (e.getButton()) {
+		case MouseEvent.BUTTON1://left
+			break;
+		case MouseEvent.BUTTON2://middle
+			break;
+		case MouseEvent.BUTTON3://right
+			Camera.setCursorZoom(down);
+			break;
+		}
+	}
+
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		Cursor.updateMouse(e);
-		Cursor.click(e, true);
+		click(e, true);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		Cursor.updateMouse(e);
-		Cursor.click(e, false);
+		click(e, false);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package client.net;
+/*package client.net;
 
 import java.net.Socket;
 
@@ -8,8 +8,7 @@ public class ClientConnector implements NetData {
 	public static void connectToServer() {
 		try {
 			Socket clientSocket = new Socket(IP, PORT);
-			new ClientTCPNet(clientSocket);
-
+			new ClientNet(clientSocket);
 			System.out.println("Connected to: "+IP+":"+PORT);
 		}
 		catch (Exception e) {
@@ -18,3 +17,4 @@ public class ClientConnector implements NetData {
 		}
 	}
 }
+*/

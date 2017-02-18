@@ -37,7 +37,7 @@ public class Player implements PlayerData, Data {
 		this.facing = facing;
 	}
 
-	protected void checkWallCollision() {
+	private void checkWallCollision() {
 		final int radius = 2;
 		for (int r = (int)y-radius;r<y+radius;r++) {//for each row within the radius
 			for (int c = (int)x-radius;c<x+radius;c++) {//for each collumn within the radius

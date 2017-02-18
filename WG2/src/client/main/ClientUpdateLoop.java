@@ -4,7 +4,6 @@ import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Window;
 import client.input.Cursor;
-import client.player.Player;
 import shared.data.Data;
 
 public class ClientUpdateLoop implements Runnable, Data {
@@ -31,9 +30,7 @@ public class ClientUpdateLoop implements Runnable, Data {
 	private void update() {
 		try {
 			Cursor.tick();
-			for (Player player:Game.getPlayers()) {
-				player.tick();
-			}
+			Game.getPlayer().tick();
 			Camera.tick();
 		}
 		catch (Exception e) {
