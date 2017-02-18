@@ -3,6 +3,8 @@ package data;
 import java.awt.event.KeyEvent;
 
 public interface Controls {
+	public static double ZOOM_INCREMENT = 0.001d;
+
 	public static int DEBUG_KEY = KeyEvent.VK_F3;
 
 	public static int UP_KEY_0 = KeyEvent.VK_W;

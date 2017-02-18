@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import client.game.Game;
+import client.graphics.Camera;
 import client.graphics.Renderer;
 import client.graphics.Window;
 import data.Controls;
@@ -56,44 +57,72 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		}
 	}
 
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		if (e.getWheelRotation()>0) {//zoom out
+			Camera.changeScaleRatio(-ZOOM_INCREMENT);
+		}
+		else {//zoom in
+			Camera.changeScaleRatio(ZOOM_INCREMENT);
+		}
+		Window.updateScale();
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		Cursor.updateMouse(e);
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		Cursor.updateMouse(e);
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		Cursor.updateMouse(e);
+		Cursor.click(e, true);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		Cursor.updateMouse(e);
+		Cursor.click(e, false);
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		Window.updateScale();
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {}
+	@Override
+	public void componentMoved(ComponentEvent e) {}
 	@Override
 	public void keyTyped(KeyEvent e) {}
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 	@Override
-	public void mouseDragged(MouseEvent e) {Cursor.updateMouse(e);}
-	@Override
 	public void mouseEntered(MouseEvent e) {}
 	@Override
 	public void mouseExited(MouseEvent e) {}
 	@Override
-	public void mouseMoved(MouseEvent e) {Cursor.updateMouse(e);}
+	public void componentShown(ComponentEvent e) {}
 	@Override
-	public void mousePressed(MouseEvent e) {Cursor.updateMouse(e);Cursor.click(e, true);}
+	public void windowActivated(WindowEvent e) {}
 	@Override
-	public void mouseReleased(MouseEvent e) {Cursor.updateMouse(e);Cursor.click(e, false);}
+	public void windowClosed(WindowEvent e) {}
 	@Override
-	public void mouseWheelMoved(MouseWheelEvent arg0) {}
+	public void windowClosing(WindowEvent e) {}
 	@Override
-	public void componentHidden(ComponentEvent arg0) {}
+	public void windowDeactivated(WindowEvent e) {}
 	@Override
-	public void componentMoved(ComponentEvent arg0) {}
+	public void windowDeiconified(WindowEvent e) {}
 	@Override
-	public void componentResized(ComponentEvent arg0) {Window.updateScreenSize();}
+	public void windowIconified(WindowEvent e) {}
 	@Override
-	public void componentShown(ComponentEvent arg0) {}
-	@Override
-	public void windowActivated(WindowEvent arg0) {}
-	@Override
-	public void windowClosed(WindowEvent arg0) {}
-	@Override
-	public void windowClosing(WindowEvent arg0) {}
-	@Override
-	public void windowDeactivated(WindowEvent arg0) {}
-	@Override
-	public void windowDeiconified(WindowEvent arg0) {}
-	@Override
-	public void windowIconified(WindowEvent arg0) {}
-	@Override
-	public void windowOpened(WindowEvent arg0) {}
+	public void windowOpened(WindowEvent e) {}
 }
+

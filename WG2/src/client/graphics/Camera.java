@@ -1,12 +1,13 @@
 package client.graphics;
 
 import client.game.Game;
+import data.WindowData;
 
-public class Camera {
-	private static double x, y;
+public class Camera implements WindowData {
+	private static double x, y, scaleRatio;
 
 	public static void init() {
-		//not used
+		scaleRatio = DEFAULT_SCALE_RATIO;
 	}
 
 	public static void tick() {
@@ -22,17 +23,16 @@ public class Camera {
 		return x;
 	}
 
-	public static void setX(double x) {
-		Camera.x = x;
-	}
-
 	public static double getY() {
 		return y;
 	}
 
-	public static void setY(double y) {
-		Camera.y = y;
+	public static double getScaleRatio() {
+		return scaleRatio;
 	}
 
+	public static void changeScaleRatio(double dScaleRatio) {//"zoom"
+		scaleRatio+=dScaleRatio;
+	}
 
 }

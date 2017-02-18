@@ -18,9 +18,9 @@ public class Client implements NetData {
 			ClientConnector.connectToServer();
 		}
 		Level.init();
+		Camera.init();
 		Window.init();
 		Game.init();
-		Camera.init();
 		updateLoop = new ClientUpdateLoop();
 		Thread update = new Thread(updateLoop, "Loop");
 		update.start();

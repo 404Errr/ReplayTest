@@ -13,7 +13,7 @@ public class Game {
 	public static void init() {
 		players = new ArrayList<>();
 		projectiles = new ArrayList<>();
-		players.add(new Player(16,14));
+		players.add(new Player(1,1));
 		player = players.get(0);//player is the first player in players
 	}
 

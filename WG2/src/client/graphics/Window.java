@@ -33,14 +33,14 @@ public class Window extends JFrame implements WindowData {
 		frame.addWindowListener(input);
 		frame.addComponentListener(input);
 		frame.add(rendererer);
-		updateScreenSize();
+		updateScale();
 		frame.setVisible(true);
 		System.out.println("Window: "+getWindowWidth()+","+getWindowHeight()+" SCALE: "+getScale());
 	}
 
-	public static void updateScreenSize() {
+	public static void updateScale() {//can go below 0 (potential bug)
 		int screenSize = Math.min(frame.getWidth(), frame.getHeight());
-		scale = (int)(screenSize*SCALE_RATIO);
+		scale = (int)(screenSize*Camera.getScaleRatio());
 	}
 
 	public static Renderer getRendererer() {

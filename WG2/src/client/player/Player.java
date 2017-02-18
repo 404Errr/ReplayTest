@@ -58,7 +58,7 @@ public class Player implements PlayerData, Data {
 		checkCollision();//check for collision (neccessary)
 	}
 
-	private void turn() {
+	private void turn() {//FIXME
 		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
 	}
 
@@ -185,6 +185,14 @@ public class Player implements PlayerData, Data {
 
 	public double getY() {
 		return y;
+	}
+
+	public int getXTile() {
+		return (int)Math.round(x);
+	}
+
+	public int getYTile() {
+		return (int)Math.round(y);
 	}
 
 	public double getdX() {

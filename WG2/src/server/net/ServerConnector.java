@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import data.NetData;
 
 public class ServerConnector implements NetData {
-	private static boolean running = true;
-
 	private static ArrayList<Socket> sockets = new ArrayList<>();
 	private static ArrayList<ServerTCPSender> tcpSenders = new ArrayList<>();
 	private static ArrayList<ServerTCPReciever> tcpRecievers = new ArrayList<>();
