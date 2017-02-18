@@ -1,16 +1,23 @@
-//WG 2: The Hardening
+/*
+ * WG 2: The Hardening
+ *
+ * TODO:
+ * prompt for ip/port
+ *
+ *
+ */
 package main;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Main {
-	private static final boolean SHOW_DIALOG = false;
-	
+	private static final boolean SHOW_DIALOG = true;
+
 	public static void main(String[] args) {
 		if (SHOW_DIALOG) {
-			Object[] options = {"OFFLINE CLIENT", "CLIENT", "SERVER"};
-			int run = JOptionPane.showOptionDialog(new JFrame(), "Press the first one.", "", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+			Object[] options = {"Offline client", "Client", "Server"};
+			int run = JOptionPane.showOptionDialog(new JFrame(), "Press the first one. (or ENTER)", "WG2", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 			switch (run) {
 			case 0:
 				client.main.Client.run(false);

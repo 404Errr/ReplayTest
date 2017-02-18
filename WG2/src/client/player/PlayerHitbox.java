@@ -29,7 +29,7 @@ public class PlayerHitbox implements Data, PlayerData {
 
 	public void move(double x, double y) {//move the hitbox to given x and y
 		setAllTouching(false);//set all values in touching to false
-		final double playerSize = PLAYER_SIZE, barWidth = 0.02d;//player size, width of hitbox rectangle
+		final double playerSize = PLAYER_SIZE, barWidth = PLAYER_HITBOX_WIDTH;//player size, width of hitbox rectangle
 		sides[UP].setRect(x+barWidth, y, playerSize-barWidth, barWidth);//move the bars
 		sides[DOWN].setRect(x+barWidth, y+playerSize, playerSize-barWidth, barWidth);
 		sides[RIGHT].setRect(x+playerSize, y+barWidth, barWidth, playerSize-barWidth);

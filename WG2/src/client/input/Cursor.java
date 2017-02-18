@@ -1,10 +1,10 @@
-package client.player;
+package client.input;
 
 import java.awt.event.MouseEvent;
 
 import client.game.Game;
 import client.graphics.Camera;
-import client.main.Client;
+import client.graphics.Window;
 import client.projectile.Projectile;
 
 public class Cursor {
@@ -21,8 +21,8 @@ public class Cursor {
 	}
 
 	public static void tick() {
-		gridX = (double)x/Client.getScale()+Camera.getX()-Client.getSCREEN_WIDTH()/2d/Client.getScale();
-		gridY = (double)y/Client.getScale()+Camera.getY()-Client.getSCREEN_HEIGHT()/2d/Client.getScale();
+		gridX = (double)x/Window.getScale()+Camera.getX()-Window.getWindowWidth()/2d/Window.getScale();
+		gridY = (double)y/Window.getScale()+Camera.getY()-Window.getWindowHeight()/2d/Window.getScale();
 	}
 
 	public static int getX() {

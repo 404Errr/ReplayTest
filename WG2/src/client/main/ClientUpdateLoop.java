@@ -3,7 +3,7 @@ package client.main;
 import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Window;
-import client.player.Cursor;
+import client.input.Cursor;
 import client.player.Player;
 import client.projectile.Projectile;
 import data.Data;
@@ -25,9 +25,7 @@ public class ClientUpdateLoop implements Runnable, Data {
 			try {
 				if (wait>0) Thread.sleep(wait);
 			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+			catch (Exception e) {}
 		}
 	}
 
@@ -41,11 +39,9 @@ public class ClientUpdateLoop implements Runnable, Data {
 				projectile.tick();
 			}
 			Camera.tick();
-//			System.out.println(Cursor.getGridX()+","+Cursor.getGridY());
-//			System.out.println(Game.getPlayer().getX()+","+Game.getPlayer().getY());
 		}
 		catch (Exception e) {
-			System.out.println("-UPDATE ERROR");
+			System.err.println("-UPDATE ERROR");
 			e.printStackTrace();
 		}
 	}

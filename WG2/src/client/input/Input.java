@@ -1,5 +1,7 @@
-package client.player;
+package client.input;
 
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -7,13 +9,16 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import client.game.Game;
 import client.graphics.Renderer;
+import client.graphics.Window;
 import data.Controls;
 import data.Data;
 
-public class UserInput implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, Controls, Data {
+public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, Controls, Data {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		playerMovement(e, true);
@@ -69,4 +74,26 @@ public class UserInput implements KeyListener, MouseMotionListener, MouseListene
 	public void mouseReleased(MouseEvent e) {Cursor.updateMouse(e);Cursor.click(e, false);}
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent arg0) {}
+	@Override
+	public void componentHidden(ComponentEvent arg0) {}
+	@Override
+	public void componentMoved(ComponentEvent arg0) {}
+	@Override
+	public void componentResized(ComponentEvent arg0) {Window.updateScreenSize();}
+	@Override
+	public void componentShown(ComponentEvent arg0) {}
+	@Override
+	public void windowActivated(WindowEvent arg0) {}
+	@Override
+	public void windowClosed(WindowEvent arg0) {}
+	@Override
+	public void windowClosing(WindowEvent arg0) {}
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {}
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {}
+	@Override
+	public void windowIconified(WindowEvent arg0) {}
+	@Override
+	public void windowOpened(WindowEvent arg0) {}
 }

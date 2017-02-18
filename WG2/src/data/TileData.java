@@ -14,7 +14,7 @@ public interface TileData {
 			solid = false;
 			break;
 		case 3:
-		        solid = false;
+			solid = false;
 			break;
 		case 4:
 			solid = false;

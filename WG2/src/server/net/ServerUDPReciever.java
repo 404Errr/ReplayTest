@@ -4,11 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 
 import net.PlayerPacket;
 
-public class ServerUDPRecieverThread implements Runnable {
+public class ServerUDPReciever implements Runnable {
 	DatagramSocket socket;
 	@Override
 	public void run() {
@@ -17,7 +16,7 @@ public class ServerUDPRecieverThread implements Runnable {
 			byte[] incomingData = new byte[1024];
 //			InetAddress IPAddress = InetAddress.getByName("localhost");//TODO change ip
 			while (true) {
-				
+
 				DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
 				socket.receive(incomingPacket);
 				byte[] data = incomingPacket.getData();
@@ -29,7 +28,7 @@ public class ServerUDPRecieverThread implements Runnable {
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,4 +1,4 @@
-package server.net;
+package client.net;
 
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import client.game.Game;
 import net.PlayerPacket;
 
-public class ServerUPDSenderThread implements Runnable {
+public class ClientUDPSender implements Runnable {
 
 	DatagramSocket socket;
 	@Override

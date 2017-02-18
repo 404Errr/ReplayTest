@@ -7,7 +7,7 @@ import java.net.DatagramSocket;
 
 import net.PlayerPacket;
 
-public class ClientUDPRecieverThread implements Runnable {
+public class ClientUDPReciever implements Runnable {
 	DatagramSocket socket;
 	@Override
 	public void run() {

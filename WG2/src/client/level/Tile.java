@@ -1,28 +1,31 @@
 package client.level;
 
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 import data.MapData;
 import data.TileData;
 
 public class Tile implements MapData {
-	private int type;//the type
-	private Rectangle2D bounds;//what to draw
+	private int c, r, type;//the type
 	private boolean solid;//if its solid (wall collision)
 
 	public Tile(int r, int c, int type) {
 		this.type = type;
 		solid = TileData.getSolid(type);
-		this.bounds = new Rectangle(c, r, 1, 1);//switched r and c
+		this.c = c;
+		this.r = r;
 	}
 
 	public Rectangle2D getBounds() {
-		return bounds;
+		return new Rectangle2D.Double(c, r, 1, 1);
 	}
 
-	public Rectangle2D getBounds(double xOffset, double yOffset) {//returns the bounds but offset
-		return new Rectangle2D.Double(bounds.getX()+xOffset, bounds.getY()+yOffset, bounds.getWidth(), bounds.getHeight());
+	public int getC() {
+		return c;
+	}
+
+	public int getR() {
+		return r;
 	}
 
 	public boolean isSolid() {
@@ -36,4 +39,6 @@ public class Tile implements MapData {
 	public int getType() {
 		return type;
 	}
+
+
 }

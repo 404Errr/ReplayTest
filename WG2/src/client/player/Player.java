@@ -1,10 +1,7 @@
 package client.player;
 
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
-
+import client.input.Cursor;
 import client.level.Level;
-import client.main.Client;
 import data.Data;
 import data.PlayerData;
 import util.Util;
@@ -42,9 +39,9 @@ public class Player implements PlayerData, Data {
 				}
 			}
 		}
-		for (int i = 0;i<4;i++) {//for canMove
+		for (int i = 0;i<4;i++) {//for every value in canMove
 			if (hitbox.getSides()[i]) {
-				setCanMove(i, false);//set canMove to the corresponding touching value in hitbox
+				setCanMove(i, false);//set canMove[i] to the corresponding touching value in the hitbox
 			}
 		}
 	}
@@ -148,13 +145,17 @@ public class Player implements PlayerData, Data {
 		}
 	}
 
-	private void speedLimitCheck() {//affects dX and dY
+	private boolean speedLimitCheck() {//returns true if it had to enforce the limit (not in use), affects dX and dY
+		boolean enforced = false;//if it enforced the limit
 		if (Math.abs(dX)>PLAYER_SPEED_LIMIT) {//if over the limit
 			dX = Math.signum(dX)*PLAYER_SPEED_LIMIT;//set to the limit
+			enforced = true;
 		}
 		if (Math.abs(dY)>PLAYER_SPEED_LIMIT) {
 			dY = Math.signum(dY)*PLAYER_SPEED_LIMIT;
+			enforced = true;
 		}
+		return enforced;
 	}
 
 	public void notMovingCheck() {//affects dX and dY
@@ -222,10 +223,6 @@ public class Player implements PlayerData, Data {
 
 	public void setMovementKeyPressed(int direction, boolean value ) {
 		movementKeyPressed[direction] = value;
-	}
-
-	public Rectangle2D getBounds(double offsetX, double offsetY) {//get the bounds of the player offset
-		return new Rectangle((int)((x+offsetX+PLAYER_SIZE/2)*Client.getScale()), (int)((y+offsetY+PLAYER_SIZE/2)*Client.getScale()), (int)(PLAYER_SIZE*Client.getScale()), (int)(PLAYER_SIZE*Client.getScale()));
 	}
 
 	public PlayerHitbox getHitbox() {

@@ -4,14 +4,11 @@ import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 
 import client.game.Game;
 import client.level.Level;
-import client.main.Client;
 import data.ColorData;
 import data.PlayerData;
 import util.Util;
@@ -33,6 +30,8 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 
 		drawPlayer();
 
+		System.out.println("");//TODO fix player offset
+
 	}
 
 	private void drawDebug() {
@@ -45,24 +44,28 @@ public class Renderer extends JPanel implements ColorData, PlayerData {
 
 		//direction player is facing
 		g.setStroke(new BasicStroke(1));
-		final int w = Client.getSCREEN_WIDTH()/2, h = Client.getSCREEN_HEIGHT()/2;
+		final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2;
 		g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), 100)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), 100)+h));
 	}
 
 	private void drawPlayer() {
-		int p = (int)(PLAYER_SIZE*Client.getScale()), w = Client.getSCREEN_WIDTH()/2, h = Client.getSCREEN_HEIGHT()/2;
+		int p = (int)(PLAYER_SIZE*Window.getScale()), w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2;
 		g.setColor(COLOR_PLAYER);
-		if (!Camera.lockToPlayer()) g.fill(Game.getPlayer().getBounds(0, 0));
-		else g.fillRect(w-p/2, h-p/2, p, p);
-
+		g.fillRect(w-(int)(PLAYER_SIZE*Window.getScale()/2), h-(int)(PLAYER_SIZE*Window.getScale()/2), (int)(PLAYER_SIZE*Window.getScale()), (int)(PLAYER_SIZE*Window.getScale()));
 	}
 
 	private void drawTiles() {
 		for (int r = 0;r<Level.getHeight();r++) {
 			for (int c = 0;c<Level.getWidth();c++) {
 				g.setColor(ColorData.getTileColor(Level.getTile(r, c).getType()));
-				Rectangle2D b = Level.getTile(r, c).getBounds();//for scrolling (maybe)
-				g.fill(new Rectangle((int)((b.getX()-Camera.getX())*Client.getScale()-PLAYER_SIZE/2*Client.getScale()+((Camera.lockToPlayer())?Client.getSCREEN_WIDTH()/2:0)), (int)((b.getY()-Camera.getY())*Client.getScale()-PLAYER_SIZE/2*Client.getScale()+((Camera.lockToPlayer())?Client.getSCREEN_HEIGHT()/2:0)), (int)(b.getWidth()*Client.getScale()), (int)(b.getHeight()*Client.getScale())));
+				g.fillRect(
+					(int)(c*Window.getScale()-Camera.getX()*Window.getScale()+Window.getWindowWidth()/2),
+					(int)(r*Window.getScale()-Camera.getY()*Window.getScale()+Window.getWindowHeight()/2),
+					Window.getScale(),
+					Window.getScale()
+				);
+//				Rectangle2D b = Level.getTile(r, c).getBounds();//for scrolling (maybe)
+//				g.fill(new Rectangle((int)((b.getX()-Camera.getX())*Window.getScale()-PLAYER_SIZE/2*Window.getScale()+Window.getWindowWidth()/2), (int)((b.getY()-Camera.getY())*Window.getScale()-PLAYER_SIZE/2*Window.getScale()+Window.getWindowHeight()/2), (int)(b.getWidth()*Window.getScale()), (int)(b.getHeight()*Window.getScale())));
 
 			}
 		}
