@@ -59,7 +59,7 @@ public class Player implements PlayerData, Data {
 	}
 
 	private void turn() {//FIXME
-		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
+		setFacing(Util.getAngle(x, y, Cursor.getXGrid(), Cursor.getYGrid()));//rotate the player toward cursor
 	}
 
 	private void move() {

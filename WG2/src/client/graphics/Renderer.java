@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import client.game.Game;
+import client.input.Cursor;
 import client.level.Level;
 import data.ColorData;
 import data.Data;
@@ -42,7 +43,10 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 		g.drawString("velocity (m/s) = "+Math.hypot(Game.getPlayer().getdX(), Game.getPlayer().getdY())*Data.UPS, 20, 75);
 		g.drawString("dx, dy = "+Game.getPlayer().getdX()+", "+Game.getPlayer().getdY(), 20, 90);
 		g.drawString("ddx, ddy = "+Game.getPlayer().getddX()+", "+Game.getPlayer().getddY(), 20, 105);
-		g.drawString("Facing = "+Game.getPlayer().getFacing()+" ("+Math.toDegrees(Game.getPlayer().getFacing())+")", 20, 120);
+		double a = Math.toDegrees(Game.getPlayer().getFacing());
+		if (a<0) a+=360;
+		g.drawString("Facing = "+Game.getPlayer().getFacing()+" ("+a+")", 20, 120);
+		g.drawString("Cursor = "+Cursor.getX()+","+Cursor.getY()+" ("+Cursor.getXGrid()+","+Cursor.getYGrid()+")", 20, 135);
 
 		g.setStroke(new BasicStroke(1));
 		final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2;
