@@ -16,10 +16,13 @@ import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Renderer;
 import client.graphics.Window;
+import client.projectile.Projectile;
 import shared.data.Controls;
 import shared.data.Data;
+import shared.data.PlayerData;
+import shared.util.Util;
 
-public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, Controls, Data {
+public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, Controls, Data, PlayerData {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		playerMovement(e, true);
@@ -96,6 +99,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	public void mousePressed(MouseEvent e) {
 		Cursor.updateMouse(e);
 		click(e, true);
+		if (e.getButton()==MouseEvent.BUTTON1) {
+			Game.getProjectiles().add(new Projectile(1, 0.15d, Game.getPlayer().getColor(), Game.getPlayer().getX()+PLAYER_SIZE/2, Game.getPlayer().getY()+PLAYER_SIZE/2, Game.getPlayer().getdX()+Util.getXComp(Game.getPlayer().getFacing(), 1), Game.getPlayer().getdY()-Util.getYComp(Game.getPlayer().getFacing(), 1)));
+		}
 	}
 
 	@Override

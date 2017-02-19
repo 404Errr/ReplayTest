@@ -1,5 +1,7 @@
 package client.player;
 
+import java.awt.Color;
+
 import client.input.Cursor;
 import shared.data.Data;
 import shared.data.PlayerData;
@@ -8,8 +10,8 @@ import shared.util.Util;
 public class ControlledPlayer extends Player implements PlayerData, Data {
 	private boolean[] movementKeyPressed;//r,d,l,u
 
-	public ControlledPlayer(double x, double y) {//creates at given x and y
-		super(x, y);
+	public ControlledPlayer(Color color, double x, double y) {//creates at given x and y
+		super(color, x, y);
 		movementKeyPressed = new boolean[4];
 	}
 

@@ -8,11 +8,11 @@ public interface ColorData {
 	public static final Color COLOR_DEBUG_GREEN = new Color(0,180,0,255);
 	public static final Color COLOR_ERROR = new Color(0x940e94);
 
-	public static final Color COLOR_TILE_0 = new Color(0x808080);//grey (floor)
+	public static final Color COLOR_TILE_0 = new Color(0x909090);//grey (floor)
 	public static final Color COLOR_TILE_1 = new Color(0x000000);//black (wall)
 	public static final Color COLOR_TILE_2 = new Color(0xa0a0a0);//light grey (shield)
-	public static final Color COLOR_TILE_3 = new Color(0xd0d0d0);//lighter grey (window)
-	public static final Color COLOR_TILE_4 = new Color(0x666666);//dark grey (other solid (barrier))
+	public static final Color COLOR_TILE_3 = new Color(0xe0e0e0);//lighter grey (window)
+	public static final Color COLOR_TILE_4 = new Color(0x353535);//dark grey (other solid (barrier))
 
 	//not in use
 	public static final Color COLOR_TILE_5 = COLOR_ERROR;

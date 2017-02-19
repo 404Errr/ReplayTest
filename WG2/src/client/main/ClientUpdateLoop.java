@@ -31,6 +31,12 @@ public class ClientUpdateLoop implements Runnable, Data {
 		try {
 			Cursor.tick();
 			Game.getPlayer().tick();
+			for (int i = 0;i<Game.getProjectiles().size();) {
+				if (Game.getProjectiles().get(i).tick()) {
+					Game.getProjectiles().remove(i);
+				}
+				else i++;
+			}
 			Camera.tick();
 		}
 		catch (Exception e) {

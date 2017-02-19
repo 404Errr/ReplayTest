@@ -1,16 +1,21 @@
 package client.player;
 
+import java.awt.Color;
+
 import client.level.Level;
 import shared.data.Data;
 import shared.data.PlayerData;
+import shared.data.TileData;
 
-public class Player implements PlayerData, Data {
+public class Player implements PlayerData, Data, TileData {
 	protected double x, y, dX, dY, ddX, ddY, facing;//facing is in radians
 	protected PlayerHitbox hitbox;
 	protected boolean[] canMove;//r,d,l,u
+	protected Color color;
 
-	public Player(double x, double y) {
+	public Player(Color color, double x, double y) {
 		move(x, y);
+		this.color = color;
 		hitbox = new PlayerHitbox();
 		canMove = new boolean[4];
 		setAllCanMove(false);//set all values in canMove to false
@@ -41,7 +46,7 @@ public class Player implements PlayerData, Data {
 		final int radius = 2;
 		for (int r = (int)y-radius;r<y+radius;r++) {//for each row within the radius
 			for (int c = (int)x-radius;c<x+radius;c++) {//for each collumn within the radius
-				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).isSolid()) {//bounds check and if tile is solid
+				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).isSolid(SOLID_WALLS)) {//bounds check and if tile is solid
 					hitbox.checkCollision(Level.getTile(r, c));//feed tile to hitbox
 				}
 			}
@@ -73,6 +78,10 @@ public class Player implements PlayerData, Data {
 
 	protected void setFacing(double facing) {
 		this.facing = facing;
+	}
+
+	public Color getColor() {
+		return color;
 	}
 
 	public double getX() {

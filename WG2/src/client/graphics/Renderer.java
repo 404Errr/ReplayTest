@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
 
@@ -32,6 +33,9 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 		drawPlayer();
 
 
+
+
+
 	}
 
 	private void drawProjectiles() {
@@ -41,7 +45,10 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 	}
 
 	private void drawProjectile(Projectile projectile) {
-		g.setColor(projectile.color);
+		g.setColor(projectile.getColor());
+		double x = projectile.getX(), y = projectile.getY(), size = projectile.getSize();
+//		g.fill(new Ellipse2D.Double((x-size/2)*Window.getScale(), (y-size/2)*Window.getScale(), size*Window.getScale(), size*Window.getScale()));
+		g.fill(new Ellipse2D.Double((x-Camera.getX()-size/2-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2, (y-Camera.getY()-size/2-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2, size*Window.getScale(), size*Window.getScale()));
 	}
 
 	private void drawDebug() {

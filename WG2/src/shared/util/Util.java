@@ -1,5 +1,6 @@
 package shared.util;
 
+import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
@@ -88,6 +89,15 @@ public class Util {
 		return Math.sin(angle)*magnitude;
 	}
 
+	public static Color colorOpacity(Color color, int opacity) {
+		return new Color(color.getRed(), color.getBlue(), color.getGreen(), opacity);
+	}
+
+	public static Color colorOpacity(Color color, float opacity) {
+		float[] colorComps = color.getRGBComponents(null);
+		return new Color(colorComps[0], colorComps[1], colorComps[2], opacity);
+	}
+
 	public static String fileToString(String path) {
 		try {
 			File theFile = new File(path);
@@ -102,7 +112,8 @@ public class Util {
 			finally {
 				scan.close();
 			}
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			System.err.println("Can't find file at: "+path);
 			System.exit(0);
 		}

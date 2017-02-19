@@ -7,7 +7,7 @@ import shared.data.TileData;
 
 public class Tile implements MapData {
 	private int type;//the type
-	private boolean solid;//if its solid (wall collision)
+	private boolean[] solid;//if its solid (0 = walls, 1 = projectiles)
 	private Rectangle2D bounds;
 
 	public Tile(int r, int c, int type) {
@@ -20,12 +20,8 @@ public class Tile implements MapData {
 		return bounds;
 	}
 
-	public boolean isSolid() {
-		return solid;
-	}
-
-	public void setSolid(boolean solid) {
-		this.solid = solid;
+	public boolean isSolid(int type) {
+		return solid[type];
 	}
 
 	public int getType() {
