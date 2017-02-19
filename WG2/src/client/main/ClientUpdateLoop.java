@@ -37,6 +37,12 @@ public class ClientUpdateLoop implements Runnable, Data {
 				}
 				else i++;
 			}
+			for (int i = 0;i<Game.getHitscans().size();) {
+				if (Game.getHitscans().get(i).tick()) {
+					Game.getHitscans().remove(i);
+				}
+				else i++;
+			}
 			Camera.tick();
 		}
 		catch (Exception e) {

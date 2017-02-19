@@ -5,7 +5,9 @@ import java.awt.event.KeyEvent;
 public interface Controls {
 	public static double ZOOM_INCREMENT = 0.001d;
 
-	public static int DEBUG_KEY = KeyEvent.VK_F3;
+	public static int DEBUG_CURSOR_LINE_KEY = KeyEvent.VK_F1;
+	public static int DEBUG_LOS_LINE_KEY = KeyEvent.VK_F2;
+	public static int DEBUG_TEXT_KEY = KeyEvent.VK_F3;
 
 	public static int UP_KEY_0 = KeyEvent.VK_W;
 	public static int DOWN_KEY_0 = KeyEvent.VK_S;

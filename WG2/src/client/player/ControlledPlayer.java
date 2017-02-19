@@ -57,8 +57,12 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 		dPosition(dX, dY);//move the player by the velocity
 	}
 
+	public void recoil(double dX, double dY) {
+		dPosition(dX, dY);
+	}
+
 	private void dPosition(double dX, double dY) {
-		double inc = 0.5d/UPS, remaining, sign;//inc - the increment between collision checks
+		double inc = /*0.5d*/0.25d/UPS, remaining, sign;//inc - the increment between collision checks
 		remaining = Math.abs(dX);//the magnitude of dX
 		sign = Math.signum(dX);//the sign of dX
 		while (remaining>0) {

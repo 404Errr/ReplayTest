@@ -27,8 +27,14 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		playerMovement(e, true);
 
 		switch (e.getKeyCode()) {
-		case DEBUG_KEY:
-			Renderer.toggleDebug();
+		case DEBUG_TEXT_KEY:
+			Renderer.toggleDebugText();
+			break;
+		case DEBUG_CURSOR_LINE_KEY:
+			Renderer.toggleDebugCursorLine();
+			break;
+		case DEBUG_LOS_LINE_KEY:
+			Renderer.toggleDebugLOSLine();
 			break;
 		case KeyEvent.VK_1:
 			Game.getPlayer().selectGun(0);

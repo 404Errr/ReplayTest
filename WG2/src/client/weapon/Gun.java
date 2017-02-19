@@ -2,6 +2,7 @@ package client.weapon;
 
 import client.game.Game;
 import client.input.Input;
+import client.projectile.Hitscan;
 import client.projectile.Projectile;
 import shared.data.WeaponData;
 import shared.util.Util;
@@ -22,15 +23,39 @@ public class Gun implements WeaponData {
 			else {
 				cooldown = 0;
 				if (Input.isMouse1Down()) {//if should shoot
-					shoot();
+					switch (type) {
+					case RAILGUN:
+						shootRailgun();
+						break;
+					case SHOTGUN:
+						shootShotgun();
+						break;
+					default:
+						shoot();
+						break;
+					}
 					cooldown = type.getCooldown();
 				}
 			}
 		}
 	}
 
-	public void shoot() {
-		double angle = Util.getAngleSpread(Game.getPlayer().getFacing(), type.getCOF()), speed = Util.getSpread(type.getProjectileSpeed(), type.getCOF()/10);
+	private void shootRailgun() {
+		double dX = Util.getXComp(Game.getPlayer().getFacing(), 1), dY = -Util.getYComp(Game.getPlayer().getFacing(), 1);
+		Game.addHitscan(new Hitscan(type.getDamage(), RAILGUN_INITIAL_WIDTH, Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), dX, dY));
+	}
+
+	private void shootShotgun() {
+		double gunAngle = Util.getAngleSpread(Game.getPlayer().getFacing(), type.getCOF());
+		for (int i = 0;i<SHOTGUN_PELLET_COUNT;i++) {
+			double angle = Util.getAngleSpread(gunAngle, SHOTGUN_SPREAD), speed = Util.getSpread(type.getProjectileSpeed(), type.getSpeedOffset());
+			double dX = Game.getPlayer().getdX()+Util.getXComp(angle, speed), dY = Game.getPlayer().getdY()-Util.getYComp(angle, speed);
+			Game.addProjectile(new Projectile(type.getDamage(), type.getProjectileSize(), Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), dX, dY));
+		}
+	}
+
+	private void shoot() {
+		double angle = Util.getAngleSpread(Game.getPlayer().getFacing(), type.getCOF()), speed = Util.getSpread(type.getProjectileSpeed(), type.getSpeedOffset());
 		double dX = Game.getPlayer().getdX()+Util.getXComp(angle, speed), dY = Game.getPlayer().getdY()-Util.getYComp(angle, speed);
 		Game.addProjectile(new Projectile(type.getDamage(), type.getProjectileSize(), Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), dX, dY));
 	}
@@ -43,7 +68,9 @@ public class Gun implements WeaponData {
 		return type;
 	}
 
-
+	public double getCooldown() {
+		return cooldown;
+	}
 
 	@Override
 	public String toString() {

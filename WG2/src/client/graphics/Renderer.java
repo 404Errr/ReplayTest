@@ -11,29 +11,58 @@ import javax.swing.JPanel;
 import client.game.Game;
 import client.input.Cursor;
 import client.level.Level;
+import client.projectile.Hitscan;
 import client.projectile.Projectile;
 import client.weapon.GunType;
 import shared.data.ColorData;
 import shared.data.Data;
 import shared.data.PlayerData;
+import shared.data.WeaponData;
 import shared.data.WindowData;
 import shared.util.Util;
 
 @SuppressWarnings("serial")
 public class Renderer extends JPanel implements ColorData, PlayerData, WindowData {
 	private Graphics2D g;
-	private static boolean debug = true;
+	private static boolean debugText = true, debugCursorLine = false, debugLOSLine = true;
 
 	@Override
 	public void paint(Graphics g0) {
 		g = (Graphics2D) g0;
 		super.paintComponent(g);
-		drawTiles();
-		if (debug) drawDebug();
-		drawProjectiles();
-		drawActiveGun();
-		drawPlayer();
+		try {//instead of null checks
+			drawTiles();
+			drawDebug();
+			drawProjectiles();
+			drawHitscans();
+			drawActiveGun();
+			drawPlayer();
+		}
+		catch (Exception e) {}
+	}
 
+	private void drawHitscans() {
+		for (int i = 0;i<Game.getHitscans().size();i++) {
+			drawHitscan(Game.getHitscans().get(i));
+		}
+	}
+
+	private void drawHitscan(Hitscan hitscan) {
+		g.setColor(Util.colorOpacity(hitscan.getColor(),(float)((hitscan.getWidth()/WeaponData.RAILGUN_INITIAL_WIDTH*0.6f)+0.4f)));
+		g.setStroke(new BasicStroke((int)(hitscan.getWidth()*Window.getScale())));
+		g.drawLine((int)((hitscan.getiX()-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((hitscan.getiY()-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2),	(int)((hitscan.getfX()-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((hitscan.getfY()-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2));
+	}
+
+	private void drawProjectiles() {
+		for (int i = 0;i<Game.getProjectiles().size();i++) {
+			drawProjectile(Game.getProjectiles().get(i));
+		}
+	}
+
+	private void drawProjectile(Projectile projectile) {
+		g.setColor(projectile.getColor());
+		double x = projectile.getX(), y = projectile.getY(), size = projectile.getSize();
+		g.fill(new Ellipse2D.Double((x-Camera.getX()-size/2-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2, (y-Camera.getY()-size/2-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2, size*Window.getScale(), size*Window.getScale()));
 	}
 
 	private void drawActiveGun() {
@@ -49,38 +78,44 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 		}
 	}
 
-	private void drawProjectiles() {
-		for (int i = 0;i<Game.getProjectiles().size();i++) {
-			drawProjectile(Game.getProjectiles().get(i));
-		}
-	}
-
-	private void drawProjectile(Projectile projectile) {
-		g.setColor(projectile.getColor());
-		double x = projectile.getX(), y = projectile.getY(), size = projectile.getSize();
-		g.fill(new Ellipse2D.Double((x-Camera.getX()-size/2-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2, (y-Camera.getY()-size/2-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2, size*Window.getScale(), size*Window.getScale()));
-	}
-
 	private void drawDebug() {
-		g.setColor(COLOR_DEBUG_GREEN);
-		g.setFont(new Font("Helvetica", Font.BOLD, 15));
-		g.drawString("Window = "+Window.getWindowWidth()+"x"+Window.getWindowHeight()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Window.getScale()+" Zoomed = "+Camera.cursorZoom(), 20, 30);
-		g.drawString("X, Y = "+Game.getPlayer().getXTile()+", "+Game.getPlayer().getYTile(), 20, 45);
-		g.drawString("X, Y = ("+Game.getPlayer().getX()+", "+Game.getPlayer().getY()+")", 20, 60);
-		g.drawString("velocity (m/s) = "+Math.hypot(Game.getPlayer().getdX(), Game.getPlayer().getdY())*Data.UPS, 20, 75);
-		g.drawString("dx, dy = "+Game.getPlayer().getdX()+", "+Game.getPlayer().getdY(), 20, 90);
-		g.drawString("ddx, ddy = "+Game.getPlayer().getddX()+", "+Game.getPlayer().getddY(), 20, 105);
-		double a = Math.toDegrees(Game.getPlayer().getFacing());
-		if (a<0) a+=360;
-		g.drawString("Facing = "+Game.getPlayer().getFacing()+" ("+a+")", 20, 120);
-		g.drawString("Cursor = "+Cursor.getX()+","+Cursor.getY()+" ("+Cursor.getXPlayer()+","+Cursor.getYPlayer()+")", 20, 135);
-		g.drawString("Active Gun = "+Game.getPlayer().getActiveGun(), 20, 150);
+		if (debugText) {
+			final int x = 20, y = 30, textSize = 15;
+			StringBuilder text = new StringBuilder();
 
-		g.setColor(COLOR_DEBUG_GREEN);
-		g.setStroke(new BasicStroke(1));
-//		final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2;//, lineLength = 150;
-//		g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));
-//		g.drawLine(w, h, (int)(Cursor.getXPlayer()*Window.getScale()+w), (int)(Cursor.getYPlayer()*Window.getScale()+h));
+			text.append("Window = "+Window.getWindowWidth()+"x"+Window.getWindowHeight()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Window.getScale()+" Zoomed = "+Camera.cursorZoom()+"$");
+			text.append("X, Y Tile = "+Game.getPlayer().getXTile()+", "+Game.getPlayer().getYTile()+"$");
+			text.append("X, Y Exact = ("+Game.getPlayer().getX()+", "+Game.getPlayer().getY()+")"+"$");
+			text.append("velocity (m/s) = "+Math.hypot(Game.getPlayer().getdX(), Game.getPlayer().getdY())*Data.UPS+"$");
+			text.append("dx, dy = "+Game.getPlayer().getdX()+", "+Game.getPlayer().getdY()+"$");
+			text.append("ddx, ddy = "+Game.getPlayer().getddX()+", "+Game.getPlayer().getddY()+"$");
+			double a = Math.toDegrees(Game.getPlayer().getFacing());if (a<0) a+=360;
+			text.append("Facing = "+a+" ("+Game.getPlayer().getFacing()+")"+"$");
+			text.append("Cursor = "+Cursor.getX()+","+Cursor.getY()+" ("+Cursor.getXPlayer()+","+Cursor.getYPlayer()+")"+"$");
+			text.append("Active Gun = "+Game.getPlayer().getActiveGun()+" Cooldown = "+Game.getPlayer().getActiveGun().getCooldown()+"$");
+			text.append("Debug Text = true, LOS Line = "+debugLOSLine+", Cursor Line = "+debugCursorLine+"$");
+
+			String[] textLines = text.toString().split("\\$");
+			g.setColor(COLOR_DEBUG_GREEN);
+			g.setFont(new Font("Helvetica", Font.BOLD, textSize));
+			for (int i = 0;i<textLines.length;i++) {
+				g.drawString(textLines[i], x, y+textSize*i);
+			}
+		}
+		if (debugCursorLine||debugLOSLine) {
+			g.setColor(COLOR_DEBUG_GREEN);
+			g.setStroke(new BasicStroke(1));
+			final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2, lineLength = Math.max(Window.getWindowWidth(), Window.getWindowHeight())*2;
+			final int cursorPlayerX = (int) (Cursor.getXPlayer()*Window.getScale()), cursorPlayerY = (int) (Cursor.getYPlayer()*Window.getScale());
+			if (Camera.cursorZoom()) {
+				if (debugLOSLine) g.drawLine(w-cursorPlayerX, h-cursorPlayerY, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w+cursorPlayerX), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h+cursorPlayerY));//los
+				if (debugCursorLine) g.drawLine(w-cursorPlayerX, h-cursorPlayerY, w+cursorPlayerX, h+cursorPlayerY);//player to cursor
+			}
+			else {
+				if (debugLOSLine) g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));//los
+				if (debugCursorLine) g.drawLine(w, h, w+cursorPlayerX, h+cursorPlayerY);//player to cursor
+			}
+		}
 	}
 
 	private void drawPlayer() {
@@ -112,7 +147,15 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 		}
 	}
 
-	public static void toggleDebug() {
-		debug^=true;
+	public static void toggleDebugText() {
+		debugText^=true;
+	}
+
+	public static void toggleDebugLOSLine() {
+		debugLOSLine^=true;
+	}
+
+	public static void toggleDebugCursorLine() {
+		debugCursorLine^=true;
 	}
 }
