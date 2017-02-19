@@ -1,24 +1,42 @@
 package client.player;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import client.input.Cursor;
+import client.weapon.Gun;
+import client.weapon.GunType;
 import shared.data.Data;
 import shared.data.PlayerData;
+import shared.data.WeaponData;
 import shared.util.Util;
 
-public class ControlledPlayer extends Player implements PlayerData, Data {
+public class ControlledPlayer extends Player implements PlayerData, Data, WeaponData {
 	private boolean[] movementKeyPressed;//r,d,l,u
+	private List<Gun> guns;
+	private Gun activeGun;
 
-	public ControlledPlayer(Color color, double x, double y) {//creates at given x and y
+	public ControlledPlayer(Color color, double x, double y) {//creates at given x and y with given color
 		super(color, x, y);
 		movementKeyPressed = new boolean[4];
+		guns = new ArrayList<>();
+		if (ALL_GUNS_AT_START) {
+			for (GunType type:GunType.getTypes()) {
+				addGun(type);
+				System.out.println(type);
+			}
+			selectGun(STARTING_GUN);
+		}
 	}
 
 	@Override
 	public void tick() {
 		turn();//rotate the player toward cursor
 		move();//move the player
+		for (Gun gun:guns) {
+			gun.tick();
+		}
 		super.checkCollision();//check for collision (neccessary)
 	}
 
@@ -137,5 +155,31 @@ public class ControlledPlayer extends Player implements PlayerData, Data {
 
 	public void setMovementKeyPressed(int direction, boolean value ) {
 		movementKeyPressed[direction] = value;
+	}
+
+	public Gun getActiveGun() {
+		return activeGun;
+	}
+
+	public void setActiveGun(Gun activeGun) {
+		this.activeGun = activeGun;
+	}
+
+	public List<Gun> getGuns() {
+		return guns;
+	}
+
+	public void selectGun(int gun) {
+		if (gun>=0&&gun<guns.size()) {
+			activeGun = guns.get(gun);
+		}
+	}
+
+	public void addGun(GunType type) {
+		guns.add(new Gun(type));
+	}
+
+	public void clearGuns() {
+		guns.clear();
 	}
 }

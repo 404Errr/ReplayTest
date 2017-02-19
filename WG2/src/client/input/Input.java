@@ -16,13 +16,12 @@ import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Renderer;
 import client.graphics.Window;
-import client.projectile.Projectile;
 import shared.data.Controls;
 import shared.data.Data;
 import shared.data.PlayerData;
-import shared.util.Util;
 
 public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, Controls, Data, PlayerData {
+	private static boolean mouse1Down, mouse2Down, mouse3Down;
 	@Override
 	public void keyPressed(KeyEvent e) {
 		playerMovement(e, true);
@@ -30,6 +29,33 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		switch (e.getKeyCode()) {
 		case DEBUG_KEY:
 			Renderer.toggleDebug();
+			break;
+		case KeyEvent.VK_1:
+			Game.getPlayer().selectGun(0);
+			break;
+		case KeyEvent.VK_2:
+			Game.getPlayer().selectGun(1);
+			break;
+		case KeyEvent.VK_3:
+			Game.getPlayer().selectGun(2);
+			break;
+		case KeyEvent.VK_4:
+			Game.getPlayer().selectGun(3);
+			break;
+		case KeyEvent.VK_5:
+			Game.getPlayer().selectGun(4);
+			break;
+		case KeyEvent.VK_6:
+			Game.getPlayer().selectGun(5);
+			break;
+		case KeyEvent.VK_7:
+			Game.getPlayer().selectGun(6);
+			break;
+		case KeyEvent.VK_8:
+			Game.getPlayer().selectGun(7);
+			break;
+		case KeyEvent.VK_9:
+			Game.getPlayer().selectGun(8);
 			break;
 		}
 	}
@@ -85,10 +111,13 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	public static void click(MouseEvent e, boolean down) {
 		switch (e.getButton()) {
 		case MouseEvent.BUTTON1://left
+			mouse1Down = down;
 			break;
 		case MouseEvent.BUTTON2://middle
+			mouse2Down = down;
 			break;
 		case MouseEvent.BUTTON3://right
+			mouse3Down = down;
 			Camera.setCursorZoom(down);
 			break;
 		}
@@ -99,9 +128,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	public void mousePressed(MouseEvent e) {
 		Cursor.updateMouse(e);
 		click(e, true);
-		if (e.getButton()==MouseEvent.BUTTON1) {
-			Game.getProjectiles().add(new Projectile(1, 0.15d, Game.getPlayer().getColor(), Game.getPlayer().getX()+PLAYER_SIZE/2, Game.getPlayer().getY()+PLAYER_SIZE/2, Game.getPlayer().getdX()+Util.getXComp(Game.getPlayer().getFacing(), 1), Game.getPlayer().getdY()-Util.getYComp(Game.getPlayer().getFacing(), 1)));
-		}
+//		if (e.getButton()==MouseEvent.BUTTON1) {
+//			Game.getProjectiles().add(new Projectile(1, 0.15d, Game.getPlayer().getColor(), Game.getPlayer().getX()+PLAYER_SIZE/2, Game.getPlayer().getY()+PLAYER_SIZE/2, Game.getPlayer().getdX()+Util.getXComp(Game.getPlayer().getFacing(), 1), Game.getPlayer().getdY()-Util.getYComp(Game.getPlayer().getFacing(), 1)));
+//		}
 	}
 
 	@Override
@@ -143,5 +172,17 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	public void windowIconified(WindowEvent e) {}
 	@Override
 	public void windowOpened(WindowEvent e) {}
+
+	public static boolean isMouse1Down() {
+		return mouse1Down;
+	}
+
+	public static boolean isMouse2Down() {
+		return mouse2Down;
+	}
+
+	public static boolean isMouse3Down() {
+		return mouse3Down;
+	}
 }
 

@@ -36,12 +36,15 @@ public class Util {
 	}
 
 	public static double getAngle(double x, double y, double xT, double yT) {
-		return Math.atan2(-(xT-x), -(yT-y))+1.57079632679d;
+		return Math.atan2(x-xT, y-yT)+1.57079632679d;
 	}
 
-	public static double getAngleSpread(double angle, double spread) {
-		double offset = (Math.random()-0.5)*spread;
-		return angle+offset;
+	public static double getSpread(double value, double spread) {
+		return value+(Math.random()-0.5)*spread;
+	}
+
+	public static double getAngleSpread(double angle, double spread) {//returns radians (radian angle input, degree spread input) spread includes both directions
+		return angle+(Math.random()-0.5)*Math.toRadians(spread);
 	}
 
 	public static Ellipse2D getCircle(int x, int y, int size, boolean center) {
@@ -119,4 +122,6 @@ public class Util {
 		}
 		return null;
 	}
+
+
 }

@@ -22,4 +22,8 @@ public class Game implements ColorData {
 	public static ArrayList<Projectile> getProjectiles() {
 		return projectiles;
 	}
+
+	public static void addProjectile(Projectile projectile) {
+		projectiles.add(projectile);
+	}
 }

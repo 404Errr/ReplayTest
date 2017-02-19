@@ -12,6 +12,7 @@ import client.game.Game;
 import client.input.Cursor;
 import client.level.Level;
 import client.projectile.Projectile;
+import client.weapon.GunType;
 import shared.data.ColorData;
 import shared.data.Data;
 import shared.data.PlayerData;
@@ -30,12 +31,22 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 		drawTiles();
 		if (debug) drawDebug();
 		drawProjectiles();
+		drawActiveGun();
 		drawPlayer();
 
+	}
 
-
-
-
+	private void drawActiveGun() {
+		GunType gun = Game.getPlayer().getActiveGun().getType();
+		g.setColor(Game.getPlayer().getColor());
+		g.setStroke(new BasicStroke((float)(gun.getWangWidth()*Window.getScale())));
+		final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2, lineLength = (int)((gun.getWangLength()+PLAYER_SIZE/2)*Window.getScale());
+		if (Camera.cursorZoom()) {
+			g.drawLine(w-(int)(Cursor.getXPlayer()*Window.getScale()), h-(int)(Cursor.getYPlayer()*Window.getScale()), (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w)-(int)(Cursor.getXPlayer()*Window.getScale()), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h)-(int)(Cursor.getYPlayer()*Window.getScale()));
+		}
+		else {
+			g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));
+		}
 	}
 
 	private void drawProjectiles() {
@@ -47,7 +58,6 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 	private void drawProjectile(Projectile projectile) {
 		g.setColor(projectile.getColor());
 		double x = projectile.getX(), y = projectile.getY(), size = projectile.getSize();
-//		g.fill(new Ellipse2D.Double((x-size/2)*Window.getScale(), (y-size/2)*Window.getScale(), size*Window.getScale(), size*Window.getScale()));
 		g.fill(new Ellipse2D.Double((x-Camera.getX()-size/2-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2, (y-Camera.getY()-size/2-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2, size*Window.getScale(), size*Window.getScale()));
 	}
 
@@ -64,13 +74,13 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 		if (a<0) a+=360;
 		g.drawString("Facing = "+Game.getPlayer().getFacing()+" ("+a+")", 20, 120);
 		g.drawString("Cursor = "+Cursor.getX()+","+Cursor.getY()+" ("+Cursor.getXPlayer()+","+Cursor.getYPlayer()+")", 20, 135);
+		g.drawString("Active Gun = "+Game.getPlayer().getActiveGun(), 20, 150);
 
 		g.setColor(COLOR_DEBUG_GREEN);
 		g.setStroke(new BasicStroke(1));
-		final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2, lineLength = 150;
-		g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));
-
-		g.drawLine(w, h, (int)(Cursor.getXPlayer()*Window.getScale()+w), (int)(Cursor.getYPlayer()*Window.getScale()+h));
+//		final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2;//, lineLength = 150;
+//		g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));
+//		g.drawLine(w, h, (int)(Cursor.getXPlayer()*Window.getScale()+w), (int)(Cursor.getYPlayer()*Window.getScale()+h));
 	}
 
 	private void drawPlayer() {

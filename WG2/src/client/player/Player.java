@@ -92,6 +92,14 @@ public class Player implements PlayerData, Data, TileData {
 		return y;
 	}
 
+	public double getXCenter() {
+		return x+PLAYER_SIZE/2;
+	}
+
+	public double getYCenter() {
+		return y+PLAYER_SIZE/2;
+	}
+
 	public int getXTile() {
 		return (int)Math.round(x);
 	}
