@@ -25,7 +25,7 @@ public class Hitscan implements TileData, WeaponData {
 	}
 
 	public boolean tick() {//returns true if the object should stop existing
-		width-=RAILGUN_INITIAL_WIDTH/RAILGUN_LINE_DURATION;//graphical width of the line
+		width-=RAILGUN_LINE_INITIAL_WIDTH/RAILGUN_LINE_DURATION;//graphical width of the line
 		if (width<=0) {//if its no longer visible
 			return true;//the sweet release of death
 		}

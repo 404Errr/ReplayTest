@@ -24,7 +24,7 @@ import shared.util.Util;
 @SuppressWarnings("serial")
 public class Renderer extends JPanel implements ColorData, PlayerData, WindowData {
 	private Graphics2D g;
-	private static boolean debugText = true, debugCursorLine = false, debugLOSLine = true;
+	private static boolean debugText = true, debugLOSLine = true, drawWeapons = true;
 
 	@Override
 	public void paint(Graphics g0) {
@@ -35,7 +35,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 			drawDebug();
 			drawProjectiles();
 			drawHitscans();
-			drawActiveGun();
+			if (drawWeapons) drawActiveGun();
 			drawPlayer();
 		}
 		catch (Exception e) {}
@@ -48,7 +48,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 	}
 
 	private void drawHitscan(Hitscan hitscan) {
-		g.setColor(Util.colorOpacity(hitscan.getColor(),(float)((hitscan.getWidth()/WeaponData.RAILGUN_INITIAL_WIDTH*0.6f)+0.4f)));
+		g.setColor(Util.colorOpacity(hitscan.getColor(),(float)((hitscan.getWidth()/WeaponData.RAILGUN_LINE_INITIAL_WIDTH*0.6f)+0.4f)));
 		g.setStroke(new BasicStroke((int)(hitscan.getWidth()*Window.getScale())));
 		g.drawLine((int)((hitscan.getiX()-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((hitscan.getiY()-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2),	(int)((hitscan.getfX()-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((hitscan.getfY()-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2));
 	}
@@ -93,7 +93,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 			text.append("Facing = "+a+" ("+Game.getPlayer().getFacing()+")"+"$");
 			text.append("Cursor = "+Cursor.getX()+","+Cursor.getY()+" ("+Cursor.getXPlayer()+","+Cursor.getYPlayer()+")"+"$");
 			text.append("Active Gun = "+Game.getPlayer().getActiveGun()+" Cooldown = "+Game.getPlayer().getActiveGun().getCooldown()+"$");
-			text.append("Debug Text = true, LOS Line = "+debugLOSLine+", Cursor Line = "+debugCursorLine+"$");
+			text.append("Debug Text = true, LOS Line = "+debugLOSLine+"$");
 
 			String[] textLines = text.toString().split("\\$");
 			g.setColor(COLOR_DEBUG_GREEN);
@@ -102,18 +102,18 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 				g.drawString(textLines[i], x, y+textSize*i);
 			}
 		}
-		if (debugCursorLine||debugLOSLine) {
+		if (debugLOSLine) {
 			g.setColor(COLOR_DEBUG_GREEN);
 			g.setStroke(new BasicStroke(1));
 			final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2, lineLength = Math.max(Window.getWindowWidth(), Window.getWindowHeight())*2;
 			final int cursorPlayerX = (int) (Cursor.getXPlayer()*Window.getScale()), cursorPlayerY = (int) (Cursor.getYPlayer()*Window.getScale());
 			if (Camera.cursorZoom()) {
-				if (debugLOSLine) g.drawLine(w-cursorPlayerX, h-cursorPlayerY, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w+cursorPlayerX), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h+cursorPlayerY));//los
-				if (debugCursorLine) g.drawLine(w-cursorPlayerX, h-cursorPlayerY, w+cursorPlayerX, h+cursorPlayerY);//player to cursor
+				g.drawLine(w-cursorPlayerX, h-cursorPlayerY, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w+cursorPlayerX), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h+cursorPlayerY));//los
+//				if (debugCursorLine) g.drawLine(w-cursorPlayerX, h-cursorPlayerY, w+cursorPlayerX, h+cursorPlayerY);//player to cursor
 			}
 			else {
-				if (debugLOSLine) g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));//los
-				if (debugCursorLine) g.drawLine(w, h, w+cursorPlayerX, h+cursorPlayerY);//player to cursor
+				g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));//los
+//				if (debugCursorLine) g.drawLine(w, h, w+cursorPlayerX, h+cursorPlayerY);//player to cursor
 			}
 		}
 	}
@@ -155,7 +155,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 		debugLOSLine^=true;
 	}
 
-	public static void toggleDebugCursorLine() {
-		debugCursorLine^=true;
+	public static void toggleDrawWeapons() {
+		drawWeapons^=true;
 	}
 }

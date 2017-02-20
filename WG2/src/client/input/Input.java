@@ -27,14 +27,20 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		playerMovement(e, true);
 
 		switch (e.getKeyCode()) {
+		/*case ZOOM_KEY:
+			Camera.setCursorZoom(true);
+			break;*/
 		case DEBUG_TEXT_KEY:
 			Renderer.toggleDebugText();
 			break;
-		case DEBUG_CURSOR_LINE_KEY:
-			Renderer.toggleDebugCursorLine();
-			break;
 		case DEBUG_LOS_LINE_KEY:
 			Renderer.toggleDebugLOSLine();
+			break;
+		case DEBUG_DRAW_WEAPONS_KEY:
+			Renderer.toggleDrawWeapons();
+			break;
+		case KeyEvent.VK_T:
+			Game.getPlayer().move(Cursor.getXGrid(), Cursor.getYGrid());
 			break;
 		case KeyEvent.VK_1:
 			Game.getPlayer().selectGun(0);
@@ -69,6 +75,12 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	@Override
 	public void keyReleased(KeyEvent e) {
 		playerMovement(e, false);
+
+		switch (e.getKeyCode()) {
+		/*case ZOOM_KEY:
+			Camera.setCursorZoom(false);
+			break;*/
+		}
 	}
 
 	private void playerMovement(KeyEvent e, boolean pressed) {
