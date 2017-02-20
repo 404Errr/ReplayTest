@@ -1,9 +1,12 @@
 /*
- * WG 2: The Hardening
+ * CONTROLS:
  *
  * arrowkeys/wasd = move
- * mouse = aim
+ * mouse1 = shoot
+ * mouse3 = aim
  * scroll wheel = zoom
+ * number keys = change weapon
+ *
  *
  */
 package shared.main;
