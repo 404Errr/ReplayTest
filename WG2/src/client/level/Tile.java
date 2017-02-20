@@ -8,25 +8,23 @@ import shared.data.MapData;
 import shared.data.TileData;
 
 public class Tile implements MapData {
-	private Color color;//color
-	private boolean[] solid;//if its solid (0 = walls, 1 = projectiles)
-	private Rectangle2D bounds;
+	private short type, r, c;
 
 	public Tile(int r, int c, int type) {
-		color = ColorData.getTileColor(type);
-		solid = TileData.getSolid(type);
-		bounds = new Rectangle2D.Double(c, r, 1, 1);
+		this.type = (short)type;
+		this.r = (short)r;
+		this.c = (short)c;
 	}
 
 	public Rectangle2D getBounds() {
-		return bounds;
+		return new Rectangle2D.Double(c, r, 1, 1);
 	}
 
 	public boolean isSolid(int type) {
-		return solid[type];
+		return TileData.getSolid(this.type)[type];
 	}
 
 	public Color getColor() {
-		return color;
+		return ColorData.getTileColor(type);
 	}
 }

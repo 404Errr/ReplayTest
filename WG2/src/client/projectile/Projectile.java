@@ -28,6 +28,7 @@ public class Projectile implements TileData {
 		dY+=ddY;
 		x+=dX;
 		y+=dY;
+		if (x<0||y<0||x>Level.getWidth()||y>Level.getHeight()) destroy = true;//if off of the map
 		checkCollision();
 		return destroy;
 	}
@@ -38,9 +39,9 @@ public class Projectile implements TileData {
 	}
 
 	private void checkWallCollision() {
-		final int radius = 2;
-		for (int r = (int)y-radius;r<y+radius;r++) {//for each row within the radius
-			for (int c = (int)x-radius;c<x+radius;c++) {//for each collumn within the radius
+		final int radius = 1;
+		for (int r = (int)y-radius;r<=y+radius;r++) {//for each row within the radius
+			for (int c = (int)x-radius;c<=x+radius;c++) {//for each collumn within the radius
 				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).isSolid(SOLID_PROJECTILES)) {//bounds check and if tile is solid
 					if (hitline.intersects(Level.getTile(r, c).getBounds())) {//check for collision
 						destroy = true;//destroy it

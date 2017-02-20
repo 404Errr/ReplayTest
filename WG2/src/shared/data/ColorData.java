@@ -74,7 +74,7 @@ public interface ColorData {
 	public static final Color COLOR_TILE_z = COLOR_ERROR;
 
 	public static Color getTileColor(int type) {
-		switch (type) {
+		switch (type) {//preferably in order of frequency
 		case '0':
 			return COLOR_TILE_0;
 		case '1':

@@ -84,6 +84,22 @@ public class Util {
 		return Math.sin(Math.toRadians(angle))*magnitude;
 	}
 
+	public static float getXComp(double angle, float magnitude) {
+		return (float)(Math.cos(angle)*magnitude);
+	}
+
+	public static float getYComp(double angle, float magnitude) {
+		return (float)(Math.sin(angle)*magnitude);
+	}
+
+	public static double getXComp(float angle, float magnitude) {
+		return Math.cos(angle)*magnitude;
+	}
+
+	public static double getYComp(float angle, float magnitude) {
+		return Math.sin(angle)*magnitude;
+	}
+
 	public static double getXComp(double angle, double magnitude) {
 		return Math.cos(angle)*magnitude;
 	}
@@ -93,7 +109,7 @@ public class Util {
 	}
 
 	public static Color colorOpacity(Color color, int opacity) {
-		return new Color(color.getRed(), color.getBlue(), color.getGreen(), opacity);
+		return new Color(color.getRed(), color.getGreen(), color.getBlue(), opacity);
 	}
 
 	public static Color colorOpacity(Color color, float opacity) {

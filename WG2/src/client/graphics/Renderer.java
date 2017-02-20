@@ -18,7 +18,6 @@ import shared.data.ColorData;
 import shared.data.Data;
 import shared.data.GraphicsData;
 import shared.data.PlayerData;
-import shared.data.WeaponData;
 import shared.util.Util;
 
 @SuppressWarnings("serial")
@@ -38,9 +37,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			if (drawWeapons) drawActiveGun();
 			drawPlayer();
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		catch (Exception e) {}
 	}
 
 	private void drawHitscans() {
@@ -50,9 +47,12 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 	}
 
 	private void drawHitscan(Hitscan hitscan) {
-		g.setColor(Util.colorOpacity(hitscan.getColor(),(float)((hitscan.getWidth()/WeaponData.RAILGUN_LINE_INITIAL_WIDTH*0.6f)+0.4f)));
+		g.setColor(Util.colorOpacity(hitscan.getColor(), hitscan.getOpacity()));
 		g.setStroke(new BasicStroke((int)(hitscan.getWidth()*Window.getScale())));
-		g.drawLine((int)((hitscan.getiX()-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((hitscan.getiY()-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2),	(int)((hitscan.getfX()-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((hitscan.getfY()-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2));
+
+		//g.fillRect((int)(c*Window.getScale()+getX0()), (int)(r*Window.getScale()+getY0()), Window.getScale(), Window.getScale());
+		g.drawLine((int)(hitscan.getiX()*Window.getScale()+getXOrigin()), (int)((hitscan.getiY()-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2),	(int)((hitscan.getfX()-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((hitscan.getfY()-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2));
+//		g.drawLine((int)((hitscan.getiX()-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((hitscan.getiY()-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2),	(int)((hitscan.getfX()-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((hitscan.getfY()-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2));
 	}
 
 	private void drawProjectiles() {
@@ -71,34 +71,25 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		GunType gun = Game.getPlayer().getActiveGun().getType();
 		g.setColor(Game.getPlayer().getColor());
 		g.setStroke(new BasicStroke((float)(gun.getWangWidth()*Window.getScale())));
-		final int w = Window.getWindowWidth()/2, h = Window.getWindowHeight()/2, lineLength = (int)((gun.getWangLength()+PLAYER_SIZE/2)*Window.getScale());
-
-		g.drawLine((int)(getPlayerX()+getPlayerSize()/2), (int)(getPlayerY()+getPlayerSize()/2), (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+getPlayerX()+getPlayerSize()/2), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+getPlayerY()+getPlayerSize()/2));
-
-		if (Camera.cursorZoom()) {
-			g.drawLine(w-(int)(Cursor.getXPlayer()*Window.getScale()), h-(int)(Cursor.getYPlayer()*Window.getScale()), (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w)-(int)(Cursor.getXPlayer()*Window.getScale()), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h)-(int)(Cursor.getYPlayer()*Window.getScale()));
-		}
-		else {
-			g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));
-		}
+		g.drawLine(getPlayerX()+getPlayerSize()/2, getPlayerY()+getPlayerSize()/2, (int)(Util.getXComp(Game.getPlayer().getFacing(), (gun.getWangLength()+PLAYER_SIZE/2)*Window.getScale())+getPlayerX()+getPlayerSize()/2), (int)(-Util.getYComp(Game.getPlayer().getFacing(), (gun.getWangLength()+PLAYER_SIZE/2)*Window.getScale())+getPlayerY()+getPlayerSize()/2));
 	}
 
 	private void drawDebug() {
 		if (debugText) {
-			final int x = 20, y = 30, textSize = 15;
+			final int x = 25, y = 30, textSize = 15;
 			StringBuilder text = new StringBuilder();
 
 			text.append("Window = "+Window.getWindowWidth()+"x"+Window.getWindowHeight()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Window.getScale()+" Zoomed = "+Camera.cursorZoom()+"$");
 			text.append("Render Distance = "+GraphicsData.getRenderDistanceX()+", "+GraphicsData.getRenderDistanceY()+"$");
 			text.append("X, Y Tile = "+Game.getPlayer().getXTile()+", "+Game.getPlayer().getYTile()+"$");
-			text.append("X, Y Exact = ("+Game.getPlayer().getX()+", "+Game.getPlayer().getY()+")"+"$");
+			text.append("X, Y Exact = ("+(float)Game.getPlayer().getX()+", "+(float)Game.getPlayer().getY()+")"+"$");
 			text.append("velocity (m/s) = "+Math.hypot(Game.getPlayer().getdX(), Game.getPlayer().getdY())*Data.UPS+"$");
-			text.append("dx, dy = "+Game.getPlayer().getdX()+", "+Game.getPlayer().getdY()+"$");
-			text.append("ddx, ddy = "+Game.getPlayer().getddX()+", "+Game.getPlayer().getddY()+"$");
-			double a = Math.toDegrees(Game.getPlayer().getFacing());if (a<0) a+=360;
-			text.append("Facing = "+a+" ("+Game.getPlayer().getFacing()+")"+"$");
-			text.append("Cursor = "+Cursor.getX()+","+Cursor.getY()+" ("+Cursor.getXPlayer()+","+Cursor.getYPlayer()+")"+"$");
-			text.append("Active Gun = "+Game.getPlayer().getActiveGun()+" Cooldown = "+Game.getPlayer().getActiveGun().getCooldown()+"$");
+			text.append("dx, dy = "+(float)Game.getPlayer().getdX()+", "+(float)Game.getPlayer().getdY()+"$");
+			text.append("ddx, ddy = "+(float)Game.getPlayer().getddX()+", "+(float)Game.getPlayer().getddY()+"$");
+			double a = Math.toDegrees(Game.getPlayer().getFacing());if (a<0) a+=360;//get the angle of the player in degrees
+			text.append("Facing = "+(float)a+" ("+(float)Game.getPlayer().getFacing()+")"+"$");
+			text.append("Cursor = "+Cursor.getX()+","+Cursor.getY()+" ("+(float)Cursor.getXPlayer()+","+(float)Cursor.getYPlayer()+")"+"$");
+			text.append("Active Gun = "+Game.getPlayer().getActiveGun()+" Cooldown = "+(float)Game.getPlayer().getActiveGun().getCooldown()+"$");
 			text.append("Debug Text = true, LOS Line = "+debugLOSLine+"$");
 
 			String[] textLines = text.toString().split("\\$");
@@ -124,58 +115,37 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 
 	private void drawPlayer() {
 		g.setColor(COLOR_PLAYER);
-		g.fillRect((int)getPlayerX(), (int)getPlayerY(), (int)getPlayerSize(), (int)getPlayerSize());
+		g.fillRect(getPlayerX(), getPlayerY(), getPlayerSize(), getPlayerSize());
 	}
-
-//	private void drawPlayer() {
-//		g.setColor(COLOR_PLAYER);
-//		int offset = 0;
-//		if (Window.getScale()%2!=0) offset = -1;
-//		if (Camera.cursorZoom()) {
-//			g.fillRect(Window.getWindowWidth()/2-(int)(PLAYER_SIZE/2*Window.getScale())+offset-(int)(Cursor.getXPlayer()*Window.getScale()), Window.getWindowHeight()/2-(int)(PLAYER_SIZE*Window.getScale()/2)+offset-(int)(Cursor.getYPlayer()*Window.getScale()), (int)(PLAYER_SIZE*Window.getScale()), (int)(PLAYER_SIZE*Window.getScale()));
-//		}
-//		else {
-//			g.fillRect(Window.getWindowWidth()/2-(int)(PLAYER_SIZE/2*Window.getScale())+offset, Window.getWindowHeight()/2-(int)(PLAYER_SIZE*Window.getScale()/2)+offset, (int)(PLAYER_SIZE*Window.getScale()), (int)(PLAYER_SIZE*Window.getScale()));
-//		}
-//	}
-
-//	private void drawTiles() {
-//		if (Game.getPlayer()==null) return;
-//		int renderDistanceX = RENDER_DISTANCE_X, renderDistanceY = RENDER_DISTANCE_Y;
-//		if ((renderDistanceX<0||renderDistanceY<0)&&Window.getScale()!=0) {
-//			renderDistanceX = Window.getWindowWidth()/Window.getScale()/2+2;
-//			renderDistanceY = Window.getWindowHeight()/Window.getScale()/2+2;
-//		}
-//		for (int r = Camera.getYTile()-GraphicsData.getRenderDistanceY();r<=Camera.getYTile()+GraphicsData.getRenderDistanceY();r++) {
-//			for (int c = Camera.getXTile()-GraphicsData.getRenderDistanceX();c<=Camera.getXTile()+GraphicsData.getRenderDistanceX();c++) {
-//				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()) {
-//					g.setColor(Level.getTile(r, c).getColor());
-//					g.fillRect((int)((c-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((r-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2), Window.getScale(), Window.getScale());
-//				}
-//			}
-//		}
-//	}
 
 	private void drawTiles() {
 		for (int r = Camera.getYTile()-GraphicsData.getRenderDistanceY();r<=Camera.getYTile()+GraphicsData.getRenderDistanceY();r++) {
 			for (int c = Camera.getXTile()-GraphicsData.getRenderDistanceX();c<=Camera.getXTile()+GraphicsData.getRenderDistanceX();c++) {
 				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()) {
 					g.setColor(Level.getTile(r, c).getColor());
-					g.fillRect((int)(c*Window.getScale()+getX0()), (int)(r*Window.getScale()+getY0()), Window.getScale(), Window.getScale());
+					g.fillRect(getGridX(c), getGridY(r), Window.getScale(), Window.getScale());
 				}
 			}
 		}
 	}
 
-	private static double getX0() {
+	private static int getGridX(double x) {
+		return (int)(x*Window.getScale()+getXOrigin());
+	}
+
+	private static int getGridY(double y) {
+		return (int)(y*Window.getScale()+getYOrigin());
+	}
+
+	private static double getXOrigin() {
 		return (-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2;
 	}
 
-	private static double getY0() {
+	private static double getYOrigin() {
 		return (-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2;
 	}
 
-	private static double getPlayerX() {
+	private static int getPlayerX() {
 		int offset = 0;
 		if (Window.getScale()%2!=0) offset = -1;
 		if (Camera.cursorZoom()) {
@@ -186,7 +156,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		}
 	}
 
-	private static double getPlayerY() {
+	private static int getPlayerY() {
 		int offset = 0;
 		if (Window.getScale()%2!=0) offset = -1;
 		if (Camera.cursorZoom()) {
@@ -197,8 +167,8 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		}
 	}
 
-	private static double getPlayerSize() {
-		return PLAYER_SIZE*Window.getScale();
+	private static int getPlayerSize() {
+		return (int)(PLAYER_SIZE*Window.getScale());
 	}
 
 	public static void toggleDebugText() {

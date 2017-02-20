@@ -9,8 +9,11 @@ public interface MapData {
 //	public static final String MAP = "buttonsMedium";
 //	public static final String MAP = "buttonsLarge";
 //	public static final String MAP = "largeMapTest";
-//	public static final String MAP = "largerMapTest";
+//	public static final String MAP = "largerMapTest";//dont use on school computer
+//	public static final String MAP = "1000x1001";
 //	public static final String MAP = "big";
 
-	public static final boolean ADD_EDGE = true;//				<<CONSIDER DISABLING IF ITS A LARGE MAP<<
+	public static final boolean ADD_EDGE = true;//										 <<CONSIDER DISABLING IF ITS A LARGE MAP<<
+	public static final boolean AUTO_DISABLE_ADD_EDGE = false;//					 	 <<OR CONSIDER ENABLING AND THEN NOT THINKING ABOUT IT<<
+	public static final int AUTO_DISABLE_ADD_EDGE_THREASHOLD = 100000;//area
 }

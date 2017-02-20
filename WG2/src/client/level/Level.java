@@ -9,7 +9,13 @@ public class Level implements MapData {
 	public static void init() {//initialize layout
 		layout = MapParser.parseMap(MAP);
 		if (ADD_EDGE) {
-			layout = addEdge(layout);
+			if (!(AUTO_DISABLE_ADD_EDGE&&layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD)) {
+				System.out.println("Adding edge...");
+				layout = addEdge(layout);
+			}
+			else {
+				System.out.println("Not Adding edge. Map area is: "+layout.length*layout[0].length+"/"+AUTO_DISABLE_ADD_EDGE_THREASHOLD);
+			}
 		}
 		tiles = new Tile[layout.length][layout[0].length];
 		for (int c = 0;c<layout.length;c++) {
