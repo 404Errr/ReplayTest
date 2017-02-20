@@ -24,7 +24,7 @@ public class Level implements MapData {
 		int[][] output = new int[map.length+2][map[0].length+2];//new array size of map +1 on every side
 		for (int r = 0;r<output.length;r++) {
 			for (int c = 0;c<output[0].length;c++) {
-				output[r][c] = 1;//sets all to 1
+				output[r][c] = '1';//sets all to 1
 			}
 		}
 		for (int r = 0;r<map.length;r++) {

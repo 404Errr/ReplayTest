@@ -1,17 +1,19 @@
 package client.level;
 
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
+import shared.data.ColorData;
 import shared.data.MapData;
 import shared.data.TileData;
 
 public class Tile implements MapData {
-	private int type;//the type
+	private Color color;//color
 	private boolean[] solid;//if its solid (0 = walls, 1 = projectiles)
 	private Rectangle2D bounds;
 
 	public Tile(int r, int c, int type) {
-		this.type = type;
+		color = ColorData.getTileColor(type);
 		solid = TileData.getSolid(type);
 		bounds = new Rectangle2D.Double(c, r, 1, 1);
 	}
@@ -24,9 +26,7 @@ public class Tile implements MapData {
 		return solid[type];
 	}
 
-	public int getType() {
-		return type;
+	public Color getColor() {
+		return color;
 	}
-
-
 }

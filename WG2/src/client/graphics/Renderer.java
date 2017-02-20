@@ -140,7 +140,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, WindowDat
 		for (int r = Camera.getYTile()-renderDistanceY;r<Camera.getYTile()+renderDistanceY;r++) {
 			for (int c = Camera.getXTile()-renderDistanceX;c<Camera.getXTile()+renderDistanceX;c++) {
 				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()) {
-					g.setColor(ColorData.getTileColor(Level.getTile(r, c).getType()));
+					g.setColor(Level.getTile(r, c).getColor());
 					g.fillRect((int)((c-Camera.getX()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowWidth()/2), (int)((r-Camera.getY()-PLAYER_SIZE/2)*Window.getScale()+Window.getWindowHeight()/2), Window.getScale(), Window.getScale());
 				}
 			}

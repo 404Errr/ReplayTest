@@ -18,7 +18,7 @@ public class MapParser implements MapData{
 		for (int r = 0;r<raw.length;r++) {
 			for (int c = 0;c<raw[0].length;c++) {
 				try {
-					layout[r][c] = Integer.parseInt(raw[r][c]);
+					layout[r][c] = raw[r][c].charAt(0);
 				}
 				catch (Exception e) {
 					System.err.println("error at: "+r+","+c);
