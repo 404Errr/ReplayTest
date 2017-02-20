@@ -104,6 +104,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		}
 	}
 
+	private void stopPlayerMovement() {
+		for (int i = 0;i<4;i++) {
+			Game.getPlayer().setMovementKeyPressed(i, false);
+		}
+	}
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -163,6 +168,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	}
 
 	@Override
+	public void windowDeactivated(WindowEvent e) {
+		stopPlayerMovement();
+	}
+
+	@Override
 	public void componentHidden(ComponentEvent e) {}
 	@Override
 	public void componentMoved(ComponentEvent e) {}
@@ -173,7 +183,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	@Override
 	public void mouseEntered(MouseEvent e) {}
 	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void mouseExited(MouseEvent arg0) {}
 	@Override
 	public void componentShown(ComponentEvent e) {}
 	@Override
@@ -182,8 +192,6 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	public void windowClosed(WindowEvent e) {}
 	@Override
 	public void windowClosing(WindowEvent e) {}
-	@Override
-	public void windowDeactivated(WindowEvent e) {}
 	@Override
 	public void windowDeiconified(WindowEvent e) {}
 	@Override
@@ -202,5 +210,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	public static boolean isMouse3Down() {
 		return mouse3Down;
 	}
+
+
 }
 
