@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import client.game.Game;
 import client.input.Cursor;
 import client.weapon.Gun;
 import client.weapon.GunType;
@@ -24,7 +25,6 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 		if (ALL_GUNS_AT_START) {
 			for (GunType type:GunType.getTypes()) {
 				addGun(type);
-				System.out.println(type);
 			}
 			selectGun(STARTING_GUN);
 		}
@@ -53,12 +53,12 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 		deccelerate();//deccelerate the player
 		speedLimitCheck();//checks if velocity is over the limit, sets it to the limit if it is
 		notMovingCheck();//chceks if player shouldnt be able to move in a direction or if dX/dY need to be rounded to 0
-
 		dPosition(dX, dY);//move the player by the velocity
 	}
 
-	public void recoil(double dX, double dY) {
-		dPosition(dX, dY);
+	public void recoil(double magnitude) {
+		this.dX+=-Util.getXComp(Game.getPlayer().getFacing(), magnitude);
+		this.dY+=Util.getYComp(Game.getPlayer().getFacing(), magnitude);
 	}
 
 	private void dPosition(double dX, double dY) {

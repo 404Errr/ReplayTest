@@ -3,10 +3,10 @@ package shared.data;
 import java.awt.Color;
 
 public interface ColorData {
-	public static final Color COLOR_PLAYER = Color.BLUE;
+	public static final Color COLOR_PLAYER = new Color(0x0000ff);//blue
 
-	public static final Color COLOR_DEBUG_GREEN = new Color(0,180,0,255);
-	public static final Color COLOR_ERROR = new Color(0x940e94);
+	public static final Color COLOR_DEBUG_GREEN = new Color(0,180,0,255);//darker than lime green
+	public static final Color COLOR_ERROR = new Color(0x940e94);//magenta
 
 	public static final Color COLOR_TILE_0 = new Color(0x909090);//grey (floor)
 	public static final Color COLOR_TILE_1 = new Color(0x000000);//black (wall)
@@ -22,39 +22,29 @@ public interface ColorData {
 	public static final Color COLOR_TILE_9 = COLOR_ERROR;
 
 	public static Color getTileColor(int type) {
-		Color color = COLOR_ERROR;//default
 		switch (type) {
 		case 0:
-			color = COLOR_TILE_0;
-			break;
+			return COLOR_TILE_0;
 		case 1:
-			color = COLOR_TILE_1;
-			break;
+			return COLOR_TILE_1;
 		case 2:
-			color = COLOR_TILE_2;
-			break;
+			return COLOR_TILE_2;
 		case 3:
-			color = COLOR_TILE_3;
-			break;
+			return COLOR_TILE_3;
 		case 4:
-			color = COLOR_TILE_4;
-			break;
+			return COLOR_TILE_4;
 		case 5:
-			color = COLOR_TILE_5;
-			break;
+			return COLOR_TILE_5;
 		case 6:
-			color = COLOR_TILE_6;
-			break;
+			return COLOR_TILE_6;
 		case 7:
-			color = COLOR_TILE_7;
-			break;
+			return COLOR_TILE_7;
 		case 8:
-			color = COLOR_TILE_8;
-			break;
+			return COLOR_TILE_8;
 		case 9:
-			color = COLOR_TILE_9;
-			break;
+			return COLOR_TILE_9;
+		default:
+			return COLOR_ERROR;
 		}
-		return color;
 	}
 }

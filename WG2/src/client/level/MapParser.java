@@ -21,7 +21,7 @@ public class MapParser implements MapData{
 					layout[r][c] = Integer.parseInt(raw[r][c]);
 				}
 				catch (Exception e) {
-					System.err.println("Map is not rectanglular; error at: "+r+","+c);
+					System.err.println("error at: "+r+","+c);
 					layout[r][c] = -1;
 				}
 			}

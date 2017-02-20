@@ -34,6 +34,9 @@ public class Gun implements WeaponData {
 						shoot();
 						break;
 					}
+					if (RECOIL) {
+						Game.getPlayer().recoil(type.getRecoil());
+					}
 					cooldown = type.getCooldown();
 				}
 			}
@@ -41,8 +44,10 @@ public class Gun implements WeaponData {
 	}
 
 	private void shootRailgun() {
-		double dX = Util.getXComp(Game.getPlayer().getFacing(), 1), dY = -Util.getYComp(Game.getPlayer().getFacing(), 1);
-		Game.addHitscan(new Hitscan(type.getDamage(), RAILGUN_INITIAL_WIDTH, Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), dX, dY));
+		Game.addHitscan(new Hitscan(type.getDamage(), RAILGUN_INITIAL_WIDTH, Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Game.getPlayer().getFacing()));
+		/*for (double a = 0;a<360;a+=0.25d) {
+			Game.addHitscan(new Hitscan(type.getDamage(), RAILGUN_INITIAL_WIDTH, Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Math.toRadians(a)));
+		}*/
 	}
 
 	private void shootShotgun() {
