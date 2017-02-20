@@ -20,8 +20,8 @@ public class Tile implements MapData {
 		return new Rectangle2D.Double(c, r, 1, 1);
 	}
 
-	public boolean isSolid(int type) {
-		return TileData.getSolid(this.type)[type];
+	public boolean isSolid(int solidityType) {
+		return TileData.getSolid(this.type)[solidityType];
 	}
 
 	public Color getColor() {
