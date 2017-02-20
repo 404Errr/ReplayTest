@@ -27,9 +27,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		playerMovement(e, true);
 
 		switch (e.getKeyCode()) {
-		/*case ZOOM_KEY:
+		case ZOOM_KEY:
 			Camera.setCursorZoom(true);
-			break;*/
+			break;
 		case DEBUG_TEXT_KEY:
 			Renderer.toggleDebugText();
 			break;
@@ -77,9 +77,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		playerMovement(e, false);
 
 		switch (e.getKeyCode()) {
-		/*case ZOOM_KEY:
+		case ZOOM_KEY:
 			Camera.setCursorZoom(false);
-			break;*/
+			break;
 		}
 	}
 

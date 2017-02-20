@@ -5,10 +5,10 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
-import shared.data.WindowData;
+import shared.data.GraphicsData;
 
 @SuppressWarnings("serial")
-public class Window extends JFrame implements WindowData {
+public class Window extends JFrame implements GraphicsData {
 	private static JFrame frame;
 
 	public static void init() {

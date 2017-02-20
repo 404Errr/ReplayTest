@@ -11,10 +11,10 @@ public class Client implements NetData {
 	private static ClientUpdateLoop updateLoop;
 
 	public static void run(boolean online) {
-		if (online) {//if should use server
+		/*if (online) {//if should use server
 			System.out.println("CLIENT STARTED");
 			System.out.println("Username: "+USERNAME+"\t(change in shared.data.NetData)");
-		}
+		}*/
 		Level.init();
 		Camera.init();
 		Window.init();

@@ -2,9 +2,9 @@ package client.graphics;
 
 import client.game.Game;
 import client.input.Cursor;
-import shared.data.WindowData;
+import shared.data.GraphicsData;
 
-public class Camera implements WindowData {
+public class Camera implements GraphicsData {
 	private static double x, y, scaleRatio;
 	private static boolean cursorZoom;
 

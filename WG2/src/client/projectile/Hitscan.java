@@ -46,7 +46,7 @@ public class Hitscan implements TileData, WeaponData {
 					firstHit = false;
 					x-=dX*incrementMultiplier;//change the x and y back
 					y-=dY*incrementMultiplier;
-					traveled-=Math.hypot(dX*incrementMultiplier, dY*incrementMultiplier);
+					traveled-=Math.hypot(dX*incrementMultiplier, dY*incrementMultiplier);//for checking if it went too far
 					incrementMultiplier = HITSCAN_FINAL_INCREMENT;
 				}
 				else {
@@ -56,13 +56,12 @@ public class Hitscan implements TileData, WeaponData {
 			if (firstCheck) {
 				firstCheck = false;
 			}
-			if (traveled>HITSCAN_MAX_DISTANCE) {
-				System.out.println("too far");
+			if (traveled>HITSCAN_MAX_DISTANCE) {//for checking if it went too far
 				return;
 			}
 			x+=dX*incrementMultiplier;//change the x and y
 			y+=dY*incrementMultiplier;
-			traveled+=Math.hypot(dX*incrementMultiplier, dY*incrementMultiplier);
+			traveled+=Math.hypot(dX*incrementMultiplier, dY*incrementMultiplier);//for checking if it went too far
 		}
 	}
 

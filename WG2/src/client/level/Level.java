@@ -12,9 +12,9 @@ public class Level implements MapData {
 			layout = addEdge(layout);
 		}
 		tiles = new Tile[layout.length][layout[0].length];
-		for (int r = 0;r<layout.length;r++) {
-			for (int c = 0;c<layout[0].length;c++) {
-				tiles[r][c] = new Tile(r, c, layout[r][c]);
+		for (int c = 0;c<layout.length;c++) {
+			for (int r = 0;r<layout[0].length;r++) {
+				tiles[c][r] = new Tile(c, r, layout[c][r]);
 			}
 		}
 	}
@@ -22,14 +22,14 @@ public class Level implements MapData {
 	public static int[][] addEdge(int[][] map) {//takes given map and adds 1's around it
 		System.out.println("Map size: "+map.length+","+map[0].length);
 		int[][] output = new int[map.length+2][map[0].length+2];//new array size of map +1 on every side
-		for (int r = 0;r<output.length;r++) {
-			for (int c = 0;c<output[0].length;c++) {
-				output[r][c] = '1';//sets all to 1
+		for (int c = 0;c<output.length;c++) {
+			for (int r = 0;r<output[0].length;r++) {
+				output[c][r] = '1';//sets all to 1
 			}
 		}
-		for (int r = 0;r<map.length;r++) {
-			for (int c = 0;c<map[0].length;c++) {
-				output[r+1][c+1] = map[r][c];
+		for (int c = 0;c<map.length;c++) {
+			for (int r = 0;r<map[0].length;r++) {
+				output[c+1][r+1] = map[c][r];
 			}
 		}
 		return output;
@@ -39,20 +39,20 @@ public class Level implements MapData {
 		return tiles;
 	}
 
-	public static Tile getTile(int r, int c) {//get a specific tile
-		return tiles[r][c];
+	public static Tile getTile(int c, int r) {//get a specific tile
+		return tiles[c][r];
 	}
 
-	public static Tile getTile(double r, double c) {
-		return tiles[(int)r][(int)c];
+	public static Tile getTile(double c, double r) {
+		return tiles[(int)c][(int)r];
 	}
 
 	public static int getWidth() {//based on layout, not tiles
-		return layout[0].length;
+		return tiles[0].length;
 	}
 
 	public static int getHeight() {//based on layout, not tiles
-		return layout.length;
+		return tiles.length;
 	}
 
 }
