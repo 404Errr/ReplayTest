@@ -3,7 +3,7 @@ package shared.data;
 import client.level.Level;
 
 public interface WeaponData {
-	public static boolean ALL_GUNS_AT_START = true, RECOIL = false;
+	public static boolean ALL_GUNS_AT_START = true, RECOIL = true;
 	public static int STARTING_GUN = 0;
 
 	public static double BASICGUN_LEGNTH = 0.4d, 	BASICGUN_WIDTH = 0.25d;
@@ -23,7 +23,7 @@ public interface WeaponData {
 	public static double RAILGUN_DAMAGE = 10d, 		RAILGUN_COOLDOWN = 50d, 	RAILGUN_RECOIL = 0.35d;
 	public static double RAILGUN_LINE_INITIAL_WIDTH = 0.18d, RAILGUN_LINE_DURATION = 0.6d*Data.UPS;
 
-	public static double HITSCAN_INCREMENT = 0.001d, HITSCAN_MAX_DISTANCE = Math.max(Level.getWidth(), Level.getHeight())*2d;
+	public static double HITSCAN_INITIAL_INCREMENT = 0.25d, HITSCAN_FINAL_INCREMENT = 0.001d, HITSCAN_MAX_DISTANCE = Math.max(Level.getWidth(), Level.getHeight())*2d;
 
 	public static double COOLDOWN_INCREMENT = 0.01667d*Data.UPS;//dont change (or do, I don't care)
 

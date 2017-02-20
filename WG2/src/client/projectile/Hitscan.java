@@ -33,23 +33,12 @@ public class Hitscan implements TileData, WeaponData {
 	}
 
 	private void scan(double angle) {
-		final int radius = 1;
-		final double magnitude = 0.999d;
+		final double magnitude = HITSCAN_INITIAL_INCREMENT;
 		final double dX = Util.getXComp(angle, magnitude), dY = -Util.getYComp(angle, magnitude);
 		double traveled = 0d, incrementMultiplier = 1.0d;
-		boolean firstHit = true, firstCheck = true, hit = false;
-		while (true) {//if it hit something
-			for (int r = (int)y-radius;r<y+radius;r++) {//for each row within the radius
-				for (int c = (int)x-radius;c<x+radius;c++) {//for each collumn within the radius
-					if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).isSolid(SOLID_PROJECTILES)) {//bounds check and if tile is solid
-						if (Level.getTile(r, c).getBounds().contains(x, y)) {//check for collision with tile
-							hit = true;
-						}
-					}
-				}
-			}
-			if (hit) {
-				hit = false;
+		boolean firstHit = true, firstCheck = true;
+		while (true) {
+			if (x>=0&&y>=0&&x<Level.getWidth()&&y<Level.getHeight()&&Level.getTile(y, x).isSolid(SOLID_PROJECTILES)) {//if it hit something
 				if (firstCheck) {
 					return;
 				}
@@ -58,7 +47,7 @@ public class Hitscan implements TileData, WeaponData {
 					x-=dX*incrementMultiplier;//change the x and y back
 					y-=dY*incrementMultiplier;
 					traveled-=Math.hypot(dX*incrementMultiplier, dY*incrementMultiplier);
-					incrementMultiplier = HITSCAN_INCREMENT;
+					incrementMultiplier = HITSCAN_FINAL_INCREMENT;
 				}
 				else {
 					return;

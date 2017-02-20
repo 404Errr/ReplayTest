@@ -43,6 +43,10 @@ public class Level implements MapData {
 		return tiles[r][c];
 	}
 
+	public static Tile getTile(double r, double c) {
+		return tiles[(int)r][(int)c];
+	}
+
 	public static int getWidth() {//based on layout, not tiles
 		return layout[0].length;
 	}
@@ -50,4 +54,5 @@ public class Level implements MapData {
 	public static int getHeight() {//based on layout, not tiles
 		return layout.length;
 	}
+
 }
