@@ -24,7 +24,7 @@ public interface WeaponData {
 	public static double MACHINEGUN_RECOIL = 0.01d;
 
 	public static double RAILGUN_LEGNTH = 2.3d, 	RAILGUN_WIDTH = 0.2d;
-	public static double RAILGUN_DAMAGE = 10d, 		RAILGUN_COOLDOWN = 10d;//50d;
+	public static double RAILGUN_DAMAGE = 10d, 		RAILGUN_COOLDOWN = 50d;
 	public static double RAILGUN_RECOIL = 0.35d;
 	public static double RAILGUN_INITIAL_WIDTH = 0.18d, RAILGUN_LINE_DURATION = 0.6d*Data.UPS;
 
