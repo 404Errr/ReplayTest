@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.player.ControlledPlayer;
+import client.player.Player;
 import client.projectile.Hitscan;
 import client.projectile.Projectile;
 import shared.data.ColorData;
 
 public class Game implements ColorData {
 	private static ControlledPlayer player;//the user's player
+	private static List<Player> players;
 	private static List<Projectile> projectiles;
 	private static List<Hitscan> hitscans;
 
@@ -37,5 +39,9 @@ public class Game implements ColorData {
 
 	public static List<Hitscan> getHitscans() {
 		return hitscans;
+	}
+
+	public static List<Player> getPlayers() {
+		return players;
 	}
 }

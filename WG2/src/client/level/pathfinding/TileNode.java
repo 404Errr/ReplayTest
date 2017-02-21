@@ -1,14 +1,13 @@
 package client.level.pathfinding;
 
 public class TileNode {
-	protected static final int BASICMOVEMENTCOST = 10;
-	protected static final int DIAGONALMOVEMENTCOST = 14;
+	private static final int BASICMOVEMENTCOST = 10;
+	private static final int DIAGONALMOVEMENTCOST = 14;
 
 	private int x, y;
-	private boolean open;
+	private boolean open, diagonally;
 
 	private TileNode previous;
-	private boolean diagonally;
 
 	private int gCosts, hCosts;
 
