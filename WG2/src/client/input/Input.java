@@ -14,12 +14,10 @@ import java.awt.event.WindowListener;
 
 import client.game.Game;
 import client.graphics.Camera;
-import client.graphics.Renderer;
-import client.graphics.Window;
-import client.level.pathfinding.PathFind;
-import shared.data.Controls;
-import shared.data.Data;
-import shared.data.PlayerData;
+import data.Controls;
+import data.Data;
+import data.PlayerData;
+
 
 public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, Controls, Data, PlayerData {
 	private static boolean mouse1Down, mouse2Down, mouse3Down;
@@ -28,31 +26,31 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		playerMovement(e, true);
 
 		switch (e.getKeyCode()) {
-		case ZOOM_KEY:
+		/*case ZOOM_KEY:
 			Camera.setCursorZoom(true);
-			break;
-		case DEBUG_TEXT_KEY:
+			break;*/
+		/*case DEBUG_TEXT_KEY:
 			Renderer.toggleDebugText();
-			break;
-		case DEBUG_LOS_LINE_KEY:
+			break;*/
+		/*case DEBUG_LOS_LINE_KEY:
 			Renderer.toggleDebugLOSLine();
-			break;
-		case DEBUG_DRAW_WEAPONS_KEY:
+			break;*/
+		/*case DEBUG_DRAW_WEAPONS_KEY:
 			Renderer.toggleDrawWeapons();
-			break;
+			break;*/
 		case KeyEvent.VK_T:
-			Game.getPlayer().move(Cursor.getXGrid(), Cursor.getYGrid());
+			Game.getPlayer().move(Cursor.getGridX(), Cursor.getGridY());
 			break;
-		case KeyEvent.VK_I:
+		/*case KeyEvent.VK_I:
 			PathFind.set1((int)Cursor.getXGrid(), (int)Cursor.getYGrid());
-			break;
-		case KeyEvent.VK_O:
+			break;*/
+		/*case KeyEvent.VK_O:
 			PathFind.set2((int)Cursor.getXGrid(), (int)Cursor.getYGrid());
-			break;
-		case KeyEvent.VK_P:
+			break;*/
+		/*case KeyEvent.VK_P:
 			if (PathFind.x1!=PathFind.x2||PathFind.y1!=PathFind.y2) PathFind.go();
-			break;
-		case KeyEvent.VK_1:
+			break;*/
+		/*case KeyEvent.VK_1:
 			Game.getPlayer().selectGun(0);
 			break;
 		case KeyEvent.VK_2:
@@ -78,7 +76,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 			break;
 		case KeyEvent.VK_9:
 			Game.getPlayer().selectGun(8);
-			break;
+			break;*/
 		}
 	}
 
@@ -87,9 +85,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		playerMovement(e, false);
 
 		switch (e.getKeyCode()) {
-		case ZOOM_KEY:
+		/*case ZOOM_KEY:
 			Camera.setCursorZoom(false);
-			break;
+			break;*/
 		}
 	}
 
@@ -128,7 +126,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		else {//zoom in
 			Camera.changeScaleRatio(ZOOM_INCREMENT);
 		}
-		Window.updateScale();
+		Camera.updateScale();
 	}
 
 	@Override
@@ -151,19 +149,15 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 			break;
 		case MouseEvent.BUTTON3://right
 			mouse3Down = down;
-			Camera.setCursorZoom(down);
+			Camera.setZoom(down);
 			break;
 		}
 	}
-
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		Cursor.updateMouse(e);
 		click(e, true);
-//		if (e.getButton()==MouseEvent.BUTTON1) {
-//			Game.getProjectiles().add(new Projectile(1, 0.15d, Game.getPlayer().getColor(), Game.getPlayer().getX()+PLAYER_SIZE/2, Game.getPlayer().getY()+PLAYER_SIZE/2, Game.getPlayer().getdX()+Util.getXComp(Game.getPlayer().getFacing(), 1), Game.getPlayer().getdY()-Util.getYComp(Game.getPlayer().getFacing(), 1)));
-//		}
 	}
 
 	@Override
@@ -174,7 +168,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		Window.updateScale();
+		Camera.updateScale();
 	}
 
 	@Override

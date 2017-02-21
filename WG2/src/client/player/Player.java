@@ -2,21 +2,18 @@ package client.player;
 
 import java.awt.Color;
 
-import client.level.Level;
-import shared.data.Data;
-import shared.data.PlayerData;
-import shared.data.TileData;
+import data.Data;
+import data.PlayerData;
+import data.TileData;
 
 public class Player implements PlayerData, Data, TileData {
 	protected double x, y, dX, dY, ddX, ddY, facing;//facing is in radians
-	protected PlayerHitbox hitbox;
 	protected boolean[] canMove;//r,d,l,u
 	protected Color color;
 
 	public Player(Color color, double x, double y) {
 		move(x, y);
 		this.color = color;
-		hitbox = new PlayerHitbox();
 		canMove = new boolean[4];
 		setAllCanMove(false);//set all values in canMove to false
 	}
@@ -42,7 +39,7 @@ public class Player implements PlayerData, Data, TileData {
 		this.facing = facing;
 	}
 
-	private void checkWallCollision() {
+	/*private void checkWallCollision() {
 		final int radius = 2;
 		for (int r = (int)y-radius;r<y+radius;r++) {//for each row within the radius
 			for (int c = (int)x-radius;c<x+radius;c++) {//for each collumn within the radius
@@ -62,10 +59,10 @@ public class Player implements PlayerData, Data, TileData {
 		setAllCanMove(true);//set all of canMove to true
 		hitbox.move(x, y);//move the hitbox to the player's current location
 		checkWallCollision();//check for a wall collision
-	}
+	}*/
 
 	public void tick() {
-		checkCollision();//check for collision (neccessary)
+		//checkCollision();//check for collision (neccessary)
 	}
 
 	public boolean[] getCanMove() {
@@ -136,9 +133,5 @@ public class Player implements PlayerData, Data, TileData {
 
 	public boolean canMove(int direction) {
 		return canMove[direction];
-	}
-
-	public PlayerHitbox getHitbox() {
-		return hitbox;
 	}
 }

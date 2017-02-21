@@ -8,14 +8,13 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 
 import client.input.Input;
-import shared.data.GraphicsData;
+import data.GraphicsData;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame implements GraphicsData {
 	private static JFrame frame;
 	private static Input input;
 	private static Renderer rendererer;
-	private static int scale;
 
 	public static void init() {
 		rendererer = new Renderer();
@@ -36,29 +35,31 @@ public class Window extends JFrame implements GraphicsData {
 		frame.addWindowListener(input);
 		frame.addComponentListener(input);
 		frame.add(rendererer);
-		updateScale();
-		System.out.println("Window: "+getWindowWidth()+","+getWindowHeight()+" SCALE: "+getScale());
+		System.out.println("Window size: "+width()+","+height());
 		frame.setVisible(true);
-	}
-
-	public static void updateScale() {//can go below 0 (potential bug)
-		int screenSize = Math.min(frame.getWidth(), frame.getHeight());
-		scale = (int)(screenSize*Camera.getScaleRatio());
 	}
 
 	public static Renderer getRendererer() {
 		return rendererer;
 	}
 
-	public static int getWindowHeight() {
+	public static JFrame getFrame() {
+		return frame;
+	}
+
+	public static int height() {
 		return frame.getHeight();
 	}
 
-	public static int getWindowWidth() {
+	public static int width() {
 		return frame.getWidth();
 	}
 
-	public static int getScale() {
-		return scale;
+	public static int centerX() {
+		return frame.getWidth()/2;
+	}
+
+	public static int centerY() {
+		return frame.getHeight()/2;
 	}
 }

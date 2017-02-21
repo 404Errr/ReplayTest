@@ -3,21 +3,21 @@ package client.level;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
-import shared.data.ColorData;
-import shared.data.MapData;
-import shared.data.TileData;
+import data.ColorData;
+import data.MapData;
+import data.TileData;
 
 public class Tile implements MapData {
-	private final short tileType, r, c;
+	private final int tileType, r, c;
 
 	public Tile(int r, int c, int tileType) {
-		this.tileType = (short)tileType;
-		this.r = (short)r;
-		this.c = (short)c;
+		this.tileType = tileType;
+		this.r = r;
+		this.c = c;
 	}
 
 	public Rectangle2D getBounds() {
-		return new Rectangle2D.Double(c, r, 1, 1);
+		return new Rectangle2D.Double(c, r, 1, 1);//r and c have been switched
 	}
 
 	public boolean isSolid(int solidityType) {

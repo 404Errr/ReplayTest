@@ -1,7 +1,7 @@
 package client.level;
 
-import shared.data.MapData;
-import shared.util.Util;
+import data.MapData;
+import util.Util;
 
 public class MapParser implements MapData{
 	public static final String PATH = "src/maps/";
@@ -28,6 +28,4 @@ public class MapParser implements MapData{
 		}
 		return layout;
 	}
-
-
 }

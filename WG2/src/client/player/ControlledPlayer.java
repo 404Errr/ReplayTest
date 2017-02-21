@@ -1,47 +1,40 @@
 package client.player;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 
-import client.game.Game;
-import client.input.Cursor;
-import client.weapon.Gun;
-import client.weapon.GunType;
-import shared.data.Data;
-import shared.data.PlayerData;
-import shared.data.WeaponData;
-import shared.util.Util;
+import data.Data;
+import data.PlayerData;
+import data.WeaponData;
 
 public class ControlledPlayer extends Player implements PlayerData, Data, WeaponData {
 	private boolean[] movementKeyPressed;//r,d,l,u
-	private List<Gun> guns;
-	private Gun activeGun;
+//	private List<Gun> guns;
+//	private Gun activeGun;
 
 	public ControlledPlayer(Color color, double x, double y) {//creates at given x and y with given color
 		super(color, x, y);
 		movementKeyPressed = new boolean[4];
-		guns = new ArrayList<>();
-		if (ALL_GUNS_AT_START) {
-			for (GunType type:GunType.getTypes()) {
-				addGun(type);
-			}
-			selectGun(STARTING_GUN);
-		}
+//		guns = new ArrayList<>();
+//		if (ALL_GUNS_AT_START) {
+//			for (GunType type:GunType.getTypes()) {
+//				addGun(type);
+//			}
+//			selectGun(STARTING_GUN);
+//		}
 	}
 
-	@Override
+	/*@Override
 	public void tick() {
 		turn();//rotate the player toward cursor
 		move();//move the player
-		for (Gun gun:guns) {
-			gun.tick();
-		}
-		super.checkCollision();//check for collision (neccessary)
+//		for (Gun gun:guns) {
+//			gun.tick();
+//		}
+//		super.checkCollision();//check for collision (neccessary)
 	}
 
 	private void turn() {
-		setFacing(Util.getAngle(x, y, Cursor.getXGrid(), Cursor.getYGrid()));//rotate the player toward cursor
+		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
 	}
 
 	private void move() {
@@ -62,11 +55,11 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 	}
 
 	private void dPosition(double dX, double dY) {
-		double inc = /*0.5d*/0.25d/UPS, remaining, sign;//inc - the increment between collision checks
+		double inc = /*0.5d*//*0.25d/UPS, remaining, sign;//inc - the increment between collision checks
 		remaining = Math.abs(dX);//the magnitude of dX
 		sign = Math.signum(dX);//the sign of dX
 		while (remaining>0) {
-			checkCollision();//check for collision
+//			checkCollision();//check for collision
 			if (sign>0&&!canMove(RIGHT)) break;//if cant move right, stop changing x
 			if (sign<0&&!canMove(LEFT)) break;//if cant move left, stop changing x
 			if (remaining>=inc) x+=inc*sign;//if remaining isnt smaller than increment, change x by increment
@@ -76,7 +69,7 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 		remaining = Math.abs(dY);
 		sign = Math.signum(dY);
 		while (remaining>0) {
-			checkCollision();
+//			checkCollision();
 			if (sign<0&&!canMove(UP)) break;
 			if (sign>0&&!canMove(DOWN)) break;
 			if (remaining>=inc) y+=inc*sign;
@@ -151,7 +144,7 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 		if (Math.abs(dX)<0.0001d||(!canMove(LEFT)&&dX<0)||(!canMove(RIGHT)&&dX>0)) {
 			dX = 0;
 		}
-	}
+	}*/
 
 	public boolean isMovementKeyPressed(int direction) {
 		return movementKeyPressed[direction];
@@ -161,29 +154,29 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 		movementKeyPressed[direction] = value;
 	}
 
-	public Gun getActiveGun() {
-		return activeGun;
-	}
-
-	public void setActiveGun(Gun activeGun) {
-		this.activeGun = activeGun;
-	}
-
-	public List<Gun> getGuns() {
-		return guns;
-	}
-
-	public void selectGun(int gun) {
-		if (gun>=0&&gun<guns.size()) {
-			activeGun = guns.get(gun);
-		}
-	}
-
-	public void addGun(GunType type) {
-		guns.add(new Gun(type));
-	}
-
-	public void clearGuns() {
-		guns.clear();
-	}
+//	public Gun getActiveGun() {
+//		return activeGun;
+//	}
+//
+//	public void setActiveGun(Gun activeGun) {
+//		this.activeGun = activeGun;
+//	}
+//
+//	public List<Gun> getGuns() {
+//		return guns;
+//	}
+//
+//	public void selectGun(int gun) {
+//		if (gun>=0&&gun<guns.size()) {
+//			activeGun = guns.get(gun);
+//		}
+//	}
+//
+//	public void addGun(GunType type) {
+//		guns.add(new Gun(type));
+//	}
+//
+//	public void clearGuns() {
+//		guns.clear();
+//	}
 }
