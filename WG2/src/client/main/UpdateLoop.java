@@ -1,6 +1,5 @@
 package client.main;
 
-import client.entity.Entity;
 import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Window;
@@ -28,8 +27,9 @@ public class UpdateLoop implements Data {
 
 	private static void update() {
 		try {
-			for (Entity entity:Game.getEntities()) {
-				entity.tick();
+			for (int i = 0;i<Game.getEntities().size();) {
+				if (Game.getEntities().get(i).tick()) Game.getEntities().remove(i);
+				else i++;
 			}
 			Camera.tick();
 		}

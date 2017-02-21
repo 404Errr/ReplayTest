@@ -4,8 +4,8 @@ import client.graphics.Camera;
 import client.graphics.Window;
 
 public interface GraphicsData {
-	public static final float DEFAULT_SCALE_RATIO = 0.03f;
-	public static final float ZOOM_INCREMENT = 20;
+	public static final float DEFAULT_SCALE_RATIO = 0.035f;
+	public static final float ZOOM_INCREMENT = 0.001f;
 	public static final float DEFAULT_WINDOW_SCREEN_RATIO = 0.8f;
 
 	public static final boolean AUTO_RENDER_DISTANCE = true;

@@ -22,7 +22,6 @@ public class Cursor implements PlayerData {
 		return screenY;
 	}
 
-//	playerX = (float)x/Window.getScale()-Window.getWindowWidth()/2d/Window.getScale();
 	public static float getPlayerX() {//relative to player 0, 0
 		if (!Camera.inZoom()) return 0;
 		return (float)screenX/Camera.getScale()-(float)Window.centerX()/Camera.getScale();
@@ -33,7 +32,6 @@ public class Cursor implements PlayerData {
 		return (float)screenY/Camera.getScale()-(float)Window.centerY()/Camera.getScale();
 	}
 
-//	gridX = (float)x/Window.getScale()+Camera.getX()-Window.getWindowWidth()/2d/Window.getScale();
 	public static float getGridX() {//relative to grid 0, 0
 		return (float)screenX/Camera.getScale()+Camera.getX()-(float)Window.centerX()/Camera.getScale();
 	}

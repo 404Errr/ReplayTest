@@ -25,13 +25,9 @@ public class Game implements ColorData {
 		return entities.get(entity);
 	}
 
-//	public static void addProjectile(Projectile projectile) {
-//		projectiles.add(projectile);
-//	}
-//
-//	public static void addHitscan(Hitscan hitscan) {
-//		hitscans.add(hitscan);
-//	}
+	public static void addEntity(Entity entity) {
+		entities.add(entity);
+	}
 
 	public static List<Entity> getEntities() {
 		return entities;

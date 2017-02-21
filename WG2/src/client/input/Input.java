@@ -17,6 +17,7 @@ import client.graphics.Camera;
 import data.Controls;
 import data.Data;
 import data.PlayerData;
+import main.Debug;
 
 
 public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, Controls, Data, PlayerData {
@@ -29,15 +30,23 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		/*case ZOOM_KEY:
 			Camera.setCursorZoom(true);
 			break;*/
-		/*case DEBUG_TEXT_KEY:
-			Renderer.toggleDebugText();
-			break;*/
-		/*case DEBUG_LOS_LINE_KEY:
-			Renderer.toggleDebugLOSLine();
-			break;*/
-		/*case DEBUG_DRAW_WEAPONS_KEY:
-			Renderer.toggleDrawWeapons();
-			break;*/
+		case DEBUG_TEXT_KEY:
+			Debug.toggleText();
+			break;
+		case DEBUG_LOS_LINE_KEY:
+			Debug.toggleLOS();
+			break;
+		case DEBUG_DRAW_WEAPONS_KEY:
+			Debug.toggleDrawWeapons();
+			break;
+		case KeyEvent.VK_MINUS://dash
+			Camera.changeScaleRatio(-1);
+			Camera.updateScale();
+			break;
+		case KeyEvent.VK_EQUALS://plus
+			Camera.changeScaleRatio(1);
+			Camera.updateScale();
+			break;
 		case KeyEvent.VK_T:
 			Game.getPlayer().move(Cursor.getGridX(), Cursor.getGridY());
 			break;
@@ -50,7 +59,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		/*case KeyEvent.VK_P:
 			if (PathFind.x1!=PathFind.x2||PathFind.y1!=PathFind.y2) PathFind.go();
 			break;*/
-		/*case KeyEvent.VK_1:
+		case KeyEvent.VK_1:
 			Game.getPlayer().selectGun(0);
 			break;
 		case KeyEvent.VK_2:
@@ -76,7 +85,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 			break;
 		case KeyEvent.VK_9:
 			Game.getPlayer().selectGun(8);
-			break;*/
+			break;
 		}
 	}
 

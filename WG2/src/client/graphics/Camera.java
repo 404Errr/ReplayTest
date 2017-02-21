@@ -14,8 +14,12 @@ public class Camera implements GraphicsData {
 	}
 
 	public static void tick() {
-		if (zoom) setPos(Game.getPlayer().getX()+Cursor.getPlayerX(), Game.getPlayer().getY()+Cursor.getPlayerY());//set position to "half" of the distance between the player and cursor
-		else setPos(Game.getPlayer().getX(), Game.getPlayer().getY());//set position to player position
+		if (zoom) {
+			setPos(Game.getPlayer().getX()+Cursor.getPlayerX(), Game.getPlayer().getY()+Cursor.getPlayerY());//set position to "half" of the distance between the player and cursor
+		}
+		else {
+			setPos(Game.getPlayer().getX(), Game.getPlayer().getY());//set position to player position
+		}
 	}
 
 	public static void updateScale() {//can go below 0 (potential bug)
@@ -53,7 +57,7 @@ public class Camera implements GraphicsData {
 	}
 
 	public static void changeScaleRatio(int direction) {//zoom
-		scaleRatio+=Math.signum(direction)*(scaleRatio/ZOOM_INCREMENT);
+		scaleRatio+=Math.signum(direction)*ZOOM_INCREMENT;
 	}
 
 	public static boolean inZoom() {

@@ -27,12 +27,39 @@ public class Util {
 		return Math.hypot(x1-x2, y1-y2);
 	}
 
+	public static float distance(float x1, float y1, float x2, float y2) {
+		return (float)Math.hypot(x1-x2, y1-y2);
+	}
+
+	public static float distance(float x1, float y1, int x2, int y2) {
+		return (float)Math.hypot(x1-x2, y1-y2);
+	}
+
+	public static float distance(int x1, int y1, float x2, float y2) {
+		return (float)Math.hypot(x1-x2, y1-y2);
+	}
+
+	public static double distance(double x1, double y1, float x2, float y2) {
+		return Math.hypot(x1-x2, y1-y2);
+	}
+
+	public static double distance(float x1, float y1, double x2, double y2) {
+		return Math.hypot(x1-x2, y1-y2);
+	}
+
+
 	public static double getAngleDegrees(double x, double y, double xT, double yT) {
 		double result = Math.toDegrees(Math.atan2(-(xT-x), -(yT-y)))+90;
 		if (result<0) {
 			result+=360;
 		}
 		return result;
+	}
+
+	public static float avg(float... nums) {
+		float total = 0;
+		for (float num:nums) total+=num;
+		return total/nums.length;
 	}
 
 	public static double avg(double... nums) {
@@ -51,12 +78,24 @@ public class Util {
 		return Math.atan2(x-xT, y-yT)+1.57079632679d;
 	}
 
+	public static float getAngle(float x, float y, float xT, float yT) {
+		return (float)(Math.atan2(x-xT, y-yT)+1.57079632679d);
+	}
+
 	public static double getSpread(double value, double spread) {
 		return value+(Math.random()-0.5)*spread;
 	}
 
+	public static float getSpread(float value, float spread) {
+		return (float)(value+(Math.random()-0.5)*spread);
+	}
+
 	public static double getAngleSpread(double angle, double spread) {//returns radians (radian angle input, degree spread input) spread includes both directions
 		return angle+(Math.random()-0.5)*Math.toRadians(spread);
+	}
+
+	public static float getAngleSpread(float angle, float spread) {//returns radians (radian angle input, degree spread input) spread includes both directions
+		return (float) (angle+(Math.random()-0.5)*Math.toRadians(spread));
 	}
 
 	public static Ellipse2D getCircle(int x, int y, int size, boolean center) {
@@ -68,12 +107,8 @@ public class Util {
 		Polygon poly = new Polygon();
 		double a, shift = 0;
 		for (int i = 0;i<=sides;i++) {
-			if (sides%2!=0) {
-				shift = Math.PI;
-			}
-			else {
-				shift = Math.PI/sides;
-			}
+			if (sides%2!=0) shift = Math.PI;
+			else shift = Math.PI/sides;
 			a = Math.PI/(sides/2d)*i+shift;
 			poly.addPoint((int)(Math.round(x+Math.sin(a)*size)),(int)(Math.round(y+Math.cos(a)*size)));
 		}
@@ -96,20 +131,12 @@ public class Util {
 		return Math.sin(Math.toRadians(angle))*magnitude;
 	}
 
-	public static float getXComp(double angle, float magnitude) {
+	public static float getXComp(float angle, float magnitude) {
 		return (float)(Math.cos(angle)*magnitude);
 	}
 
-	public static float getYComp(double angle, float magnitude) {
+	public static float getYComp(float angle, float magnitude) {
 		return (float)(Math.sin(angle)*magnitude);
-	}
-
-	public static double getXComp(float angle, float magnitude) {
-		return Math.cos(angle)*magnitude;
-	}
-
-	public static double getYComp(float angle, float magnitude) {
-		return Math.sin(angle)*magnitude;
 	}
 
 	public static double getXComp(double angle, double magnitude) {
