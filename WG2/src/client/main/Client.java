@@ -1,10 +1,10 @@
 package client.main;
 
-import client.ai.PathFind;
 import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Window;
 import client.level.Level;
+import client.level.pathfinding.PathFind;
 import shared.data.NetData;
 
 public class Client implements NetData {

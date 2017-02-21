@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import client.ai.PathFind;
 import client.game.Game;
 import client.input.Cursor;
 import client.level.Level;
+import client.level.pathfinding.PathFind;
 import client.projectile.Hitscan;
 import client.projectile.Projectile;
 import client.weapon.GunType;

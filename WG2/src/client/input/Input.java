@@ -12,11 +12,11 @@ import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import client.ai.PathFind;
 import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Renderer;
 import client.graphics.Window;
+import client.level.pathfinding.PathFind;
 import shared.data.Controls;
 import shared.data.Data;
 import shared.data.PlayerData;

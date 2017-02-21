@@ -1,11 +1,9 @@
-package client.ai;
+package client.level.pathfinding;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import client.ai.pathfinding.NavMap;
-import client.ai.pathfinding.TileNode;
 import client.level.Level;
 import shared.data.TileData;
 

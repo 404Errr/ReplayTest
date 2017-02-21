@@ -1,4 +1,4 @@
-package client.ai.pathfinding;
+package client.level.pathfinding;
 
 import java.util.LinkedList;
 import java.util.List;

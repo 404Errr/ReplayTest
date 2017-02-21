@@ -1,4 +1,4 @@
-package client.ai.pathfinding;
+package client.level.pathfinding;
 
 public class TileNode {
 	protected static final int BASICMOVEMENTCOST = 10;

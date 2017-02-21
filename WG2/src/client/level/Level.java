@@ -31,7 +31,7 @@ public class Level implements MapData {
 		int[][] output = new int[map.length+2][map[0].length+2];//new array size of map +1 on every side
 		for (int c = 0;c<output.length;c++) {
 			for (int r = 0;r<output[0].length;r++) {
-				output[c][r] = '1';//sets all to 1
+				output[c][r] = '1';//sets all to 1 (basic wall)
 			}
 		}
 		for (int c = 0;c<map.length;c++) {
