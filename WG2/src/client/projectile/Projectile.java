@@ -39,7 +39,7 @@ public class Projectile implements TileData {
 	}
 
 	private void checkWallCollision() {
-		final int radius = 1;
+		final int radius = 2;
 		for (int r = (int)y-radius;r<=y+radius;r++) {//for each row within the radius
 			for (int c = (int)x-radius;c<=x+radius;c++) {//for each collumn within the radius
 				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).isSolid(SOLID_PROJECTILES)) {//bounds check and if tile is solid

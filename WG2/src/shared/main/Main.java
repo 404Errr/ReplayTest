@@ -7,7 +7,9 @@
  * scroll wheel = zoom
  * number keys = change weapon
  *
- *
+ * f3 = toggle debug text
+ * f2 = toggle line of sight line
+ * f5 = toggle hardness
  *
  */
 package shared.main;

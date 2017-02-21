@@ -1,13 +1,17 @@
 package client.graphics;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import client.ai.PathFind;
 import client.game.Game;
 import client.input.Cursor;
 import client.level.Level;
@@ -36,6 +40,8 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			drawHitscans();
 			if (drawWeapons) drawActiveGun();
 			drawPlayer();
+
+			drawPath(PathFind.lines);
 		}
 		catch (Exception e) {}
 	}
@@ -127,6 +133,18 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 				}
 			}
 		}
+	}
+
+	public void drawPath(ArrayList<Point> points) {
+		g.setColor(Color.RED);
+		g.setStroke(new BasicStroke(2));
+		for (int i = 1;i<points.size();i++) {
+			g.drawLine(getGridX(points.get(i-1).x)+getPlayerSize()/2, getGridY(points.get(i-1).y)+getPlayerSize()/2, getGridX(points.get(i).x)+getPlayerSize()/2, getGridY(points.get(i).y)+getPlayerSize()/2);
+		}
+		g.setColor(Color.green);
+		g.setStroke(new BasicStroke(7));
+		g.drawLine(getGridX(PathFind.x1)+getPlayerSize()/2, getGridY(PathFind.y1)+getPlayerSize()/2, getGridX(PathFind.x1)+getPlayerSize()/2, getGridY(PathFind.y1)+getPlayerSize()/2);
+		g.drawLine(getGridX(PathFind.x2)+getPlayerSize()/2, getGridY(PathFind.y2)+getPlayerSize()/2, getGridX(PathFind.x2)+getPlayerSize()/2, getGridY(PathFind.y2)+getPlayerSize()/2);
 	}
 
 	private static int getGridX(double x) {

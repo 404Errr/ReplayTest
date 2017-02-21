@@ -46,7 +46,7 @@ public class Gun implements WeaponData {
 	private void shootRailgun() {
 		Game.addHitscan(new Hitscan(type.getDamage(), RAILGUN_LINE_INITIAL_WIDTH, Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Game.getPlayer().getFacing()));
 		/*for (double a = 0;a<360;a+=0.5d) {
-			Game.addHitscan(new Hitscan(type.getDamage(), RAILGUN_LINE_INITIAL_WIDTH, Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Math.toRadians(a)));
+			Game.addHitscan(new Hitscan(type.getDamage(), 0.5, Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Math.toRadians(a)));
 		}*/
 	}
 

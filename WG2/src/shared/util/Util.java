@@ -35,6 +35,23 @@ public class Util {
 		return result;
 	}
 
+
+	public static double avg(double... nums) {
+		double total = 0;
+		for (double num:nums) {
+			total+=num;
+		}
+		return total/nums.length;
+	}
+
+	public static int avg(int... nums) {
+		int total = 0;
+		for (int num:nums) {
+			total+=num;
+		}
+		return total/nums.length;
+	}
+
 	public static double getAngle(double x, double y, double xT, double yT) {
 		return Math.atan2(x-xT, y-yT)+1.57079632679d;
 	}

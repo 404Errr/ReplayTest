@@ -12,6 +12,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import client.ai.PathFind;
 import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Renderer;
@@ -41,6 +42,15 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 			break;
 		case KeyEvent.VK_T:
 			Game.getPlayer().move(Cursor.getXGrid(), Cursor.getYGrid());
+			break;
+		case KeyEvent.VK_I:
+			PathFind.set1((int)Cursor.getXGrid(), (int)Cursor.getYGrid());
+			break;
+		case KeyEvent.VK_O:
+			PathFind.set2((int)Cursor.getXGrid(), (int)Cursor.getYGrid());
+			break;
+		case KeyEvent.VK_P:
+			if (PathFind.x1!=PathFind.x2||PathFind.y1!=PathFind.y2) PathFind.go();
 			break;
 		case KeyEvent.VK_1:
 			Game.getPlayer().selectGun(0);

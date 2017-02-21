@@ -6,6 +6,7 @@ public class Level implements MapData {
 	private static Tile[][] tiles;
 	private static int[][] layout;
 
+	@SuppressWarnings("unused")
 	public static void init() {//initialize layout
 		layout = MapParser.parseMap(MAP);
 		if (ADD_EDGE) {
@@ -53,11 +54,11 @@ public class Level implements MapData {
 		return tiles[(int)c][(int)r];
 	}
 
-	public static int getWidth() {//based on layout, not tiles
+	public static int getWidth() {
 		return tiles[0].length;
 	}
 
-	public static int getHeight() {//based on layout, not tiles
+	public static int getHeight() {
 		return tiles.length;
 	}
 

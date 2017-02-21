@@ -1,5 +1,6 @@
 package client.main;
 
+import client.ai.PathFind;
 import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Window;
@@ -16,6 +17,7 @@ public class Client implements NetData {
 			System.out.println("Username: "+USERNAME+"\t(change in shared.data.NetData)");
 		}*/
 		Level.init();
+		PathFind.init();
 		Camera.init();
 		Window.init();
 		Game.init();
