@@ -27,6 +27,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 	@Override
 	public void paint(Graphics g0) {
 		g = (Graphics2D) g0;
+		setBackground(COLOR_BACKROUND);
 		super.paintComponent(g);
 		try {//instead of null checks
 			drawTiles();
@@ -57,7 +58,6 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		g.drawLine(gridX(hitscan.getiX()), gridY(hitscan.getiY()), gridX(hitscan.getfX()), gridY(hitscan.getfY()));
 	}
 
-
 	private void drawProjectile(Projectile projectile) {
 		g.setColor(projectile.getColor());
 		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
@@ -78,7 +78,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 	private void drawTiles() {
 		for (int r = Camera.getYTile()-GraphicsData.getRenderDistanceY();r<=Camera.getYTile()+GraphicsData.getRenderDistanceY();r++) {
 			for (int c = Camera.getXTile()-GraphicsData.getRenderDistanceX();c<=Camera.getXTile()+GraphicsData.getRenderDistanceX();c++) {
-				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()) {
+				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).getColor()!=null) {
 					g.setColor(Level.getTile(r, c).getColor());
 					g.fillRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
 				}
@@ -86,11 +86,11 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		}
 	}
 
-	private static int gridX(float x) {
+	public static int gridX(float x) {
 		return (int)(x*Camera.getScale()+getXOrigin());
 	}
 
-	private static int gridY(float y) {
+	public static int gridY(float y) {
 		return (int)(y*Camera.getScale()+getYOrigin());
 	}
 
@@ -110,11 +110,11 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		return Window.centerY()-Cursor.getPlayerY()*Camera.getScale();
 	}
 
-	private static float getPlayerSize() {
+	public static float getPlayerSize() {
 		return PLAYER_SIZE*Camera.getScale();
 	}
 
-	private static float getHalfPlayerSize() {
+	public static float getHalfPlayerSize() {
 		return HALF_PLAYER_SIZE*Camera.getScale();
 	}
 

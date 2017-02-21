@@ -1,7 +1,10 @@
 package main;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
+import java.util.ArrayList;
 
 import client.game.Game;
 import client.graphics.Camera;
@@ -9,6 +12,7 @@ import client.graphics.Renderer;
 import client.graphics.Window;
 import client.input.Cursor;
 import client.level.Level;
+import client.level.pathfinding.PathFind;
 import data.ColorData;
 import data.Data;
 import data.GraphicsData;
@@ -57,13 +61,21 @@ public class Debug implements Data, ColorData {
 				else {
 					Renderer.getG().drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));//los
 				}
-				/*g.setColor(COLOR_DEBUG_GREEN);
-				g.drawLine(0, 0, Window.centerX(), Window.centerY());
-				g.drawLine(0, 0, (int)(Window.centerX()+Cursor.getPlayerX()*Camera.getScale()), (int)(Window.centerY()+Cursor.getPlayerY()*Camera.getScale()));
-				g.drawLine(0, 0, Cursor.getScreenX(), Cursor.getScreenY());
-				g.drawLine(0, 0, (int)getXOrigin(), (int)getYOrigin());*/
 			}
+			drawPath(PathFind.lines);
 		}
+	}
+
+	public static void drawPath(ArrayList<Point> points) {
+		Renderer.getG().setColor(Color.RED);
+		Renderer.getG().setStroke(new BasicStroke(2));
+		for (int i = 1;i<points.size();i++) {
+			Renderer.getG().drawLine((int)(Renderer.gridX(points.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(points.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(points.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(points.get(i).y)+Renderer.getHalfPlayerSize()));
+		}
+		Renderer.getG().setColor(Color.green);
+		Renderer.getG().setStroke(new BasicStroke(7));
+		Renderer.getG().drawLine((int)(Renderer.gridX(PathFind.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFind.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFind.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFind.y1)+Renderer.getHalfPlayerSize()));
+		Renderer.getG().drawLine((int)(Renderer.gridX(PathFind.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFind.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFind.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFind.y2)+Renderer.getHalfPlayerSize()));
 	}
 
 	public static void toggleText() {

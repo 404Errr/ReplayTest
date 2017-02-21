@@ -14,6 +14,7 @@ import java.awt.event.WindowListener;
 
 import client.game.Game;
 import client.graphics.Camera;
+import client.level.pathfinding.PathFind;
 import data.Controls;
 import data.Data;
 import data.PlayerData;
@@ -50,15 +51,15 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		case KeyEvent.VK_T:
 			Game.getPlayer().move(Cursor.getGridX(), Cursor.getGridY());
 			break;
-		/*case KeyEvent.VK_I:
-			PathFind.set1((int)Cursor.getXGrid(), (int)Cursor.getYGrid());
-			break;*/
-		/*case KeyEvent.VK_O:
-			PathFind.set2((int)Cursor.getXGrid(), (int)Cursor.getYGrid());
-			break;*/
-		/*case KeyEvent.VK_P:
+		case KeyEvent.VK_I:
+			PathFind.set1((int)Cursor.getGridX(), (int)Cursor.getGridY());
+			break;
+		case KeyEvent.VK_O:
+			PathFind.set2((int)Cursor.getGridX(), (int)Cursor.getGridY());
+			break;
+		case KeyEvent.VK_P:
 			if (PathFind.x1!=PathFind.x2||PathFind.y1!=PathFind.y2) PathFind.go();
-			break;*/
+			break;
 		case KeyEvent.VK_1:
 			Game.getPlayer().selectGun(0);
 			break;
