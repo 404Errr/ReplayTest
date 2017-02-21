@@ -62,4 +62,8 @@ public class Level implements MapData {
 		return tiles.length;
 	}
 
+	public static int[][] getLayout() {
+		return layout;
+	}
+
 }

@@ -1,7 +1,7 @@
 package shared.data;
 
 public interface WeaponData {
-	public static boolean ALL_GUNS_AT_START = true, RECOIL = false;
+	public static boolean ALL_GUNS_AT_START = true, RECOIL = true;
 	public static int STARTING_GUN = 0;
 
 	public static double BASICGUN_LEGNTH = 0.4d, 	BASICGUN_WIDTH = 0.25d;
