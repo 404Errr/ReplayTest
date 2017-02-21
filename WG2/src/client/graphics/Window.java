@@ -27,7 +27,7 @@ public class Window extends JFrame implements GraphicsData {
 		frame.setPreferredSize(new Dimension((int)(screen.getDisplayMode().getWidth()*DEFAULT_WINDOW_SCREEN_RATIO), (int)(screen.getDisplayMode().getHeight()*DEFAULT_WINDOW_SCREEN_RATIO)));
 		frame.pack();
 		frame.setLocationRelativeTo(null);
-		frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH);
+		frame.setExtendedState(/*frame.getExtendedState()|*/JFrame.MAXIMIZED_BOTH);
 		frame.addKeyListener(input);
 		frame.addMouseMotionListener(input);
 		frame.addMouseListener(input);

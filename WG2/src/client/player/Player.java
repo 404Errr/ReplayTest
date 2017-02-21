@@ -2,42 +2,31 @@ package client.player;
 
 import java.awt.Color;
 
+import client.entity.Entity;
 import data.Data;
 import data.PlayerData;
 import data.TileData;
 
-public class Player implements PlayerData, Data, TileData {
-	protected double x, y, dX, dY, ddX, ddY, facing;//facing is in radians
-	protected boolean[] canMove;//r,d,l,u
+public abstract class Player extends Entity implements PlayerData, Data, TileData {
+	protected float facing;//facing is in radians
+//	protected boolean[] canMove;//r,d,l,u
 	protected Color color;
 
-	public Player(Color color, double x, double y) {
-		move(x, y);
+	public Player(Color color, float x, float y) {
+		super(color, x, y);
 		this.color = color;
-		canMove = new boolean[4];
-		setAllCanMove(false);//set all values in canMove to false
+		//canMove = new boolean[4];
+		//setAllCanMove(true);//set all values in canMove to
 	}
 
-	public void move(double x, double y, double dX, double dY, double ddX, double ddY, double facing) {
-		this.x = x;
-		this.y = y;
-		this.dX = dX;
-		this.dY = dY;
-		this.ddX = ddX;
-		this.ddY = ddY;
-		this.facing = facing;
+	public void move(float x, float y, float facing) {
+		super.move(x, y);
+		setFacing(facing);
 	}
 
-	public void move(double x, double y) {
-		this.x = x;
-		this.y = y;
-	}
 
-	public void move(double x, double y, double facing) {
-		this.x = x;
-		this.y = y;
-		this.facing = facing;
-	}
+
+
 
 	/*private void checkWallCollision() {
 		final int radius = 2;
@@ -60,20 +49,21 @@ public class Player implements PlayerData, Data, TileData {
 		hitbox.move(x, y);//move the hitbox to the player's current location
 		checkWallCollision();//check for a wall collision
 	}*/
+//
+//	@Override
+//	public void tick() {
+//		//checkCollision();//check for collision (neccessary)
+//	}
 
-	public void tick() {
-		//checkCollision();//check for collision (neccessary)
-	}
-
-	public boolean[] getCanMove() {
-		return canMove;
-	}
+//	public boolean[] getCanMove() {
+//		return canMove;
+//	}
 
 	public double getFacing() {
 		return facing;
 	}
 
-	protected void setFacing(double facing) {
+	protected void setFacing(float facing) {
 		this.facing = facing;
 	}
 
@@ -81,57 +71,67 @@ public class Player implements PlayerData, Data, TileData {
 		return color;
 	}
 
-	public double getX() {
+	public float getX() {
 		return x;
 	}
 
-	public double getY() {
+	public float getY() {
 		return y;
 	}
 
-	public double getXCenter() {
-		return x+PLAYER_SIZE/2;
+	public float getXCenter() {
+		return x+HALF_PLAYER_SIZE/2f;
 	}
 
-	public double getYCenter() {
-		return y+PLAYER_SIZE/2;
+	public float getYCenter() {
+		return y+HALF_PLAYER_SIZE/2f;
 	}
 
 	public int getXTile() {
-		return (int)Math.round(x);
+		return Math.round(x);
 	}
 
 	public int getYTile() {
-		return (int)Math.round(y);
+		return Math.round(y);
 	}
 
-	public double getdX() {
+	public float getdX() {
 		return dX;
 	}
 
-	public double getdY() {
+	public float getdY() {
 		return dY;
 	}
 
-	public double getddX() {
+	public float getddX() {
 		return ddX;
 	}
 
-	public double getddY() {
+	public float getddY() {
 		return ddY;
 	}
 
-	protected void setAllCanMove(boolean value) {//set all values in canMove to the given value
-		for (int i = 0;i<4;i++) {
-			canMove[i] = value;
-		}
+	@Override
+	public void tick() {
+		turn();
+		move();
 	}
 
-	protected void setCanMove(int direction, boolean value) {
-		canMove[direction] = value;
-	}
+	protected abstract void move();
+	protected abstract void turn();
 
-	public boolean canMove(int direction) {
-		return canMove[direction];
-	}
+//	protected void setAllCanMove(boolean value) {//set all values in canMove to the given value
+//		for (int i = 0;i<4;i++) {
+//			canMove[i] = value;
+//		}
+//	}
+//
+//	protected void setCanMove(int direction, boolean value) {
+//		canMove[direction] = value;
+//	}
+//
+//	public boolean canMove(int direction) {
+//		return canMove[direction];
+//	}
+
 }

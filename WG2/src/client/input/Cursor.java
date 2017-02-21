@@ -22,23 +22,23 @@ public class Cursor implements PlayerData {
 		return screenY;
 	}
 
-//	playerX = (double)x/Window.getScale()-Window.getWindowWidth()/2d/Window.getScale();
-	public static double getPlayerX() {//relative to player 0, 0
+//	playerX = (float)x/Window.getScale()-Window.getWindowWidth()/2d/Window.getScale();
+	public static float getPlayerX() {//relative to player 0, 0
 		if (!Camera.inZoom()) return 0;
-		return (double)screenX/Camera.getScale()-(double)Window.centerX()/Camera.getScale();
+		return (float)screenX/Camera.getScale()-(float)Window.centerX()/Camera.getScale();
 	}
 
-	public static double getPlayerY() {
+	public static float getPlayerY() {
 		if (!Camera.inZoom()) return 0;
-		return (double)screenY/Camera.getScale()-(double)Window.centerY()/Camera.getScale();
+		return (float)screenY/Camera.getScale()-(float)Window.centerY()/Camera.getScale();
 	}
 
-//	gridX = (double)x/Window.getScale()+Camera.getX()-Window.getWindowWidth()/2d/Window.getScale();
-	public static double getGridX() {//relative to grid 0, 0
-		return (double)screenX/Camera.getScale()+Camera.getX()-(double)Window.centerX()/Camera.getScale();
+//	gridX = (float)x/Window.getScale()+Camera.getX()-Window.getWindowWidth()/2d/Window.getScale();
+	public static float getGridX() {//relative to grid 0, 0
+		return (float)screenX/Camera.getScale()+Camera.getX()-(float)Window.centerX()/Camera.getScale();
 	}
 
-	public static double getGridY() {
-		return (double)screenY/Camera.getScale()+Camera.getY()-(double)Window.centerY()/Camera.getScale();
+	public static float getGridY() {
+		return (float)screenY/Camera.getScale()+Camera.getY()-(float)Window.centerY()/Camera.getScale();
 	}
 }
