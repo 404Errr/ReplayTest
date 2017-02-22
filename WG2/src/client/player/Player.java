@@ -85,8 +85,8 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		final Rectangle2D hitbox = new Rectangle2D.Float(x, y, PLAYER_SIZE, PLAYER_SIZE);
 		for (int r = getYTile()-1;r<getYTile()+2;r++) {//for each row within the radius
 			for (int c = getXTile()-1;c<getXTile()+2;c++) {//for each collumn within the radius
-				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).isSolid(SOLID_WALLS)) {//bounds check and if tile is solid
-					if (Level.getTile(r, c).getBounds().intersects(hitbox)) {
+				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(c, r).isSolid(SOLID_WALLS)) {//bounds check and if tile is solid
+					if (Level.getTile(c, r).getBounds().intersects(hitbox)) {
 						return true;
 					}
 				}

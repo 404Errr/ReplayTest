@@ -41,7 +41,7 @@ public class Hitscan extends Entity implements TileData, WeaponData {
 		float incrementMultiplier = 1.0f;
 		boolean firstHit = true, firstCheck = true;
 		while (true) {
-			if (x<0||y<0||x>Level.getWidth()||y>Level.getHeight()||(x>=0&&y>=0&&x<Level.getWidth()&&y<Level.getHeight()&&Level.getTile(y, x).isSolid(SOLID_PROJECTILES))) {//if it hit something
+			if (x<0||y<0||x>Level.getWidth()||y>Level.getHeight()||(x>=0&&y>=0&&x<Level.getWidth()&&y<Level.getHeight()&&Level.getTile(x, y).isSolid(SOLID_PROJECTILES))) {//if it hit something
 				if (firstCheck) {
 					return;
 				}

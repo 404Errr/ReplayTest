@@ -78,8 +78,8 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 	private void drawTiles() {
 		for (int r = Camera.getYTile()-GraphicsData.getRenderDistanceY();r<=Camera.getYTile()+GraphicsData.getRenderDistanceY();r++) {
 			for (int c = Camera.getXTile()-GraphicsData.getRenderDistanceX();c<=Camera.getXTile()+GraphicsData.getRenderDistanceX();c++) {
-				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(r, c).getColor()!=null) {
-					g.setColor(Level.getTile(r, c).getColor());
+				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(c, r).getColor()!=null) {
+					g.setColor(Level.getTile(c, r).getColor());
 					g.fillRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
 				}
 			}

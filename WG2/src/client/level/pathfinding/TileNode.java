@@ -1,11 +1,11 @@
 package client.level.pathfinding;
 
+import client.level.Level;
 import data.PathfindingData;
 
 public class TileNode implements PathfindingData {
 	private int x, y, gCosts, hCosts;
 	private boolean usable, diagonal;
-
 	private TileNode previous;
 
 	public TileNode(int x, int y, boolean useable) {
@@ -51,19 +51,18 @@ public class TileNode implements PathfindingData {
 	}
 
 	public void setgCosts(TileNode previousTileNode) {
-		if (diagonal) {
-			setgCosts(previousTileNode, DIAGONAL_MOVEMENT_COST);
-		} else {
-			setgCosts(previousTileNode, BASIC_MOVEMENT_COST);
-		}
+		this.gCosts = calculategCosts(previousTileNode);
 	}
 
 	public int calculategCosts(TileNode previousTileNode) {
+		int cost;
 		if (diagonal) {
-			return previousTileNode.getgCosts()+DIAGONAL_MOVEMENT_COST;
+			cost = previousTileNode.getgCosts()+DIAGONAL_MOVEMENT_COST;
 		} else {
-			return previousTileNode.getgCosts()+BASIC_MOVEMENT_COST;
+			cost =  previousTileNode.getgCosts()+BASIC_MOVEMENT_COST;
 		}
+		if (isNextToWall()) cost+=WALL_MOVEMENT_COST;
+		return cost;
 	}
 
 	public int calculategCosts(TileNode previousTileNode, int movementCost) {
@@ -75,6 +74,17 @@ public class TileNode implements PathfindingData {
 	}
 
 	public void sethCosts(TileNode endTileNode) {
-		this.hCosts = (Math.abs(this.getX()-endTileNode.getX())+Math.abs(this.getY()-endTileNode.getY()))*BASIC_MOVEMENT_COST;
+		this.hCosts = (Math.abs(x-endTileNode.getX())+Math.abs(y-endTileNode.getY()))*BASIC_MOVEMENT_COST;
+	}
+
+	public boolean isNextToWall() {
+		for (int r = y-1;r<=y+1;r++) {
+			for (int c = x-1;c<=x+1;c++) {
+				if (r>0&&c>0&&r<=Level.getNavMapHeight()&&c<=Level.getNavMapWidth()&&!Level.getNavMap().getTileNode(c, r).isUseable()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

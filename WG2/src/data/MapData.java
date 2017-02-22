@@ -1,8 +1,8 @@
 package data;
 
 public interface MapData {
-//	public static final String MAP = "map0";
-	public static final String MAP = "map1";
+	public static final String MAP = "map0";
+//	public static final String MAP = "map1";
 //	public static final String MAP = "map2";
 //	public static final String MAP = "map3";
 //	public static final String MAP = "buttonsSmall";
@@ -13,6 +13,7 @@ public interface MapData {
 //	public static final String MAP = "1000x1001";
 //	public static final String MAP = "big";
 //	public static final String MAP = "old0";
+//	public static final String MAP = "old1";
 
 	public static final boolean ADD_EDGE = false;//										 <<CONSIDER DISABLING IF ITS A LARGE MAP<<
 	public static final boolean AUTO_DISABLE_ADD_EDGE = false;//					 	 <<OR CONSIDER ENABLING AND THEN NOT THINKING ABOUT IT<<

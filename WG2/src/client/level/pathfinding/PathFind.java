@@ -8,14 +8,9 @@ import client.level.Level;
 import data.TileData;
 
 public class PathFind implements TileData {
-	private static NavMap navMap;//the map
-
-	public static void init() {
-		navMap = new NavMap(Level.getWidth(), Level.getHeight(), Level.getLayout());
-	}
 
 	public static ArrayList<Point> findPath(int x1, int y1, int x2, int y2) {
-		List<TileNode> path = navMap.findPath(x1, y1, x2, y2);
+		List<TileNode> path = Level.getNavMap().findPath(x1, y1, x2, y2);
 		ArrayList<Point> pathPoints = new ArrayList<>();
 		pathPoints.add(new Point(x1, y1));
 		for (TileNode tileNode:path) {

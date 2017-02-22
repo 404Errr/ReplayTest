@@ -10,21 +10,25 @@ public class NavMap implements TileData {
 	private static boolean CAN_MOVE_DIAGONALY = true;
 
 	private TileNode[][] tileNodes;
-	private int width, height;
+	public final int width, height;
 
 	public NavMap(int width, int height, int[][] map) {
 		tileNodes = new TileNode[width][height];
 		for (int i = 0;i<width;i++) {
 			for (int j = 0;j<height;j++) {
-				tileNodes[i][j] = new TileNode(i, j, !Level.getTile(j, i).isSolid(SOLID_WALLS));
+				tileNodes[i][j] = new TileNode(i, j, !Level.getTile(i, j).isSolid(SOLID_WALLS));
 			}
 		}
 		this.width = width-1;
 		this.height = height-1;
 	}
 
-	public final TileNode getNode(int r, int c) {
+	public final TileNode getTileNode(int r, int c) {
 		return tileNodes[r][c];
+	}
+
+	public TileNode[][] getTileNodes() {
+		return tileNodes;
 	}
 
 	private List<TileNode> openList;
@@ -68,7 +72,7 @@ public class NavMap implements TileData {
 		return null;
 	}
 
-	private List<TileNode> calcPath(TileNode start, TileNode goal) {
+	private List<TileNode> calcPath(TileNode start, TileNode goal) {//starts at goal, doesnt include start
 		LinkedList<TileNode> path = new LinkedList<>();
 		TileNode curr = goal;
 		boolean done = false;
@@ -98,28 +102,28 @@ public class NavMap implements TileData {
 		List<TileNode> adjacent = new LinkedList<>();
 		TileNode temp;
 		if (x>0) {
-			temp = this.getNode(x-1, y);
+			temp = this.getTileNode(x-1, y);
 			if (temp.isUseable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(false);
 				adjacent.add(temp);
 			}
 		}
 		if (x<width) {
-			temp = this.getNode(x+1, y);
+			temp = this.getTileNode(x+1, y);
 			if (temp.isUseable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(false);
 				adjacent.add(temp);
 			}
 		}
 		if (y>0) {
-			temp = this.getNode(x, y-1);
+			temp = this.getTileNode(x, y-1);
 			if (temp.isUseable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(false);
 				adjacent.add(temp);
 			}
 		}
 		if (y<height) {
-			temp = this.getNode(x, y+1);
+			temp = this.getTileNode(x, y+1);
 			if (temp.isUseable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(false);
 				adjacent.add(temp);
@@ -127,28 +131,28 @@ public class NavMap implements TileData {
 		}
 		if (CAN_MOVE_DIAGONALY) {
 			if (x<width&&y<height) {
-				temp = this.getNode(x+1, y+1);
+				temp = this.getTileNode(x+1, y+1);
 				if (temp.isUseable()&&!closedList.contains(temp)) {
 					temp.setIsDiagonal(true);
 					adjacent.add(temp);
 				}
 			}
 			if (x>0&&y>0) {
-				temp = this.getNode(x-1, y-1);
+				temp = this.getTileNode(x-1, y-1);
 				if (temp.isUseable()&&!closedList.contains(temp)) {
 					temp.setIsDiagonal(true);
 					adjacent.add(temp);
 				}
 			}
 			if (x>0&&y<height) {
-				temp = this.getNode(x-1, y+1);
+				temp = this.getTileNode(x-1, y+1);
 				if (temp.isUseable()&&!closedList.contains(temp)) {
 					temp.setIsDiagonal(true);
 					adjacent.add(temp);
 				}
 			}
 			if (x<width&&y>0) {
-				temp = this.getNode(x+1, y-1);
+				temp = this.getTileNode(x+1, y-1);
 				if (temp.isUseable()&&!closedList.contains(temp)) {
 					temp.setIsDiagonal(true);
 					adjacent.add(temp);
