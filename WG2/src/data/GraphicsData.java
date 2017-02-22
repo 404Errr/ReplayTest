@@ -12,12 +12,12 @@ public interface GraphicsData {
 	public static final int RENDER_DISTANCE_X = -1, RENDER_DISTANCE_Y = -1;
 
 	public static int getRenderDistanceX() {
-		if (AUTO_RENDER_DISTANCE) return Window.centerX()/Camera.getScale()+1;
+		if (AUTO_RENDER_DISTANCE&&Camera.getScale()>0) return Window.centerX()/Camera.getScale()+1;
 		return RENDER_DISTANCE_X;
 	}
 
 	public static int getRenderDistanceY() {
-		if (AUTO_RENDER_DISTANCE) return Window.centerY()/Camera.getScale()+1;
+		if (AUTO_RENDER_DISTANCE&&Camera.getScale()>0) return Window.centerY()/Camera.getScale()+1;
 		return RENDER_DISTANCE_Y;
 	}
 }

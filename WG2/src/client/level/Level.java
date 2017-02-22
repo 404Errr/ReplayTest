@@ -1,13 +1,12 @@
 package client.level;
 
-import client.level.pathfinding.PathFinder;
 import data.MapData;
 import data.TileData;
 
 public class Level implements MapData, TileData {
 	private static int[][] layout;
 	private static Tile[][] tiles;//the level
-	private static PathFinder navMap;//for pathfinding
+//	private static PathFinder navMap;//for pathfinding
 
 	@SuppressWarnings("unused")
 	public static void init() {//initialize layout
@@ -45,8 +44,8 @@ public class Level implements MapData, TileData {
 		return output;
 	}
 
-	public static PathFinder getNavMap() {
-		return navMap;
+	public static int[][] getLayout() {
+		return layout;
 	}
 
 	public static Tile[][] getTiles() {//get all tiles

@@ -1,8 +1,8 @@
 package data;
 
 public interface MapData {
-	public static final String MAP = "map0";
-//	public static final String MAP = "map1";
+//	public static final String MAP = "map0";
+	public static final String MAP = "map1";
 //	public static final String MAP = "map2";
 //	public static final String MAP = "map3";
 //	public static final String MAP = "buttonsSmall";

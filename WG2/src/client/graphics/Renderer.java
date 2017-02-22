@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -29,7 +30,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		g = (Graphics2D) g0;
 		setBackground(COLOR_BACKROUND);
 		super.paintComponent(g);
-		try {
+		if (Camera.getScale()>0) try {
 			drawTiles();
 			Debug.drawDebug();
 			drawEntities();
@@ -42,7 +43,9 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 	}
 
 	private void drawEntities() {
-		for (Entity entity:Game.getEntities()) {
+		List<Entity> entities = Game.getEntities();
+		for (int i = 0;i<entities.size();i++) {
+			Entity entity = entities.get(i);
 			if (entity instanceof Projectile) {
 				drawProjectile((Projectile)entity);
 			}

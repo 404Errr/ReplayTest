@@ -20,7 +20,6 @@ import data.Controls;
 import data.Data;
 import data.PlayerData;
 import main.Debug;
-import main.Debug.TileDebugState;
 
 
 public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, Controls, Data, PlayerData {
@@ -42,17 +41,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		case DEBUG_DRAW_WEAPONS_KEY:
 			Debug.toggleDrawWeapons();
 			break;
-		case DEBUG_TILE_PATHFINDING_NONE_KEY:
-			Debug.setTileDebugState(TileDebugState.NONE);
-			break;
-		case DEBUG_TILE_PATHFINDING_COMBINED_KEY:
-			Debug.setTileDebugState(TileDebugState.COMBINED_COST);
-			break;
-		case DEBUG_TILE_PATHFINDING_TOTAL_KEY:
-			Debug.setTileDebugState(TileDebugState.TOTAL_COST);
-			break;
-		case DEBUG_TILE_PATHFINDING_DISTANCE_KEY:
-			Debug.setTileDebugState(TileDebugState.DISTANCE_COST);
+		case DEBUG_DRAW_PATHFINDING_KEY:
+			Debug.toggleDrawDebugPathfinding();
 			break;
 		case KeyEvent.VK_MINUS://dash
 			Camera.changeScaleRatio(-1);

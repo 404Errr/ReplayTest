@@ -11,6 +11,6 @@ public class Client {
 		Camera.init();
 		Game.init();
 		Window.init();
-		UpdateLoop.run();
+		ClientUpdateLoop.run();
 	}
 }

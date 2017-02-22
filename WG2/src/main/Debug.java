@@ -4,7 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.List;
 
 import client.game.Game;
 import client.graphics.Camera;
@@ -13,15 +13,15 @@ import client.graphics.Window;
 import client.input.Cursor;
 import client.level.Level;
 import client.level.pathfinding.PathFindingTester;
+import client.main.ClientUpdateLoop;
 import data.ColorData;
 import data.Data;
 import data.GraphicsData;
 import util.Util;
 
 public class Debug implements Data, ColorData {
-	private static boolean debugText = true, losLine = true, drawWeapons = true;
+	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true;
 	private final static int textX = 25, textY = 30, textSize = 15;
-	private static TileDebugState tileDebugState = TileDebugState.NONE;
 
 	public static void drawDebug() {
 		if (DEBUG) {
@@ -29,6 +29,7 @@ public class Debug implements Data, ColorData {
 
 				StringBuilder text = new StringBuilder();
 
+				text.append("Used time per frame = "+ClientUpdateLoop.getCurrentUpdateTime()+"$");
 				text.append("Window = "+Window.width()+"x"+Window.height()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Camera.getScale()+"$");
 				text.append("Zoomed = "+Camera.inZoom()+"$");
 				text.append("Render Distance = "+GraphicsData.getRenderDistanceX()+", "+GraphicsData.getRenderDistanceY()+"$");
@@ -37,12 +38,10 @@ public class Debug implements Data, ColorData {
 				text.append("velocity (m/s) = "+Math.hypot(Game.getPlayer().getdX(), Game.getPlayer().getdY())*Data.UPS+"$");
 				text.append("dx, dy = "+Game.getPlayer().getdX()+", "+Game.getPlayer().getdY()+"$");
 				text.append("ddx, ddy = "+Game.getPlayer().getddX()+", "+Game.getPlayer().getddY()+"$");
-				float a = (float)Math.toDegrees(Game.getPlayer().getFacing());if (a<0) a+=360;//get the angle of the player in degrees
-				text.append("Facing = "+a+" ("+Game.getPlayer().getFacing()+")"+"$");
+				text.append("Facing = "+((float)Math.toDegrees(Game.getPlayer().getFacing())+((Game.getPlayer().getFacing()<0)?360:0))+" ("+Game.getPlayer().getFacing()+")"+"$");
 				text.append("Cursor = "+Cursor.getScreenX()+","+Cursor.getScreenY()+" ("+Cursor.getPlayerX()+","+Cursor.getPlayerY()+")"+"$");
 				text.append("Active Gun = "+Game.getPlayer().getActiveGun()+" Cooldown = "+Game.getPlayer().getActiveGun().getCooldown()+"$");
 				text.append("Debug Text = true, LOS Line = "+losLine+"$");
-				text.append("DebugTilePathfindingType = "+Debug.getTileDebugState());
 
 				String[] textLines = text.toString().split("\\$");
 				Renderer.getG().setColor(COLOR_DEBUG_GREEN);
@@ -64,15 +63,18 @@ public class Debug implements Data, ColorData {
 					Renderer.getG().drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));//los
 				}
 			}
-			drawPath(PathFindingTester.lines);
+			if (drawDebugPathfinding) {
+				drawPath(PathFindingTester.linesAStar, Color.RED, 3);
+				drawPath(PathFindingTester.linesMaze, Color.CYAN, 2);
+			}
 		}
 	}
 
-	public static void drawPath(ArrayList<Point> points) {
-		Renderer.getG().setColor(Color.RED);
-		Renderer.getG().setStroke(new BasicStroke(2));
-		for (int i = 1;i<points.size();i++) {
-			Renderer.getG().drawLine((int)(Renderer.gridX(points.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(points.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(points.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(points.get(i).y)+Renderer.getHalfPlayerSize()));
+	public static void drawPath(List<Point> lines, Color color, int size) {
+		Renderer.getG().setColor(color);
+		Renderer.getG().setStroke(new BasicStroke(size));
+		for (int i = 1;i<lines.size();i++) {
+			Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
 		}
 		Renderer.getG().setColor(Color.green);
 		Renderer.getG().setStroke(new BasicStroke(7));
@@ -80,28 +82,8 @@ public class Debug implements Data, ColorData {
 		Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
 	}
 
-	public enum TileDebugState {
-		NONE, TOTAL_COST, DISTANCE_COST, COMBINED_COST;
-	}
-
-	public static void setTileDebugState(TileDebugState tileDebugState) {
-		Debug.tileDebugState = tileDebugState;
-	}
-
-	public static TileDebugState getTileDebugState() {
-		return tileDebugState;
-	}
-
 	public static void toggleText() {
 		debugText = !debugText;
-	}
-
-	public static void toggleLOS() {
-		losLine = !losLine;
-	}
-
-	public static void toggleDrawWeapons() {
-		drawWeapons = !drawWeapons;
 	}
 
 	public static boolean isDebugText() {
@@ -112,8 +94,20 @@ public class Debug implements Data, ColorData {
 		return losLine;
 	}
 
+	public static void toggleLOS() {
+		losLine = !losLine;
+	}
+
 	public static boolean isDrawWeapons() {
 		return drawWeapons;
+	}
+
+	public static void toggleDrawWeapons() {
+		drawWeapons = !drawWeapons;
+	}
+
+	public static void toggleDrawDebugPathfinding() {
+		drawDebugPathfinding = !drawDebugPathfinding;
 	}
 
 
