@@ -59,13 +59,16 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 			PathFind.set2((int)Cursor.getGridX(), (int)Cursor.getGridY());
 			break;
 		case KeyEvent.VK_P:
-			if ((PathFind.x1!=PathFind.x2||PathFind.y1!=PathFind.y2)//markers are not in the same place
+			try{
+				if ((PathFind.x1!=PathFind.x2||PathFind.y1!=PathFind.y2)//markers are not in the same place
 					&&!Level.getTile(PathFind.x1, PathFind.y1).isSolid(0)//check that neither marker is over a solid tile
 					&&!Level.getTile(PathFind.x2, PathFind.y2).isSolid(0)
 					&&Level.getTile(PathFind.x1, PathFind.y1).getColor()!=null//both inside the map
 					&&Level.getTile(PathFind.x2, PathFind.y2).getColor()!=null) {
-				PathFind.go();
+					PathFind.go();
+				}
 			}
+			catch (Exception e1) {}
 			break;
 		case KeyEvent.VK_1:
 			Game.getPlayer().selectGun(0);

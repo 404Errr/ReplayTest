@@ -12,7 +12,7 @@ public class Game implements ColorData {
 	private static List<Entity> entities;
 
 	public static void init() {
-		player = new ControlledPlayer(COLOR_PLAYER, 1f, 1f);//the player
+		player = new ControlledPlayer(COLOR_PLAYER, 1.5f, 1f);//the player
 		entities = new ArrayList<>();
 		entities.add(player);
 	}

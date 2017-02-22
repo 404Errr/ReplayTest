@@ -29,14 +29,12 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		g = (Graphics2D) g0;
 		setBackground(COLOR_BACKROUND);
 		super.paintComponent(g);
-		try {//instead of null checks
+		try {
 			drawTiles();
 			Debug.drawDebug();
 			drawEntities();
 			if (Debug.isDrawWeapons()) drawActiveGun();
 			drawPlayer();
-
-//			drawPath(PathFind.lines);
 		}
 		catch (Exception e) {}
 	}

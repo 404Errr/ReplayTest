@@ -57,7 +57,7 @@ public class Level implements MapData {
 	}
 
 	public static Tile getTile(double c, double r) {
-		return tiles[(int)r][(int)c];
+		return getTile((int)c, (int)r);
 	}
 
 	public static int getWidth() {
