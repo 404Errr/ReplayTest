@@ -12,7 +12,7 @@ import client.graphics.Renderer;
 import client.graphics.Window;
 import client.input.Cursor;
 import client.level.Level;
-import client.level.pathfinding.PathFind;
+import client.level.pathfinding.PathFindingTester;
 import data.ColorData;
 import data.Data;
 import data.GraphicsData;
@@ -21,6 +21,7 @@ import util.Util;
 public class Debug implements Data, ColorData {
 	private static boolean debugText = true, losLine = true, drawWeapons = true;
 	private final static int textX = 25, textY = 30, textSize = 15;
+	private static TileDebugState tileDebugState = TileDebugState.NONE;
 
 	public static void drawDebug() {
 		if (DEBUG) {
@@ -39,8 +40,9 @@ public class Debug implements Data, ColorData {
 				float a = (float)Math.toDegrees(Game.getPlayer().getFacing());if (a<0) a+=360;//get the angle of the player in degrees
 				text.append("Facing = "+a+" ("+Game.getPlayer().getFacing()+")"+"$");
 				text.append("Cursor = "+Cursor.getScreenX()+","+Cursor.getScreenY()+" ("+Cursor.getPlayerX()+","+Cursor.getPlayerY()+")"+"$");
-				//text.append("Active Gun = "+Game.getPlayer().getActiveGun()+" Cooldown = "+(float)Game.getPlayer().getActiveGun().getCooldown()+"$");
+				text.append("Active Gun = "+Game.getPlayer().getActiveGun()+" Cooldown = "+Game.getPlayer().getActiveGun().getCooldown()+"$");
 				text.append("Debug Text = true, LOS Line = "+losLine+"$");
+				text.append("DebugTilePathfindingType = "+Debug.getTileDebugState());
 
 				String[] textLines = text.toString().split("\\$");
 				Renderer.getG().setColor(COLOR_DEBUG_GREEN);
@@ -62,7 +64,7 @@ public class Debug implements Data, ColorData {
 					Renderer.getG().drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));//los
 				}
 			}
-			drawPath(PathFind.lines);
+			drawPath(PathFindingTester.lines);
 		}
 	}
 
@@ -74,8 +76,20 @@ public class Debug implements Data, ColorData {
 		}
 		Renderer.getG().setColor(Color.green);
 		Renderer.getG().setStroke(new BasicStroke(7));
-		Renderer.getG().drawLine((int)(Renderer.gridX(PathFind.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFind.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFind.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFind.y1)+Renderer.getHalfPlayerSize()));
-		Renderer.getG().drawLine((int)(Renderer.gridX(PathFind.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFind.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFind.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFind.y2)+Renderer.getHalfPlayerSize()));
+		Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()));
+		Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
+	}
+
+	public enum TileDebugState {
+		NONE, TOTAL_COST, DISTANCE_COST, COMBINED_COST;
+	}
+
+	public static void setTileDebugState(TileDebugState tileDebugState) {
+		Debug.tileDebugState = tileDebugState;
+	}
+
+	public static TileDebugState getTileDebugState() {
+		return tileDebugState;
 	}
 
 	public static void toggleText() {

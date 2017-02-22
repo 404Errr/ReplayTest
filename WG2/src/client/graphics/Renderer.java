@@ -36,7 +36,9 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			if (Debug.isDrawWeapons()) drawActiveGun();
 			drawPlayer();
 		}
-		catch (Exception e) {}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void drawEntities() {

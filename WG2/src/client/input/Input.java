@@ -15,11 +15,12 @@ import java.awt.event.WindowListener;
 import client.game.Game;
 import client.graphics.Camera;
 import client.level.Level;
-import client.level.pathfinding.PathFind;
+import client.level.pathfinding.PathFindingTester;
 import data.Controls;
 import data.Data;
 import data.PlayerData;
 import main.Debug;
+import main.Debug.TileDebugState;
 
 
 public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, Controls, Data, PlayerData {
@@ -41,6 +42,18 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		case DEBUG_DRAW_WEAPONS_KEY:
 			Debug.toggleDrawWeapons();
 			break;
+		case DEBUG_TILE_PATHFINDING_NONE_KEY:
+			Debug.setTileDebugState(TileDebugState.NONE);
+			break;
+		case DEBUG_TILE_PATHFINDING_COMBINED_KEY:
+			Debug.setTileDebugState(TileDebugState.COMBINED_COST);
+			break;
+		case DEBUG_TILE_PATHFINDING_TOTAL_KEY:
+			Debug.setTileDebugState(TileDebugState.TOTAL_COST);
+			break;
+		case DEBUG_TILE_PATHFINDING_DISTANCE_KEY:
+			Debug.setTileDebugState(TileDebugState.DISTANCE_COST);
+			break;
 		case KeyEvent.VK_MINUS://dash
 			Camera.changeScaleRatio(-1);
 			Camera.updateScale();
@@ -53,19 +66,19 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 			Game.getPlayer().move(Cursor.getGridX(), Cursor.getGridY());
 			break;
 		case KeyEvent.VK_I:
-			PathFind.set1((int)Cursor.getGridX(), (int)Cursor.getGridY());
+			PathFindingTester.set1((int)Cursor.getGridX(), (int)Cursor.getGridY());
 			break;
 		case KeyEvent.VK_O:
-			PathFind.set2((int)Cursor.getGridX(), (int)Cursor.getGridY());
+			PathFindingTester.set2((int)Cursor.getGridX(), (int)Cursor.getGridY());
 			break;
 		case KeyEvent.VK_P:
 			try{
-				if ((PathFind.x1!=PathFind.x2||PathFind.y1!=PathFind.y2)//markers are not in the same place
-					&&!Level.getTile(PathFind.x1, PathFind.y1).isSolid(0)//check that neither marker is over a solid tile
-					&&!Level.getTile(PathFind.x2, PathFind.y2).isSolid(0)
-					&&Level.getTile(PathFind.x1, PathFind.y1).getColor()!=null//both inside the map
-					&&Level.getTile(PathFind.x2, PathFind.y2).getColor()!=null) {
-					PathFind.go();
+				if ((PathFindingTester.x1!=PathFindingTester.x2||PathFindingTester.y1!=PathFindingTester.y2)//markers are not in the same place
+					&&!Level.getTile(PathFindingTester.x1, PathFindingTester.y1).isSolid(0)//check that neither marker is over a solid tile
+					&&!Level.getTile(PathFindingTester.x2, PathFindingTester.y2).isSolid(0)
+					&&Level.getTile(PathFindingTester.x1, PathFindingTester.y1).getColor()!=null//both inside the map
+					&&Level.getTile(PathFindingTester.x2, PathFindingTester.y2).getColor()!=null) {
+					PathFindingTester.go();
 				}
 			}
 			catch (Exception e1) {}

@@ -1,13 +1,15 @@
 package client.level;
 
-import client.level.pathfinding.NavMap;
+import client.level.pathfinding.PathFinder;
 import data.MapData;
+import data.TileData;
 
-public class Level implements MapData {
+public class Level implements MapData, TileData {
 	private static int[][] layout;
 	private static Tile[][] tiles;//the level
-	private static NavMap navMap;//for pathfinding
+	private static PathFinder navMap;//for pathfinding
 
+	@SuppressWarnings("unused")
 	public static void init() {//initialize layout
 		layout = MapParser.parseMap(MAP);
 		if (ADD_EDGE) {
@@ -22,10 +24,9 @@ public class Level implements MapData {
 		tiles = new Tile[layout.length][layout[0].length];
 		for (int r = 0;r<layout.length;r++) {
 			for (int c = 0;c<layout[0].length;c++) {
-				tiles[r][c] = new Tile(r, c, layout[r][c]);
+				tiles[r][c] = new Tile(c, r, layout[r][c], TileData.getSolid(layout[r][c])[SOLID_WALLS]);
 			}
 		}
-		navMap = new NavMap(Level.getWidth(), Level.getHeight(), layout);
 	}
 
 	public static int[][] addEdge(int[][] map) {//takes given map and adds 1's around it
@@ -44,7 +45,7 @@ public class Level implements MapData {
 		return output;
 	}
 
-	public static NavMap getNavMap() {
+	public static PathFinder getNavMap() {
 		return navMap;
 	}
 
@@ -68,17 +69,8 @@ public class Level implements MapData {
 		return tiles.length;
 	}
 
-	public static int getNavMapHeight() {
-		return navMap.height;
+	public static int getLayoutType(int c, int r) {
+		return layout[r][c];
 	}
-
-	public static int getNavMapWidth() {
-		return navMap.width;
-	}
-
-	public static int[][] getLayout() {
-		return layout;
-	}
-
 }
 

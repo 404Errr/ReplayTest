@@ -15,7 +15,7 @@ public interface MapData {
 //	public static final String MAP = "old0";
 //	public static final String MAP = "old1";
 
-	public static final boolean ADD_EDGE = false;//										 <<CONSIDER DISABLING IF ITS A LARGE MAP<<
+	public static final boolean ADD_EDGE = true;//										 <<CONSIDER DISABLING IF ITS A LARGE MAP<<
 	public static final boolean AUTO_DISABLE_ADD_EDGE = false;//					 	 <<OR CONSIDER ENABLING AND THEN NOT THINKING ABOUT IT<<
 	public static final int AUTO_DISABLE_ADD_EDGE_THREASHOLD = 100000;//area
 }

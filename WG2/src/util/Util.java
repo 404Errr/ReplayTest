@@ -147,6 +147,10 @@ public class Util {
 		return Math.sin(angle)*magnitude;
 	}
 
+	public static Color getRedGreenColorShift(float percentage) {//0f = red, 1f = green (probably)
+		return new Color(1-percentage, percentage, 0, 1);
+	}
+
 	public static Color colorOpacity(Color color, int opacity) {
 		return new Color(color.getRed(), color.getGreen(), color.getBlue(), opacity);
 	}
