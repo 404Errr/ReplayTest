@@ -4,24 +4,32 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 public class NewOldLevelGen {
-	static long SEED;
 
-	static int[][] level;
+	static long SEED;
 	static int totalAttempts, sizeX, sizeY,
 
 	count = 1,
-	size = 7,
+	size = 1,
 
-	genSizeX = size,
-	genSizeY = size;
+	genSizeX = 6,
+	genSizeY = 4;
+
+	static DateFormat sdf = new SimpleDateFormat("yyyy_MM_dd HH_mm_ss");
+	static Date date = new Date();
+
+	static String fileName = "src/Maps/Gen "+genSizeX+"x"+genSizeY+" "+sdf.format(date);
 
 	static int failThreashold = 20;
 	static NewOldSegment[][] board;
+	static int[][] level;
 	static Random rand;
 	static List<NewOldSegment> segments = new ArrayList<>();
 
@@ -115,7 +123,7 @@ public class NewOldLevelGen {
 			board.setCharAt(board.length()-1, ';');
 			board.append("\n");
 		}
-		String fileName = "src/Maps/generated/Map 2017 "+sizeX+"x"+sizeY+" ("+sizeX/15+"x"+sizeY/15+") "+System.currentTimeMillis()+".txt";
+
 		System.out.println(board+"\n\n"+fileName);
 		FileWriter fw = new FileWriter(new File(fileName));
 

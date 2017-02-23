@@ -55,6 +55,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		case KeyEvent.VK_Y:
 			((AIPlayer)Game.getPlayer(1)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
 			break;
+		case KeyEvent.VK_U:
+			((AIPlayer)Game.getPlayer(1)).toggleControlMovement();
+			break;
 		case KeyEvent.VK_R:
 			((AIPlayer)Game.getPlayer(1)).move(Cursor.getGridX(), Cursor.getGridY());
 			break;

@@ -1,5 +1,6 @@
 package client.level;
 
+import data.ColorData;
 import data.MapData;
 import data.TileData;
 
@@ -14,8 +15,8 @@ public class Level implements MapData, TileData {
 //		layout = NewOldLevelGen.generateMap();
 //		boolean
 		if (ADD_EDGE) {
-			if (!(AUTO_DISABLE_ADD_EDGE&&layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD)) {
-				System.out.println("Adding edge...");
+			if (shouldAddEdge(layout)&&!(AUTO_DISABLE_ADD_EDGE&&layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD)) {
+				System.out.println("Adding edge of type: '1'...");
 				layout = addEdge(layout);
 			}
 			else System.out.println("Not Adding edge. Map area is: "+layout.length*layout[0].length+"/"+AUTO_DISABLE_ADD_EDGE_THREASHOLD);
@@ -34,7 +35,7 @@ public class Level implements MapData, TileData {
 		for (int r = 0;r<output.length;r++) {
 			for (int c = 0;c<output[0].length;c++) {
 				if (r==0||c==0||r==output.length-1||c==output[0].length-1) {
-					output[r][c] = '1';//sets border to '1' (wall)
+					output[r][c] = EDGE_TYPE;
 				}
 				else {
 					output[r][c] = map[r-1][c-1];
@@ -42,6 +43,17 @@ public class Level implements MapData, TileData {
 			}
 		}
 		return output;
+	}
+
+	public static boolean shouldAddEdge(int[][] layout) {
+		for (int r = 0;r<layout.length;r++) {
+			for (int c = 0;c<layout[0].length;c++) {
+				if (ColorData.getTileColor(layout[r][c])==null) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public static int[] getFirstUsableTile() {//for spawning

@@ -9,19 +9,24 @@ import client.level.pathfinding.PathFinder;
 import util.Util;
 
 public class AIPlayer extends Player {
-	PathFinder pathFinder;
-	List<Point> currentPath;
+	private PathFinder pathFinder;
+	private List<Point> currentPath;
+	private Point currentTargetPoint;
+	private boolean controlMovement;
 
 	public AIPlayer(Color color, float x, float y) {
 		super(color, x, y);
 		pathFinder = new PathFinder();
 		currentPath = new LinkedList<>();
+		controlMovement = true;
 	}
 
 	@Override
 	public boolean tick() {
 		updatePathProgress();
-		controlMovement();
+		if (controlMovement) {
+			controlMovement();
+		}
 
 
 		return super.tick();
@@ -32,9 +37,8 @@ public class AIPlayer extends Player {
 		if (Math.abs(dX)+Math.abs(dY)>0.01f) setFacing(Util.getAngle(0, 0, dX, dY));
 	}
 
-	public void controlMovement() {
-		if (currentPath.size()>1) {
-			Point currentTargetPoint = currentPath.get(1);//current position is already in currentPath
+	private void controlMovement() {
+		if (currentTargetPoint!=null) {
 			setMovementControl(UP, y>currentTargetPoint.y);
 			setMovementControl(DOWN, y<currentTargetPoint.y);
 			setMovementControl(LEFT, x>currentTargetPoint.x);
@@ -43,14 +47,14 @@ public class AIPlayer extends Player {
 		else setAllMovementControl(false);
 	}
 
-	public void updatePathProgress() {
+	private void updatePathProgress() {
 		if (currentPath.size()<=1||(currentPath.get(currentPath.size()-1).x==getXTile()&&currentPath.get(currentPath.size()-1).y==getYTile())) {
-			currentPath.clear();
+			stopPathfinding();
 		}
-		else try {
-			currentPath = pathFinder.getPath(getXTile(), getYTile(), currentPath.get(currentPath.size()-1).x, currentPath.get(currentPath.size()-1).y);
+		else {
+			setPathTo(currentPath.get(currentPath.size()-1).x, currentPath.get(currentPath.size()-1).y);
+			currentTargetPoint = currentPath.get(1);
 		}
-		catch (Exception e) {}
 	}
 
 	public void setPathTo(float x, float y) {
@@ -62,6 +66,7 @@ public class AIPlayer extends Player {
 
 	public void stopPathfinding() {
 		currentPath.clear();
+		currentTargetPoint = null;
 	}
 
 	public PathFinder getPathFinder() {
@@ -70,6 +75,14 @@ public class AIPlayer extends Player {
 
 	public List<Point> getCurrentPath() {
 		return currentPath;
+	}
+
+	public Point getCurrentTargetPoint() {
+		return currentTargetPoint;
+	}
+
+	public void toggleControlMovement() {
+		controlMovement = !controlMovement;
 	}
 
 
