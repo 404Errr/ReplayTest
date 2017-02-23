@@ -12,6 +12,7 @@ public class Level implements MapData, TileData {
 	public static void init() {//initialize layout
 		layout = MapParser.parseMap(MAP);
 //		layout = NewOldLevelGen.generateMap();
+//		boolean
 		if (ADD_EDGE) {
 			if (!(AUTO_DISABLE_ADD_EDGE&&layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD)) {
 				System.out.println("Adding edge...");
@@ -41,6 +42,17 @@ public class Level implements MapData, TileData {
 			}
 		}
 		return output;
+	}
+
+	public static int[] getFirstUsableTile() {//for spawning
+		for (int r = 0;r<Level.getHeight();r++) {
+			for (int c = 0;c<Level.getWidth();c++) {
+				if (Level.getTile(c, r).isUsable()) {
+					return new int[] {c, r};
+				}
+			}
+		}
+		return new int[] {0, 0};
 	}
 
 	public static int[][] getLayout() {

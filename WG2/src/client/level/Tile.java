@@ -17,7 +17,7 @@ public class Tile implements MapData, PathfindingData, TileData {
 		this.tileType = tileType;
 		this.c = c;
 		this.r = r;
-		this.usable = !solid;//not solid
+		this.usable = !solid&&getColor()!=null;//not solid or not being drawn
 		if (!solid) for (int i = 1;i<WALL_DISTANCE;i++) {
 			if (isNextToWall(i)) nextToWallCost+=WALL_MOVEMENT_COST;
 		}

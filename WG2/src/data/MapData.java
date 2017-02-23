@@ -1,17 +1,18 @@
 package data;
 
 public interface MapData {
-	public static final String MAP = "map0";
+//	public static final String MAP = "map0";
 //	public static final String MAP = "map1";
 //	public static final String MAP = "map2";
 //	public static final String MAP = "map3";
 //	public static final String MAP = "buttonsSmall";
+//	public static final String MAP = "buttonsMedium2";
 //	public static final String MAP = "buttonsMedium";
 //	public static final String MAP = "buttonsLarge";
 //	public static final String MAP = "largeMapTest";
 //	public static final String MAP = "largerMapTest";//dont use on school computer
 //	public static final String MAP = "1000x1001";
-//	public static final String MAP = "1050x1050";
+	public static final String MAP = "1050x1050";
 //	public static final String MAP = "big";
 //	public static final String MAP = "old0";
 //	public static final String MAP = "old1";

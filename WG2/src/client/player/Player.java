@@ -18,7 +18,7 @@ import util.Util;
 
 public abstract class Player extends Entity implements WeaponData, PlayerData, Data, TileData {
 	protected float facing;//facing is in radians
-	protected boolean[] canMove, movementControlActive;//r,d,l,u
+	protected boolean[] canMove, movementControl;//r,d,l,u
 	protected Color color;
 	protected List<Gun> guns;
 	protected Gun activeGun;
@@ -26,7 +26,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	public Player(Color color, float x, float y) {
 		super(color, x, y);
 		this.color = color;
-		movementControlActive = new boolean[4];
+		movementControl = new boolean[4];
 		canMove = new boolean[4];
 		guns = new ArrayList<>();
 		if (ALL_GUNS_AT_START) {
@@ -155,44 +155,48 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	}
 
 	protected void accelerate() {//affects ddX and ddY
-		if (isMovementControlActive(UP)) {//if the movement is active
+		if (isMovementControl(UP)) {//if the movement is active
 			ddY-=PLAYER_ACCELERATION;//change acceleration by PLAYER_ACCELERATION
 			if (ddY>0) ddY = 0;//if acceleration is in the opposite direction of the movement control, reset it to 0
 		}
-		if (isMovementControlActive(DOWN)) {
+		if (isMovementControl(DOWN)) {
 			ddY+=PLAYER_ACCELERATION;
 			if (ddY<0) ddY = 0;
 		}
-		if (isMovementControlActive(LEFT)) {
+		if (isMovementControl(LEFT)) {
 			ddX-=PLAYER_ACCELERATION;
 			if (ddX>0) ddX = 0;
 		}
-		if (isMovementControlActive(RIGHT)) {
+		if (isMovementControl(RIGHT)) {
 			ddX+=PLAYER_ACCELERATION;
 			if (ddX<0) ddX = 0;
 		}
 	}
 
 	protected void notAcceleratingCheck() {//affects ddX and ddY
-		if ((isMovementControlActive(UP)==isMovementControlActive(DOWN)||(!canMove(UP)&&ddY<0)||(!canMove(DOWN)&&ddY>0))) {//if opposite movement controls have the same value or if can't move in the direction acceleration is set to
+		if ((isMovementControl(UP)==isMovementControl(DOWN)||(!canMove(UP)&&ddY<0)||(!canMove(DOWN)&&ddY>0))) {//if opposite movement controls have the same value or if can't move in the direction acceleration is set to
 			ddY = 0;//stop accelerating
 		}
-		if ((isMovementControlActive(LEFT)==isMovementControlActive(RIGHT)||(!canMove(LEFT)&&ddX<0)||(!canMove(RIGHT)&&ddX>0))) {
+		if ((isMovementControl(LEFT)==isMovementControl(RIGHT)||(!canMove(LEFT)&&ddX<0)||(!canMove(RIGHT)&&ddX>0))) {
 			ddX = 0;
 		}
 	}
 
 	protected abstract void turn();
 
-	public boolean isMovementControlActive(int direction) {
-		return movementControlActive[direction];
+	public boolean isMovementControl(int direction) {
+		return movementControl[direction];
 	}
 
-	public void setMovementControlActive(int direction, boolean value ) {
-		movementControlActive[direction] = value;
+	public void setMovementControl(int direction, boolean value ) {
+		movementControl[direction] = value;
 	}
 
-
+	public void setAllMovementControl(boolean value) {
+		for (int i = 0;i<4;i++) {
+			movementControl[i] = value;
+		}
+	}
 
 	protected boolean canMove(int side) {
 		return canMove[side];

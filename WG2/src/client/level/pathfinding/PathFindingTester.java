@@ -10,26 +10,11 @@ public class PathFindingTester implements TileData {
 	public static int x1, y1, x2, y2;
 	public static List<Point> linesAStar = new ArrayList<>();//, linesMaze = new ArrayList<>();
 
-	public static void go() {
-//		long start = System.currentTimeMillis();
+	public static void find() {
 		try {
-			linesAStar = new AStarPathFinder().getPath(x1, y1, x2, y2);
-
+			linesAStar = new PathFinder().getPath(x1, y1, x2, y2);
 		}
-		catch (Exception e) {
-			System.err.println("astar didnt work");
-		}
-//		System.out.println("AStar: "+(System.currentTimeMillis()-start)+"\nAStar Length: "+linesAStar.size());
-//		start = System.currentTimeMillis();
-//		try {
-//			linesMaze = new MazePathFinder().getPath(x1, y1, x2, y2);
-//		}
-//		catch (Exception e) {
-//			System.err.println("maze didnt work");
-//		}
-//		System.out.println("Maze: "+(System.currentTimeMillis()-start)+"\nMaze Length: "+linesMaze.size());
-//		System.out.println();
-
+		catch (Exception e) {}
 	}
 
 	public static void set1(int x, int y) {

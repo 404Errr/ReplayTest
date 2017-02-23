@@ -14,8 +14,8 @@ import java.awt.event.WindowListener;
 
 import client.game.Game;
 import client.graphics.Camera;
-import client.level.Level;
 import client.level.pathfinding.PathFindingTester;
+import client.player.AIPlayer;
 import data.Controls;
 import data.Data;
 import data.PlayerData;
@@ -52,24 +52,32 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 			Camera.changeScaleRatio(1);
 			Camera.updateScale();
 			break;
-		case KeyEvent.VK_T:
+		case KeyEvent.VK_Y:
+			((AIPlayer)Game.getPlayer(1)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
+			break;
+		case KeyEvent.VK_R:
+			((AIPlayer)Game.getPlayer(1)).move(Cursor.getGridX(), Cursor.getGridY());
+			break;
+		case KeyEvent.VK_Q:
 			Game.getPlayer().move(Cursor.getGridX(), Cursor.getGridY());
 			break;
-		case KeyEvent.VK_I:
+		case KeyEvent.VK_COMMA:
 			PathFindingTester.set1((int)Cursor.getGridX(), (int)Cursor.getGridY());
 			break;
-		case KeyEvent.VK_O:
+		case KeyEvent.VK_PERIOD:
 			PathFindingTester.set2((int)Cursor.getGridX(), (int)Cursor.getGridY());
 			break;
-		case KeyEvent.VK_P:
+		case KeyEvent.VK_SLASH:
 			try{
-				if ((PathFindingTester.x1!=PathFindingTester.x2||PathFindingTester.y1!=PathFindingTester.y2)//markers are not in the same place
-					&&!Level.getTile(PathFindingTester.x1, PathFindingTester.y1).isSolid(0)//check that neither marker is over a solid tile
-					&&!Level.getTile(PathFindingTester.x2, PathFindingTester.y2).isSolid(0)
-					&&Level.getTile(PathFindingTester.x1, PathFindingTester.y1).getColor()!=null//both inside the map
-					&&Level.getTile(PathFindingTester.x2, PathFindingTester.y2).getColor()!=null) {
-					PathFindingTester.go();
-				}
+				PathFindingTester.find();
+			}
+			catch (Exception e1) {}
+			break;
+		case KeyEvent.VK_E:
+			PathFindingTester.set1(Game.getPlayer().getXTile(), Game.getPlayer().getYTile());
+			PathFindingTester.set2((int)Cursor.getGridX(), (int)Cursor.getGridY());
+			try{
+				PathFindingTester.find();
 			}
 			catch (Exception e1) {}
 			break;
@@ -118,26 +126,32 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		switch (e.getKeyCode()) {
 		case UP_KEY_0:
 		case UP_KEY_1:
-			Game.getPlayer().setMovementControlActive(UP, pressed);
+			Game.getPlayer().setMovementControl(UP, pressed);
 			break;
 		case DOWN_KEY_0:
 		case DOWN_KEY_1:
-			Game.getPlayer().setMovementControlActive(DOWN, pressed);
+			Game.getPlayer().setMovementControl(DOWN, pressed);
 			break;
 		case LEFT_KEY_0:
 		case LEFT_KEY_1:
-			Game.getPlayer().setMovementControlActive(LEFT, pressed);
+			Game.getPlayer().setMovementControl(LEFT, pressed);
 			break;
 		case RIGHT_KEY_0:
 		case RIGHT_KEY_1:
-			Game.getPlayer().setMovementControlActive(RIGHT, pressed);
+			Game.getPlayer().setMovementControl(RIGHT, pressed);
 			break;
-		}
-	}
-
-	private void stopPlayerMovement() {
-		for (int i = 0;i<4;i++) {
-			Game.getPlayer().setMovementControlActive(i, false);
+		case KeyEvent.VK_T:
+			Game.getPlayer(1).setMovementControl(UP, pressed);
+			break;
+		case KeyEvent.VK_G:
+			Game.getPlayer(1).setMovementControl(DOWN, pressed);
+			break;
+		case KeyEvent.VK_F:
+			Game.getPlayer(1).setMovementControl(LEFT, pressed);
+			break;
+		case KeyEvent.VK_H:
+			Game.getPlayer(1).setMovementControl(RIGHT, pressed);
+			break;
 		}
 	}
 
@@ -196,7 +210,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		stopPlayerMovement();
+		Game.getPlayer().setAllMovementControl(false);
 	}
 
 	@Override

@@ -1,17 +1,17 @@
 package client.level.pathfinding;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import client.level.Level;
+import data.TileData;
 
-public class AStarPathFinder {
+public class PathFinder implements TileData {
 	private List<PathfindingTile> openList, closedList;
 	private PathfindingTile[][] tiles;
 
-	public AStarPathFinder() {
+	public PathFinder() {
 		tiles = new PathfindingTile[Level.getHeight()][Level.getWidth()];
 		for (int r = 0;r<Level.getHeight();r++) {
 			for (int c = 0;c<Level.getWidth();c++) {
@@ -20,10 +20,12 @@ public class AStarPathFinder {
 		}
 	}
 
-	public ArrayList<Point> getPath(int x1, int y1, int x2, int y2) {
+	public List<Point> getPath(int x1, int y1, int x2, int y2) {
+		List<Point> pathPoints = new LinkedList<>();
+		if (!Level.getTile(x1, y1).isUsable()||!Level.getTile(x2, y2).isUsable()) {
+			return pathPoints;
+		}
 		List<PathfindingTile> path = findPath(x1, y1, x2, y2);
-		ArrayList<Point> pathPoints = new ArrayList<>();
-		pathPoints.add(new Point(x1, y1));
 		for (PathfindingTile tileNode:path) {
 			pathPoints.add(new Point(tileNode.getC(), tileNode.getR()));
 		}
@@ -37,6 +39,7 @@ public class AStarPathFinder {
 
 		PathfindingTile currentPathfindingTile;
 		while (true) {
+			if (openList.isEmpty()) return new LinkedList<>();//no path exists; return empty list
 			currentPathfindingTile = getLowestCombinedInOpen();//get node with lowest combined Costs from openList
 			closedList.add(currentPathfindingTile);//add current node to closed
 			openList.remove(currentPathfindingTile); //delete current node from open
@@ -59,7 +62,7 @@ public class AStarPathFinder {
 					}
 				}
 			}
-			if (openList.isEmpty()) return new LinkedList<>();//no path exists; return empty list
+
 		}
 	}
 
@@ -100,28 +103,28 @@ public class AStarPathFinder {
 		int x = tile.getC(), y = tile.getR();
 		List<PathfindingTile> adjacent = new LinkedList<>();
 		PathfindingTile temp;
-		if (x>0) {
+		if (y>0) {
 			temp = tiles[y-1][x];
 			if (temp.isUsable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(false);
 				adjacent.add(temp);
 			}
 		}
-		if (x<Level.getWidth()-1) {
+		if (y<Level.getHeight()-1) {
 			temp = tiles[y+1][x];
 			if (temp.isUsable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(false);
 				adjacent.add(temp);
 			}
 		}
-		if (y>0) {
+		if (x>0) {
 			temp = tiles[y][x-1];
 			if (temp.isUsable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(false);
 				adjacent.add(temp);
 			}
 		}
-		if (y<Level.getHeight()) {
+		if (x<Level.getWidth()) {
 			temp = tiles[y][x+1];
 			if (temp.isUsable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(false);

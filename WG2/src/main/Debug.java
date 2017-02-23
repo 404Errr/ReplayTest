@@ -61,23 +61,23 @@ public class Debug implements Data, ColorData {
 					Renderer.getG().drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));//los
 				}
 			}
-			if (drawDebugPathfinding) {
-				drawPath(PathFindingTester.linesAStar, Color.RED, 3);
-				//drawPath(PathFindingTester.linesMaze, Color.CYAN, 2);
-			}
+			drawPath(PathFindingTester.linesAStar, Color.BLUE, 2);
+			//drawPath(PathFindingTester.linesMaze, Color.CYAN, 2);
 		}
 	}
 
 	public static void drawPath(List<Point> lines, Color color, int size) {
-		Renderer.getG().setColor(color);
-		Renderer.getG().setStroke(new BasicStroke(size));
-		for (int i = 1;i<lines.size();i++) {
-			Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
+		if (drawDebugPathfinding) {
+			Renderer.getG().setColor(color);
+			Renderer.getG().setStroke(new BasicStroke(size));
+			for (int i = 1;i<lines.size();i++) {
+				Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
+			}
+			Renderer.getG().setColor(Color.green);
+			Renderer.getG().setStroke(new BasicStroke(7));
+			Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()));
+			Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
 		}
-		Renderer.getG().setColor(Color.green);
-		Renderer.getG().setStroke(new BasicStroke(7));
-		Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()));
-		Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
 	}
 
 	public static void toggleText() {

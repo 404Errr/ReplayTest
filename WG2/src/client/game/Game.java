@@ -5,21 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.entity.Entity;
+import client.level.Level;
 import client.player.AIPlayer;
 import client.player.ControlledPlayer;
 import client.player.Player;
 import data.ColorData;
+import data.TileData;
 
-public class Game implements ColorData {
+public class Game implements ColorData, TileData {
 	private static ControlledPlayer player;//the user's player
 	private static List<Entity> entities;
 
 	public static void init() {
-		player = new ControlledPlayer(COLOR_PLAYER, 1f, 1f);//the player
 		entities = new ArrayList<>();
+
+		player = new ControlledPlayer(COLOR_PLAYER, Level.getFirstUsableTile()[0], Level.getFirstUsableTile()[1]);//the player
 		entities.add(player);
-		entities.add(new AIPlayer(Color.RED, 10f, 10f));
-		entities.add(new AIPlayer(Color.GREEN, 11f, 10f));
+		entities.add(new AIPlayer(Color.RED, Level.getFirstUsableTile()[0], Level.getFirstUsableTile()[1]+2));
+//		entities.add(new AIPlayer(Color.GREEN, 4f, 2f));
 	}
 
 	public static ControlledPlayer getPlayer() {

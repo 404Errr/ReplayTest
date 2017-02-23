@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import client.entity.Entity;
 import client.game.Game;
 import client.level.Level;
+import client.player.AIPlayer;
 import client.player.Player;
 import client.weapon.GunType;
 import client.weapon.Hitscan;
@@ -52,6 +53,9 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			}
 			if (entity instanceof Player) {
 				drawPlayer((Player)entity);
+				if (entity instanceof AIPlayer) {
+					Debug.drawPath(((AIPlayer)entity).getCurrentPath(), ((Player)entity).getColor(), 2);
+				}
 			}
 		}
 	}
