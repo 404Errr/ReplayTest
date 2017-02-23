@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 
 import client.entity.Entity;
 import client.game.Game;
-import client.input.Cursor;
 import client.level.Level;
+import client.player.Player;
 import client.weapon.GunType;
 import client.weapon.Hitscan;
 import client.weapon.Projectile;
@@ -30,12 +30,10 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		g = (Graphics2D) g0;
 		setBackground(COLOR_BACKROUND);
 		super.paintComponent(g);
-		if (Camera.getScale()>0) try {
+		try {
 			drawTiles();
 			Debug.drawDebug();
 			drawEntities();
-			if (Debug.isDrawWeapons()) drawActiveGun();
-			drawPlayer();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -44,13 +42,16 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 
 	private void drawEntities() {
 		List<Entity> entities = Game.getEntities();
-		for (int i = 0;i<entities.size();i++) {
+		for (int i = entities.size()-1;i>=0;i--) {//reverse order so players will be drawn last (the player last too)
 			Entity entity = entities.get(i);
 			if (entity instanceof Projectile) {
 				drawProjectile((Projectile)entity);
 			}
 			if (entity instanceof Hitscan) {
 				drawHitscan((Hitscan)entity);
+			}
+			if (entity instanceof Player) {
+				drawPlayer((Player)entity);
 			}
 		}
 	}
@@ -66,16 +67,18 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
 	}
 
-	private void drawActiveGun() {
-		GunType gun = Game.getPlayer().getActiveGun().getType();
-		g.setColor(Game.getPlayer().getColor());
-		g.setStroke(new BasicStroke(gun.getWangWidth()*Camera.getScale()));
-		g.drawLine((int)getPlayerX(), (int)getPlayerY(), (int)(getPlayerX()+Util.getXComp(Game.getPlayer().getFacing(), (gun.getWangLength()+HALF_PLAYER_SIZE))*Camera.getScale()), (int)(getPlayerY()-Util.getYComp(Game.getPlayer().getFacing(), (gun.getWangLength()+HALF_PLAYER_SIZE))*Camera.getScale()));
+	private void drawGun(Player player) {
+		GunType gun = player.getActiveGun().getType();
+		g.setColor(player.getColor());
+		g.setStroke(new BasicStroke(gun.getWidth()*Camera.getScale()));
+		float angle = player.getFacing(), wangLength = gun.getLength()+HALF_PLAYER_SIZE;
+		g.drawLine(gridX(player.getXCenter()), gridY(player.getYCenter()), gridX(player.getXCenter())+(int)(Util.getXComp(angle, wangLength)*Camera.getScale()), gridY(player.getYCenter())+(int)(-Util.getYComp(angle, wangLength)*Camera.getScale()));
 	}
 
-	private void drawPlayer() {
-		g.setColor(COLOR_PLAYER);
-		g.fillRect((int)(getPlayerX()-getHalfPlayerSize()), (int)(getPlayerY()-getHalfPlayerSize()), (int)getPlayerSize(), (int)getPlayerSize());
+	private void drawPlayer(Player player) {
+		g.setColor(player.getColor());
+		if (Debug.isDrawWeapons()) drawGun(player);
+		g.fillRect(gridX(player.getX()), gridY(player.getY()), (int)getPlayerSize(), (int)getPlayerSize());
 	}
 
 	private void drawTiles() {
@@ -103,14 +106,6 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 
 	private static float getYOrigin() {
 		return (-Camera.getY()-HALF_PLAYER_SIZE)*Camera.getScale()+Window.centerY();
-	}
-
-	private static float getPlayerX() {
-		return Window.centerX()-Cursor.getPlayerX()*Camera.getScale();
-	}
-
-	private static float getPlayerY() {
-		return Window.centerY()-Cursor.getPlayerY()*Camera.getScale();
 	}
 
 	public static float getPlayerSize() {

@@ -25,7 +25,6 @@ public class MazePathFinder {
 	}
 
 	private boolean solvePath(int c, int r, int endC, int endR) {
-		System.out.println(c+", "+r+"\t"+endC+", "+endR+"\t"+(r==endR)+" "+(c==endC));
 		if(!(r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth())) return false;
 		if (r==endR&&c==endC) return true;
 		looked[r][c] = true;

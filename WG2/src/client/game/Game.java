@@ -7,6 +7,7 @@ import java.util.List;
 import client.entity.Entity;
 import client.player.AIPlayer;
 import client.player.ControlledPlayer;
+import client.player.Player;
 import data.ColorData;
 
 public class Game implements ColorData {
@@ -18,10 +19,15 @@ public class Game implements ColorData {
 		entities = new ArrayList<>();
 		entities.add(player);
 		entities.add(new AIPlayer(Color.RED, 10f, 10f));
+		entities.add(new AIPlayer(Color.GREEN, 11f, 10f));
 	}
 
 	public static ControlledPlayer getPlayer() {
 		return player;
+	}
+
+	public static Player getPlayer(int player) {
+		return (Player)entities.get(player);
 	}
 
 	public static Entity getEntity(int entity) {

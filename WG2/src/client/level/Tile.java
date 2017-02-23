@@ -18,7 +18,7 @@ public class Tile implements MapData, PathfindingData, TileData {
 		this.c = c;
 		this.r = r;
 		this.usable = !solid;//not solid
-		if (!solid) for (int i = 0;i<WALL_DISTANCE;i++) {
+		if (!solid) for (int i = 1;i<WALL_DISTANCE;i++) {
 			if (isNextToWall(i)) nextToWallCost+=WALL_MOVEMENT_COST;
 		}
 	}

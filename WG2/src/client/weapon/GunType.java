@@ -32,11 +32,11 @@ public enum GunType implements WeaponData {
 		this.recoil = recoil;
 	}
 
-	public float getWangLength() {
+	public float getLength() {
 		return wangLength;
 	}
 
-	public float getWangWidth() {
+	public float getWidth() {
 		return wangWidth;
 	}
 

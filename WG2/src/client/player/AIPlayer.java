@@ -2,18 +2,28 @@ package client.player;
 
 import java.awt.Color;
 
-import client.entity.Entity;
-
-public class AIPlayer extends Entity {
+public class AIPlayer extends Player {
 
 	public AIPlayer(Color color, float x, float y) {
 		super(color, x, y);
 	}
 
 	@Override
-	public boolean tick() {
+	protected void moveTick() {
 		// TODO Auto-generated method stub
-		return false;
+
+	}
+
+	@Override
+	protected void turn() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void accelerate() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -11,14 +11,13 @@ public class Level implements MapData, TileData {
 	@SuppressWarnings("unused")
 	public static void init() {//initialize layout
 		layout = MapParser.parseMap(MAP);
+//		layout = NewOldLevelGen.generateMap();
 		if (ADD_EDGE) {
 			if (!(AUTO_DISABLE_ADD_EDGE&&layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD)) {
 				System.out.println("Adding edge...");
 				layout = addEdge(layout);
 			}
-			else {
-				System.out.println("Not Adding edge. Map area is: "+layout.length*layout[0].length+"/"+AUTO_DISABLE_ADD_EDGE_THREASHOLD);
-			}
+			else System.out.println("Not Adding edge. Map area is: "+layout.length*layout[0].length+"/"+AUTO_DISABLE_ADD_EDGE_THREASHOLD);
 		}
 		tiles = new Tile[layout.length][layout[0].length];
 		for (int r = 0;r<layout.length;r++) {
@@ -56,7 +55,7 @@ public class Level implements MapData, TileData {
 		return tiles[r][c];
 	}
 
-	public static Tile getTile(double c, double r) {
+	public static Tile getTile(float c, float r) {
 		return getTile((int)c, (int)r);
 	}
 

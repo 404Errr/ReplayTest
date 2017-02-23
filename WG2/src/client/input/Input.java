@@ -118,26 +118,26 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		switch (e.getKeyCode()) {
 		case UP_KEY_0:
 		case UP_KEY_1:
-			Game.getPlayer().setMovementKeyPressed(UP, pressed);
+			Game.getPlayer().setMovementControlActive(UP, pressed);
 			break;
 		case DOWN_KEY_0:
 		case DOWN_KEY_1:
-			Game.getPlayer().setMovementKeyPressed(DOWN, pressed);
+			Game.getPlayer().setMovementControlActive(DOWN, pressed);
 			break;
 		case LEFT_KEY_0:
 		case LEFT_KEY_1:
-			Game.getPlayer().setMovementKeyPressed(LEFT, pressed);
+			Game.getPlayer().setMovementControlActive(LEFT, pressed);
 			break;
 		case RIGHT_KEY_0:
 		case RIGHT_KEY_1:
-			Game.getPlayer().setMovementKeyPressed(RIGHT, pressed);
+			Game.getPlayer().setMovementControlActive(RIGHT, pressed);
 			break;
 		}
 	}
 
 	private void stopPlayerMovement() {
 		for (int i = 0;i<4;i++) {
-			Game.getPlayer().setMovementKeyPressed(i, false);
+			Game.getPlayer().setMovementControlActive(i, false);
 		}
 	}
 

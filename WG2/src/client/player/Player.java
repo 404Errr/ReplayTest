@@ -18,7 +18,7 @@ import util.Util;
 
 public abstract class Player extends Entity implements WeaponData, PlayerData, Data, TileData {
 	protected float facing;//facing is in radians
-	protected boolean[] canMove;//r,d,l,u
+	protected boolean[] canMove, movementControlActive;//r,d,l,u
 	protected Color color;
 	protected List<Gun> guns;
 	protected Gun activeGun;
@@ -26,6 +26,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	public Player(Color color, float x, float y) {
 		super(color, x, y);
 		this.color = color;
+		movementControlActive = new boolean[4];
 		canMove = new boolean[4];
 		guns = new ArrayList<>();
 		if (ALL_GUNS_AT_START) {
@@ -41,17 +42,8 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		setFacing(facing);
 	}
 
-	protected void notAcceleratingCheck() {//affects ddX and ddY
-		if ((!canMove(UP)&&ddY<0)||(!canMove(DOWN)&&ddY>0)) {//if opposite movement keys have the same value or if cant move in the direction acceleration is set to
-			ddY = 0;//stop accelerating
-		}
-		if ((!canMove(LEFT)&&ddX<0)||(!canMove(RIGHT)&&ddX>0)) {
-			ddX = 0;
-		}
-	}
-
 	protected void dPosition(float dX, float dY) {
-		setAllCanMove(true);//set all values in canMove to true
+		setAllCanMove(true);//sets all values in canMove to true
 		float inc = 0.025f, remaining, sign;//inc - the increment between collision checks
 		remaining = Math.abs(dX);//the magnitude of dX
 		sign = Math.signum(dX);//the sign of dX
@@ -117,8 +109,6 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		}
 	}
 
-
-
 	protected void accelerationLimitCheck() {//affects ddX and ddY
 		if (Math.abs(ddX)>PLAYER_ACCELERATION_LIMIT) {//if over the limit
 			ddX = Math.signum(ddX)*PLAYER_ACCELERATION_LIMIT;//set to the limit
@@ -138,23 +128,71 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	}
 
 	public void recoil(float magnitude) {
-		this.dX+=-Util.getXComp(Game.getPlayer().getFacing(), magnitude);
-		this.dY+=Util.getYComp(Game.getPlayer().getFacing(), magnitude);
+		this.dX-=Util.getXComp(Game.getPlayer().getFacing(), magnitude);
+		this.dY-=-Util.getYComp(Game.getPlayer().getFacing(), magnitude);
 	}
 
 	@Override
 	public boolean tick() {
 		turn();
-		move();
+		moveTick();
 		for (Gun gun:guns) {
 			gun.tick();
 		}
 		return false;
 	}
 
-	protected abstract void move();
+	protected void moveTick() {
+		accelerate();//accelerate based on if movement is avtive
+		accelerationLimitCheck();//checks if acceleration is over the limit, sets it to the limit if it is
+		notAcceleratingCheck();//checks if player shouldn't be accelerating or if ddX/ddY need to be rounded to 0
+		dX+=ddX;
+		dY+=ddY;
+		deccelerate();//deccelerate the player
+		speedLimitCheck();//checks if velocity is over the limit, sets it to the limit if it is
+		notMovingCheck();//chceks if player shouldn't be able to move or if dX/dY need to be rounded to 0
+		dPosition(dX, dY);//move the player by the velocity while doing collision checks
+	}
+
+	protected void accelerate() {//affects ddX and ddY
+		if (isMovementControlActive(UP)) {//if the movement is active
+			ddY-=PLAYER_ACCELERATION;//change acceleration by PLAYER_ACCELERATION
+			if (ddY>0) ddY = 0;//if acceleration is in the opposite direction of the movement control, reset it to 0
+		}
+		if (isMovementControlActive(DOWN)) {
+			ddY+=PLAYER_ACCELERATION;
+			if (ddY<0) ddY = 0;
+		}
+		if (isMovementControlActive(LEFT)) {
+			ddX-=PLAYER_ACCELERATION;
+			if (ddX>0) ddX = 0;
+		}
+		if (isMovementControlActive(RIGHT)) {
+			ddX+=PLAYER_ACCELERATION;
+			if (ddX<0) ddX = 0;
+		}
+	}
+
+	protected void notAcceleratingCheck() {//affects ddX and ddY
+		if ((isMovementControlActive(UP)==isMovementControlActive(DOWN)||(!canMove(UP)&&ddY<0)||(!canMove(DOWN)&&ddY>0))) {//if opposite movement controls have the same value or if can't move in the direction acceleration is set to
+			ddY = 0;//stop accelerating
+		}
+		if ((isMovementControlActive(LEFT)==isMovementControlActive(RIGHT)||(!canMove(LEFT)&&ddX<0)||(!canMove(RIGHT)&&ddX>0))) {
+			ddX = 0;
+		}
+	}
+
 	protected abstract void turn();
-	protected abstract void accelerate();
+
+	public boolean isMovementControlActive(int direction) {
+		return movementControlActive[direction];
+	}
+
+	public void setMovementControlActive(int direction, boolean value ) {
+		movementControlActive[direction] = value;
+	}
+
+
 
 	protected boolean canMove(int side) {
 		return canMove[side];

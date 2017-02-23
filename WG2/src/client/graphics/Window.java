@@ -18,6 +18,7 @@ public class Window extends JFrame implements GraphicsData {
 
 	public static void init() {
 		rendererer = new Renderer();
+		rendererer.setDoubleBuffered(true);
 		input = new Input();
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);

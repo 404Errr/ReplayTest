@@ -26,10 +26,9 @@ public class Debug implements Data, ColorData {
 	public static void drawDebug() {
 		if (DEBUG) {
 			if (debugText){
-
 				StringBuilder text = new StringBuilder();
 
-				text.append("Used time per frame = "+ClientUpdateLoop.getCurrentUpdateTime()+"$");
+				text.append("I forgot = "+ClientUpdateLoop.getCurrentUpdateTime()+"$");
 				text.append("Window = "+Window.width()+"x"+Window.height()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Camera.getScale()+"$");
 				text.append("Zoomed = "+Camera.inZoom()+"$");
 				text.append("Render Distance = "+GraphicsData.getRenderDistanceX()+", "+GraphicsData.getRenderDistanceY()+"$");
@@ -50,7 +49,6 @@ public class Debug implements Data, ColorData {
 					Renderer.getG().drawString(textLines[i], textX, textY+textSize*i);
 				}
 			}
-
 			if (losLine) {
 				Renderer.getG().setColor(COLOR_DEBUG_GREEN);
 				Renderer.getG().setStroke(new BasicStroke(1));
@@ -65,7 +63,7 @@ public class Debug implements Data, ColorData {
 			}
 			if (drawDebugPathfinding) {
 				drawPath(PathFindingTester.linesAStar, Color.RED, 3);
-				drawPath(PathFindingTester.linesMaze, Color.CYAN, 2);
+				//drawPath(PathFindingTester.linesMaze, Color.CYAN, 2);
 			}
 		}
 	}
