@@ -11,9 +11,15 @@ public class PathfindingTile extends Tile implements MapData, PathfindingData, T
 	private int totalCost, distanceCost;
 	private boolean diagonal;
 	private PathfindingTile previous;
+	private CurrentList currentList;
+
+	enum CurrentList {
+		NONE, OPEN, CLOSED
+	}
 
 	public PathfindingTile(int c, int r) {
 		super(c, r, Level.getLayoutType(c, r), TileData.getSolid(Level.getLayoutType(c, r))[SOLID_WALLS]);
+		currentList = CurrentList.NONE;
 	}
 
 	public void setIsDiagonal(boolean diagonal) {
@@ -49,6 +55,16 @@ public class PathfindingTile extends Tile implements MapData, PathfindingData, T
 	}
 
 	public void setDistanceCost(PathfindingTile endTile) {
-		distanceCost = (int) (Util.distance(c, r, endTile.getC(), endTile.getR())*BASIC_MOVEMENT_COST);
+		distanceCost = (int)(Util.distance(c, r, endTile.getC(), endTile.getR())*BASIC_MOVEMENT_COST);
 	}
+
+	public CurrentList getCurrentList() {
+		return currentList;
+	}
+
+	public void setCurrentList(CurrentList currentList) {
+		this.currentList = currentList;
+	}
+
+
 }

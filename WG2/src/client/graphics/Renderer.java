@@ -1,6 +1,8 @@
 package client.graphics;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
@@ -36,9 +38,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			Debug.drawDebug();
 			drawEntities();
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		catch (Exception e) {}
 	}
 
 	private void drawEntities() {
@@ -56,6 +56,10 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 				if (entity instanceof AIPlayer) {
 					Debug.drawPath(((AIPlayer)entity).getCurrentPath(), ((Player)entity).getColor(), 2);
 				}
+				//debug \/
+				g.setColor(Color.BLACK);
+				g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/3));
+				g.drawString((int)(((Player)entity).getHealth()*100)+"", gridX(((Player)entity).getX())+Camera.getScale()/8, gridY(((Player)entity).getY())+Camera.getScale()*5/8);
 			}
 		}
 	}

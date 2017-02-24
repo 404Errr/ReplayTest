@@ -47,6 +47,11 @@ public class Util {
 		return Math.hypot(x1-x2, y1-y2);
 	}
 
+	public static float bounceAngle(float angle, boolean yAxis) {
+		if (yAxis) return (float)(Math.PI-angle);
+		else return -angle;
+
+	}
 
 	public static double getAngleDegrees(double x, double y, double xT, double yT) {
 		double result = Math.toDegrees(Math.atan2(-(xT-x), -(yT-y)))+90;

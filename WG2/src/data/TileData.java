@@ -1,9 +1,9 @@
 package data;
 
 public interface TileData {
-	public static final int SOLID_WALLS = 0, SOLID_PROJECTILES = 1;//don't change
+	static final int SOLID_WALLS = 0, SOLID_PROJECTILES = 1;//don't change
 
-	public static boolean[] getSolid(int type) {
+	static boolean[] getSolid(int type) {
 		boolean[] solid = new boolean[2];
 		switch (type) {
 		case 48://0 floor, don't change

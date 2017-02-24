@@ -8,6 +8,7 @@ import java.util.List;
 import client.entity.Entity;
 import client.game.Game;
 import client.level.Level;
+import client.level.SpawnPoint;
 import client.weapon.Gun;
 import client.weapon.GunType;
 import data.Data;
@@ -17,7 +18,7 @@ import data.WeaponData;
 import util.Util;
 
 public abstract class Player extends Entity implements WeaponData, PlayerData, Data, TileData {
-	protected float facing;//facing is in radians
+	protected float health, facing;//facing is in radians
 	protected boolean[] canMove, movementControl;//r,d,l,u
 	protected Color color;
 	protected List<Gun> guns;
@@ -26,6 +27,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	public Player(Color color, float x, float y) {
 		super(color, x, y);
 		this.color = color;
+		health = PLAYER_INITIAL_HEALTH;
 		movementControl = new boolean[4];
 		canMove = new boolean[4];
 		guns = new ArrayList<>();
@@ -35,6 +37,11 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 			}
 			selectGun(STARTING_GUN);
 		}
+	}
+
+	public void respawn(SpawnPoint spawnPoint) {
+		health = PLAYER_INITIAL_HEALTH;
+		move(spawnPoint.getX(), spawnPoint.getY());
 	}
 
 	public void move(float x, float y, float facing) {
@@ -139,7 +146,12 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		for (Gun gun:guns) {
 			gun.tick();
 		}
+		if (isDead()) respawn(Level.getSafestSpawnPoint());
 		return false;
+	}
+
+	private boolean isDead() {
+		return health<=0;
 	}
 
 	protected void moveTick() {
@@ -220,16 +232,8 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		this.facing = facing;
 	}
 
-	public Color getColor() {
-		return color;
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public float getY() {
-		return y;
+	public Rectangle2D getBounds() {
+		return new Rectangle2D.Double(x, y, PLAYER_SIZE, PLAYER_SIZE);
 	}
 
 	public float getXCenter() {
@@ -246,22 +250,6 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 
 	public int getYTile() {
 		return Math.round(y);
-	}
-
-	public float getdX() {
-		return dX;
-	}
-
-	public float getdY() {
-		return dY;
-	}
-
-	public float getddX() {
-		return ddX;
-	}
-
-	public float getddY() {
-		return ddY;
 	}
 
 	public Gun getActiveGun() {
@@ -289,4 +277,17 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	public void clearGuns() {
 		guns.clear();
 	}
+
+	public float getHealth() {
+		return health;
+	}
+
+	public void setHealth(float health) {
+		this.health = health;
+	}
+
+	public void changeHealth(float dHealth) {
+		this.health+=dHealth;
+	}
+
 }

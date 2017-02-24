@@ -3,13 +3,16 @@ package client.weapon;
 
 import java.awt.Color;
 import java.awt.geom.Line2D;
+import java.util.List;
 
 import client.entity.Entity;
+import client.game.Game;
 import client.level.Level;
+import client.player.Player;
 import data.TileData;
 
-public class Projectile extends Entity implements TileData {
-	protected float size, damage;
+public class Projectile extends Entity implements Damages, TileData {
+	protected float damage, size;
 	protected boolean destroy;
 
 	public Projectile(float damage, float size, Color color, float x, float y, float dX, float dY) {
@@ -34,7 +37,7 @@ public class Projectile extends Entity implements TileData {
 	protected void checkCollision() {
 		Line2D hitline = new Line2D.Float(x, y, x-dX, y-dY);
 		checkWallCollision(hitline);
-//		checkPlayerCollision();//TODO
+		checkPlayerCollision(hitline);
 	}
 
 	private void checkWallCollision(Line2D hitline) {
@@ -50,28 +53,14 @@ public class Projectile extends Entity implements TileData {
 		}
 	}
 
-	public float getX() {
-		return x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public float getdX() {
-		return dX;
-	}
-
-	public float getdY() {
-		return dY;
-	}
-
-	public float getDdX() {
-		return ddX;
-	}
-
-	public float getDdY() {
-		return ddY;
+	private void checkPlayerCollision(Line2D hitline) {
+		List<Entity> entities = Game.getEntities();
+		for (int i = 0;i<entities.size();i++) {
+			if (entities.get(i) instanceof Player&&((Player)entities.get(i)).getColor()!=color&&((Player)entities.get(i)).getBounds().intersectsLine(hitline)) {
+				damage((Player)entities.get(i), damage);
+				destroy = true;//destroy it
+			}
+		}
 	}
 
 	public float getSize() {
@@ -81,10 +70,4 @@ public class Projectile extends Entity implements TileData {
 	public float getDamage() {
 		return damage;
 	}
-
-	public Color getColor() {
-		return color;
-	}
-
-
 }

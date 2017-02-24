@@ -45,9 +45,10 @@ public class Gun implements WeaponData {
 	}
 
 	private void shootRailgun() {
-		Game.addEntity(new Hitscan(type.getDamage(), RAILGUN_LINE_INITIAL_WIDTH, Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Game.getPlayer().getFacing()));
+		Game.addEntity(new Hitscan(type.getDamage(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Game.getPlayer().getFacing()));
+//		Game.addEntity(new BouncingHitscan(type.getDamage(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Game.getPlayer().getFacing(), 200));
 		/*for (float a = 0;a<360;a+=0.5d) {
-			Game.addHitscan(new Hitscan(type.getDamage(), 0.5, Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Math.toRadians(a)));
+			Game.addHitscan(new Hitscan(type.getDamage(), 0.5, owner.getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Math.toRadians(a)));
 		}*/
 	}
 
@@ -56,14 +57,14 @@ public class Gun implements WeaponData {
 		for (int i = 0;i<SHOTGUN_PELLET_COUNT;i++) {
 			float angle = Util.getAngleSpread(gunAngle, SHOTGUN_SPREAD), speed = Util.getSpread(type.getProjectileSpeed(), type.getSpeedOffset());
 			float dX = Game.getPlayer().getdX()+Util.getXComp(angle, speed), dY = Game.getPlayer().getdY()-Util.getYComp(angle, speed);
-			Game.addEntity(new Projectile(type.getDamage(), type.getProjectileSize(), Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), dX, dY));
+			Game.addEntity(new Projectile(type.getDamage(), type.getProjectileSize(), owner.getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), dX, dY));
 		}
 	}
 
 	private void shoot() {
 		float angle = Util.getAngleSpread(Game.getPlayer().getFacing(), type.getCOF()), speed = Util.getSpread(type.getProjectileSpeed(), type.getSpeedOffset());
 		float dX = Game.getPlayer().getdX()+Util.getXComp(angle, speed), dY = Game.getPlayer().getdY()-Util.getYComp(angle, speed);
-		Game.addEntity(new Projectile(type.getDamage(), type.getProjectileSize(), Game.getPlayer().getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), dX, dY));
+		Game.addEntity(new Projectile(type.getDamage(), type.getProjectileSize(), owner.getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), dX, dY));
 	}
 
 	private boolean isActive() {

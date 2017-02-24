@@ -1,6 +1,7 @@
 package client.entity;
 
 import java.awt.Color;
+import java.awt.Point;
 
 abstract public class Entity {
 	protected float x, y, dX, dY, ddX, ddY;
@@ -42,6 +43,41 @@ abstract public class Entity {
 		this.y = y;
 	}
 
+	public void move(Point point) {
+		this.x = point.x;
+		this.y = point.y;
+	}
+
 	public abstract boolean tick();
+
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public float getdX() {
+		return dX;
+	}
+
+	public float getdY() {
+		return dY;
+	}
+
+	public float getddX() {
+		return ddX;
+	}
+
+	public float getddY() {
+		return ddY;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+
 
 }

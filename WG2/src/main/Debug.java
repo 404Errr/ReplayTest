@@ -62,7 +62,7 @@ public class Debug implements Data, ColorData {
 				}
 			}
 			drawPath(PathFindingTester.linesAStar, Color.BLUE, 2);
-			drawPath(PathFindingTester.linesMaze, Color.CYAN, 2);
+//			drawPath(PathFindingTester.linesMaze, Color.CYAN, 2);
 		}
 	}
 

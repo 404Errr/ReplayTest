@@ -1,16 +1,20 @@
 package client.weapon;
 
 import java.awt.Color;
+import java.awt.geom.Line2D;
+import java.util.List;
 
 import client.entity.Entity;
+import client.game.Game;
 import client.level.Level;
+import client.player.Player;
 import data.TileData;
 import data.WeaponData;
 import util.Util;
 
-public class Hitscan extends Entity implements TileData, WeaponData {
-	private float damage, initialWidth, width, iX, iY, fX, fY;
-	private Color color;
+public class Hitscan extends Entity implements Damages, TileData, WeaponData {
+	protected float damage, initialWidth, width, x, y, iX, iY, fX, fY;
+	protected Color color;
 
 	public Hitscan(float damage, float initialWidth, Color color, float iX, float iY, float angle) {
 		super(color, iX, iY);
@@ -25,6 +29,16 @@ public class Hitscan extends Entity implements TileData, WeaponData {
 		scan(angle);//scan
 		this.fX = x;//set final position
 		this.fY = y;
+		checkPlayerCollision(new Line2D.Double(iX, iY, fX, fY));
+	}
+
+	private void checkPlayerCollision(Line2D hitline) {
+		List<Entity> entities = Game.getEntities();
+		for (int i = 0;i<entities.size();i++) {
+			if (entities.get(i) instanceof Player&&((Player)entities.get(i)).getColor()!=color&&((Player)entities.get(i)).getBounds().intersectsLine(hitline)) {
+				damage((Player)entities.get(i), damage);
+			}
+		}
 	}
 
 	@Override
@@ -36,7 +50,7 @@ public class Hitscan extends Entity implements TileData, WeaponData {
 		return false;//continue living in this cruel world
 	}
 
-	private void scan(float angle) {
+	protected void scan(float angle) {
 		final float dX = Util.getXComp(angle, HITSCAN_INITIAL_INCREMENT), dY = -Util.getYComp(angle, HITSCAN_INITIAL_INCREMENT);
 		float incrementMultiplier = 1.0f;
 		boolean firstHit = true, firstCheck = true;
@@ -72,7 +86,7 @@ public class Hitscan extends Entity implements TileData, WeaponData {
 	}
 
 	public int getOpacity() {//out of 255
-		return (int)(width/initialWidth*100)+155;
+		return (int)(width/initialWidth*200)+55;
 	}
 
 	public float getiX() {
@@ -89,9 +103,5 @@ public class Hitscan extends Entity implements TileData, WeaponData {
 
 	public float getfY() {
 		return fY;
-	}
-
-	public Color getColor() {
-		return color;
 	}
 }

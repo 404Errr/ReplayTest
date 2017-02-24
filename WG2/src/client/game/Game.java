@@ -1,6 +1,5 @@
 package client.game;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,16 +12,16 @@ import data.ColorData;
 import data.TileData;
 
 public class Game implements ColorData, TileData {
-	private static ControlledPlayer player;//the user's player
+	private static ControlledPlayer player;//the player
 	private static List<Entity> entities;
 
 	public static void init() {
 		entities = new ArrayList<>();
-
 		player = new ControlledPlayer(COLOR_PLAYER, Level.getFirstUsableTile()[0], Level.getFirstUsableTile()[1]);//the player
 		entities.add(player);
-		entities.add(new AIPlayer(Color.RED, Level.getFirstUsableTile()[0], Level.getFirstUsableTile()[1]+2));
-//		entities.add(new AIPlayer(Color.GREEN, 4f, 2f));
+		entities.add(new AIPlayer(COLOR_PLAYER_1, Level.getFirstUsableTile()[0], Level.getFirstUsableTile()[1]+2));
+		entities.add(new AIPlayer(COLOR_PLAYER_2, Level.getFirstUsableTile()[0], Level.getFirstUsableTile()[1]+4));
+		entities.add(new AIPlayer(COLOR_PLAYER_3, Level.getFirstUsableTile()[0], Level.getFirstUsableTile()[1]+6));
 	}
 
 	public static ControlledPlayer getPlayer() {

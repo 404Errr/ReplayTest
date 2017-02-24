@@ -3,79 +3,86 @@ package data;
 import java.awt.Color;
 
 public interface ColorData {
-	public static final Color COLOR_PLAYER = new Color(0x0000ff);//blue
+	static final Color COLOR_PLAYER = new Color(0x0000ff);//blue
+	static final Color COLOR_PLAYER_1 = new Color(0xff0000);//red
+	static final Color COLOR_PLAYER_2 = new Color(0x00ff00);//green
+	static final Color COLOR_PLAYER_3 = new Color(0x660088);//purple
+//	static final Color COLOR_PLAYER = new Color(0x23389d);//blue
+//	static final Color COLOR_PLAYER_1 = new Color(0xd4311b);//red
+//	static final Color COLOR_PLAYER_2 = new Color(0x89be17);//green
+//	static final Color COLOR_PLAYER_3 = new Color(0xd357f8);//purple
 
-	public static final Color COLOR_DEBUG_GREEN = new Color(0,180,0,255);//darker than lime green
-	public static final Color COLOR_ERROR = new Color(0x940e94);//magenta
-	public static final Color COLOR_BACKROUND = new Color(0xf0f0f0);//backround color
+	static final Color COLOR_DEBUG_GREEN = new Color(0,180,0,255);//darker than lime green
+	static final Color COLOR_ERROR = new Color(0x940e94);//magenta
+	static final Color COLOR_BACKROUND = new Color(0xf0f0f0);//backround color
 
-	public static final Color COLOR_TILE_0 = new Color(0x909090);//grey (floor)
-	public static final Color COLOR_TILE_1 = new Color(0x000000);//black (wall)
-	public static final Color COLOR_TILE_2 = null;//no draw (backround color)
-	public static final Color COLOR_TILE_3 = new Color(0xe0e0e0);//lighter grey (window)
-	public static final Color COLOR_TILE_4 = new Color(0xa5a5a5);//light grey (shield)
-	public static final Color COLOR_TILE_5 = new Color(0x353535);//dark grey (other solid (barrier))
+	static final Color COLOR_TILE_0 = new Color(0x909090);//grey (floor)
+	static final Color COLOR_TILE_1 = new Color(0x000000);//black (wall)
+	static final Color COLOR_TILE_2 = null;//no draw (backround color)
+	static final Color COLOR_TILE_3 = new Color(0xe0e0e0);//lighter grey (window)
+	static final Color COLOR_TILE_4 = new Color(0xa5a5a5);//light grey (shield)
+	static final Color COLOR_TILE_5 = new Color(0x353535);//dark grey (other solid (barrier))
 
 	//not in use
-	public static final Color COLOR_TILE_6 = COLOR_ERROR;
-	public static final Color COLOR_TILE_7 = COLOR_ERROR;
-	public static final Color COLOR_TILE_8 = COLOR_ERROR;
-	public static final Color COLOR_TILE_9 = COLOR_ERROR;
+	static final Color COLOR_TILE_6 = COLOR_ERROR;
+	static final Color COLOR_TILE_7 = COLOR_ERROR;
+	static final Color COLOR_TILE_8 = COLOR_ERROR;
+	static final Color COLOR_TILE_9 = COLOR_ERROR;
 
-	public static final Color COLOR_TILE_A = COLOR_ERROR;
-	public static final Color COLOR_TILE_B = COLOR_ERROR;
-	public static final Color COLOR_TILE_C = COLOR_ERROR;
-	public static final Color COLOR_TILE_D = COLOR_ERROR;
-	public static final Color COLOR_TILE_E = COLOR_ERROR;
-	public static final Color COLOR_TILE_F = COLOR_ERROR;
-	public static final Color COLOR_TILE_G = COLOR_ERROR;
-	public static final Color COLOR_TILE_H = COLOR_ERROR;
-	public static final Color COLOR_TILE_I = COLOR_ERROR;
-	public static final Color COLOR_TILE_J = COLOR_ERROR;
-	public static final Color COLOR_TILE_K = COLOR_ERROR;
-	public static final Color COLOR_TILE_L = COLOR_ERROR;
-	public static final Color COLOR_TILE_M = COLOR_ERROR;
-	public static final Color COLOR_TILE_N = COLOR_ERROR;
-	public static final Color COLOR_TILE_O = COLOR_ERROR;
-	public static final Color COLOR_TILE_P = COLOR_ERROR;
-	public static final Color COLOR_TILE_Q = COLOR_ERROR;
-	public static final Color COLOR_TILE_R = COLOR_ERROR;
-	public static final Color COLOR_TILE_S = COLOR_ERROR;
-	public static final Color COLOR_TILE_T = COLOR_ERROR;
-	public static final Color COLOR_TILE_U = COLOR_ERROR;
-	public static final Color COLOR_TILE_V = COLOR_ERROR;
-	public static final Color COLOR_TILE_W = COLOR_ERROR;
-	public static final Color COLOR_TILE_X = COLOR_ERROR;
-	public static final Color COLOR_TILE_Y = COLOR_ERROR;
-	public static final Color COLOR_TILE_Z = Color.RED;
-	public static final Color COLOR_TILE_a = COLOR_ERROR;
-	public static final Color COLOR_TILE_b = COLOR_ERROR;
-	public static final Color COLOR_TILE_c = COLOR_ERROR;
-	public static final Color COLOR_TILE_d = COLOR_ERROR;
-	public static final Color COLOR_TILE_e = COLOR_ERROR;
-	public static final Color COLOR_TILE_f = COLOR_ERROR;
-	public static final Color COLOR_TILE_g = COLOR_ERROR;
-	public static final Color COLOR_TILE_h = COLOR_ERROR;
-	public static final Color COLOR_TILE_i = COLOR_ERROR;
-	public static final Color COLOR_TILE_j = COLOR_ERROR;
-	public static final Color COLOR_TILE_k = COLOR_ERROR;
-	public static final Color COLOR_TILE_l = COLOR_ERROR;
-	public static final Color COLOR_TILE_m = COLOR_ERROR;
-	public static final Color COLOR_TILE_n = COLOR_ERROR;
-	public static final Color COLOR_TILE_o = COLOR_ERROR;
-	public static final Color COLOR_TILE_p = COLOR_ERROR;
-	public static final Color COLOR_TILE_q = COLOR_ERROR;
-	public static final Color COLOR_TILE_r = COLOR_ERROR;
-	public static final Color COLOR_TILE_s = COLOR_ERROR;
-	public static final Color COLOR_TILE_t = COLOR_ERROR;
-	public static final Color COLOR_TILE_u = COLOR_ERROR;
-	public static final Color COLOR_TILE_v = COLOR_ERROR;
-	public static final Color COLOR_TILE_w = COLOR_ERROR;
-	public static final Color COLOR_TILE_x = COLOR_ERROR;
-	public static final Color COLOR_TILE_y = COLOR_ERROR;
-	public static final Color COLOR_TILE_z = COLOR_ERROR;
+	static final Color COLOR_TILE_A = COLOR_ERROR;
+	static final Color COLOR_TILE_B = COLOR_ERROR;
+	static final Color COLOR_TILE_C = COLOR_ERROR;
+	static final Color COLOR_TILE_D = COLOR_ERROR;
+	static final Color COLOR_TILE_E = COLOR_ERROR;
+	static final Color COLOR_TILE_F = COLOR_ERROR;
+	static final Color COLOR_TILE_G = COLOR_ERROR;
+	static final Color COLOR_TILE_H = COLOR_ERROR;
+	static final Color COLOR_TILE_I = COLOR_ERROR;
+	static final Color COLOR_TILE_J = COLOR_ERROR;
+	static final Color COLOR_TILE_K = COLOR_ERROR;
+	static final Color COLOR_TILE_L = COLOR_ERROR;
+	static final Color COLOR_TILE_M = COLOR_ERROR;
+	static final Color COLOR_TILE_N = COLOR_ERROR;
+	static final Color COLOR_TILE_O = COLOR_ERROR;
+	static final Color COLOR_TILE_P = COLOR_ERROR;
+	static final Color COLOR_TILE_Q = COLOR_ERROR;
+	static final Color COLOR_TILE_R = COLOR_ERROR;
+	static final Color COLOR_TILE_S = COLOR_ERROR;
+	static final Color COLOR_TILE_T = COLOR_ERROR;
+	static final Color COLOR_TILE_U = COLOR_ERROR;
+	static final Color COLOR_TILE_V = COLOR_ERROR;
+	static final Color COLOR_TILE_W = COLOR_ERROR;
+	static final Color COLOR_TILE_X = COLOR_ERROR;
+	static final Color COLOR_TILE_Y = COLOR_ERROR;
+	static final Color COLOR_TILE_Z = Color.RED;
+	static final Color COLOR_TILE_a = COLOR_ERROR;
+	static final Color COLOR_TILE_b = COLOR_ERROR;
+	static final Color COLOR_TILE_c = COLOR_ERROR;
+	static final Color COLOR_TILE_d = COLOR_ERROR;
+	static final Color COLOR_TILE_e = COLOR_ERROR;
+	static final Color COLOR_TILE_f = COLOR_ERROR;
+	static final Color COLOR_TILE_g = COLOR_ERROR;
+	static final Color COLOR_TILE_h = COLOR_ERROR;
+	static final Color COLOR_TILE_i = COLOR_ERROR;
+	static final Color COLOR_TILE_j = COLOR_ERROR;
+	static final Color COLOR_TILE_k = COLOR_ERROR;
+	static final Color COLOR_TILE_l = COLOR_ERROR;
+	static final Color COLOR_TILE_m = COLOR_ERROR;
+	static final Color COLOR_TILE_n = COLOR_ERROR;
+	static final Color COLOR_TILE_o = COLOR_ERROR;
+	static final Color COLOR_TILE_p = COLOR_ERROR;
+	static final Color COLOR_TILE_q = COLOR_ERROR;
+	static final Color COLOR_TILE_r = COLOR_ERROR;
+	static final Color COLOR_TILE_s = COLOR_ERROR;
+	static final Color COLOR_TILE_t = COLOR_ERROR;
+	static final Color COLOR_TILE_u = COLOR_ERROR;
+	static final Color COLOR_TILE_v = COLOR_ERROR;
+	static final Color COLOR_TILE_w = COLOR_ERROR;
+	static final Color COLOR_TILE_x = COLOR_ERROR;
+	static final Color COLOR_TILE_y = COLOR_ERROR;
+	static final Color COLOR_TILE_z = COLOR_ERROR;
 
-	public static Color getTileColor(int type) {
+	static Color getTileColor(int type) {
 		switch (type) {//preferably in order of frequency
 		case '0':
 			return COLOR_TILE_0;

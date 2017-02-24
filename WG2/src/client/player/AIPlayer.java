@@ -11,7 +11,8 @@ import util.Util;
 public class AIPlayer extends Player {
 	private PathFinder pathFinder;
 	private List<Point> currentPath;
-	private Point currentTargetPoint;
+	private Point currentPathGoal, currentTargetPoint;
+
 	private boolean controlMovement;
 
 	public AIPlayer(Color color, float x, float y) {
@@ -27,8 +28,6 @@ public class AIPlayer extends Player {
 		if (controlMovement) {
 			controlMovement();
 		}
-
-
 		return super.tick();
 	}
 
@@ -48,25 +47,30 @@ public class AIPlayer extends Player {
 	}
 
 	private void updatePathProgress() {
-		if (currentPath.size()<=1||(currentPath.get(currentPath.size()-1).x==getXTile()&&currentPath.get(currentPath.size()-1).y==getYTile())) {
+		if (currentPath.size()<=0||currentPathGoal==null||(currentPathGoal.x==getXTile()&&currentPathGoal.y==getYTile())) {
 			stopPathfinding();
 		}
 		else {
-			setPathTo(currentPath.get(currentPath.size()-1).x, currentPath.get(currentPath.size()-1).y);
-			currentTargetPoint = currentPath.get(1);
+			setPathTo(currentPathGoal.x, currentPathGoal.y);
+			if (currentPath.size()>1) currentTargetPoint = currentPath.get(1);
 		}
 	}
 
 	public void setPathTo(float x, float y) {
-		 try {
-			 currentPath = pathFinder.getPath(getXTile(), getYTile(), Math.round(x), Math.round(y));
-		 }
-		 catch (Exception e) {}
+		try {
+			currentPathGoal = new Point(Math.round(x), Math.round(y));
+			if (pathFinder.isIdle()) currentPath = pathFinder.getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void stopPathfinding() {
 		currentPath.clear();
+		pathFinder.setIdle(true);
 		currentTargetPoint = null;
+		currentPathGoal = null;
 	}
 
 	public PathFinder getPathFinder() {
