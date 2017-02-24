@@ -52,31 +52,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 			Camera.changeScaleRatio(1);
 			Camera.updateScale();
 			break;
-		case KeyEvent.VK_Y:
-			((AIPlayer)Game.getPlayer(1)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
-			break;
-		case KeyEvent.VK_U:
-			((AIPlayer)Game.getPlayer(1)).toggleControlMovement();
-			break;
-		case KeyEvent.VK_R:
-			((AIPlayer)Game.getPlayer(1)).move(Cursor.getGridX(), Cursor.getGridY());
-			break;
-		case KeyEvent.VK_Q:
+
+		case KeyEvent.VK_Q://teleport 0
 			Game.getPlayer().move(Cursor.getGridX(), Cursor.getGridY());
 			break;
-		case KeyEvent.VK_COMMA:
-			PathFindingTester.set1((int)Cursor.getGridX(), (int)Cursor.getGridY());
-			break;
-		case KeyEvent.VK_PERIOD:
-			PathFindingTester.set2((int)Cursor.getGridX(), (int)Cursor.getGridY());
-			break;
-		case KeyEvent.VK_SLASH:
-			try{
-				PathFindingTester.find();
-			}
-			catch (Exception e1) {}
-			break;
-		case KeyEvent.VK_E:
+		case KeyEvent.VK_E://pathfind 0
 			PathFindingTester.set1(Game.getPlayer().getXTile(), Game.getPlayer().getYTile());
 			PathFindingTester.set2((int)Cursor.getGridX(), (int)Cursor.getGridY());
 			try{
@@ -84,6 +64,50 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 			}
 			catch (Exception e1) {}
 			break;
+
+		case KeyEvent.VK_Y://pathfind 1
+			((AIPlayer)Game.getPlayer(1)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
+			break;
+		case KeyEvent.VK_V://toggle movement 1
+			((AIPlayer)Game.getPlayer(1)).toggleControlMovement();
+			break;
+		case KeyEvent.VK_R://teleport 1
+			((AIPlayer)Game.getPlayer(1)).move(Cursor.getGridX(), Cursor.getGridY());
+			break;
+
+		case KeyEvent.VK_O://pathfind 2
+			((AIPlayer)Game.getPlayer(2)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
+			break;
+		case KeyEvent.VK_M://toggle movement 2
+			((AIPlayer)Game.getPlayer(2)).toggleControlMovement();
+			break;
+		case KeyEvent.VK_U://teleport 2
+			((AIPlayer)Game.getPlayer(2)).move(Cursor.getGridX(), Cursor.getGridY());
+			break;
+
+		case KeyEvent.VK_CLOSE_BRACKET://pathfind 3
+			((AIPlayer)Game.getPlayer(3)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
+			break;
+		case KeyEvent.VK_SLASH://toggle movement 3
+			((AIPlayer)Game.getPlayer(3)).toggleControlMovement();
+			break;
+		case KeyEvent.VK_P://teleport 3
+			((AIPlayer)Game.getPlayer(3)).move(Cursor.getGridX(), Cursor.getGridY());
+			break;
+
+		case KeyEvent.VK_COMMA:
+			PathFindingTester.set1((int)Cursor.getGridX(), (int)Cursor.getGridY());
+			break;
+		case KeyEvent.VK_PERIOD:
+			PathFindingTester.set2((int)Cursor.getGridX(), (int)Cursor.getGridY());
+			break;
+		case KeyEvent.VK_SHIFT:
+			if (e.getKeyLocation()==KeyEvent.KEY_LOCATION_RIGHT) try{
+				PathFindingTester.find();
+			}
+			catch (Exception e1) {}
+			break;
+
 		case KeyEvent.VK_1:
 			Game.getPlayer().selectGun(0);
 			break;
@@ -143,6 +167,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 		case RIGHT_KEY_1:
 			Game.getPlayer().setMovementControl(RIGHT, pressed);
 			break;
+
 		case KeyEvent.VK_T:
 			Game.getPlayer(1).setMovementControl(UP, pressed);
 			break;
@@ -154,6 +179,32 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 			break;
 		case KeyEvent.VK_H:
 			Game.getPlayer(1).setMovementControl(RIGHT, pressed);
+			break;
+
+		case KeyEvent.VK_I:
+			Game.getPlayer(2).setMovementControl(UP, pressed);
+			break;
+		case KeyEvent.VK_K:
+			Game.getPlayer(2).setMovementControl(DOWN, pressed);
+			break;
+		case KeyEvent.VK_J:
+			Game.getPlayer(2).setMovementControl(LEFT, pressed);
+			break;
+		case KeyEvent.VK_L:
+			Game.getPlayer(2).setMovementControl(RIGHT, pressed);
+			break;
+
+		case KeyEvent.VK_OPEN_BRACKET:
+			Game.getPlayer(3).setMovementControl(UP, pressed);
+			break;
+		case KeyEvent.VK_QUOTE:
+			Game.getPlayer(3).setMovementControl(DOWN, pressed);
+			break;
+		case KeyEvent.VK_SEMICOLON:
+			Game.getPlayer(3).setMovementControl(LEFT, pressed);
+			break;
+		case KeyEvent.VK_ENTER:
+			Game.getPlayer(3).setMovementControl(RIGHT, pressed);
 			break;
 		}
 	}

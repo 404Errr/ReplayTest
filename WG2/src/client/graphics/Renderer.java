@@ -58,10 +58,12 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 					Debug.drawPath(((AIPlayer)entity).getCurrentPath(), ((Player)entity).getColor(), 2);
 				}
 				//debug \/
-				g.setColor(entity.getColor());
-				g.setStroke(new BasicStroke(1));
+
+				g.setStroke(new BasicStroke(2));
 				for (int j = 0;j<((AIPlayer)entity).getSightLines().size();j++) {
-					Line2D line = ((AIPlayer)entity).getSightLines().get(j);
+					Line2D line = ((AIPlayer)entity).getSightLines().get(j).getLine();
+					if (((AIPlayer)entity).getSightLines().get(j).getCanSee()) g.setColor(Color.GREEN);
+					else g.setColor(Color.RED);
 					g.drawLine(gridX((float)line.getX1())+(int)getHalfPlayerSize(), gridY((float)line.getY1())+(int)getHalfPlayerSize(), gridX((float)line.getX2())+(int)getHalfPlayerSize(), gridY((float)line.getY2())+(int)getHalfPlayerSize());
 				}
 				g.setColor(Color.BLACK);

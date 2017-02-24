@@ -22,7 +22,7 @@ public class Game implements ColorData, TileData {
 		entities.add(new AIPlayer(COLOR_PLAYER_1, Level.getSafestSpawnPoint()));
 		entities.add(new AIPlayer(COLOR_PLAYER_2, Level.getSafestSpawnPoint()));
 		entities.add(new AIPlayer(COLOR_PLAYER_3, Level.getSafestSpawnPoint()));
-		for (Entity entity:entities) if (entity instanceof AIPlayer) ((AIPlayer)entity).initSightLines();
+		for (Entity entity:entities) if (entity instanceof AIPlayer) ((AIPlayer)entity).initSightLines();//assumes there are only players in entities
 	}
 
 	public static ControlledPlayer getPlayer() {

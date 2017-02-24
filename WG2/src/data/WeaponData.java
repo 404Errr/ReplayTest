@@ -42,9 +42,9 @@ public interface WeaponData {
 	static float RAILGUN_LINE_DURATION = 0.6f*Data.UPS;
 	static float RAILGUN_RECOIL = 0.35f;
 	static float RAILGUN_COOLDOWN = 50f;
-	static float RAILGUN_DAMAGE = 0.9f;
+	static float RAILGUN_DAMAGE = 0.75f;
 
 	static float HITSCAN_INITIAL_INCREMENT = 0.25f, HITSCAN_FINAL_INCREMENT = 0.001f;
-	static float COOLDOWN_INCREMENT = 0.01667f*Data.UPS;//dontt change (or do, I don't care)
+	static float COOLDOWN_INCREMENT = 0.01667f*Data.UPS;//don't change (or do, I don't care)
 
 }

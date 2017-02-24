@@ -2,7 +2,6 @@ package client.player;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +10,7 @@ import client.game.Game;
 import client.level.Level;
 import client.level.SpawnPoint;
 import client.level.pathfinding.PathFinder;
+import client.player.ai.SightLine;
 import util.Util;
 
 public class AIPlayer extends Player {
@@ -18,7 +18,7 @@ public class AIPlayer extends Player {
 	private List<Point> currentPath;
 	private Point currentPathGoal, currentTargetPoint;
 
-	private List<Line2D> sightLines;//TODO FIXME
+	private List<SightLine> sightLines;//TODO FIXME
 
 	private boolean controlMovement;
 
@@ -54,14 +54,14 @@ public class AIPlayer extends Player {
 
 	private void updateSightLines() {
 		for (int i = 0;i<sightLines.size();i++) {
-			sightLines.get(i).setLine(x, y, Game.getPlayer(i).getX(), Game.getPlayer(i).getY());
+			sightLines.get(i).tick();
 		}
 	}
 
 	public void initSightLines() {
 		sightLines = new ArrayList<>();
-		for (int i = 0;i<Game.getEntities().size();i++) {
-			sightLines.add(new Line2D.Float());
+		for (int i = 0;i<Game.getEntities().size();i++) {//assumes there are only players in entities
+			sightLines.add(new SightLine(this, Game.getPlayer(i)));
 		}
 		updateSightLines();
 	}
@@ -117,7 +117,7 @@ public class AIPlayer extends Player {
 		return currentPath;
 	}
 
-	public List<Line2D> getSightLines() {
+	public List<SightLine> getSightLines() {
 		return sightLines;
 	}
 
