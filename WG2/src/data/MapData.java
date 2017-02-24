@@ -11,7 +11,7 @@ public interface MapData {
 //	static final String MAP = "buttonsMedium";
 //	static final String MAP = "buttonsLarge";
 //	static final String MAP = "largeMapTest";
-//	static final String MAP = "largerMapTest";//dont use on school computer
+//	static final String MAP = "largerMapTest";
 //	static final String MAP = "1000x1001";
 //	static final String MAP = "1050x1050";
 //	static final String MAP = "big";
@@ -22,6 +22,7 @@ public interface MapData {
 	static final int EDGE_TYPE = '1';
 	static final int SPAWN_POINT_TYPE = 's', SPAWN_POINT_REPLACEMENT_TYPE = '0';
 
+	static final int CHUNK_SIZE = 15;//never change
 
 	static final boolean ADD_EDGE = true;//puts and edge around the map
 	static final boolean AUTO_DISABLE_ADD_EDGE = true;//disables if it finds an empty tile or if the map area is greater than the value below

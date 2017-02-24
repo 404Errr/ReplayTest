@@ -16,12 +16,12 @@ public class SpawnPoint {
 		this.point = point;
 	}
 
-	public float distanceToClosestPlayer() {
+	public float distanceToClosestPlayer(Player exclude) {
 		if (Game.getEntities().isEmpty()) return 0;
 		List<Entity> entities = Game.getEntities();
 		float closest = distanceTo(entities.get(0)), temp;
 		for (int i = 0;i<entities.size();i++) {
-			if (entities.get(i) instanceof Player) {
+			if (entities.get(i) instanceof Player&&Game.getPlayer(i)!=exclude) {
 				temp = distanceTo(entities.get(i));
 				if (temp<closest) closest = temp;
 			}

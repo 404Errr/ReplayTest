@@ -18,16 +18,16 @@ public class AIPlayer extends Player {
 	private List<Point> currentPath;
 	private Point currentPathGoal, currentTargetPoint;
 
-	private List<SightLine> sightLines;//TODO FIXME
+	private List<SightLine> sightLines;
 
 	private boolean controlMovement;
 
-	public AIPlayer(Color color, float x, float y) {
+	/*public AIPlayer(Color color, float x, float y) {
 		super(color, x, y);
 		pathFinder = new PathFinder();
 		currentPath = new LinkedList<>();
 		controlMovement = true;
-	}
+	}*/
 
 	public AIPlayer(Color color, SpawnPoint spawnPoint) {
 		super(color, spawnPoint.getX(), spawnPoint.getY());

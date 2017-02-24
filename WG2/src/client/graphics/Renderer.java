@@ -30,7 +30,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 	private static Graphics2D g;
 
 	@Override
-	public void paint(Graphics g0) {
+	public void paintComponent(Graphics g0) {
 		g = (Graphics2D) g0;
 		setBackground(COLOR_BACKROUND);
 		super.paintComponent(g);
@@ -39,7 +39,9 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			Debug.drawDebug();
 			drawEntities();
 		}
-		catch (Exception e) {}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void drawEntities() {
@@ -56,16 +58,17 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 				drawPlayer((Player)entity);
 				if (entity instanceof AIPlayer) {
 					Debug.drawPath(((AIPlayer)entity).getCurrentPath(), ((Player)entity).getColor(), 2);
+					if (Debug.isDrawSightLines()) {
+						g.setStroke(new BasicStroke(2));
+						for (int j = 0;j<((AIPlayer)entity).getSightLines().size();j++) {
+							Line2D line = ((AIPlayer)entity).getSightLines().get(j).getLine();
+							if (((AIPlayer)entity).getSightLines().get(j).getCanSee()) g.setColor(Color.GREEN);
+							else g.setColor(Color.RED);
+							g.drawLine(gridX((float)line.getX1()), gridY((float)line.getY1()), gridX((float)line.getX2()), gridY((float)line.getY2()));
+						}
+					}
 				}
 				//debug \/
-
-				g.setStroke(new BasicStroke(2));
-				for (int j = 0;j<((AIPlayer)entity).getSightLines().size();j++) {
-					Line2D line = ((AIPlayer)entity).getSightLines().get(j).getLine();
-					if (((AIPlayer)entity).getSightLines().get(j).getCanSee()) g.setColor(Color.GREEN);
-					else g.setColor(Color.RED);
-					g.drawLine(gridX((float)line.getX1())+(int)getHalfPlayerSize(), gridY((float)line.getY1())+(int)getHalfPlayerSize(), gridX((float)line.getX2())+(int)getHalfPlayerSize(), gridY((float)line.getY2())+(int)getHalfPlayerSize());
-				}
 				g.setColor(Color.BLACK);
 				g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/3));
 				g.drawString((int)(((Player)entity).getHealth()*100)+"", gridX(((Player)entity).getX())+Camera.getScale()/8, gridY(((Player)entity).getY())+Camera.getScale()*5/8);

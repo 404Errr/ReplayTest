@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import client.player.Player;
 import data.ColorData;
 import data.MapData;
 import data.TileData;
@@ -81,9 +82,9 @@ public class Level implements MapData, TileData {
 	}
 
 	public static Point getFirstUsableTile() {//for spawning
-		for (int r = 0;r<Level.getHeight();r++) {
-			for (int c = 0;c<Level.getWidth();c++) {
-				if (Level.getTile(c, r).isUsable()) {
+		for (int r = 0;r<layout.length;r++) {
+			for (int c = 0;c<layout[0].length;c++) {
+				if (!TileData.getSolid(layout[r][c])[SOLID_WALLS]&&ColorData.getTileColor(layout[r][c])!=null) {
 					return new Point(c, r);
 				}
 			}
@@ -123,10 +124,10 @@ public class Level implements MapData, TileData {
 		return spawnPoints;
 	}
 
-	public static SpawnPoint getSafestSpawnPoint() {
+	public static SpawnPoint getSafestSpawnPoint(Player exclude) {
 		SpawnPoint safest = spawnPoints.get(0);
 		for (int i = 0;i<spawnPoints.size();i++) {
-			if (spawnPoints.get(i).distanceToClosestPlayer()>safest.distanceToClosestPlayer()) {
+			if (spawnPoints.get(i).distanceToClosestPlayer(exclude)>safest.distanceToClosestPlayer(exclude)) {
 				safest = spawnPoints.get(i);
 			}
 

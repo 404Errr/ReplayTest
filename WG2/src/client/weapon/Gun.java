@@ -79,6 +79,10 @@ public class Gun implements WeaponData {
 		return cooldown;
 	}
 
+	public void setCooldown(float cooldown) {
+		this.cooldown = cooldown;
+	}
+
 	@Override
 	public String toString() {
 		return type.toString();

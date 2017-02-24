@@ -4,6 +4,8 @@ import client.graphics.Camera;
 import client.graphics.Window;
 
 public interface GraphicsData {
+	static final boolean FULLSCREEN = true;
+
 	static final float DEFAULT_SCALE_RATIO = 0.035f;
 	static final float ZOOM_INCREMENT = 0.001f;
 	static final float DEFAULT_WINDOW_SCREEN_RATIO = 0.8f;

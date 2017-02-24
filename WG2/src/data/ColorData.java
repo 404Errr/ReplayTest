@@ -82,20 +82,20 @@ public interface ColorData {
 	static final Color COLOR_TILE_y = COLOR_ERROR;
 	static final Color COLOR_TILE_z = COLOR_ERROR;
 
-	static Color getTileColor(int type) {
+	static Color getTileColor(int type) {//dont touch
 		switch (type) {//preferably in order of frequency
 		case '0':
 			return COLOR_TILE_0;
-		case '1':
-			return COLOR_TILE_1;
 		case '2':
 			return COLOR_TILE_2;
-		case '3':
-			return COLOR_TILE_3;
-		case '4':
-			return COLOR_TILE_4;
+		case '1':
+			return COLOR_TILE_1;
 		case '5':
 			return COLOR_TILE_5;
+		case '4':
+			return COLOR_TILE_4;
+		case '3':
+			return COLOR_TILE_3;
 		case '6':
 			return COLOR_TILE_6;
 		case '7':

@@ -8,12 +8,8 @@ public interface Controls {
 	static final int DEBUG_LOS_LINE_KEY = KeyEvent.VK_F2;
 	static final int DEBUG_TEXT_KEY = KeyEvent.VK_F3;
 	static final int DEBUG_DRAW_WEAPONS_KEY = KeyEvent.VK_F1;
-
 	static final int DEBUG_DRAW_PATHFINDING_KEY = KeyEvent.VK_F4;
-	static final int DEBUG_TILE_PATHFINDING_NONE_KEY = KeyEvent.VK_F5;
-	static final int DEBUG_TILE_PATHFINDING_COMBINED_KEY = KeyEvent.VK_F6;
-	static final int DEBUG_TILE_PATHFINDING_TOTAL_KEY = KeyEvent.VK_F7;
-	static final int DEBUG_TILE_PATHFINDING_DISTANCE_KEY = KeyEvent.VK_F8;
+	static final int DEBUG_DRAW_SIGHT_LINES_KEY = KeyEvent.VK_F5;
 
 	static final int UP_KEY_0 = KeyEvent.VK_W;
 	static final int DOWN_KEY_0 = KeyEvent.VK_S;

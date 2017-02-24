@@ -20,7 +20,7 @@ import data.GraphicsData;
 import util.Util;
 
 public class Debug implements Data, ColorData {
-	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true;
+	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = true;
 	private final static int textX = 25, textY = 30, textSize = 15;
 
 	public static void drawDebug() {
@@ -94,6 +94,14 @@ public class Debug implements Data, ColorData {
 
 	public static void toggleLOS() {
 		losLine = !losLine;
+	}
+
+	public static boolean isDrawSightLines() {
+		return drawSightLines;
+	}
+
+	public static void toggleSightLines() {
+		drawSightLines = !drawSightLines;
 	}
 
 	public static boolean isDrawWeapons() {

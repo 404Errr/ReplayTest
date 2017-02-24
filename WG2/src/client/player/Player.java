@@ -146,7 +146,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		for (Gun gun:guns) {
 			gun.tick();
 		}
-		if (isDead()) respawn(Level.getSafestSpawnPoint());
+		if (isDead()) respawn(Level.getSafestSpawnPoint(this));
 		return false;
 	}
 
@@ -256,7 +256,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		return activeGun;
 	}
 
-	public void setActiveGun(Gun activeGun) {
+	public void setGun(Gun activeGun) {
 		this.activeGun = activeGun;
 	}
 
@@ -267,6 +267,9 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	public void selectGun(int gun) {
 		if (gun>=0&&gun<guns.size()) {
 			activeGun = guns.get(gun);
+		}
+		for (int i = 0;i<guns.size();i++) {
+			guns.get(i).setCooldown(WEAPON_SWITCH_COOLDOWN);
 		}
 	}
 

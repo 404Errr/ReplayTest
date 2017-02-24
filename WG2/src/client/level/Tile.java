@@ -13,7 +13,7 @@ public class Tile implements MapData, PathfindingData, TileData {
 	protected boolean usable;
 	protected int tileType, c, r, nextToWallCost;
 
-	public Tile(int c, int r, int tileType, boolean solid) {//x, y, type of the tile
+	public Tile(int c, int r, int tileType, boolean solid) {//x, y, type of the tile, soliditity
 		this.tileType = tileType;
 		this.c = c;
 		this.r = r;

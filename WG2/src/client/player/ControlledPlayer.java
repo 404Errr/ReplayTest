@@ -11,9 +11,9 @@ import util.Util;
 
 public class ControlledPlayer extends Player implements PlayerData, Data, WeaponData {
 
-	public ControlledPlayer(Color color, float x, float y) {//creates at given x and y with given color
-		super(color, x, y);
-	}
+//	public ControlledPlayer(Color color, float x, float y) {//creates at given x and y with given color
+//		super(color, x, y);
+//	}
 
 	public ControlledPlayer(Color color, SpawnPoint spawnPoint) {
 		super(color, spawnPoint.getX(), spawnPoint.getY());

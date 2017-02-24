@@ -4,6 +4,8 @@ public interface WeaponData {
 	static boolean ALL_GUNS_AT_START = true, RECOIL = true;
 	static int STARTING_GUN = 0;
 
+	static float WEAPON_SWITCH_COOLDOWN = 30f;
+
 	static float BASICGUN_LEGNTH = 0.4f;
 	static float BASICGUN_WIDTH = 0.25f;
 	static float BASICGUN_SIZE = 0.15f;
