@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -57,6 +58,12 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 					Debug.drawPath(((AIPlayer)entity).getCurrentPath(), ((Player)entity).getColor(), 2);
 				}
 				//debug \/
+				g.setColor(entity.getColor());
+				g.setStroke(new BasicStroke(1));
+				for (int j = 0;j<((AIPlayer)entity).getSightLines().size();j++) {
+					Line2D line = ((AIPlayer)entity).getSightLines().get(j);
+					g.drawLine(gridX((float)line.getX1())+(int)getHalfPlayerSize(), gridY((float)line.getY1())+(int)getHalfPlayerSize(), gridX((float)line.getX2())+(int)getHalfPlayerSize(), gridY((float)line.getY2())+(int)getHalfPlayerSize());
+				}
 				g.setColor(Color.BLACK);
 				g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/3));
 				g.drawString((int)(((Player)entity).getHealth()*100)+"", gridX(((Player)entity).getX())+Camera.getScale()/8, gridY(((Player)entity).getY())+Camera.getScale()*5/8);

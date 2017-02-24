@@ -2,9 +2,12 @@ package client.player;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import client.game.Game;
 import client.level.Level;
 import client.level.SpawnPoint;
 import client.level.pathfinding.PathFinder;
@@ -14,6 +17,8 @@ public class AIPlayer extends Player {
 	private PathFinder pathFinder;
 	private List<Point> currentPath;
 	private Point currentPathGoal, currentTargetPoint;
+
+	private List<Line2D> sightLines;//TODO FIXME
 
 	private boolean controlMovement;
 
@@ -39,11 +44,26 @@ public class AIPlayer extends Player {
 
 	@Override
 	public boolean tick() {
+		updateSightLines();
 		updatePathProgress();
 		if (controlMovement) {
 			controlMovement();
 		}
 		return super.tick();
+	}
+
+	private void updateSightLines() {
+		for (int i = 0;i<sightLines.size();i++) {
+			sightLines.get(i).setLine(x, y, Game.getPlayer(i).getX(), Game.getPlayer(i).getY());
+		}
+	}
+
+	public void initSightLines() {
+		sightLines = new ArrayList<>();
+		for (int i = 0;i<Game.getEntities().size();i++) {
+			sightLines.add(new Line2D.Float());
+		}
+		updateSightLines();
 	}
 
 	@Override
@@ -95,6 +115,10 @@ public class AIPlayer extends Player {
 
 	public List<Point> getCurrentPath() {
 		return currentPath;
+	}
+
+	public List<Line2D> getSightLines() {
+		return sightLines;
 	}
 
 	public Point getCurrentTargetPoint() {
