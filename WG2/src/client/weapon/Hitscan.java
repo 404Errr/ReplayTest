@@ -13,7 +13,7 @@ import data.WeaponData;
 import util.Util;
 
 public class Hitscan extends Entity implements Damages, TileData, WeaponData {
-	protected float damage, initialWidth, width, x, y, iX, iY, fX, fY;
+	protected float damage, initialWidth, width, iX, iY, fX, fY;
 	protected Color color;
 
 	public Hitscan(float damage, float initialWidth, Color color, float iX, float iY, float angle) {

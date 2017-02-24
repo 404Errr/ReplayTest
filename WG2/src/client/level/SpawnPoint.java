@@ -17,6 +17,7 @@ public class SpawnPoint {
 	}
 
 	public float distanceToClosestPlayer() {
+		if (Game.getEntities().isEmpty()) return 0;
 		List<Entity> entities = Game.getEntities();
 		float closest = distanceTo(entities.get(0)), temp;
 		for (int i = 0;i<entities.size();i++) {

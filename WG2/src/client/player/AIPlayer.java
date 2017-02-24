@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.util.LinkedList;
 import java.util.List;
 
+import client.level.Level;
+import client.level.SpawnPoint;
 import client.level.pathfinding.PathFinder;
 import util.Util;
 
@@ -20,6 +22,19 @@ public class AIPlayer extends Player {
 		pathFinder = new PathFinder();
 		currentPath = new LinkedList<>();
 		controlMovement = true;
+	}
+
+	public AIPlayer(Color color, SpawnPoint spawnPoint) {
+		super(color, spawnPoint.getX(), spawnPoint.getY());
+		pathFinder = new PathFinder();
+		currentPath = new LinkedList<>();
+		controlMovement = true;
+	}
+
+	@Override
+	public void respawn(SpawnPoint spawnPoint) {
+		super.respawn(spawnPoint);
+		stopPathfinding();
 	}
 
 	@Override
@@ -58,6 +73,7 @@ public class AIPlayer extends Player {
 
 	public void setPathTo(float x, float y) {
 		try {
+			if (x<0||y<0||x>=Level.getWidth()||y>=Level.getHeight()) return;
 			currentPathGoal = new Point(Math.round(x), Math.round(y));
 			if (pathFinder.isIdle()) currentPath = pathFinder.getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y);
 		}

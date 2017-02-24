@@ -3,6 +3,7 @@ package client.player;
 import java.awt.Color;
 
 import client.input.Cursor;
+import client.level.SpawnPoint;
 import data.Data;
 import data.PlayerData;
 import data.WeaponData;
@@ -12,6 +13,10 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 
 	public ControlledPlayer(Color color, float x, float y) {//creates at given x and y with given color
 		super(color, x, y);
+	}
+
+	public ControlledPlayer(Color color, SpawnPoint spawnPoint) {
+		super(color, spawnPoint.getX(), spawnPoint.getY());
 	}
 
 	@Override

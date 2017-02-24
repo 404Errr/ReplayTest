@@ -127,7 +127,7 @@ public class Level implements MapData, TileData {
 		SpawnPoint safest = spawnPoints.get(0);
 		for (int i = 0;i<spawnPoints.size();i++) {
 			if (spawnPoints.get(i).distanceToClosestPlayer()>safest.distanceToClosestPlayer()) {
-				safest = spawnPoints.get(0);
+				safest = spawnPoints.get(i);
 			}
 
 		}
