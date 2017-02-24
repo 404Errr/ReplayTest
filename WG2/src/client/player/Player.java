@@ -226,8 +226,8 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		}
 	}
 
-	public boolean[] getMouseControl() {
-		return mouseControl;
+	public boolean getMouseControl(int control) {
+		return mouseControl[control];
 	}
 
 	public void setMouseControl(int control, boolean value) {

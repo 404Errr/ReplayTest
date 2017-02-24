@@ -23,7 +23,8 @@ public class Gun implements Data, WeaponData {
 			}
 			else {
 				cooldown = 0;
-				if (owner.getMouseControl()[MOUSE1]) {//if should shoot
+				System.out.println(owner.getMouseControl(MOUSE1));
+				if (owner.getMouseControl(MOUSE1)) {//if should shoot
 					switch (type) {
 					case RAILGUN:
 						shootRailgun();

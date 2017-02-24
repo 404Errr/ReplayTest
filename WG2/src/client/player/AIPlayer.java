@@ -46,7 +46,6 @@ public class AIPlayer extends Player {
 			controlMovement();
 			controlWeapons();
 		}
-		System.out.println(currentTargetPlayer);
 		return super.tick();
 	}
 
@@ -56,7 +55,7 @@ public class AIPlayer extends Player {
 
 	private boolean targetWeaponPlayer() {
 		for (int i = 0;i<sightLines.size();i++) {
-			if (sightLines.get(i).canSee()&&Util.distance(x, y, sightLines.get(i).getTarget().getX(), sightLines.get(i).getTarget().getY())>2f) {
+			if (sightLines.get(i).canSee()) {
 				currentTargetPlayer = sightLines.get(i).getTarget();
 				return true;
 			}
