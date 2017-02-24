@@ -1,12 +1,12 @@
 package client.weapon;
 
 import client.game.Game;
-import client.input.Input;
 import client.player.Player;
+import data.Data;
 import data.WeaponData;
 import util.Util;
 
-public class Gun implements WeaponData {
+public class Gun implements Data, WeaponData {
 	private GunType type;
 	private float cooldown;
 	private Player owner;
@@ -23,7 +23,7 @@ public class Gun implements WeaponData {
 			}
 			else {
 				cooldown = 0;
-				if (Input.isMouse1Down()) {//if should shoot
+				if (owner.getMouseControl()[MOUSE1]) {//if should shoot
 					switch (type) {
 					case RAILGUN:
 						shootRailgun();

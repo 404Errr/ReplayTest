@@ -11,7 +11,6 @@ import data.TileData;
 public class PathFinder implements TileData {
 	private List<PathfindingTile> openList;//, closedList;
 	private PathfindingTile[][] tiles;
-	private boolean idle;
 
 	public PathFinder() {
 		tiles = new PathfindingTile[Level.getHeight()][Level.getWidth()];
@@ -20,21 +19,17 @@ public class PathFinder implements TileData {
 				tiles[r][c] = new PathfindingTile(c, r);
 			}
 		}
-		idle = true;
 	}
 
 	public List<Point> getPath(int x1, int y1, int x2, int y2) {
-		idle = false;
 		List<Point> pathPoints = new LinkedList<>();
 		if (!Level.getTile(x1, y1).isUsable()||!Level.getTile(x2, y2).isUsable()) {
-			idle = true;
 			return pathPoints;
 		}
 		List<PathfindingTile> path = findPath(x1, y1, x2, y2);
 		for (PathfindingTile tileNode:path) {
 			pathPoints.add(new Point(tileNode.getC(), tileNode.getR()));
 		}
-		idle = true;
 		return pathPoints;
 	}
 
@@ -76,40 +71,6 @@ public class PathFinder implements TileData {
 		}
 		return new LinkedList<>();//no path exists; return empty list
 	}
-
-	/*public List<PathfindingTile> findPath(int iC, int iR, int nC, int nR) {//initial and new
-		openList = new LinkedList<>();
-		closedList = new LinkedList<>();
-		openList.add(tiles[iR][iC]);//add first
-
-		PathfindingTile currentPathfindingTile;
-		while (true) {
-			if (openList.isEmpty()) return new LinkedList<>();//no path exists; return empty list
-			currentPathfindingTile = getLowestCombinedInOpen();//get node with lowest combined Costs from openList
-			closedList.add(currentPathfindingTile);//add current node to closed
-			openList.remove(currentPathfindingTile); //delete current node from open
-			if ((currentPathfindingTile.getC()==nC)&&(currentPathfindingTile.getR()==nR)) {//found goal
-				return calcPath(tiles[iR][iC], currentPathfindingTile);
-			}
-			List<PathfindingTile> adjacentTiles = getAdjacents(currentPathfindingTile);
-			for (int i = 0;i<adjacentTiles.size();i++) {
-				PathfindingTile currentAdjacent = adjacentTiles.get(i);
-				if (!openList.contains(currentAdjacent)) {//node is not in openList
-					currentAdjacent.setPrevious(currentPathfindingTile);//set current node as previous for this node
-					currentAdjacent.setDistanceCost(tiles[nR][nC]);//set distance
-					currentAdjacent.setTotalCost(currentPathfindingTile);//set total
-					openList.add(currentAdjacent);//add node to openList
-				}
-				else {//node is in openList
-					if (currentAdjacent.getTotalCost()>currentAdjacent.calculateTotalCost(currentPathfindingTile)) {//costs from current node are cheaper than previous costs
-						currentAdjacent.setPrevious(currentPathfindingTile);//set current node as previous for this node
-						currentAdjacent.setTotalCost(currentPathfindingTile);//set total
-					}
-				}
-			}
-
-		}
-	}*/
 
 	private List<PathfindingTile> calcPath(PathfindingTile start, PathfindingTile goal) {//starts at goal, doesnt include start
 		LinkedList<PathfindingTile> path = new LinkedList<>();
@@ -194,75 +155,4 @@ public class PathFinder implements TileData {
 		}
 		return adjacent;
 	}
-
-	public void setIdle(boolean idle) {
-		this.idle = idle;
-	}
-
-	public boolean isIdle() {
-		return idle;
-	}
-
-//	private List<PathfindingTile> getAdjacents(PathfindingTile tile) {
-//		int x = tile.getC(), y = tile.getR();
-//		List<PathfindingTile> adjacent = new LinkedList<>();
-//		PathfindingTile temp;
-//		if (y>0) {
-//			temp = tiles[y-1][x];
-//			if (temp.isUsable()&&!closedList.contains(temp)) {
-//				temp.setIsDiagonal(false);
-//				adjacent.add(temp);
-//			}
-//		}
-//		if (y<Level.getHeight()-1) {
-//			temp = tiles[y+1][x];
-//			if (temp.isUsable()&&!closedList.contains(temp)) {
-//				temp.setIsDiagonal(false);
-//				adjacent.add(temp);
-//			}
-//		}
-//		if (x>0) {
-//			temp = tiles[y][x-1];
-//			if (temp.isUsable()&&!closedList.contains(temp)) {
-//				temp.setIsDiagonal(false);
-//				adjacent.add(temp);
-//			}
-//		}
-//		if (x<Level.getWidth()) {
-//			temp = tiles[y][x+1];
-//			if (temp.isUsable()&&!closedList.contains(temp)) {
-//				temp.setIsDiagonal(false);
-//				adjacent.add(temp);
-//			}
-//		}
-//		if (x<Level.getWidth()&&y<Level.getHeight()) {
-//			temp = tiles[y+1][x+1];
-//			if (temp.isUsable()&&!closedList.contains(temp)) {
-//				temp.setIsDiagonal(true);
-//				adjacent.add(temp);
-//			}
-//		}
-//		if (x>0&&y>0) {
-//			temp = tiles[y-1][x-1];
-//			if (temp.isUsable()&&!closedList.contains(temp)) {
-//				temp.setIsDiagonal(true);
-//				adjacent.add(temp);
-//			}
-//		}
-//		if (x>0&&y<Level.getHeight()) {
-//			temp = tiles[y-1][x+1];
-//			if (temp.isUsable()&&!closedList.contains(temp)) {
-//				temp.setIsDiagonal(true);
-//				adjacent.add(temp);
-//			}
-//		}
-//		if (x<Level.getWidth()&&y>0) {
-//			temp = tiles[y+1][x-1];
-//			if (temp.isUsable()&&!closedList.contains(temp)) {
-//				temp.setIsDiagonal(true);
-//				adjacent.add(temp);
-//			}
-//		}
-//		return adjacent;
-//	}
 }

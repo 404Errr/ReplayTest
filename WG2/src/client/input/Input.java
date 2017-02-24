@@ -16,14 +16,13 @@ import client.game.Game;
 import client.graphics.Camera;
 import client.level.pathfinding.PathFindingTester;
 import client.player.AIPlayer;
-import data.Controls;
+import data.ControlData;
 import data.Data;
 import data.PlayerData;
 import main.Debug;
 
 
-public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, Controls, Data, PlayerData {
-	private static boolean mouse1Down, mouse2Down, mouse3Down;
+public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, ControlData, Data, PlayerData {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		playerMovement(e, true);
@@ -247,13 +246,13 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	public static void click(MouseEvent e, boolean down) {
 		switch (e.getButton()) {
 		case MouseEvent.BUTTON1://left
-			mouse1Down = down;
+			Game.getPlayer().setMouseControl(MOUSE1, down);
 			break;
 		case MouseEvent.BUTTON2://middle
-			mouse2Down = down;
+			Game.getPlayer().setMouseControl(MOUSE2, down);
 			break;
 		case MouseEvent.BUTTON3://right
-			mouse3Down = down;
+			Game.getPlayer().setMouseControl(MOUSE3, down);
 			Camera.setZoom(down);
 			break;
 		}
@@ -307,19 +306,5 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	public void windowIconified(WindowEvent e) {}
 	@Override
 	public void windowOpened(WindowEvent e) {}
-
-	public static boolean isMouse1Down() {
-		return mouse1Down;
-	}
-
-	public static boolean isMouse2Down() {
-		return mouse2Down;
-	}
-
-	public static boolean isMouse3Down() {
-		return mouse3Down;
-	}
-
-
 }
 

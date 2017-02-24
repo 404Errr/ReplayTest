@@ -2,7 +2,7 @@ package data;
 
 import java.awt.event.KeyEvent;
 
-public interface Controls {
+public interface ControlData {
 	static final int ZOOM_KEY = -1;//disabled
 
 	static final int DEBUG_LOS_LINE_KEY = KeyEvent.VK_F2;

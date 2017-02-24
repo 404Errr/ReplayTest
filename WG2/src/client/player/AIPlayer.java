@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import client.game.Game;
-import client.level.Level;
 import client.level.SpawnPoint;
 import client.level.pathfinding.PathFinder;
 import client.player.ai.SightLine;
@@ -20,20 +19,15 @@ public class AIPlayer extends Player {
 
 	private List<SightLine> sightLines;
 
-	private boolean controlMovement;
+	private Player currentTargetPlayer;
 
-	/*public AIPlayer(Color color, float x, float y) {
-		super(color, x, y);
-		pathFinder = new PathFinder();
-		currentPath = new LinkedList<>();
-		controlMovement = true;
-	}*/
+	private boolean control;
 
 	public AIPlayer(Color color, SpawnPoint spawnPoint) {
 		super(color, spawnPoint.getX(), spawnPoint.getY());
 		pathFinder = new PathFinder();
 		currentPath = new LinkedList<>();
-		controlMovement = true;
+		control = true;
 	}
 
 	@Override
@@ -45,11 +39,40 @@ public class AIPlayer extends Player {
 	@Override
 	public boolean tick() {
 		updateSightLines();
-		updatePathProgress();
-		if (controlMovement) {
+		targetPathPlayer();
+		targetWeaponPlayer();
+		updatePathFinding();
+		if (control) {
 			controlMovement();
+			controlWeapons();
 		}
+		System.out.println(currentTargetPlayer);
 		return super.tick();
+	}
+
+	private void controlWeapons() {
+		setMouseControl(MOUSE1, currentTargetPlayer!=null);
+	}
+
+	private boolean targetWeaponPlayer() {
+		for (int i = 0;i<sightLines.size();i++) {
+			if (sightLines.get(i).canSee()&&Util.distance(x, y, sightLines.get(i).getTarget().getX(), sightLines.get(i).getTarget().getY())>2f) {
+				currentTargetPlayer = sightLines.get(i).getTarget();
+				return true;
+			}
+		}
+		currentTargetPlayer = null;
+		return false;
+	}
+
+	private boolean targetPathPlayer() {//true if found target
+		for (int i = 0;i<sightLines.size();i++) {
+			if (sightLines.get(i).canSee()&&Util.distance(x, y, sightLines.get(i).getTarget().getX(), sightLines.get(i).getTarget().getY())>2f) {
+				currentPathGoal = sightLines.get(i).getTarget().getPoint();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void updateSightLines() {
@@ -61,14 +84,17 @@ public class AIPlayer extends Player {
 	public void initSightLines() {
 		sightLines = new ArrayList<>();
 		for (int i = 0;i<Game.getEntities().size();i++) {//assumes there are only players in entities
-			sightLines.add(new SightLine(this, Game.getPlayer(i)));
+			if (Game.getPlayer(i)!=this) sightLines.add(new SightLine(this, Game.getPlayer(i)));
 		}
 		updateSightLines();
 	}
 
 	@Override
 	protected void turn() {
-		if (Math.abs(dX)+Math.abs(dY)>0.01f) setFacing(Util.getAngle(0, 0, dX, dY));
+		if (currentTargetPlayer!=null) {
+			setFacing(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY()));
+		}
+		else if (Math.abs(dX)+Math.abs(dY)>0.01f) setFacing(Util.getAngle(0, 0, dX, dY));
 	}
 
 	private void controlMovement() {
@@ -81,30 +107,35 @@ public class AIPlayer extends Player {
 		else setAllMovementControl(false);
 	}
 
-	private void updatePathProgress() {
-		if (currentPath.size()<=0||currentPathGoal==null||(currentPathGoal.x==getXTile()&&currentPathGoal.y==getYTile())) {
-			stopPathfinding();
-		}
-		else {
-			setPathTo(currentPathGoal.x, currentPathGoal.y);
-			if (currentPath.size()>1) currentTargetPoint = currentPath.get(1);
+	private void updatePathFinding() {
+		if (currentPathGoal!=null) {
+			if (currentPathGoal.x==getXTile()&&currentPathGoal.y==getYTile()) {//reached goal
+				stopPathfinding();
+			}
+			updatePath();
 		}
 	}
 
-	public void setPathTo(float x, float y) {
-		try {
-			if (x<0||y<0||x>=Level.getWidth()||y>=Level.getHeight()) return;
-			currentPathGoal = new Point(Math.round(x), Math.round(y));
-			if (pathFinder.isIdle()) currentPath = pathFinder.getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y);
+	public void updatePath() {
+		if (currentPathGoal!=null) try {
+			currentPath = pathFinder.getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y);
+			if (currentPath.size()>1) currentTargetPoint = currentPath.get(1);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	public void setPathTo(float x, float y) {
+		currentPathGoal = new Point(Math.round(x), Math.round(y));
+	}
+
+	public void setPathTo(Point point) {
+		currentPathGoal = point;
+	}
+
 	public void stopPathfinding() {
 		currentPath.clear();
-		pathFinder.setIdle(true);
 		currentTargetPoint = null;
 		currentPathGoal = null;
 	}
@@ -126,7 +157,7 @@ public class AIPlayer extends Player {
 	}
 
 	public void toggleControlMovement() {
-		controlMovement = !controlMovement;
+		control = !control;
 	}
 
 

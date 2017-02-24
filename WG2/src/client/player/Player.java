@@ -1,6 +1,7 @@
 package client.player;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import util.Util;
 
 public abstract class Player extends Entity implements WeaponData, PlayerData, Data, TileData {
 	protected float health, facing;//facing is in radians
-	protected boolean[] canMove, movementControl;//r,d,l,u
+	protected boolean[] canMove, movementControl, mouseControl;//r,d,l,u. l, m, r
 	protected Color color;
 	protected List<Gun> guns;
 	protected Gun activeGun;
@@ -30,6 +31,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		health = PLAYER_INITIAL_HEALTH;
 		movementControl = new boolean[4];
 		canMove = new boolean[4];
+		mouseControl = new boolean[3];
 		guns = new ArrayList<>();
 		if (ALL_GUNS_AT_START) {
 			for (GunType type:GunType.getTypes()) {
@@ -224,6 +226,20 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		}
 	}
 
+	public boolean[] getMouseControl() {
+		return mouseControl;
+	}
+
+	public void setMouseControl(int control, boolean value) {
+		this.mouseControl[control] = value;
+	}
+
+	public void setAllMouseControl(boolean value) {
+		for (int i = 0;i<4;i++) {
+			mouseControl[i] = value;
+		}
+	}
+
 	public float getFacing() {
 		return facing;
 	}
@@ -250,6 +266,10 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 
 	public int getYTile() {
 		return Math.round(y);
+	}
+
+	public Point getPoint() {
+		return new Point(getXTile(), getYTile());
 	}
 
 	public Gun getActiveGun() {
