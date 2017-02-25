@@ -11,13 +11,12 @@ import data.TileData;
 public class Tile implements MapData, AIData, TileData {
 
 	protected boolean usable;
-	protected int tileType, c, r, nextToWallCost;
+	protected int c, r, nextToWallCost;
 
-	public Tile(int c, int r, int tileType, boolean solid) {//x, y, type of the tile, soliditity
-		this.tileType = tileType;
+	public Tile(int c, int r, int tileType, boolean solid) {//x, y, soliditity
 		this.c = c;
 		this.r = r;
-		this.usable = !solid&&getColor()!=null;//not solid or not being drawn
+		this.usable = !solid&&getColor()!=null;
 		if (!solid) for (int i = 1;i<WALL_DISTANCE;i++) {
 			if (isNextToWall(i)) nextToWallCost+=WALL_MOVEMENT_COST;
 		}
@@ -36,11 +35,11 @@ public class Tile implements MapData, AIData, TileData {
 	}
 
 	public boolean isSolid(int solidityType) {
-		return TileData.getSolid(tileType)[solidityType];
+		return TileData.getSolid(Level.getLayoutType(c, r))[solidityType];
 	}
 
 	public Color getColor() {
-		return ColorData.getTileColor(tileType);
+		return ColorData.getTileColor(Level.getLayoutType(c, r));
 	}
 
 	public int getNextToWallCost() {
@@ -60,9 +59,5 @@ public class Tile implements MapData, AIData, TileData {
 			}
 		}
 		return false;
-	}
-
-	public int getType() {
-		return tileType;
 	}
 }

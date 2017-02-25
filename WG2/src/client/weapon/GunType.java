@@ -13,6 +13,7 @@ public enum GunType implements WeaponData {
 	RAILGUN(RAILGUN_LEGNTH, RAILGUN_WIDTH, 1, 0, RAILGUN_DAMAGE, RAILGUN_COOLDOWN, 0, 0, RAILGUN_RECOIL);
 
 	private static List<GunType> types;
+
 	static {
 		types = new ArrayList<>();
 		types.addAll(Arrays.asList(BASICGUN,SHOTGUN,MACHINEGUN,RAILGUN));

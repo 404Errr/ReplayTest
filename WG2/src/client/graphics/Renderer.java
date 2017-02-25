@@ -22,12 +22,13 @@ import client.weapon.Hitscan;
 import client.weapon.Projectile;
 import data.ColorData;
 import data.GraphicsData;
+import data.MapData;
 import data.PlayerData;
 import main.Debug;
 import util.Util;
 
 @SuppressWarnings("serial")
-public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsData {
+public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsData, MapData {
 	private static Graphics2D g;
 
 	@Override
@@ -39,7 +40,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			drawTiles();
 			Debug.drawDebug();
 			drawEntities();
-//			drawUI();
+			//			drawUI();
 			if (Edit.editMode) Edit.drawSelected();
 		}
 		catch (Exception e) {
@@ -113,10 +114,19 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 	private void drawTiles() {
 		for (int r = Camera.getYTile()-GraphicsData.getRenderDistanceY();r<=Camera.getYTile()+GraphicsData.getRenderDistanceY();r++) {
 			for (int c = Camera.getXTile()-GraphicsData.getRenderDistanceX();c<=Camera.getXTile()+GraphicsData.getRenderDistanceX();c++) {
-				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(c, r).getColor()!=null) {
-					g.setColor(Level.getTile(c, r).getColor());
-					g.fillRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
+				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()) {
+					if (Level.getTile(c, r).getColor()!=null) {
+						g.setColor(Level.getTile(c, r).getColor());
+						g.fillRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
+					}
+					if (Edit.editMode&&Level.getLayoutType(c, r)==SPAWN_POINT_TYPE) {
+						g.drawRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
+						g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/2));
+						g.setColor(COLOR_DEBUG_GREEN);
+						g.drawString("S", gridX(c+0.35f), gridY(r+0.7f));
+					}
 				}
+
 			}
 		}
 	}

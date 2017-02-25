@@ -1,12 +1,13 @@
 package data;
 
 public interface TileData {
-	static final int SOLID_WALLS = 0, SOLID_PROJECTILES = 1;//don't change
+	int SOLID_WALLS = 0, SOLID_PROJECTILES = 1;//don't change
 
 	static boolean[] getSolid(int type) {
 		boolean[] solid = new boolean[2];
 		switch (type) {
 		case 48://0 floor, don't change
+		case 115://s spawn (floor)
 			break;
 		case 49://1 wall, don't change
 			solid[SOLID_WALLS] = true;
@@ -120,8 +121,8 @@ public interface TileData {
 			break;
 		case 114://r
 			break;
-		case 115://s
-			break;
+//		case 115://s
+//			break;
 		case 116://t
 			break;
 		case 117://u

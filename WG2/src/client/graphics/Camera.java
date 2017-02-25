@@ -60,7 +60,7 @@ public class Camera implements GraphicsData {
 		scaleRatio+=Math.signum(direction)*ZOOM_INCREMENT;
 	}
 
-	public static boolean inZoom() {
+	public static boolean isZoomed() {
 		return zoom;
 	}
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import client.edit.Edit;
 import client.player.Player;
 import data.ColorData;
 import data.MapData;
@@ -26,7 +27,7 @@ public class Level implements MapData, TileData {
 			}
 		}
 		else layout = MapParser.parseMap(MAP);
-		if (ADD_EDGE) {
+		if (ADD_EDGE&&!Edit.editMode) {
 			if (!(AUTO_DISABLE_ADD_EDGE&&(!shouldAddEdge(layout)||layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD))) {
 				System.out.println("Adding edge of type: "+EDGE_TYPE);
 				layout = addEdge(layout);
@@ -37,6 +38,10 @@ public class Level implements MapData, TileData {
 				else System.out.println(".");
 			}
 		}
+		createTiles();
+	}
+
+	public static void createTiles() {
 		spawnPoints = findSpawnPoints(layout);
 		tiles = new Tile[layout.length][layout[0].length];
 		for (int r = 0;r<layout.length;r++) {
@@ -52,7 +57,6 @@ public class Level implements MapData, TileData {
 			for (int c = 0;c<layout[0].length;c++) {
 				if (layout[r][c]==SPAWN_POINT_TYPE) {
 					output.add(new SpawnPoint(new Point(c, r)));
-					layout[r][c] = SPAWN_POINT_REPLACEMENT_TYPE;
 				}
 			}
 		}
@@ -156,8 +160,12 @@ public class Level implements MapData, TileData {
 		return spawnPoints;
 	}
 
-	public static void setTile(int c, int r, Tile tile) {
-		tiles[r][c] = tile;
+	public static void setLayoutType(int x, int y, int type) {
+		layout[y][x] = type;
+	}
+
+	public static void setLayout(int[][] layout) {
+		Level.layout = layout;
 	}
 }
 

@@ -13,8 +13,10 @@ import java.awt.event.WindowListener;
 import javax.swing.event.MouseInputListener;
 
 import client.edit.Edit;
+import client.edit.EditHistory;
 import client.game.Game;
 import client.graphics.Camera;
+import client.level.Level;
 import client.level.pathfinding.PathFindingTester;
 import client.player.AIPlayer;
 import data.ControlData;
@@ -27,7 +29,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 	@Override
 	public void keyPressed(KeyEvent e) {
 		playerMovement(e, true);
-		try{
+		try {
 			switch (e.getKeyCode()) {
 			/*case ZOOM_KEY:
 				Camera.setCursorZoom(true);
@@ -150,10 +152,10 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				break;
 
 			case KeyEvent.VK_Z:
-				if (Edit.editMode) Edit.changeType(-1);
+				if (Edit.editMode&&!e.isControlDown()) Edit.changeType(-1);
 				break;
 			case KeyEvent.VK_X:
-				if (Edit.editMode) Edit.changeType(1);
+				if (Edit.editMode&&!e.isControlDown()) Edit.changeType(1);
 				break;
 			case KeyEvent.VK_N:
 				if (Edit.editMode) Edit.floodFill();
@@ -170,9 +172,12 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 		case KeyEvent.VK_BACK_SPACE:
 			if (Edit.editMode) Edit.printLayout();
 			break;
-		/*case ZOOM_KEY:
-			Camera.setCursorZoom(false);
-			break;*/
+		case KeyEvent.VK_Z:
+			if (e.isControlDown()) EditHistory.loadState();
+			break;
+		case KeyEvent.VK_0:
+			EditHistory.saveState(Level.getLayout());
+			break;
 		}
 	}
 
@@ -241,13 +246,20 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		if (e.getWheelRotation()>0) {//zoom out
-			Camera.changeScaleRatio(-1);
+		if (e.isControlDown()) {
+			if (e.getWheelRotation()>0) Camera.changeScaleRatio(-1);//zoom out
+			else Camera.changeScaleRatio(1);//zoom in
+			Camera.updateScale();
 		}
-		else {//zoom in
-			Camera.changeScaleRatio(1);
+		else if (!Edit.editMode) {
+			//TODO change weapon
+			if (e.getWheelRotation()>0) ;
+			else ;
 		}
-		Camera.updateScale();
+		else {
+			if (e.getWheelRotation()>0) Edit.changeType(-1);//zoom out
+			else Edit.changeType(1);//zoom in
+		}
 	}
 
 	@Override

@@ -1,34 +1,35 @@
 package data;
 
 public interface MapData {
-//	static final String MAP = "$30x30";
-//	static final String MAP = "map0";
-//	static final String MAP = "map1";
-//	static final String MAP = "map2";
-//	static final String MAP = "map3";
-	static final String MAP = "map4";
-//	static final String MAP = "buttonsSmall";
-//	static final String MAP = "buttonsMedium2";
-//	static final String MAP = "buttonsMedium";
-//	static final String MAP = "buttonsLarge";
-//	static final String MAP = "largeMapTest";
-//	static final String MAP = "largerMapTest";
-//	static final String MAP = "1000x1001";
-//	static final String MAP = "1050x1050";
-//	static final String MAP = "big";
-//	static final String MAP = "old0";
-//	static final String MAP = "old1";
-//	static final String MAP = "105_0";
-//	static final String MAP = "small";
+//	String MAP = "$30x30";
+//	String MAP = "map0";
+//	String MAP = "map1";
+//	String MAP = "map2";
+//	String MAP = "map3";
+	String MAP = "map4";
+//	String MAP = "buttonsSmall";
+//	String MAP = "buttonsMedium2";
+//	String MAP = "buttonsMedium";
+//	String MAP = "buttonsLarge";
+//	String MAP = "largeMapTest";
+//	String MAP = "largerMapTest";
+//	String MAP = "1000x1001";
+//	String MAP = "1050x1050";
+//	String MAP = "big";
+//	String MAP = "old0";
+//	String MAP = "old1";
+//	String MAP = "105_0";
+//	String MAP = "small";
 
-	static final boolean EDIT_MODE = false;
+	boolean EDIT_MODE = false;
+	int EDIT_HISTORY_SIZE = 10;
 
-	static final int EDGE_TYPE = '1';
-	static final int SPAWN_POINT_TYPE = 's', SPAWN_POINT_REPLACEMENT_TYPE = '0';//don't touch
-	static final int[] EMPTY_TAGS = {'$', 'x'};//don't touch
-	static final int EMPTY_TYPE = '2';
+	int EDGE_TYPE = '1';
+	int SPAWN_POINT_TYPE = 's', SPAWN_POINT_REPLACEMENT_TYPE = '0';//don't touch
+	int[] EMPTY_TAGS = {'$', 'x'};//don't touch
+	int EMPTY_TYPE = '2';
 
-	static final boolean ADD_EDGE = true;//puts and edge around the map
-	static final boolean AUTO_DISABLE_ADD_EDGE = true;//disables if it finds an empty tile or if the map area is greater than the value below
-	static final int AUTO_DISABLE_ADD_EDGE_THREASHOLD = 10000;//area
+	boolean ADD_EDGE = true;//puts and edge around the map
+	boolean AUTO_DISABLE_ADD_EDGE = true;//disables if it finds an empty tile or if the map area is greater than the value below
+	int AUTO_DISABLE_ADD_EDGE_THREASHOLD = 10000;//area
 }

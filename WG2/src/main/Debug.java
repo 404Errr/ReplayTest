@@ -38,7 +38,7 @@ public class Debug implements Data, ColorData, MapData {
 
 				text.append("I forgot = "+ClientUpdateLoop.getCurrentUpdateTime()+"$");
 				text.append("Window = "+Window.width()+"x"+Window.height()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Camera.getScale()+"$");
-				text.append("Zoomed = "+Camera.inZoom()+"$");
+				text.append("Zoomed = "+Camera.isZoomed()+"$");
 				text.append("Render Distance = "+GraphicsData.getRenderDistanceX()+", "+GraphicsData.getRenderDistanceY()+"$");
 				text.append("X, Y Tile = "+Game.getPlayer().getXTile()+", "+Game.getPlayer().getYTile()+"$");
 				text.append("X, Y Exact = ("+Game.getPlayer().getX()+", "+Game.getPlayer().getY()+")"+"$");
@@ -63,7 +63,7 @@ public class Debug implements Data, ColorData, MapData {
 				Renderer.getG().setStroke(new BasicStroke(1));
 				final int w = Window.centerX(), h = Window.centerY(), lineLength = Math.max(Window.width(), Window.height())*2;
 				final int cursorPlayerX = (int) (Cursor.getPlayerX()*Camera.getScale()), cursorPlayerY = (int) (Cursor.getPlayerY()*Camera.getScale());
-				if (Camera.inZoom()) {
+				if (Camera.isZoomed()) {
 					Renderer.getG().drawLine(w-cursorPlayerX, h-cursorPlayerY, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w+cursorPlayerX), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h+cursorPlayerY));//los
 				}
 				else {

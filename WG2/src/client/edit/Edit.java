@@ -8,7 +8,6 @@ import client.graphics.Camera;
 import client.graphics.Renderer;
 import client.input.Cursor;
 import client.level.Level;
-import client.level.Tile;
 import data.ColorData;
 import data.MapData;
 import data.TileData;
@@ -20,7 +19,7 @@ public class Edit implements MapData, TileData, ColorData {
 	private static int startX, startY, endX, endY;
 
 	private static int currentType;
-	private static final int[] TYPES = {//('s' appears twice)
+	private static final int[] TYPES = {//'s' appears twice
 		'0', '1', '2', '3', '4', '5', 's', '6', '7', '8', '9',
 		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 		'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
@@ -57,8 +56,8 @@ public class Edit implements MapData, TileData, ColorData {
 		currentType+=d;
 	}
 
-	public static void changeTile(int x, int y) {
-		Level.setTile(x, y, new Tile(x, y, TYPES[currentType], TileData.getSolid(TYPES[currentType])[SOLID_WALLS]));
+	public static void changeType(int x, int y) {
+		Level.setLayoutType(x, y, TYPES[currentType]);
 	}
 
 	public static int getType() {
@@ -66,12 +65,13 @@ public class Edit implements MapData, TileData, ColorData {
 	}
 
 	public static void changeTiles() {
+		EditHistory.saveState(Level.getLayout().clone());
 		int sX = Math.max(0, Math.min(startX, endX)), sY = Math.max(0, Math.min(startY, endY)), eX = Math.min(Level.getWidth()-1, Math.max(startX, endX)), eY = Math.min(Level.getHeight()-1, Math.max(startY, endY));
 		if (startX==endX&&startY==endY) System.out.println((char)TYPES[currentType]+"\t"+sX+","+sY);
 		else System.out.println((char)TYPES[currentType]+"\t"+sX+","+sY+" - "+eX+","+eY);
 		for (int y = sY;y<=eY;y++) {
 			for (int x = sX;x<=eX;x++) {
-				changeTile(x, y);
+				changeType(x, y);
 			}
 		}
 	}
@@ -92,34 +92,33 @@ public class Edit implements MapData, TileData, ColorData {
 
 	public static void printLayout() {
 		StringBuilder layout = new StringBuilder();
-		for (int x = 0;x<Level.getWidth();x++) {
-			for (int y = 0;y<Level.getHeight();y++) {
-				layout.append((char)Level.getTile(x, y).getType()+",");
+		for (int y = 0;y<Level.getHeight();y++) {
+			for (int x = 0;x<Level.getWidth();x++) {
+				layout.append((char)Level.getLayoutType(x, y)+",");
 			}
 			layout.setCharAt(layout.length()-1, ';');
 			layout.append("\n");
 		}
-
 		System.out.print("\n\n\n"+layout+"\n\n\n");
 	}
 
 	public static void pickType() {
 		int x = Cursor.getTileX(), y = Cursor.getTileY();
 		if (x<0||y<0||y>=Level.getHeight()||x>=Level.getWidth()) return;
-		int type = Level.getTile(x, y).getType();
+		int type = Level.getLayoutType(x, y);
 		System.out.println((char)type);
 		for (int i = 0;i<TYPES.length;i++) {
 			if (type==TYPES[i]) currentType = i;
 		}
 	}
 
-	public static void fill(int sX, int sY, int from, int to, int[][] layout){
+	public static void fill(int sX, int sY, int from, int to, int[][] layout) {
 		Stack<Point> points = new Stack<>();
 		points.add(new Point(sX, sY));
 		while (!points.isEmpty()) {
 			Point currentPoint = points.pop();
 			int x = currentPoint.x, y = currentPoint.y;
-			if (x<0||y<0||y>=layout.length||x>=layout[0].length) continue;//bounds check
+			if (x<0||y<0||y>=layout.length||x>=layout[0].length) continue;
 			if (from==layout[y][x]) {
 				layout[y][x] = to;
 				points.push(new Point(x+1, y));
@@ -131,30 +130,20 @@ public class Edit implements MapData, TileData, ColorData {
 	}
 
 	public static void floodFill() {
+		EditHistory.saveState(Level.getLayout());
 		int sX = Cursor.getTileX(), sY = Cursor.getTileY();
-		int[][] layout = getLayout();
+		int[][] layout = Level.getLayout().clone();
 		if (layout[sY][sX]==getType()) return;
 		System.out.println("Fill "+(char)layout[sY][sX]+" --> "+(char)getType());
 		fill(sX, sY, layout[sY][sX], getType(), layout);
 		for (int x = 0;x<Level.getWidth();x++) {
 			for (int y = 0;y<Level.getHeight();y++) {
-				if (Level.getTile(x, y).getType()!=layout[y][x]) changeTile(x, y);
+				if (Level.getLayoutType(x, y)!=layout[y][x]) changeType(x, y);
 			}
 		}
 	}
 
-	public static int[][] getLayout() {
-		int[][] layout = new int[Level.getHeight()][Level.getWidth()];
-		for (int x = 0;x<Level.getWidth();x++) {
-			for (int y = 0;y<Level.getHeight();y++) {
-				layout[y][x] = Level.getTile(x, y).getType();
-			}
-		}
-		return layout;
-	}
-
-
-	/*public static void saveLevel(int[][] layout, int sizeX, int sizeY) throws IOException {
+	/*public static void saveLevel(int[][] layout, int sizeX, int sizeY) throws IOException {//old
 		StringBuilder board = new StringBuilder();
 		for (int y = 0;y<sizeY;y++) {
 			for (int x = 0;x<sizeX;x++) {
