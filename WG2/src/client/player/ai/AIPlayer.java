@@ -1,4 +1,4 @@
-package client.player;
+package client.player.ai;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -11,7 +11,7 @@ import client.game.Game;
 import client.level.SpawnPoint;
 import client.level.pathfinding.PathFinder;
 import client.level.pathfinding.WanderFinder;
-import client.player.ai.SightLine;
+import client.player.Player;
 import util.Util;
 
 public class AIPlayer extends Player {

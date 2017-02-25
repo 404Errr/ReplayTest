@@ -47,7 +47,7 @@ public class Debug implements Data, ColorData, MapData {
 				text.append("ddx, ddy = "+Game.getPlayer().getddX()+", "+Game.getPlayer().getddY()+"$");
 				text.append("Facing = "+((float)Math.toDegrees(Game.getPlayer().getFacing())+((Game.getPlayer().getFacing()<0)?360:0))+" ("+Game.getPlayer().getFacing()+")"+"$");
 				text.append("Cursor = "+Cursor.getScreenX()+","+Cursor.getScreenY()+" ("+Cursor.getPlayerX()+","+Cursor.getPlayerY()+")"+"$");
-				text.append("Active Gun = "+Game.getPlayer().getActiveGun()+" Cooldown = "+Game.getPlayer().getActiveGun().getCooldown()+"$");
+				text.append("Active Weapon = "+Game.getPlayer().getActiveWeapon()+" Cooldown = "+Game.getPlayer().getActiveWeapon().getCooldown()+"$");
 				text.append("Debug Text = true, LOS Line = "+losLine+"$");
 				if (Edit.editMode) text.append("Type = "+(char)Edit.getType());
 

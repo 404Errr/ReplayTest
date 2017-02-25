@@ -18,7 +18,7 @@ import client.game.Game;
 import client.graphics.Camera;
 import client.level.Level;
 import client.level.pathfinding.PathFindingTester;
-import client.player.AIPlayer;
+import client.player.ai.AIPlayer;
 import data.ControlData;
 import data.Data;
 import data.PlayerData;

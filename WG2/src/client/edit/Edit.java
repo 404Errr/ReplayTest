@@ -106,7 +106,7 @@ public class Edit implements MapData, TileData, ColorData {
 		int x = Cursor.getTileX(), y = Cursor.getTileY();
 		if (x<0||y<0||y>=Level.getHeight()||x>=Level.getWidth()) return;
 		int type = Level.getLayoutType(x, y);
-		System.out.println((char)type);
+		System.out.println("Picked: "+(char)type);
 		for (int i = 0;i<TYPES.length;i++) {
 			if (type==TYPES[i]) currentType = i;
 		}

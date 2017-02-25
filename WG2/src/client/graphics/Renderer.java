@@ -15,9 +15,9 @@ import client.edit.Edit;
 import client.entity.Entity;
 import client.game.Game;
 import client.level.Level;
-import client.player.AIPlayer;
 import client.player.Player;
-import client.weapon.GunType;
+import client.player.ai.AIPlayer;
+import client.weapon.Gun;
 import client.weapon.Hitscan;
 import client.weapon.Projectile;
 import data.ColorData;
@@ -98,7 +98,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 	}
 
 	private void drawGun(Player player) {
-		GunType gun = player.getActiveGun().getType();
+		Gun gun = player.getActiveWeapon().getType();
 		g.setColor(player.getColor());
 		g.setStroke(new BasicStroke(gun.getWidth()*Camera.getScale()));
 		float angle = player.getFacing(), wangLength = gun.getLength()+HALF_PLAYER_SIZE;

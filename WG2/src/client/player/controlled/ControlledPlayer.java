@@ -1,9 +1,10 @@
-package client.player;
+package client.player.controlled;
 
 import java.awt.Color;
 
 import client.input.Cursor;
 import client.level.SpawnPoint;
+import client.player.Player;
 import data.Data;
 import data.PlayerData;
 import data.WeaponData;

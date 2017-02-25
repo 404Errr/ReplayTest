@@ -7,9 +7,9 @@ import java.util.List;
 import client.edit.Edit;
 import client.entity.Entity;
 import client.level.Level;
-import client.player.AIPlayer;
-import client.player.ControlledPlayer;
 import client.player.Player;
+import client.player.ai.AIPlayer;
+import client.player.controlled.ControlledPlayer;
 import data.ColorData;
 import data.TileData;
 

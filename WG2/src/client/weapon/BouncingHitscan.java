@@ -14,20 +14,16 @@ public class BouncingHitscan extends Hitscan implements Data {
 			int side = getSide(x, y);
 			switch (side) {
 			case UP:
-				y = Math.round(y);
-				y-=0.001f;
+				y = Math.round(y)-0.001f;
 				break;
 			case DOWN:
-				y = Math.round(y);
-				y+=0.001f;
+				y = Math.round(y)+0.001f;
 				break;
 			case LEFT:
-				x = Math.round(x);
-				x-=0.001f;
+				x = Math.round(x)-0.001f;
 				break;
 			case RIGHT:
-				x = Math.round(x);
-				x+=0.001f;
+				x = Math.round(x)+0.001f;
 				break;
 			}
 			Game.addEntity(new BouncingHitscan(damage, recoil, initialWidth, color, x, y, newAngle, bounces-1));

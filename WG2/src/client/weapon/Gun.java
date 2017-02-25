@@ -1,92 +1,75 @@
 package client.weapon;
 
-import client.game.Game;
-import client.player.Player;
-import data.Data;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import data.WeaponData;
-import util.Util;
 
-public class Gun implements Data, WeaponData {
-	private GunType type;
-	private float cooldown;
-	private Player owner;
+public enum Gun implements Weapon, WeaponData {
+	BASICGUN(BASICGUN_LEGNTH, BASICGUN_WIDTH, BASICGUN_SPEED, BASICGUN_SIZE, BASICGUN_DAMAGE, BASICGUN_COOLDOWN, BASICGUN_COF, BASICGUN_SPEED_SPREAD, BASICGUN_RECOIL),
+	SHOTGUN(SHOTGUN_LEGNTH, SHOTGUN_WIDTH, SHOTGUN_SPEED, SHOTGUN_SIZE, SHOTGUN_DAMAGE, SHOTGUN_COOLDOWN, SHOTGUN_COF, SHOTGUN_SPEED_SPREAD, SHOTGUN_RECOIL),
+	MACHINEGUN(MACHINEGUN_LEGNTH, MACHINEGUN_WIDTH, MACHINEGUN_SPEED, MACHINEGUN_SIZE, MACHINEGUN_DAMAGE, MACHINEGUN_COOLDOWN, MACHINEGUN_COF, MACHINEGUN_SPEED_SPREAD, MACHINEGUN_RECOIL),
+	RAILGUN(RAILGUN_LEGNTH, RAILGUN_WIDTH, 1, 0, RAILGUN_DAMAGE, RAILGUN_COOLDOWN, 0, 0, RAILGUN_RECOIL);
 
-	public Gun(Player owner, GunType type) {
-		this.owner = owner;
-		this.type = type;
+	private static List<Gun> gunTypes;
+
+	static {
+		gunTypes = new ArrayList<>();
+		gunTypes.addAll(Arrays.asList(BASICGUN,SHOTGUN,MACHINEGUN,RAILGUN));
 	}
 
-	public void tick() {
-		if (isActive()) {
-			if (cooldown>0) {
-				cooldown-=COOLDOWN_INCREMENT;
-			}
-			else {
-				cooldown = 0;
-				if (owner.getMouseControl(MOUSE1)) {//if should shoot
-					switch (type) {
-					case RAILGUN:
-						shootRailgun();
-						break;
-					case SHOTGUN:
-						shootShotgun();
-						break;
-					default:
-						shoot();
-						break;
-					}
-					cooldown = type.getCooldown();
-				}
-			}
-		}
+	private float wangLength, wangWidth, projectileSpeed, projectileSize, damage, cooldown, COF, speedOffset, recoil;
+
+	private Gun(float wangLength, float wangWidth, float projectileSpeed, float projectileSize, float damage, float cooldown, float COF, float speedOffset, float recoil) {
+		this.wangLength = wangLength;
+		this.wangWidth = wangWidth;
+		this.projectileSpeed = projectileSpeed;
+		this.projectileSize = projectileSize;
+		this.damage = damage;
+		this.cooldown = cooldown;
+		this.COF = COF;
+		this.speedOffset = speedOffset;
+		this.recoil = recoil;
 	}
 
-	private void shootRailgun() {
-		Game.addEntity(new Hitscan(type.getDamage(), type.getRecoil(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), owner.getXCenter(), owner.getYCenter(), owner.getFacing()));
-//		Game.addEntity(new BouncingHitscan(type.getDamage(), type.getRecoil(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), owner.getXCenter(), owner.getYCenter(), owner.getFacing(), 200));
-		/*for (float a = 0;a<360;a+=0.5d) {
-			Game.addEntity(new Hitscan(type.getDamage(), type.getRecoil(), 0.5f, owner.getColor(), owner.getXCenter(), owner.getYCenter(), (float)Math.toRadians(a)));
-		}*/
-		if (RECOIL) owner.recoil(owner.getFacing(), -type.getRecoil());
+	public float getLength() {
+		return wangLength;
 	}
 
-	private void shootShotgun() {
-		float gunAngle = Util.getAngleSpread(owner.getFacing(), type.getCOF());
-		for (int i = 0;i<SHOTGUN_PELLET_COUNT;i++) {
-			float angle = Util.getAngleSpread(gunAngle, SHOTGUN_SPREAD), speed = Util.getSpread(type.getProjectileSpeed(), type.getSpeedOffset());
-			float dX = owner.getdX()+Util.getXComp(angle, speed), dY = owner.getdY()-Util.getYComp(angle, speed);
-			Game.addEntity(new Projectile(type.getDamage(), type.getRecoil(), type.getProjectileSize(), owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
-			if (RECOIL) owner.recoil(owner.getFacing(), -type.getRecoil());
-		}
+	public float getWidth() {
+		return wangWidth;
 	}
 
-	private void shoot() {
-		float angle = Util.getAngleSpread(owner.getFacing(), type.getCOF()), speed = Util.getSpread(type.getProjectileSpeed(), type.getSpeedOffset());
-		float dX = owner.getdX()+Util.getXComp(angle, speed), dY = owner.getdY()-Util.getYComp(angle, speed);
-		Game.addEntity(new Projectile(type.getDamage(), type.getRecoil(), type.getProjectileSize(), owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
-		if (RECOIL) owner.recoil(owner.getFacing(), -type.getRecoil());
+	public float getProjectileSpeed() {
+		return projectileSpeed;
 	}
 
-	private boolean isActive() {
-		return owner.getActiveGun()==this;
+	public float getProjectileSize() {
+		return projectileSize;
 	}
 
-	public GunType getType() {
-		return type;
+	public float getDamage() {
+		return damage;
 	}
 
 	public float getCooldown() {
 		return cooldown;
 	}
 
-	public void setCooldown(float cooldown) {
-		this.cooldown = cooldown;
+	public float getCOF() {
+		return COF;
 	}
 
-	@Override
-	public String toString() {
-		return type.toString();
+	public float getSpeedOffset() {
+		return speedOffset;
 	}
 
+	public float getRecoil() {
+		return recoil;
+	}
 
+	public static List<Gun> getTypes() {
+		return gunTypes;
+	}
 }

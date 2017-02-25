@@ -10,7 +10,7 @@ import client.entity.Entity;
 import client.level.Level;
 import client.level.SpawnPoint;
 import client.weapon.Gun;
-import client.weapon.GunType;
+import client.weapon.PlayerWeapon;
 import data.Data;
 import data.PlayerData;
 import data.TileData;
@@ -21,8 +21,8 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	protected float health, facing;//facing is in radians
 	protected boolean[] canMove, movementControl, mouseControl;//r,d,l,u. l, m, r
 	protected Color color;
-	protected List<Gun> guns;
-	protected Gun activeGun;
+	protected List<PlayerWeapon> weapons;
+	protected PlayerWeapon activeWeapon;
 
 	public Player(Color color, float x, float y) {
 		super(color, x, y);
@@ -31,9 +31,9 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		movementControl = new boolean[4];
 		canMove = new boolean[4];
 		mouseControl = new boolean[3];
-		guns = new ArrayList<>();
+		weapons = new ArrayList<>();
 		if (ALL_GUNS_AT_START) {
-			for (GunType type:GunType.getTypes()) {
+			for (Gun type:Gun.getTypes()) {
 				addGun(type);
 			}
 			selectGun(STARTING_GUN);
@@ -145,8 +145,8 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	public boolean tick() {
 		turn();
 		moveTick();
-		for (Gun gun:guns) {
-			gun.tick();
+		for (PlayerWeapon weapon:weapons) {
+			weapon.tick();
 		}
 		if (isDead()) respawn(Level.getSafestSpawnPoint(this));
 		return false;
@@ -272,31 +272,31 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		return new Point(getXTile(), getYTile());
 	}
 
-	public Gun getActiveGun() {
-		return activeGun;
+	public PlayerWeapon getActiveWeapon() {
+		return activeWeapon;
 	}
 
-	public void setGun(Gun activeGun) {
-		this.activeGun = activeGun;
+	public void setGun(PlayerWeapon activeGun) {
+		this.activeWeapon = activeGun;
 	}
 
-	public List<Gun> getGuns() {
-		return guns;
+	public List<PlayerWeapon> getGuns() {
+		return weapons;
 	}
 
 	public void selectGun(int gun) {
-		if (gun>=0&&gun<guns.size()) {
-			activeGun = guns.get(gun);
-			activeGun.setCooldown(WEAPON_SWITCH_COOLDOWN);
+		if (gun>=0&&gun<weapons.size()) {
+			activeWeapon = weapons.get(gun);
+			activeWeapon.setCooldown(WEAPON_SWITCH_COOLDOWN);
 		}
 	}
 
-	public void addGun(GunType type) {
-		guns.add(new Gun(this, type));
+	public void addGun(Gun type) {
+		weapons.add(new PlayerWeapon(this, type));
 	}
 
 	public void clearGuns() {
-		guns.clear();
+		weapons.clear();
 	}
 
 	public float getHealth() {

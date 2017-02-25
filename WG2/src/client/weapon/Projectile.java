@@ -1,6 +1,5 @@
 package client.weapon;
 
-
 import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.util.List;
@@ -28,13 +27,17 @@ public class Projectile extends Entity implements Damages, TileData, WeaponData 
 
 	@Override
 	public boolean tick() {
+		move();
+		if (x<0||y<0||x>Level.getWidth()||y>Level.getHeight()) destroy = true;//if off of the map
+		checkCollision();
+		return destroy;
+	}
+
+	protected void move() {
 		dX+=ddX;
 		dY+=ddY;
 		x+=dX;
 		y+=dY;
-		if (x<0||y<0||x>Level.getWidth()||y>Level.getHeight()) destroy = true;//if off of the map
-		checkCollision();
-		return destroy;
 	}
 
 	protected void checkCollision() {
