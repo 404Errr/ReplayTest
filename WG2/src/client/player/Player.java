@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.entity.Entity;
-import client.game.Game;
 import client.level.Level;
 import client.level.SpawnPoint;
 import client.weapon.Gun;
@@ -136,9 +135,9 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		}
 	}
 
-	public void recoil(float magnitude) {
-		this.dX-=Util.getXComp(Game.getPlayer().getFacing(), magnitude);
-		this.dY-=-Util.getYComp(Game.getPlayer().getFacing(), magnitude);
+	public void recoil(float angle, float magnitude) {
+		this.dX+=Util.getXComp(angle, magnitude);
+		this.dY+=-Util.getYComp(angle, magnitude);
 	}
 
 	@Override
@@ -287,9 +286,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	public void selectGun(int gun) {
 		if (gun>=0&&gun<guns.size()) {
 			activeGun = guns.get(gun);
-		}
-		for (int i = 0;i<guns.size();i++) {
-			guns.get(i).setCooldown(WEAPON_SWITCH_COOLDOWN);
+			activeGun.setCooldown(WEAPON_SWITCH_COOLDOWN);
 		}
 	}
 

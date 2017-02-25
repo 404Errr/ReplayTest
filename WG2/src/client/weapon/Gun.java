@@ -23,7 +23,6 @@ public class Gun implements Data, WeaponData {
 			}
 			else {
 				cooldown = 0;
-				System.out.println(owner.getMouseControl(MOUSE1));
 				if (owner.getMouseControl(MOUSE1)) {//if should shoot
 					switch (type) {
 					case RAILGUN:
@@ -36,9 +35,6 @@ public class Gun implements Data, WeaponData {
 						shoot();
 						break;
 					}
-					if (RECOIL) {
-						owner.recoil(type.getRecoil());
-					}
 					cooldown = type.getCooldown();
 				}
 			}
@@ -46,30 +42,33 @@ public class Gun implements Data, WeaponData {
 	}
 
 	private void shootRailgun() {
-		Game.addEntity(new Hitscan(type.getDamage(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Game.getPlayer().getFacing()));
-//		Game.addEntity(new BouncingHitscan(type.getDamage(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Game.getPlayer().getFacing(), 200));
+		Game.addEntity(new Hitscan(type.getDamage(), type.getRecoil(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), owner.getXCenter(), owner.getYCenter(), owner.getFacing()));
+//		Game.addEntity(new BouncingHitscan(type.getDamage(), type.getRecoil(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), owner.getXCenter(), owner.getYCenter(), owner.getFacing(), 200));
 		/*for (float a = 0;a<360;a+=0.5d) {
-			Game.addHitscan(new Hitscan(type.getDamage(), 0.5, owner.getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), Math.toRadians(a)));
+			Game.addEntity(new Hitscan(type.getDamage(), type.getRecoil(), 0.5f, owner.getColor(), owner.getXCenter(), owner.getYCenter(), (float)Math.toRadians(a)));
 		}*/
+		if (RECOIL) owner.recoil(owner.getFacing(), -type.getRecoil());
 	}
 
 	private void shootShotgun() {
-		float gunAngle = Util.getAngleSpread(Game.getPlayer().getFacing(), type.getCOF());
+		float gunAngle = Util.getAngleSpread(owner.getFacing(), type.getCOF());
 		for (int i = 0;i<SHOTGUN_PELLET_COUNT;i++) {
 			float angle = Util.getAngleSpread(gunAngle, SHOTGUN_SPREAD), speed = Util.getSpread(type.getProjectileSpeed(), type.getSpeedOffset());
-			float dX = Game.getPlayer().getdX()+Util.getXComp(angle, speed), dY = Game.getPlayer().getdY()-Util.getYComp(angle, speed);
-			Game.addEntity(new Projectile(type.getDamage(), type.getProjectileSize(), owner.getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), dX, dY));
+			float dX = owner.getdX()+Util.getXComp(angle, speed), dY = owner.getdY()-Util.getYComp(angle, speed);
+			Game.addEntity(new Projectile(type.getDamage(), type.getRecoil(), type.getProjectileSize(), owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
+			if (RECOIL) owner.recoil(owner.getFacing(), -type.getRecoil());
 		}
 	}
 
 	private void shoot() {
-		float angle = Util.getAngleSpread(Game.getPlayer().getFacing(), type.getCOF()), speed = Util.getSpread(type.getProjectileSpeed(), type.getSpeedOffset());
-		float dX = Game.getPlayer().getdX()+Util.getXComp(angle, speed), dY = Game.getPlayer().getdY()-Util.getYComp(angle, speed);
-		Game.addEntity(new Projectile(type.getDamage(), type.getProjectileSize(), owner.getColor(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), dX, dY));
+		float angle = Util.getAngleSpread(owner.getFacing(), type.getCOF()), speed = Util.getSpread(type.getProjectileSpeed(), type.getSpeedOffset());
+		float dX = owner.getdX()+Util.getXComp(angle, speed), dY = owner.getdY()-Util.getYComp(angle, speed);
+		Game.addEntity(new Projectile(type.getDamage(), type.getRecoil(), type.getProjectileSize(), owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
+		if (RECOIL) owner.recoil(owner.getFacing(), -type.getRecoil());
 	}
 
 	private boolean isActive() {
-		return Game.getPlayer().getActiveGun()==this;
+		return owner.getActiveGun()==this;
 	}
 
 	public GunType getType() {

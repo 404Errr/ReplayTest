@@ -7,8 +7,8 @@ import data.Data;
 import util.Util;
 
 public class BouncingHitscan extends Hitscan implements Data {
-	public BouncingHitscan(float damage, float initialWidth, Color color, float iX, float iY, float angle, int bounces) {
-		super(damage, initialWidth, color, iX, iY, angle);
+	public BouncingHitscan(float damage, float recoil, float initialWidth, Color color, float iX, float iY, float angle, int bounces) {
+		super(damage, recoil, initialWidth, color, iX, iY, angle);
 		if (bounces>0) {
 			float newAngle = Util.bounceAngle(angle, getSide(x, y)==LEFT||getSide(x, y)==RIGHT);
 			int side = getSide(x, y);
@@ -30,7 +30,7 @@ public class BouncingHitscan extends Hitscan implements Data {
 				x+=0.001f;
 				break;
 			}
-			Game.addEntity(new BouncingHitscan(damage, initialWidth, color, x, y, newAngle, bounces-1));
+			Game.addEntity(new BouncingHitscan(damage, recoil, initialWidth, color, x, y, newAngle, bounces-1));
 		}
 	}
 

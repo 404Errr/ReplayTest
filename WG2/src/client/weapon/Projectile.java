@@ -10,14 +10,17 @@ import client.game.Game;
 import client.level.Level;
 import client.player.Player;
 import data.TileData;
+import data.WeaponData;
+import util.Util;
 
-public class Projectile extends Entity implements Damages, TileData {
-	protected float damage, size;
+public class Projectile extends Entity implements Damages, TileData, WeaponData {
+	protected float damage, recoil, size;
 	protected boolean destroy;
 
-	public Projectile(float damage, float size, Color color, float x, float y, float dX, float dY) {
+	public Projectile(float damage, float recoil, float size, Color color, float x, float y, float dX, float dY) {
 		super(color, x, y);
 		this.damage = damage;
+		this.recoil = recoil;
 		this.size = size;
 		this.dX = dX;
 		this.dY = dY;
@@ -58,6 +61,9 @@ public class Projectile extends Entity implements Damages, TileData {
 		for (int i = 0;i<entities.size();i++) {
 			if (entities.get(i) instanceof Player&&((Player)entities.get(i)).getColor()!=color&&((Player)entities.get(i)).getBounds().intersectsLine(hitline)) {
 				damage((Player)entities.get(i), damage);
+				if (RECOIL) {
+					((Player)entities.get(i)).recoil(Util.getAngle(0, 0, dX, dY), recoil);
+				}
 				destroy = true;//destroy it
 			}
 		}

@@ -13,12 +13,13 @@ import data.WeaponData;
 import util.Util;
 
 public class Hitscan extends Entity implements Damages, TileData, WeaponData {
-	protected float damage, initialWidth, width, iX, iY, fX, fY;
+	protected float damage, recoil, initialWidth, width, iX, iY, fX, fY;
 	protected Color color;
 
-	public Hitscan(float damage, float initialWidth, Color color, float iX, float iY, float angle) {
+	public Hitscan(float damage, float recoil, float initialWidth, Color color, float iX, float iY, float angle) {
 		super(color, iX, iY);
 		this.damage = damage;//how much damage it does
+		this.recoil = recoil;
 		this.width = initialWidth;//starting (largest) graphical width of the line
 		this.initialWidth = initialWidth;
 		this.color = color;//the color of the creator
@@ -37,6 +38,9 @@ public class Hitscan extends Entity implements Damages, TileData, WeaponData {
 		for (int i = 0;i<entities.size();i++) {
 			if (entities.get(i) instanceof Player&&((Player)entities.get(i)).getColor()!=color&&((Player)entities.get(i)).getBounds().intersectsLine(hitline)) {
 				damage((Player)entities.get(i), damage);
+				if (RECOIL) {
+					((Player)entities.get(i)).recoil(Util.getAngle(0, 0, dX, dY), recoil);
+				}
 			}
 		}
 	}

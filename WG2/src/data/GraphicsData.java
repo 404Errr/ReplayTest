@@ -10,6 +10,10 @@ public interface GraphicsData {
 	static final float ZOOM_INCREMENT = 0.001f;
 	static final float DEFAULT_WINDOW_SCREEN_RATIO = 0.8f;
 
+	static final int HEALTH_BAR_WIDTH = 0;
+
+
+
 	static final boolean AUTO_RENDER_DISTANCE = true;
 	static final int RENDER_DISTANCE_X = -1, RENDER_DISTANCE_Y = -1;
 

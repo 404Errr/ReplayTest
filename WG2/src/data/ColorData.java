@@ -16,6 +16,8 @@ public interface ColorData {
 	static final Color COLOR_ERROR = new Color(0x940e94);//magenta
 	static final Color COLOR_BACKROUND = new Color(0xf0f0f0);//backround color
 
+	static final Color COLOR_HEALTH_BAR = new Color(0xff0000);//red
+
 	static final Color COLOR_TILE_0 = new Color(0x909090);//grey (floor)
 	static final Color COLOR_TILE_1 = new Color(0x000000);//black (wall)
 	static final Color COLOR_TILE_2 = null;//no draw (backround color)

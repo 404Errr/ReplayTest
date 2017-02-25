@@ -3,6 +3,7 @@ package client.level;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import client.player.Player;
 import data.ColorData;
@@ -81,7 +82,7 @@ public class Level implements MapData, TileData {
 		return true;
 	}
 
-	public static Point getFirstUsableTile() {//for spawning
+	public static Point getFirstUsableTile() {//for spawning and stuff
 		for (int r = 0;r<layout.length;r++) {
 			for (int c = 0;c<layout[0].length;c++) {
 				if (!TileData.getSolid(layout[r][c])[SOLID_WALLS]&&ColorData.getTileColor(layout[r][c])!=null) {
@@ -90,6 +91,20 @@ public class Level implements MapData, TileData {
 			}
 		}
 		return new Point(0, 0);
+	}
+
+	public static SpawnPoint getRandomSpawnPoint() {
+		return spawnPoints.get((new Random()).nextInt(spawnPoints.size()));
+	}
+
+	public static SpawnPoint getSafestSpawnPoint(Player exclude) {
+		SpawnPoint safest = spawnPoints.get(0);
+		for (int i = 0;i<spawnPoints.size();i++) {
+			if (spawnPoints.get(i).distanceToClosestPlayer(exclude)>safest.distanceToClosestPlayer(exclude)) {
+				safest = spawnPoints.get(i);
+			}
+		}
+		return safest;
 	}
 
 	public static int[][] getLayout() {
@@ -123,18 +138,5 @@ public class Level implements MapData, TileData {
 	public static List<SpawnPoint> getSpawnPoints() {
 		return spawnPoints;
 	}
-
-	public static SpawnPoint getSafestSpawnPoint(Player exclude) {
-		SpawnPoint safest = spawnPoints.get(0);
-		for (int i = 0;i<spawnPoints.size();i++) {
-			if (spawnPoints.get(i).distanceToClosestPlayer(exclude)>safest.distanceToClosestPlayer(exclude)) {
-				safest = spawnPoints.get(i);
-			}
-
-		}
-		return safest;
-	}
-
-
 }
 

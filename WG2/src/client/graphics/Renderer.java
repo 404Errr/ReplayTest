@@ -38,10 +38,16 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			drawTiles();
 			Debug.drawDebug();
 			drawEntities();
+			drawUI();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void drawUI() {
+		g.setColor(Util.getRedGreenColorShift(Game.getPlayer().getHealth()));
+		g.fillRect(Window.width()-HEALTH_BAR_WIDTH, (int)((1f-Game.getPlayer().getHealth())*Window.height()), HEALTH_BAR_WIDTH, Window.height());
 	}
 
 	private void drawEntities() {
@@ -62,7 +68,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 						g.setStroke(new BasicStroke(2));
 						for (int j = 0;j<((AIPlayer)entity).getSightLines().size();j++) {
 							Line2D line = ((AIPlayer)entity).getSightLines().get(j).getLine();
-							if (((AIPlayer)entity).getSightLines().get(j).getCanSee()) g.setColor(Color.GREEN);
+							if (((AIPlayer)entity).getSightLines().get(j).getCanSee()) g.setColor(Color.BLUE);
 							else g.setColor(Color.RED);
 							g.drawLine(gridX((float)line.getX1()), gridY((float)line.getY1()), gridX((float)line.getX2()), gridY((float)line.getY2()));
 						}

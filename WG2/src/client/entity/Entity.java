@@ -23,17 +23,13 @@ abstract public class Entity {
 	}
 
 	public void move(float x, float y, float dX, float dY, float ddX, float ddY) {
-		this.x = x;
-		this.y = y;
-		this.dX = dX;
-		this.dY = dY;
+		move(x, y, dX, dY);
 		this.ddX = ddX;
 		this.ddY = ddY;
 	}
 
 	public void move(float x, float y, float dX, float dY) {
-		this.x = x;
-		this.y = y;
+		move(x, y);
 		this.dX = dX;
 		this.dY = dY;
 	}
@@ -41,6 +37,10 @@ abstract public class Entity {
 	public void move(float x, float y) {
 		this.x = x;
 		this.y = y;
+		this.dX = 0;
+		this.dY = 0;
+		this.ddX = 0;
+		this.ddY = 0;
 	}
 
 	public void move(Point point) {

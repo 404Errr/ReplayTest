@@ -24,9 +24,9 @@ public interface WeaponData {
 	static float SHOTGUN_SPEED_SPREAD = 1f;
 	static float SHOTGUN_SPREAD = 15f;
 	static int   SHOTGUN_PELLET_COUNT = 24;
-	static float SHOTGUN_RECOIL = 2.4f/SHOTGUN_PELLET_COUNT;
+	static float SHOTGUN_RECOIL = 0.15f/SHOTGUN_PELLET_COUNT;//per pellet
 	static float SHOTGUN_COOLDOWN = 35f;
-	static float SHOTGUN_DAMAGE = 0.8f/SHOTGUN_PELLET_COUNT;
+	static float SHOTGUN_DAMAGE = 0.8f/SHOTGUN_PELLET_COUNT;//per pellet
 
 	static float MACHINEGUN_LEGNTH = 1.2f;
 	static float MACHINEGUN_WIDTH = 0.5f;
