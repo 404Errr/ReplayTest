@@ -4,19 +4,23 @@ import java.awt.geom.Line2D;
 
 import client.level.Level;
 import client.player.Player;
+import data.AIData;
+import data.Data;
 import data.PlayerData;
 import data.TileData;
 
-public class SightLine implements TileData, PlayerData {
+public class SightLine implements Data, AIData, TileData, PlayerData {
 
 	private Player owner, target;
 	private Line2D line;
 	private boolean canSee;
+	private int reactionCooldown;
 
 	public SightLine(Player owner, Player target) {
 		this.owner = owner;
 		this.target = target;
 		line = new Line2D.Float();
+		reactionCooldown = VISION_REACTION_TIME;
 	}
 
 	public void updateLine() {
@@ -25,7 +29,17 @@ public class SightLine implements TileData, PlayerData {
 
 	public void tick() {
 		updateLine();
-		canSee = canSee();
+		if (canSee()) {
+			if (reactionCooldown>0) reactionCooldown-=1000/UPS;
+			else {
+				canSee = true;
+				reactionCooldown = 0;
+			}
+		}
+		else {
+			reactionCooldown = VISION_REACTION_TIME;
+			canSee = false;
+		}
 	}
 
 	public boolean canSee() {

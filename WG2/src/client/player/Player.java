@@ -307,7 +307,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	}
 
 	public void changeHealth(float dHealth) {
-		this.health+=dHealth;
+		if (DAMAGE) this.health+=dHealth;
 	}
 
 }

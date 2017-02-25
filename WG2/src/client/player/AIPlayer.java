@@ -55,7 +55,7 @@ public class AIPlayer extends Player {
 
 	private boolean targetWeaponPlayer() {
 		for (int i = 0;i<sightLines.size();i++) {
-			if (sightLines.get(i).canSee()) {
+			if (sightLines.get(i).getCanSee()) {
 				currentTargetPlayer = sightLines.get(i).getTarget();
 				return true;
 			}
@@ -66,7 +66,7 @@ public class AIPlayer extends Player {
 
 	private boolean targetPathPlayer() {//true if found target
 		for (int i = 0;i<sightLines.size();i++) {
-			if (sightLines.get(i).canSee()&&Util.distance(x, y, sightLines.get(i).getTarget().getX(), sightLines.get(i).getTarget().getY())>2f) {
+			if (sightLines.get(i).getCanSee()&&Util.distance(x, y, sightLines.get(i).getTarget().getX(), sightLines.get(i).getTarget().getY())>2f) {
 				currentPathGoal = sightLines.get(i).getTarget().getPoint();
 				return true;
 			}

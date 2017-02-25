@@ -5,10 +5,10 @@ import java.awt.geom.Rectangle2D;
 
 import data.ColorData;
 import data.MapData;
-import data.PathfindingData;
+import data.AIData;
 import data.TileData;
 
-public class Tile implements MapData, PathfindingData, TileData {
+public class Tile implements MapData, AIData, TileData {
 
 	protected boolean usable;
 	protected int tileType, c, r, nextToWallCost;

@@ -3,11 +3,11 @@ package client.level.pathfinding;
 import client.level.Level;
 import client.level.Tile;
 import data.MapData;
-import data.PathfindingData;
+import data.AIData;
 import data.TileData;
 import util.Util;
 
-public class PathfindingTile extends Tile implements MapData, PathfindingData, TileData {
+public class PathfindingTile extends Tile implements MapData, AIData, TileData {
 	private int totalCost, distanceCost;
 	private boolean diagonal;
 	private PathfindingTile previous;
