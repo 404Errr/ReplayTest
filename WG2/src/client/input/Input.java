@@ -173,7 +173,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			if (Edit.editMode) Edit.printLayout();
 			break;
 		case KeyEvent.VK_Z:
-			if (e.isControlDown()) EditHistory.loadState();
+			if (e.isControlDown()) EditHistory.undo();
 			break;
 		case KeyEvent.VK_0:
 			EditHistory.saveState(Level.getLayout());

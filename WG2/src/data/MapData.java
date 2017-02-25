@@ -22,7 +22,7 @@ public interface MapData {
 //	String MAP = "small";
 
 	boolean EDIT_MODE = false;
-	int EDIT_HISTORY_SIZE = 10;
+	int EDIT_HISTORY_LIMIT = 250;
 
 	int EDGE_TYPE = '1';
 	int SPAWN_POINT_TYPE = 's', SPAWN_POINT_REPLACEMENT_TYPE = '0';//don't touch
