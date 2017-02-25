@@ -36,7 +36,7 @@ public interface WeaponData {
 	static float MACHINEGUN_SPEED_SPREAD = 0.8f;
 	static float MACHINEGUN_RECOIL = 0.01f;
 	static float MACHINEGUN_COOLDOWN = 1f;
-	static float MACHINEGUN_DAMAGE = 0.06f;
+	static float MACHINEGUN_DAMAGE = 0.04f;
 
 	static float RAILGUN_LEGNTH = 2.3f;
 	static float RAILGUN_WIDTH = 0.2f;
@@ -48,4 +48,6 @@ public interface WeaponData {
 
 	static float HITSCAN_INITIAL_INCREMENT = 0.25f, HITSCAN_FINAL_INCREMENT = 0.001f;
 	static float COOLDOWN_INCREMENT = 0.01667f*Data.UPS;//don't change (or do, I don't care)
+
+//	BASICGUN: 3986	SHOTGUN: 3600	MACHINEGUN: 5013	RAILGUN: 4559
 }

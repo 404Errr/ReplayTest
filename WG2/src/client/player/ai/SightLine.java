@@ -23,10 +23,6 @@ public class SightLine implements Data, AIData, TileData, PlayerData {
 		reactionCooldown = VISION_REACTION_TIME;
 	}
 
-	public void updateLine() {
-		line.setLine(owner.getX()+HALF_PLAYER_SIZE, owner.getY()+HALF_PLAYER_SIZE, target.getX()+HALF_PLAYER_SIZE, target.getY()+HALF_PLAYER_SIZE);
-	}
-
 	public void tick() {
 		updateLine();
 		if (canSee()) {
@@ -42,13 +38,13 @@ public class SightLine implements Data, AIData, TileData, PlayerData {
 		}
 	}
 
+	public void updateLine() {
+		line.setLine(owner.getX()+HALF_PLAYER_SIZE, owner.getY()+HALF_PLAYER_SIZE, target.getX()+HALF_PLAYER_SIZE, target.getY()+HALF_PLAYER_SIZE);
+	}
+
 	public boolean canSee() {
 		int x1 = (int)line.getX1(), y1 = (int)line.getY1(), x2 = (int)line.getX2(), y2 = (int)line.getY2();
-		int dx = Math.abs(x2 - x1), dy = Math.abs(y2 - y1);
-		int sx = x1 < x2 ? 1 : -1,  sy = y1 < y2 ? 1 : -1;
-		int err = dx-dy;
-		int e2;
-
+		int dx = Math.abs(x2 - x1), dy = Math.abs(y2 - y1), sx = x1<x2?1:-1,  sy = y1<y2?1:-1, err = dx-dy, e2;
 		while (true) {
 			if (Level.getTile(x1, y1).isSolid(SOLID_WALLS)&&Level.getTile(x1, y1).isSolid(SOLID_PROJECTILES)) return false;
 			if (x1==x2&&y1==y2) return true;
@@ -62,7 +58,6 @@ public class SightLine implements Data, AIData, TileData, PlayerData {
 				y1 = y1+sy;
 			}
 		}
-
 	}
 
 	public Player getOwner() {
