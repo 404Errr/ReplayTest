@@ -10,11 +10,12 @@ import client.input.Cursor;
 import client.level.Level;
 import client.level.Tile;
 import data.ColorData;
+import data.MapData;
 import data.TileData;
 import util.Util;
 
-public class Edit implements TileData, ColorData {
-	public static boolean editMode = true, draw;
+public class Edit implements MapData, TileData, ColorData {
+	public static boolean editMode = EDIT_MODE, draw;
 
 	private static int startX, startY, endX, endY;
 
@@ -24,6 +25,10 @@ public class Edit implements TileData, ColorData {
 		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 		'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
 	};
+
+	public static void toggleEditMode() {
+		editMode = !editMode;
+	}
 
 	public static void drawSelected() {
 		Renderer.getG().setStroke(new BasicStroke(2));
@@ -129,6 +134,7 @@ public class Edit implements TileData, ColorData {
 		int sX = Cursor.getTileX(), sY = Cursor.getTileY();
 		int[][] layout = getLayout();
 		if (layout[sY][sX]==getType()) return;
+		System.out.println("Fill "+(char)layout[sY][sX]+" --> "+(char)getType());
 		fill(sX, sY, layout[sY][sX], getType(), layout);
 		for (int x = 0;x<Level.getWidth();x++) {
 			for (int y = 0;y<Level.getHeight();y++) {

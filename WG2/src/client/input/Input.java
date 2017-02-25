@@ -47,6 +47,9 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			case DEBUG_DRAW_SIGHT_LINES_KEY:
 				Debug.toggleSightLines();
 				break;
+			case KeyEvent.VK_F8:
+				Edit.toggleEditMode();
+				break;
 			case KeyEvent.VK_MINUS://dash
 				Camera.changeScaleRatio(-1);
 				Camera.updateScale();
@@ -57,11 +60,11 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				break;
 
 			case KeyEvent.VK_Q://teleport 0
-				Game.getPlayer().move(Cursor.getGridX(), Cursor.getGridY());
+				Game.getPlayer().move(Cursor.getTileX(), Cursor.getTileY());
 				break;
 			case KeyEvent.VK_E://pathfind 0
 				PathFindingTester.set1(Game.getPlayer().getXTile(), Game.getPlayer().getYTile());
-				PathFindingTester.set2((int)Cursor.getGridX(), (int)Cursor.getGridY());
+				PathFindingTester.set2(Cursor.getTileX(), Cursor.getTileY());
 				try{
 					PathFindingTester.find();
 				}
@@ -71,45 +74,45 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			case KeyEvent.VK_BACK_SLASH://pathfind all
 				for (int i = 0;i<Game.getEntities().size();i++) {
 					if (Game.getEntities().get(i) instanceof AIPlayer) {
-						((AIPlayer)Game.getPlayer(i)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
+						((AIPlayer)Game.getPlayer(i)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
 					}
 				}
 
 			case KeyEvent.VK_Y://pathfind 1
-				((AIPlayer)Game.getPlayer(1)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
+				((AIPlayer)Game.getPlayer(1)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
 				break;
 			case KeyEvent.VK_V://toggle movement 1
 				((AIPlayer)Game.getPlayer(1)).toggleControl();
 				break;
 			case KeyEvent.VK_R://teleport 1
-				((AIPlayer)Game.getPlayer(1)).move(Cursor.getGridX(), Cursor.getGridY());
+				((AIPlayer)Game.getPlayer(1)).move(Cursor.getTileX(), Cursor.getTileY());
 				break;
 
 			case KeyEvent.VK_O://pathfind 2
-				((AIPlayer)Game.getPlayer(2)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
+				((AIPlayer)Game.getPlayer(2)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
 				break;
 			case KeyEvent.VK_M://toggle movement 2
 				((AIPlayer)Game.getPlayer(2)).toggleControl();
 				break;
 			case KeyEvent.VK_U://teleport 2
-				((AIPlayer)Game.getPlayer(2)).move(Cursor.getGridX(), Cursor.getGridY());
+				((AIPlayer)Game.getPlayer(2)).move(Cursor.getTileX(), Cursor.getTileY());
 				break;
 
 			case KeyEvent.VK_CLOSE_BRACKET://pathfind 3
-				((AIPlayer)Game.getPlayer(3)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
+				((AIPlayer)Game.getPlayer(3)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
 				break;
 			case KeyEvent.VK_SLASH://toggle movement 3
 				((AIPlayer)Game.getPlayer(3)).toggleControl();
 				break;
 			case KeyEvent.VK_P://teleport 3
-				((AIPlayer)Game.getPlayer(3)).move(Cursor.getGridX(), Cursor.getGridY());
+				((AIPlayer)Game.getPlayer(3)).move(Cursor.getTileX(), Cursor.getTileY());
 				break;
 
 			case KeyEvent.VK_COMMA:
-				PathFindingTester.set1((int)Cursor.getGridX(), (int)Cursor.getGridY());
+				PathFindingTester.set1(Cursor.getTileX(), Cursor.getTileY());
 				break;
 			case KeyEvent.VK_PERIOD:
-				PathFindingTester.set2((int)Cursor.getGridX(), (int)Cursor.getGridY());
+				PathFindingTester.set2(Cursor.getTileX(), Cursor.getTileY());
 				break;
 			case KeyEvent.VK_SHIFT:
 				if (e.getKeyLocation()==KeyEvent.KEY_LOCATION_RIGHT) try{

@@ -16,8 +16,16 @@ public class Level implements MapData, TileData {
 	private static List<SpawnPoint> spawnPoints;
 
 	public static void init() {
-		layout = MapParser.parseMap(MAP);
-//		layout = NewOldLevelGen.generateMap();
+		if (MAP.charAt(0)==EMPTY_TAGS[0]) {
+			try {
+				String[] dimensions = MAP.substring(1).split("x");
+				layout = getEmpty(Integer.parseInt(dimensions[0]),Integer.parseInt(dimensions[1]));
+			}
+			catch (Exception e) {
+				System.err.println("Error with empty creation");
+			}
+		}
+		else layout = MapParser.parseMap(MAP);
 		if (ADD_EDGE) {
 			if (!(AUTO_DISABLE_ADD_EDGE&&(!shouldAddEdge(layout)||layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD))) {
 				System.out.println("Adding edge of type: "+EDGE_TYPE);
@@ -79,6 +87,16 @@ public class Level implements MapData, TileData {
 			}
 		}
 		return true;
+	}
+
+	public static int[][] getEmpty(int width, int height) {
+		int[][] layout = new int[height][width];
+		for (int r = 0;r<layout.length;r++) {
+			for (int c = 0;c<layout[0].length;c++) {
+				layout[r][c] = EMPTY_TYPE;
+			}
+		}
+		return layout;
 	}
 
 	public static Point getFirstUsableTile() {//for spawning and stuff

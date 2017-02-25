@@ -76,10 +76,11 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 						}
 					}
 				}
-				//debug \/
-				g.setColor(Color.BLACK);
-				g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/3));
-				g.drawString((int)(((Player)entity).getHealth()*100)+"", gridX(((Player)entity).getX())+Camera.getScale()/8, gridY(((Player)entity).getY())+Camera.getScale()*5/8);
+				if (!Edit.editMode) {
+					g.setColor(Color.BLACK);
+					g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/3));
+					g.drawString((int)(((Player)entity).getHealth()*100)+"", gridX(((Player)entity).getX())+Camera.getScale()/8, gridY(((Player)entity).getY())+Camera.getScale()*5/8);
+				}
 			}
 		}
 	}
