@@ -18,6 +18,9 @@ public interface MapData {
 //	static final String MAP = "old0";
 //	static final String MAP = "old1";
 //	static final String MAP = "105_0";
+//	static final String MAP = "small";
+
+	static final boolean EDIT_MODE = true;
 
 	static final int EDGE_TYPE = '1';
 	static final int SPAWN_POINT_TYPE = 's', SPAWN_POINT_REPLACEMENT_TYPE = '0';

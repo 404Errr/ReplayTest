@@ -12,7 +12,9 @@ public interface ColorData {
 //	static final Color COLOR_PLAYER_2 = new Color(0x89be17);//green
 //	static final Color COLOR_PLAYER_3 = new Color(0xd357f8);//purple
 
+	static final Color COLOR_DEBUG_RED = new Color(0x8D0B0D);//red
 	static final Color COLOR_DEBUG_GREEN = new Color(0,180,0,255);//darker than lime green
+	static final Color COLOR_DEBUG_BLUE = new Color(0x0000C1);//blue
 	static final Color COLOR_ERROR = new Color(0x940e94);//magenta
 	static final Color COLOR_BACKROUND = new Color(0xf0f0f0);//backround color
 

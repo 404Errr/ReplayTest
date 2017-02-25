@@ -5,13 +5,14 @@ import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.event.MouseInputListener;
+
+import client.edit.Edit;
 import client.game.Game;
 import client.graphics.Camera;
 import client.level.pathfinding.PathFindingTester;
@@ -22,7 +23,7 @@ import data.PlayerData;
 import main.Debug;
 
 
-public class Input implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener, ComponentListener, WindowListener, ControlData, Data, PlayerData {
+public class Input implements KeyListener, MouseInputListener, MouseWheelListener, ComponentListener, WindowListener, ControlData, Data, PlayerData {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		playerMovement(e, true);
@@ -144,6 +145,16 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 			case KeyEvent.VK_9:
 				Game.getPlayer().selectGun(8);
 				break;
+
+			case KeyEvent.VK_Z:
+				if (Edit.editMode) Edit.changeType(-1);
+				break;
+			case KeyEvent.VK_X:
+				if (Edit.editMode) Edit.changeType(1);
+				break;
+			case KeyEvent.VK_N:
+				if (Edit.editMode) Edit.floodFill();
+				break;
 			}
 		}
 		catch (Exception e1) {}
@@ -153,6 +164,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	public void keyReleased(KeyEvent e) {
 		playerMovement(e, false);
 		switch (e.getKeyCode()) {
+		case KeyEvent.VK_BACK_SPACE:
+			if (Edit.editMode) Edit.printLayout();
+			break;
 		/*case ZOOM_KEY:
 			Camera.setCursorZoom(false);
 			break;*/
@@ -236,6 +250,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		Cursor.updateMouse(e);
+		if (Edit.editMode) {
+			Edit.setEnd();
+		}
 	}
 
 	@Override
@@ -246,7 +263,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	public static void click(MouseEvent e, boolean down) {
 		switch (e.getButton()) {
 		case MouseEvent.BUTTON1://left
-			Game.getPlayer().setMouseControl(MOUSE1, down);
+			if (!Edit.editMode) Game.getPlayer().setMouseControl(MOUSE1, down);
 			break;
 		case MouseEvent.BUTTON2://middle
 			Game.getPlayer().setMouseControl(MOUSE2, down);
@@ -261,12 +278,26 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 	@Override
 	public void mousePressed(MouseEvent e) {
 		Cursor.updateMouse(e);
+		if (e.getButton()==MouseEvent.BUTTON1&&Edit.editMode) {
+			Edit.setStart();
+			Edit.setEnd();
+			Edit.setDraw(true);
+		}
+		if (e.getButton()==MouseEvent.BUTTON2&&Edit.editMode) {
+			Edit.pickType();
+		}
 		click(e, true);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		Cursor.updateMouse(e);
+		if (e.getButton()==MouseEvent.BUTTON1&&Edit.editMode) {
+			Edit.setDraw(false);
+			Edit.setEnd();
+			Edit.changeTiles();
+			Edit.setStart();
+		}
 		click(e, false);
 	}
 

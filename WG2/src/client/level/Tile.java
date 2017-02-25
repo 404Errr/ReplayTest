@@ -3,9 +3,9 @@ package client.level;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
+import data.AIData;
 import data.ColorData;
 import data.MapData;
-import data.AIData;
 import data.TileData;
 
 public class Tile implements MapData, AIData, TileData {
@@ -60,5 +60,9 @@ public class Tile implements MapData, AIData, TileData {
 			}
 		}
 		return false;
+	}
+
+	public int getType() {
+		return tileType;
 	}
 }

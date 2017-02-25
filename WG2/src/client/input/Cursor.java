@@ -34,10 +34,18 @@ public class Cursor implements PlayerData {
 	}
 
 	public static float getGridX() {//relative to grid 0, 0 (camera)
-		return (float)screenX/Camera.getScale()+Camera.getX()-(float)Window.centerX()/Camera.getScale();
+		return getPlayerX()+Camera.getX();
 	}
 
 	public static float getGridY() {
-		return (float)screenY/Camera.getScale()+Camera.getY()-(float)Window.centerY()/Camera.getScale();
+		return getPlayerY()+Camera.getY();
+	}
+
+	public static int getTileX() {
+		return Math.round(getGridX());
+	}
+
+	public static int getTileY() {
+		return Math.round(getGridY());
 	}
 }

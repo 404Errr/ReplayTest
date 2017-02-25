@@ -27,20 +27,6 @@ public class ClientUpdateLoop implements Data {
 		}
 	}
 
-//	public static void run() {
-//		System.out.println("UPS: "+UPS);//prints ups
-//		double delay = 1000000000d/UPS;//gets nanosecond delay per frame
-//		long currentTime, lastTime = 0;
-//		while (true) {
-//			currentTime = System.nanoTime();//makes currentTime the current time
-//			if (currentTime-lastTime>=delay) {//if the difference between the current time and the last time is greater than delay*speedfactor
-//				lastTime = currentTime;//makes lastTime the current time
-//				update();//do the updates
-//				Window.getRendererer().repaint();//refresh the screen
-//			}
-//		}
-//	}
-
 	private static void update() {
 		try {
 			for (int i = 0;i<Game.getEntities().size();) {

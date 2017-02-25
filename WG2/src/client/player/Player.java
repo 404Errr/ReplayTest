@@ -5,7 +5,6 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import client.entity.Entity;
 import client.level.Level;
@@ -16,7 +15,6 @@ import data.Data;
 import data.PlayerData;
 import data.TileData;
 import data.WeaponData;
-import main.Debug;
 import util.Util;
 
 public abstract class Player extends Entity implements WeaponData, PlayerData, Data, TileData {
@@ -38,16 +36,14 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 			for (GunType type:GunType.getTypes()) {
 				addGun(type);
 			}
-			//selectGun(STARTING_GUN);
-			selectGun((new Random()).nextInt(4));
+			selectGun(STARTING_GUN);
 		}
 	}
 
 	public void respawn(SpawnPoint spawnPoint) {
 		health = PLAYER_INITIAL_HEALTH;
 		move(spawnPoint.getX(), spawnPoint.getY());
-		selectGun((new Random()).nextInt(4));
-		dead = false;//temp TODO
+//		dead = false;//temp TODO
 	}
 
 	public void move(float x, float y, float facing) {
@@ -311,16 +307,16 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		this.health = health;
 	}
 
-//	public void changeHealth(float dHealth) {//TODO
-//		if (DAMAGE) this.health+=dHealth;
-//	}
-
-	private boolean dead;
-	public void changeHealth(float dHealth, int type) {//temp
+	public void changeHealth(float dHealth) {//TODO
 		if (DAMAGE) this.health+=dHealth;
-		if (!dead&&health<=0) {
-			dead = true;Debug.addKill(type);
-		}
 	}
+
+//	private boolean dead;
+//	public void changeHealth(float dHealth, int type) {//temp
+//		if (DAMAGE) this.health+=dHealth;
+//		if (!dead&&health<=0) {
+//			dead = true;Debug.addKill(type);
+//		}
+//	}
 
 }

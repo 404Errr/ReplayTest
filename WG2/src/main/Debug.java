@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Point;
 import java.util.List;
 
+import client.edit.Edit;
 import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Renderer;
@@ -17,19 +18,20 @@ import client.main.ClientUpdateLoop;
 import data.ColorData;
 import data.Data;
 import data.GraphicsData;
+import data.MapData;
 import util.Util;
 
-public class Debug implements Data, ColorData {
-	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = true;
+public class Debug implements Data, ColorData, MapData {
+	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = false;
 	private final static int textX = 25, textY = 30, textSize = 15;
 
-	public static int[] kills = new int[4];
-	public static void addKill(int type) {
-		kills[type]++;
-	}
+//	public static int[] kills = new int[4];
+//	public static void addKill(int type) {
+//		kills[type]++;
+//	}
 
 	public static void drawDebug() {
-		System.out.println("BASICGUN: "+kills[0]+"\tSHOTGUN: "+kills[1]+"\tMACHINEGUN: "+kills[2]+"\tRAILGUN: "+kills[3]);
+//		System.out.println("BASICGUN: "+kills[0]+"\tSHOTGUN: "+kills[1]+"\tMACHINEGUN: "+kills[2]+"\tRAILGUN: "+kills[3]);
 		if (DEBUG) {
 			if (debugText){
 				StringBuilder text = new StringBuilder();
@@ -47,6 +49,7 @@ public class Debug implements Data, ColorData {
 				text.append("Cursor = "+Cursor.getScreenX()+","+Cursor.getScreenY()+" ("+Cursor.getPlayerX()+","+Cursor.getPlayerY()+")"+"$");
 				text.append("Active Gun = "+Game.getPlayer().getActiveGun()+" Cooldown = "+Game.getPlayer().getActiveGun().getCooldown()+"$");
 				text.append("Debug Text = true, LOS Line = "+losLine+"$");
+				if (Edit.editMode) text.append("Type = "+(char)Edit.getType());
 
 				String[] textLines = text.toString().split("\\$");
 				Renderer.getG().setColor(COLOR_DEBUG_GREEN);
@@ -55,7 +58,7 @@ public class Debug implements Data, ColorData {
 					Renderer.getG().drawString(textLines[i], textX, textY+textSize*i);
 				}
 			}
-			if (losLine) {
+			if (losLine&&!Edit.editMode) {
 				Renderer.getG().setColor(COLOR_DEBUG_GREEN);
 				Renderer.getG().setStroke(new BasicStroke(1));
 				final int w = Window.centerX(), h = Window.centerY(), lineLength = Math.max(Window.width(), Window.height())*2;
@@ -73,7 +76,7 @@ public class Debug implements Data, ColorData {
 	}
 
 	public static void drawPath(List<Point> lines, Color color, int size) {
-		if (drawDebugPathfinding) {
+		if (drawDebugPathfinding&&!Edit.editMode) {
 			Renderer.getG().setColor(color);
 			Renderer.getG().setStroke(new BasicStroke(size));
 			for (int i = 1;i<lines.size();i++) {

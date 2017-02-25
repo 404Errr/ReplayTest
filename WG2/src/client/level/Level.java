@@ -14,7 +14,6 @@ public class Level implements MapData, TileData {
 	private static int[][] layout;
 	private static Tile[][] tiles;//the level
 	private static List<SpawnPoint> spawnPoints;
-//	private ArrayList<Point> ;//TODO
 
 	public static void init() {
 		layout = MapParser.parseMap(MAP);
@@ -26,7 +25,7 @@ public class Level implements MapData, TileData {
 			}
 			else {
 				System.out.print("Not adding edge");
-				if (layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD) System.out.println(", because map area is: "+layout.length*layout[0].length+"/"+AUTO_DISABLE_ADD_EDGE_THREASHOLD);
+				if (layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD) System.out.println(", because map area is too large: "+layout.length*layout[0].length+"/"+AUTO_DISABLE_ADD_EDGE_THREASHOLD);
 				else System.out.println(".");
 			}
 		}
@@ -137,6 +136,10 @@ public class Level implements MapData, TileData {
 
 	public static List<SpawnPoint> getSpawnPoints() {
 		return spawnPoints;
+	}
+
+	public static void setTile(int c, int r, Tile tile) {
+		tiles[r][c] = tile;
 	}
 }
 

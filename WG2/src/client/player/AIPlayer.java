@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import client.game.Game;
 import client.level.SpawnPoint;
@@ -29,12 +30,14 @@ public class AIPlayer extends Player {
 		pathFinder = new PathFinder();
 		currentPath = new LinkedList<>();
 		control = true;
+		selectGun((new Random()).nextInt(4));
 	}
 
 	@Override
 	public void respawn(SpawnPoint spawnPoint) {
 		super.respawn(spawnPoint);
 		stopPathfinding();
+		selectGun((new Random()).nextInt(4));
 	}
 
 	@Override

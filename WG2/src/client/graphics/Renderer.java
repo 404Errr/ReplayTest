@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import client.edit.Edit;
 import client.entity.Entity;
 import client.game.Game;
 import client.level.Level;
@@ -39,9 +40,9 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			Debug.drawDebug();
 			drawEntities();
 //			drawUI();
+			if (Edit.editMode) Edit.drawSelected();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -104,7 +105,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 
 	private void drawPlayer(Player player) {
 		g.setColor(player.getColor());
-		if (Debug.isDrawWeapons()) drawGun(player);
+		if (Debug.isDrawWeapons()&&!Edit.editMode) drawGun(player);
 		g.fillRect(gridX(player.getX()), gridY(player.getY()), (int)getPlayerSize(), (int)getPlayerSize());
 	}
 
