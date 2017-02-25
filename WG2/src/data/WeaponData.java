@@ -34,8 +34,7 @@ public interface WeaponData {
 	float MACHINEGUN_SPEED = 1.8f;
 	float MACHINEGUN_COF = 8f;
 	float MACHINEGUN_SPEED_SPREAD = 0.8f;
-//	float MACHINEGUN_RECOIL = 0.01f;
-	float MACHINEGUN_RECOIL = 5f;
+	float MACHINEGUN_RECOIL = 0.01f;
 	float MACHINEGUN_COOLDOWN = 1f;
 	float MACHINEGUN_DAMAGE = 0.04f;
 
