@@ -1,5 +1,6 @@
 package client.game;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +21,22 @@ public class Game implements ColorData, TileData {
 		player = new ControlledPlayer(COLOR_PLAYER, Level.getRandomSpawnPoint());//the player
 		entities.add(player);
 		entities.add(new AIPlayer(COLOR_PLAYER_1, Level.getSafestSpawnPoint(null)));
-//		entities.add(new AIPlayer(COLOR_PLAYER_2, Level.getSafestSpawnPoint(null)));
-//		entities.add(new AIPlayer(COLOR_PLAYER_3, Level.getSafestSpawnPoint(null)));
+		entities.add(new AIPlayer(COLOR_PLAYER_2, Level.getSafestSpawnPoint(null)));
+		entities.add(new AIPlayer(COLOR_PLAYER_3, Level.getSafestSpawnPoint(null)));
+
+		entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
+		entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
+		entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
+		entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
+		entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
+		entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
+		entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
+		entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
 		for (Entity entity:entities) if (entity instanceof AIPlayer) ((AIPlayer)entity).initSightLines();//assumes there are only players in entities
+	}
+
+	public static Color getRandomColor() {
+		return new Color((float)Math.random(), (float)Math.random(), (float)Math.random(), 1f);
 	}
 
 	public static ControlledPlayer getPlayer() {

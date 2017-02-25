@@ -23,7 +23,13 @@ public class Debug implements Data, ColorData {
 	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = true;
 	private final static int textX = 25, textY = 30, textSize = 15;
 
+	public static int[] kills = new int[4];
+	public static void addKill(int type) {
+		kills[type]++;
+	}
+
 	public static void drawDebug() {
+		System.out.println("BASICGUN: "+kills[0]+"\tSHOTGUN: "+kills[1]+"\tMACHINEGUN: "+kills[2]+"\tRAILGUN: "+kills[3]);
 		if (DEBUG) {
 			if (debugText){
 				StringBuilder text = new StringBuilder();

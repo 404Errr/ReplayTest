@@ -9,6 +9,7 @@ import java.util.List;
 import client.game.Game;
 import client.level.SpawnPoint;
 import client.level.pathfinding.PathFinder;
+import client.level.pathfinding.WanderFinder;
 import client.player.ai.SightLine;
 import util.Util;
 
@@ -83,7 +84,7 @@ public class AIPlayer extends Player {
 	public void initSightLines() {
 		sightLines = new ArrayList<>();
 		for (int i = 0;i<Game.getEntities().size();i++) {//assumes there are only players in entities
-			if (Game.getPlayer(i)!=this) sightLines.add(new SightLine(this, Game.getPlayer(i)));
+			if (this.getColor()!=Game.getEntities().get(i).getColor()) sightLines.add(new SightLine(this, Game.getPlayer(i)));
 		}
 		updateSightLines();
 	}
@@ -107,12 +108,21 @@ public class AIPlayer extends Player {
 	}
 
 	private void updatePathFinding() {
+		boolean wandering;
 		if (currentPathGoal!=null) {
 			if (currentPathGoal.x==getXTile()&&currentPathGoal.y==getYTile()) {//reached goal
 				stopPathfinding();
+				wandering = true;
 			}
-			updatePath();
+			else wandering = false;
+
 		}
+		else wandering = true;
+		if (currentTargetPlayer!=null) wandering = false;
+		if (wandering) {
+			currentPathGoal = WanderFinder.getWanderLocation(getXTile(), getYTile());
+		}
+		if (currentPathGoal!=null) updatePath();
 	}
 
 	public void updatePath() {
@@ -155,7 +165,7 @@ public class AIPlayer extends Player {
 		return currentTargetPoint;
 	}
 
-	public void toggleControlMovement() {
+	public void toggleControl() {
 		control = !control;
 	}
 

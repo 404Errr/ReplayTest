@@ -50,7 +50,7 @@ public class SightLine implements Data, AIData, TileData, PlayerData {
 		int e2;
 
 		while (true) {
-			if (Level.getTile(x1, y1).isSolid(SOLID_WALLS)) return false;
+			if (Level.getTile(x1, y1).isSolid(SOLID_WALLS)&&Level.getTile(x1, y1).isSolid(SOLID_PROJECTILES)) return false;
 			if (x1==x2&&y1==y2) return true;
 			e2 = 2*err;
 			if (e2>-dy) {

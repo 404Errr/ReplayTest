@@ -78,7 +78,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 				((AIPlayer)Game.getPlayer(1)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
 				break;
 			case KeyEvent.VK_V://toggle movement 1
-				((AIPlayer)Game.getPlayer(1)).toggleControlMovement();
+				((AIPlayer)Game.getPlayer(1)).toggleControl();
 				break;
 			case KeyEvent.VK_R://teleport 1
 				((AIPlayer)Game.getPlayer(1)).move(Cursor.getGridX(), Cursor.getGridY());
@@ -88,7 +88,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 				((AIPlayer)Game.getPlayer(2)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
 				break;
 			case KeyEvent.VK_M://toggle movement 2
-				((AIPlayer)Game.getPlayer(2)).toggleControlMovement();
+				((AIPlayer)Game.getPlayer(2)).toggleControl();
 				break;
 			case KeyEvent.VK_U://teleport 2
 				((AIPlayer)Game.getPlayer(2)).move(Cursor.getGridX(), Cursor.getGridY());
@@ -98,7 +98,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener, M
 				((AIPlayer)Game.getPlayer(3)).setPathTo(Cursor.getGridX(), Cursor.getGridY());
 				break;
 			case KeyEvent.VK_SLASH://toggle movement 3
-				((AIPlayer)Game.getPlayer(3)).toggleControlMovement();
+				((AIPlayer)Game.getPlayer(3)).toggleControl();
 				break;
 			case KeyEvent.VK_P://teleport 3
 				((AIPlayer)Game.getPlayer(3)).move(Cursor.getGridX(), Cursor.getGridY());

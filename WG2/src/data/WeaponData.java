@@ -1,8 +1,8 @@
 package data;
 
 public interface WeaponData {
-	static boolean ALL_GUNS_AT_START = true, RECOIL = true, DAMAGE = false;
-	static int STARTING_GUN = 0;
+	static boolean ALL_GUNS_AT_START = true, RECOIL = true, DAMAGE = true;
+	static int STARTING_GUN = 3;
 
 	static float WEAPON_SWITCH_COOLDOWN = 30f;
 
@@ -48,5 +48,4 @@ public interface WeaponData {
 
 	static float HITSCAN_INITIAL_INCREMENT = 0.25f, HITSCAN_FINAL_INCREMENT = 0.001f;
 	static float COOLDOWN_INCREMENT = 0.01667f*Data.UPS;//don't change (or do, I don't care)
-
 }
