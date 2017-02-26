@@ -11,9 +11,10 @@ import client.player.Player;
 import client.player.ai.AIPlayer;
 import client.player.controlled.ControlledPlayer;
 import data.ColorData;
+import data.Data;
 import data.TileData;
 
-public class Game implements ColorData, TileData {
+public class Game implements ColorData, TileData, Data {
 	private static ControlledPlayer player;//the player
 	private static List<Entity> entities;
 
@@ -22,12 +23,10 @@ public class Game implements ColorData, TileData {
 		player = new ControlledPlayer(COLOR_PLAYER, Level.getRandomSpawnPoint());//the player
 		entities.add(player);
 		if (Edit.editMode) return;
-		entities.add(new AIPlayer(COLOR_PLAYER_1, Level.getSafestSpawnPoint(null)));
-//		entities.add(new AIPlayer(COLOR_PLAYER_2, Level.getSafestSpawnPoint(null)));
-//		entities.add(new AIPlayer(COLOR_PLAYER_3, Level.getSafestSpawnPoint(null)));
-
-//		for (int i = 0;i<13;i++) entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
-
+		if (botCount()>=1) entities.add(new AIPlayer(COLOR_PLAYER_1, Level.getSafestSpawnPoint(null)));
+		if (botCount()>=2) entities.add(new AIPlayer(COLOR_PLAYER_2, Level.getSafestSpawnPoint(null)));
+		if (botCount()>=3) entities.add(new AIPlayer(COLOR_PLAYER_3, Level.getSafestSpawnPoint(null)));
+		for (int i = 0;i<botCount()-3;i++) entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
 		for (Entity entity:entities) if (entity instanceof AIPlayer) ((AIPlayer)entity).initSightLines();//assumes there are only players in entities
 	}
 
@@ -53,5 +52,9 @@ public class Game implements ColorData, TileData {
 
 	public static List<Entity> getEntities() {
 		return entities;
+	}
+
+	public static int botCount() {
+		return BOT_COUNT;
 	}
 }
