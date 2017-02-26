@@ -8,12 +8,12 @@ import client.game.Game;
 import client.player.Player;
 import util.Util;
 
-public class SpawnPoint {
-	private Point point;
+@SuppressWarnings("serial")
+public class SpawnPoint extends Point {
 //	private Color color;//teams?
 
 	public SpawnPoint(Point point/*, Color color*/) {
-		this.point = point;
+		setLocation(point.x, point.y);
 	}
 
 	public float distanceToClosestPlayer(Player exclude) {
@@ -30,20 +30,6 @@ public class SpawnPoint {
 	}
 
 	private float distanceTo(Entity entity) {
-		return Util.distance(point.x, point.y, entity.getX(), entity.getY());
+		return Util.distance(x, y, entity.getX(), entity.getY());
 	}
-
-	public float getX() {
-		return point.x;
-	}
-
-	public float getY() {
-		return point.y;
-	}
-
-	public Point getPoint() {
-		return point;
-	}
-
-
 }

@@ -42,7 +42,7 @@ public interface WeaponData {
 	float RAILGUN_WIDTH = 0.2f;
 	float RAILGUN_LINE_INITIAL_WIDTH = 0.18f;
 	float RAILGUN_LINE_DURATION = 0.6f*Data.UPS;
-	float RAILGUN_RECOIL = 0.35f;
+	float RAILGUN_RECOIL = 0.3f;
 	float RAILGUN_COOLDOWN = 50f;
 	float RAILGUN_DAMAGE = 0.75f;
 
@@ -57,6 +57,7 @@ public interface WeaponData {
 	float FRAGGRENADE_COOLDOWN = 40f;
 	int FRAGGRENADE_TIMER = 1200;
 	int FRAGGRENADE_SHARD_COUNT = 200;
+	float FRAGGRENADE_RECOIL = 0.3f;
 	float FRAGGRENADE_DAMAGE = 7.5f/FRAGGRENADE_SHARD_COUNT;
 
 

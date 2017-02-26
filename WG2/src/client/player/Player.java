@@ -50,7 +50,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 
 	public void respawn(SpawnPoint spawnPoint) {
 		health = PLAYER_INITIAL_HEALTH;
-		move(spawnPoint.getX(), spawnPoint.getY());
+		move((float)spawnPoint.getX(), (float)spawnPoint.getY());
 //		dead = false;//temp TODO
 	}
 

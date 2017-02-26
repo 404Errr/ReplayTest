@@ -14,13 +14,14 @@ import data.WeaponData;
 import util.Util;
 
 public abstract class AbstractProjectile extends WeaponEntity implements TileData, WeaponData, GraphicsData {
-	protected float damage, size;
+	protected float damage, size, recoil;
 	protected boolean destroy;
 	protected int destroyIn = -1;
 
-	public AbstractProjectile(float damage, float size, Color color, float x, float y, float dX, float dY) {
+	public AbstractProjectile(float damage, float recoil, float size, Color color, float x, float y, float dX, float dY) {
 		super(color, x-size/2, y-size/2, damage);
 		this.damage = damage;
+		this.recoil = recoil;
 		this.size = size;
 		this.dX = dX;
 		this.dY = dY;
@@ -79,8 +80,9 @@ public abstract class AbstractProjectile extends WeaponEntity implements TileDat
 	private void checkPlayerCollision(Line2D hitline) {
 		List<Entity> entities = Game.getEntities();
 		for (int i = 0;i<entities.size();i++) {
-			if (entities.get(i) instanceof Player&&((Player)entities.get(i)).getColor()!=color&&((Player)entities.get(i)).getBounds().intersectsLine(hitline)) {
-				damage((Player)entities.get(i));
+			if (entities.get(i) instanceof Player&&((Player) entities.get(i)).getColor()!=color&&((Player) entities.get(i)).getBounds().intersectsLine(hitline)) {
+				damage((Player) entities.get(i));
+				((Player) entities.get(i)).recoil(Util.getAngle(0, 0, dX, dY), recoil);
 				destroyIn = 0;//destory now
 			}
 		}

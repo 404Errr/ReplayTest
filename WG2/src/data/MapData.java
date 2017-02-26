@@ -20,6 +20,7 @@ public interface MapData {
 //	String MAP = "old1";
 //	String MAP = "105_0";
 //	String MAP = "small";
+//	String MAP = "AItest1";
 
 	boolean EDIT_MODE = false;
 	int EDIT_HISTORY_LIMIT = 250;

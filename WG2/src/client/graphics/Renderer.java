@@ -42,7 +42,6 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			drawTiles();
 			Debug.drawDebug();
 			drawEntities();
-			//			drawUI();
 			if (Edit.editMode) Edit.drawSelected();
 		}
 		catch (Exception e) {
@@ -50,11 +49,10 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private void drawUI() {
-		g.setColor(Util.getRedGreenColorShift(Game.getPlayer().getHealth()));
-		g.fillRect(Window.width()-HEALTH_BAR_WIDTH, (int)((1f-Game.getPlayer().getHealth())*Window.height()), HEALTH_BAR_WIDTH, Window.height());
-	}
+//	private void drawUI() {
+//		g.setColor(Util.getRedGreenColorShift(Game.getPlayer().getHealth()));
+//		g.fillRect(Window.width()-HEALTH_BAR_WIDTH, (int)((1f-Game.getPlayer().getHealth())*Window.height()), HEALTH_BAR_WIDTH, Window.height());
+//	}
 
 	private void drawEntities() {
 		List<Entity> entities = Game.getEntities();

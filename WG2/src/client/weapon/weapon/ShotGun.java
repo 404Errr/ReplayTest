@@ -19,8 +19,9 @@ public class ShotGun extends Weapon implements WeaponData {
 		for (int i = 0;i<SHOTGUN_PELLET_COUNT;i++) {
 			float angle = Util.getAngleSpread(gunAngle, SHOTGUN_SPREAD), speed = Util.getSpread(SHOTGUN_SPEED, SHOTGUN_SPEED_SPREAD);
 			float dX = owner.getdX()+Util.getXComp(angle, speed), dY = owner.getdY()-Util.getYComp(angle, speed);
-			Game.addEntity(new Projectile(SHOTGUN_DAMAGE, SHOTGUN_SIZE, owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
+			Game.addEntity(new Projectile(SHOTGUN_DAMAGE, SHOTGUN_RECOIL, SHOTGUN_SIZE, owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
 		}
+		owner.recoil(owner.getFacing(), -SHOTGUN_RECOIL);
 	}
 
 }

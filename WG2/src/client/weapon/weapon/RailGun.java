@@ -19,6 +19,7 @@ public class RailGun extends Weapon implements WeaponData {
 		/*for (float a = 0;a<360;a+=0.5d) {
 			Game.addEntity(new Hitscan(type.getDamage(), type.getRecoil(), 0.5f, owner.getColor(), owner.getXCenter(), owner.getYCenter(), (float)Math.toRadians(a), false));
 		}*/
+		owner.recoil(owner.getFacing(), -RAILGUN_RECOIL);
 	}
 
 }

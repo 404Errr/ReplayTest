@@ -23,7 +23,7 @@ public class Game implements ColorData, TileData {
 		entities.add(player);
 		if (Edit.editMode) return;
 		entities.add(new AIPlayer(COLOR_PLAYER_1, Level.getSafestSpawnPoint(null)));
-		entities.add(new AIPlayer(COLOR_PLAYER_2, Level.getSafestSpawnPoint(null)));
+//		entities.add(new AIPlayer(COLOR_PLAYER_2, Level.getSafestSpawnPoint(null)));
 //		entities.add(new AIPlayer(COLOR_PLAYER_3, Level.getSafestSpawnPoint(null)));
 
 //		for (int i = 0;i<13;i++) entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));

@@ -25,8 +25,11 @@ public class AIPlayer extends Player {
 
 	private boolean control;
 
+	private float sway, dSway = 1;
+	private final float SWAY_A = 5, SWAY_B = 0.4f, SWAY_C = 0.15f, SWAY_D = 8;
+
 	public AIPlayer(Color color, SpawnPoint spawnPoint) {
-		super(color, spawnPoint.getX(), spawnPoint.getY());
+		super(color, (float)spawnPoint.getX(), (float)spawnPoint.getY());
 		pathFinder = new PathFinder();
 		currentPath = new LinkedList<>();
 		control = true;
@@ -95,9 +98,17 @@ public class AIPlayer extends Player {
 	@Override
 	protected void turn() {
 		if (currentTargetPlayer!=null) {
-			setFacing(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY()));
+			getActiveWeapon();
+			sway+=dSway*Util.getSpread(SWAY_B, SWAY_C);
+			if (sway>SWAY_A) dSway = -1;
+			if (sway<-SWAY_A) dSway = 1;
+			if ((int)(Math.random()*SWAY_D)==0) dSway*=-1;
+			if ((int)(Math.random()*SWAY_D)==0) sway*=0.1f;
+			setFacing((float)(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY())+Math.toRadians(sway)));
+
+//			setFacing(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY()));
 		}
-		else if (Math.abs(dX)+Math.abs(dY)>0.01f) setFacing(Util.getAngle(0, 0, dX, dY));
+		else if (Math.abs(dX)+Math.abs(dY)>0.1f) setFacing(Util.getAngle(0, 0, dX, dY));
 	}
 
 	private void controlMovement() {

@@ -7,8 +7,8 @@ import util.Util;
 public class LimitedProjectile extends AbstractProjectile {
 	private float range, traveled, opacity;
 
-	public LimitedProjectile(float damage, float size, float range, Color color, float x, float y, float dX, float dY, boolean fade) {
-		super(damage, size, color, x, y, dX, dY);
+	public LimitedProjectile(float damage, float recoil, float size, float range, Color color, float x, float y, float dX, float dY, boolean fade) {
+		super(damage, recoil, size, color, x, y, dX, dY);
 		this.range = range;
 		opacity = 1f;
 	}

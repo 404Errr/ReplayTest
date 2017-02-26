@@ -42,7 +42,7 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 			float speed = Util.getSpread(FRAGGRENADE_SPEED, FRAGGRENADE_SPREAD);
 			float range = Util.getSpread(FRAGGRENADE_RANGE, FRAGGRENADE_SPREAD);
 			float dX = Util.getXComp(a, speed), dY = Util.getYComp(a, speed);
-			Game.addEntity(new LimitedProjectile(FRAGGRENADE_DAMAGE, FRAGGRENADE_SIZE, range, /*color*/Util.colorOpacity(color, 1f), x+grenadeSize/2, y+grenadeSize/2, dX, dY, true));
+			Game.addEntity(new LimitedProjectile(FRAGGRENADE_DAMAGE, FRAGGRENADE_RECOIL, FRAGGRENADE_SIZE, range, /*color*/Util.colorOpacity(color, 1f), x+grenadeSize/2, y+grenadeSize/2, dX, dY, true));
 		}
 	}
 
