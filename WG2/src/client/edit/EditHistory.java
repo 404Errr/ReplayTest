@@ -13,7 +13,9 @@ public class EditHistory implements MapData {
 	}
 
 	public static void undo() {//undo
-		if (!history.isEmpty()) Level.setLayout(history.pop());
+		if (!history.isEmpty()) {//if there are saved states
+			Level.setLayout(history.pop());//load to level and remove from stack
+		}
 	}
 
 	public static void saveState(int[][] layout) {//do
@@ -23,9 +25,9 @@ public class EditHistory implements MapData {
 				oldLayout[y][x] = layout[y][x];
 			}
 		}
-		if (history.size()>EDIT_HISTORY_LIMIT) {
-			history.remove(0);
+		if (history.size()>EDIT_HISTORY_LIMIT) {//if there are too many saved states
+			history.remove(0);//remove the oldest
 		}
-		history.push(oldLayout);
+		history.push(oldLayout);//add to stack
 	}
 }

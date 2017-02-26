@@ -246,7 +246,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		if (e.isControlDown()) {
+		if (!e.isControlDown()) {
 			if (e.getWheelRotation()>0) Camera.changeScaleRatio(-1);//zoom out
 			else Camera.changeScaleRatio(1);//zoom in
 			Camera.updateScale();

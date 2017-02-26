@@ -48,7 +48,6 @@ public class Edit implements MapData, TileData, ColorData {
 			Renderer.getG().setColor(COLOR_DEBUG_GREEN);
 			Renderer.getG().drawRect(Renderer.gridX(Cursor.getTileX()), Renderer.gridY(Cursor.getTileY()), Camera.getScale(), Camera.getScale());
 		}
-
 	}
 
 	public static void changeType(int d) {
@@ -65,7 +64,7 @@ public class Edit implements MapData, TileData, ColorData {
 	}
 
 	public static void changeTiles() {
-		EditHistory.saveState(Level.getLayout().clone());
+		EditHistory.saveState(Level.getLayout());
 		int sX = Math.max(0, Math.min(startX, endX)), sY = Math.max(0, Math.min(startY, endY)), eX = Math.min(Level.getWidth()-1, Math.max(startX, endX)), eY = Math.min(Level.getHeight()-1, Math.max(startY, endY));
 		if (startX==endX&&startY==endY) System.out.println((char)TYPES[currentType]+"\t"+sX+","+sY);
 		else System.out.println((char)TYPES[currentType]+"\t"+sX+","+sY+" - "+eX+","+eY);

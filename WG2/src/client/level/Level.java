@@ -156,6 +156,10 @@ public class Level implements MapData, TileData {
 		return layout[r][c];
 	}
 
+	public static int getLayoutType(float c, float r) {
+		return getLayoutType((int)c, (int)r);
+	}
+
 	public static List<SpawnPoint> getSpawnPoints() {
 		return spawnPoints;
 	}
@@ -167,5 +171,7 @@ public class Level implements MapData, TileData {
 	public static void setLayout(int[][] layout) {
 		Level.layout = layout;
 	}
+
+
 }
 

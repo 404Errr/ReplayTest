@@ -17,7 +17,7 @@ public class Projectile extends Entity implements Damages, TileData, WeaponData 
 	protected boolean destroy;
 
 	public Projectile(float damage, float recoil, float size, Color color, float x, float y, float dX, float dY) {
-		super(color, x, y);
+		super(color, x-size/2, y-size/2);
 		this.damage = damage;
 		this.recoil = recoil;
 		this.size = size;
@@ -41,7 +41,7 @@ public class Projectile extends Entity implements Damages, TileData, WeaponData 
 	}
 
 	protected void checkCollision() {
-		Line2D hitline = new Line2D.Float(x, y, x-dX, y-dY);
+		Line2D hitline = new Line2D.Float(x+size/2, y+size/2, x-dX+size/2, y-dY+size/2);
 		checkWallCollision(hitline);
 		checkPlayerCollision(hitline);
 	}

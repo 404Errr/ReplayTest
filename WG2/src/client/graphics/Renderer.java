@@ -17,6 +17,7 @@ import client.game.Game;
 import client.level.Level;
 import client.player.Player;
 import client.player.ai.AIPlayer;
+import client.weapon.FragGrenade;
 import client.weapon.Gun;
 import client.weapon.Hitscan;
 import client.weapon.Projectile;
@@ -44,6 +45,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			if (Edit.editMode) Edit.drawSelected();
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -58,10 +60,13 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		for (int i = entities.size()-1;i>=0;i--) {//reverse order so players will be drawn last (the player last too)
 			Entity entity = entities.get(i);
 			if (entity instanceof Projectile) {
-				drawProjectile((Projectile)entity);
+				drawEntity((Projectile)entity);
 			}
 			if (entity instanceof Hitscan) {
-				drawHitscan((Hitscan)entity);
+				drawEntity((Hitscan)entity);
+			}
+			if (entity instanceof FragGrenade) {
+				drawEntity((FragGrenade)entity);
 			}
 			if (entity instanceof Player) {
 				drawPlayer((Player)entity);
@@ -86,19 +91,24 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		}
 	}
 
-	private void drawHitscan(Hitscan hitscan) {
+	private void drawEntity(FragGrenade grenade) {
+		g.setColor(grenade.getColor());
+		g.fill(new Ellipse2D.Double(gridX(grenade.getX())-grenade.getGrenadeSize()/2, gridY(grenade.getY())-grenade.getGrenadeSize()/2, Camera.getScale()*grenade.getGrenadeSize(), Camera.getScale()*grenade.getGrenadeSize()));
+	}
+
+	private void drawEntity(Hitscan hitscan) {
 		g.setColor(Util.colorOpacity(hitscan.getColor(), hitscan.getOpacity()));
 		g.setStroke(new BasicStroke((int)(hitscan.getWidth()*Camera.getScale())));
 		g.drawLine(gridX(hitscan.getiX()), gridY(hitscan.getiY()), gridX(hitscan.getfX()), gridY(hitscan.getfY()));
 	}
 
-	private void drawProjectile(Projectile projectile) {
+	private void drawEntity(Projectile projectile) {
 		g.setColor(projectile.getColor());
 		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
 	}
 
-	private void drawGun(Player player) {
-		Gun gun = player.getActiveWeapon().getType();
+	private void drawWeapon(Player player) {
+		Gun gun = (Gun)player.getActiveWeapon().getType();
 		g.setColor(player.getColor());
 		g.setStroke(new BasicStroke(gun.getWidth()*Camera.getScale()));
 		float angle = player.getFacing(), wangLength = gun.getLength()+HALF_PLAYER_SIZE;
@@ -107,7 +117,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 
 	private void drawPlayer(Player player) {
 		g.setColor(player.getColor());
-		if (Debug.isDrawWeapons()&&!Edit.editMode) drawGun(player);
+		if (player.getActiveWeapon().getType() instanceof Gun&&Debug.isDrawWeapons()&&!Edit.editMode) drawWeapon(player);
 		g.fillRect(gridX(player.getX()), gridY(player.getY()), (int)getPlayerSize(), (int)getPlayerSize());
 	}
 

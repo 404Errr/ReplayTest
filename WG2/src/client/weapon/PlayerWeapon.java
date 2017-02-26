@@ -11,7 +11,7 @@ public class PlayerWeapon implements Data, WeaponData {
 	private float cooldown;
 	private Player owner;
 
-	public PlayerWeapon(Player owner, Gun type) {
+	public PlayerWeapon(Player owner, Weapon type) {
 		this.owner = owner;
 		this.type = type;
 	}
@@ -26,17 +26,21 @@ public class PlayerWeapon implements Data, WeaponData {
 				if (owner.getMouseControl(MOUSE1)) {//if should shoot
 					if (type==Gun.RAILGUN) {
 						shootRailgun();
-						if (type instanceof Gun) cooldown = ((Gun) type).getCooldown();
+						cooldown = ((Gun) type).getCooldown();
 						if (RECOIL) owner.recoil(owner.getFacing(), -((Gun) type).getRecoil());
 					}
 					else if (type==Gun.SHOTGUN) {
 						shootShotgun();
-						if (type instanceof Gun) cooldown = ((Gun) type).getCooldown();
+						cooldown = ((Gun) type).getCooldown();
 						if (RECOIL) owner.recoil(owner.getFacing(), -((Gun) type).getRecoil());
+					}
+					else if (type==Grenade.FRAGGRENADE) {
+						useGrenade();
+						cooldown = ((Grenade) type).getCooldown();
 					}
 					else {
 						shoot();
-						if (type instanceof Gun) cooldown = ((Gun) type).getCooldown();
+						cooldown = ((Gun) type).getCooldown();
 						if (RECOIL) owner.recoil(owner.getFacing(), -((Gun) type).getRecoil());
 					}
 				}
@@ -45,14 +49,16 @@ public class PlayerWeapon implements Data, WeaponData {
 	}
 
 	private void useGrenade() {
-
+		float angle = owner.getFacing(), speed = ((Grenade) type).getGrenadeSpeed();
+		float dX = owner.getdX()+Util.getXComp(angle, speed), dY = owner.getdY()-Util.getYComp(angle, speed);
+		Game.addEntity(new FragGrenade(owner.getColor(), owner.getXCenter()-((Grenade) type).getGrenadeSize()/2, owner.getYCenter()-((Grenade) type).getGrenadeSize()/2, dX, dY, ((Grenade) type).getGrenadeSize(), ((Grenade) type).getTimer()));
 	}
 
 	private void shootRailgun() {
-		Game.addEntity(new Hitscan(((Gun) type).getDamage(), ((Gun) type).getRecoil(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), owner.getXCenter(), owner.getYCenter(), owner.getFacing()));
+		Game.addEntity(new Hitscan(((Gun) type).getDamage(), ((Gun) type).getRecoil(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), owner.getXCenter(), owner.getYCenter(), owner.getFacing(), false));
 //		Game.addEntity(new BouncingHitscan(type.getDamage(), type.getRecoil(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), owner.getXCenter(), owner.getYCenter(), owner.getFacing(), 200));
 		/*for (float a = 0;a<360;a+=0.5d) {
-			Game.addEntity(new Hitscan(type.getDamage(), type.getRecoil(), 0.5f, owner.getColor(), owner.getXCenter(), owner.getYCenter(), (float)Math.toRadians(a)));
+			Game.addEntity(new Hitscan(type.getDamage(), type.getRecoil(), 0.5f, owner.getColor(), owner.getXCenter(), owner.getYCenter(), (float)Math.toRadians(a), false));
 		}*/
 	}
 
@@ -75,8 +81,8 @@ public class PlayerWeapon implements Data, WeaponData {
 		return owner.getActiveWeapon()==this;
 	}
 
-	public Gun getType() {
-		return (Gun) type;
+	public Weapon getType() {
+		return type;
 	}
 
 	public float getCooldown() {
@@ -94,5 +100,3 @@ public class PlayerWeapon implements Data, WeaponData {
 
 
 }
-
-interface Weapon {}

@@ -9,7 +9,44 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import data.TileData;
+
 public class Util {
+	public static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
+
+//	public static int getSide(float x, float y) {
+//		float[] distances = new float[4];
+//		distances[RIGHT] = (int)x+1-x;
+//		distances[DOWN] = (int)y+1-y;
+//		distances[LEFT] = x-(int)x;
+//		distances[UP] = y-(int)y;
+//		return minInArray(distances);
+//	}
+
+	public static int getSide(float x, float y, int[][] layout) {
+		float[] distances = new float[4];
+		distances[RIGHT] = (int)x+1-x;
+		distances[DOWN] = (int)y+1-y;
+		distances[LEFT] = x-(int)x;
+		distances[UP] = y-(int)y;
+		for (int i = 0;i<4;i++) System.out.print(distances[i]+"\t");
+		System.out.println();
+		if (x>=layout[0].length-1||(x<layout[0].length-1&&TileData.getSolid(layout[(int) y][(int) (x+1)])[TileData.SOLID_WALLS])) distances[RIGHT]+=1;
+		if (y>=layout.length-1||(y<layout.length-1&&TileData.getSolid(layout[(int) (y+1)][(int) x])[TileData.SOLID_WALLS])) distances[DOWN]+=1;
+		if (x<=0||(x>0&&TileData.getSolid(layout[(int) y][(int) (x-1)])[TileData.SOLID_WALLS])) distances[LEFT]+=1;
+		if (y<=0||(y>0&&TileData.getSolid(layout[(int) (y-1)][(int) x])[TileData.SOLID_WALLS])) distances[UP]+=1;
+		for (int i = 0;i<4;i++) System.out.print(distances[i]+"\t");
+		System.out.println("\n"+minInArray(distances)+"\n");
+		return minInArray(distances);
+	}
+
+//	public static int getSide(float x, float y) {
+//		if (Math.abs(x-(int)x)<0.001f) return LEFT;
+//		if (Math.abs((int)x+1-x)<0.001f) return RIGHT;
+//		if (Math.abs(y-(int)y)<0.001f) return UP;
+//		if (Math.abs((int)y+1-y)<0.001f) return DOWN;
+//		return 0;//right
+//	}
 
 	public static double distance(double x1, double y1, double x2, double y2) {
 		return Math.hypot(x1-x2, y1-y2);
@@ -50,7 +87,6 @@ public class Util {
 	public static float bounceAngle(float angle, boolean yAxis) {
 		if (yAxis) return (float)(Math.PI-angle);
 		else return -angle;
-
 	}
 
 	public static double getAngleDegrees(double x, double y, double xT, double yT) {
@@ -77,6 +113,14 @@ public class Util {
 		int total = 0;
 		for (int num:nums) total+=num;
 		return total/nums.length;
+	}
+
+	public static int minInArray(float[] values) {
+		int min = 0;
+		for (int i = 0;i<values.length;i++) {
+			if (values[i]<values[min]) min = i;
+		}
+		return min;
 	}
 
 	public static double getAngle(double x, double y, double xT, double yT) {

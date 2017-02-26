@@ -15,8 +15,9 @@ import util.Util;
 public class Hitscan extends Entity implements Damages, TileData, WeaponData {
 	protected float damage, recoil, initialWidth, width, iX, iY, fX, fY;
 	protected Color color;
+	private boolean hitWallsOnly;
 
-	public Hitscan(float damage, float recoil, float initialWidth, Color color, float iX, float iY, float angle) {
+	public Hitscan(float damage, float recoil, float initialWidth, Color color, float iX, float iY, float angle, boolean hitWallsOnly) {
 		super(color, iX, iY);
 		this.damage = damage;//how much damage it does
 		this.recoil = recoil;
@@ -27,6 +28,7 @@ public class Hitscan extends Entity implements Damages, TileData, WeaponData {
 		this.iY = iY;
 		this.x = iX;
 		this.y = iY;
+		this.hitWallsOnly = hitWallsOnly;
 		scan(angle);//scan
 		this.fX = x;//set final position
 		this.fY = y;
@@ -59,7 +61,7 @@ public class Hitscan extends Entity implements Damages, TileData, WeaponData {
 		float incrementMultiplier = 1.0f;
 		boolean firstHit = true, firstCheck = true;
 		while (true) {
-			if (x<0||y<0||x>Level.getWidth()||y>Level.getHeight()||(x>=0&&y>=0&&x<Level.getWidth()&&y<Level.getHeight()&&Level.getTile(x, y).isSolid(SOLID_PROJECTILES))) {//if it hit something
+			if (x<0||y<0||x>Level.getWidth()||y>Level.getHeight()||(x>=0&&y>=0&&x<Level.getWidth()&&y<Level.getHeight()&&((Level.getTile(x, y).isSolid(SOLID_WALLS)&&hitWallsOnly)||(Level.getTile(x, y).isSolid(SOLID_PROJECTILES)&&!hitWallsOnly)))) {//if it hit something
 				if (firstCheck) {
 					return;
 				}

@@ -9,8 +9,9 @@ import java.util.List;
 import client.entity.Entity;
 import client.level.Level;
 import client.level.SpawnPoint;
-import client.weapon.Gun;
 import client.weapon.PlayerWeapon;
+import client.weapon.Weapon;
+import client.weapon.WeaponType;
 import data.Data;
 import data.PlayerData;
 import data.TileData;
@@ -33,8 +34,8 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		mouseControl = new boolean[3];
 		weapons = new ArrayList<>();
 		if (ALL_GUNS_AT_START) {
-			for (Gun type:Gun.getTypes()) {
-				addGun(type);
+			for (Weapon type:WeaponType.getTypes()) {
+				addWeapon(type);
 			}
 			selectGun(STARTING_GUN);
 		}
@@ -291,7 +292,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		}
 	}
 
-	public void addGun(Gun type) {
+	public void addWeapon(Weapon type) {
 		weapons.add(new PlayerWeapon(this, type));
 	}
 
