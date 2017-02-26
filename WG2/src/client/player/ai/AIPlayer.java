@@ -30,14 +30,14 @@ public class AIPlayer extends Player {
 		pathFinder = new PathFinder();
 		currentPath = new LinkedList<>();
 		control = true;
-		selectGun((new Random()).nextInt(4));
+		selectWeapon((new Random()).nextInt(4));
 	}
 
 	@Override
 	public void respawn(SpawnPoint spawnPoint) {
 		super.respawn(spawnPoint);
 		stopPathfinding();
-		selectGun((new Random()).nextInt(4));
+		selectWeapon((new Random()).nextInt(4));
 	}
 
 	@Override

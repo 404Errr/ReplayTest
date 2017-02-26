@@ -117,38 +117,41 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				PathFindingTester.set2(Cursor.getTileX(), Cursor.getTileY());
 				break;
 			case KeyEvent.VK_SHIFT:
-				if (e.getKeyLocation()==KeyEvent.KEY_LOCATION_RIGHT) try{
-					PathFindingTester.find();
+				if (e.getKeyLocation()==KeyEvent.KEY_LOCATION_RIGHT) {
+					try {
+						PathFindingTester.find();
+					}
+					catch (Exception e1) {}
 				}
-				catch (Exception e1) {}
+				else Game.getPlayer().setHighPowerGrenade(true);
 				break;
 
 			case KeyEvent.VK_1:
-				Game.getPlayer().selectGun(0);
+				Game.getPlayer().selectWeapon(0);
 				break;
 			case KeyEvent.VK_2:
-				Game.getPlayer().selectGun(1);
+				Game.getPlayer().selectWeapon(1);
 				break;
 			case KeyEvent.VK_3:
-				Game.getPlayer().selectGun(2);
+				Game.getPlayer().selectWeapon(2);
 				break;
 			case KeyEvent.VK_4:
-				Game.getPlayer().selectGun(3);
+				Game.getPlayer().selectWeapon(3);
 				break;
 			case KeyEvent.VK_5:
-				Game.getPlayer().selectGun(4);
+				Game.getPlayer().selectWeapon(4);
 				break;
 			case KeyEvent.VK_6:
-				Game.getPlayer().selectGun(5);
+				Game.getPlayer().selectWeapon(5);
 				break;
 			case KeyEvent.VK_7:
-				Game.getPlayer().selectGun(6);
+				Game.getPlayer().selectWeapon(6);
 				break;
 			case KeyEvent.VK_8:
-				Game.getPlayer().selectGun(7);
+				Game.getPlayer().selectWeapon(7);
 				break;
 			case KeyEvent.VK_9:
-				Game.getPlayer().selectGun(8);
+				Game.getPlayer().selectWeapon(8);
 				break;
 
 			case KeyEvent.VK_Z:
@@ -177,6 +180,11 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			break;
 		case KeyEvent.VK_0:
 			EditHistory.saveState(Level.getLayout());
+			break;
+		case KeyEvent.VK_SHIFT:
+			if (e.getKeyLocation()==KeyEvent.KEY_LOCATION_LEFT) {
+				Game.getPlayer().setHighPowerGrenade(false);
+			}
 			break;
 		}
 	}
@@ -252,13 +260,12 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			Camera.updateScale();
 		}
 		else if (!Edit.editMode) {
-			//TODO change weapon
-			if (e.getWheelRotation()>0) ;
-			else ;
+//			if (e.getWheelRotation()>0) Game.getPlayer().changeWeapon(-1);
+//			else Game.getPlayer().changeWeapon(1);
 		}
 		else {
-			if (e.getWheelRotation()>0) Edit.changeType(-1);//zoom out
-			else Edit.changeType(1);//zoom in
+			if (e.getWheelRotation()>0) Edit.changeType(-1);
+			else Edit.changeType(1);
 		}
 	}
 

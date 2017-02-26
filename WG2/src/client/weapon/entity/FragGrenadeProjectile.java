@@ -1,27 +1,27 @@
-package client.weapon;
+package client.weapon.entity;
 
 import java.awt.Color;
 import java.awt.geom.Line2D;
 
-import client.entity.Entity;
 import client.game.Game;
 import client.level.Level;
 import data.Data;
+import data.GraphicsData;
 import data.TileData;
 import data.WeaponData;
 import util.Util;
 
-public class FragGrenade extends Entity implements Damages, Data, TileData, WeaponData {
+public class FragGrenadeProjectile extends WeaponEntity implements Data, TileData, WeaponData, GraphicsData {
 	private boolean destroy;
 	private float dX,  dY, grenadeSize;
 	private int timer;
 
-	public FragGrenade(Color color, float x, float y, float dX, float dY, float grenadeSize, int timer) {
-		super(color, x, y);
+	public FragGrenadeProjectile(Color color, float x, float y, float dX, float dY) {
+		super(color, x, y, 0);
 		this.dX = dX;
 		this.dY = dY;
-		this.grenadeSize = grenadeSize;
-		this.timer = timer;
+		this.grenadeSize = FRAGGRENADE_GRENADE_SIZE;
+		this.timer = FRAGGRENADE_TIMER;
 	}
 
 	@Override
@@ -39,16 +39,16 @@ public class FragGrenade extends Entity implements Damages, Data, TileData, Weap
 
 	private void explode() {
 		for (float a = 0;a<Math.PI*2;a+=Math.PI/FRAGGRENADE_SHARD_COUNT) {
-			float speed = Util.getSpread(FRAGGRENADE_SPEED, FRAGGRENADE_SPEED_SPREAD);
+			float speed = Util.getSpread(FRAGGRENADE_SPEED, FRAGGRENADE_SPREAD);
+			float range = Util.getSpread(FRAGGRENADE_RANGE, FRAGGRENADE_SPREAD);
 			float dX = Util.getXComp(a, speed), dY = Util.getYComp(a, speed);
-			Game.addEntity(new Shard(FRAGGRENADE_DAMAGE, FRAGGRENADE_SIZE, FRAGGRENADE_RANGE, /*color*/Util.colorOpacity(color, 1f), x+grenadeSize/2, y+grenadeSize/2, dX, dY));
+			Game.addEntity(new LimitedProjectile(FRAGGRENADE_DAMAGE, FRAGGRENADE_SIZE, range, /*color*/Util.colorOpacity(color, 1f), x+grenadeSize/2, y+grenadeSize/2, dX, dY, true));
 		}
-
 	}
 
 	private void bounce() {//FIXME
-		Hitscan finder = new Hitscan(0, 0, 0.2f, null/*Color.MAGENTA*/, x+grenadeSize/2, y+grenadeSize/2, Util.getAngle(0, 0, dX, dY), true);
-//		Game.addEntity(finder);
+		Hitscan finder = new Hitscan(0, 0.2f, Color.MAGENTA, x+grenadeSize/2, y+grenadeSize/2, Util.getAngle(0, 0, dX, dY), true);
+		if (DRAW_BOUNCE_HIT) Game.addEntity(finder);
 		int side = Util.getSide(finder.getX(), finder.getY(), Level.getLayout());
 		if (side==RIGHT) {
 			dX = Math.abs(dX);
@@ -78,7 +78,6 @@ public class FragGrenade extends Entity implements Damages, Data, TileData, Weap
 	protected void checkCollision() {
 		Line2D hitline = new Line2D.Float(x+grenadeSize/2, y+grenadeSize/2, x+dX+grenadeSize/2, y+dY+grenadeSize/2);
 		checkWallCollision(hitline);
-//		checkPlayerCollision(hitline);
 	}
 
 	private void checkWallCollision(Line2D hitline) {
@@ -97,18 +96,5 @@ public class FragGrenade extends Entity implements Damages, Data, TileData, Weap
 	public float getGrenadeSize() {
 		return grenadeSize;
 	}
-
-	/*private void checkPlayerCollision(Line2D hitline) {
-		List<Entity> entities = Game.getEntities();
-		for (int i = 0;i<entities.size();i++) {
-			if (entities.get(i) instanceof Player&&((Player)entities.get(i)).getColor()!=color&&((Player)entities.get(i)).getBounds().intersectsLine(hitline)) {
-				damage((Player)entities.get(i), damage);
-				if (RECOIL) {
-					((Player)entities.get(i)).recoil(Util.getAngle(0, 0, dX, dY), recoil);
-				}
-				destroy = true;//destroy it
-			}
-		}
-	}*/
 
 }

@@ -20,6 +20,4 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 	protected void turn() {
 		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
 	}
-
-
 }

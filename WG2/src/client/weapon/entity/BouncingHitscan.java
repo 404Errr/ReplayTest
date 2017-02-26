@@ -1,4 +1,4 @@
-package client.weapon;
+package client.weapon.entity;
 
 import java.awt.Color;
 
@@ -9,7 +9,7 @@ import util.Util;
 
 public class BouncingHitscan extends Hitscan implements Data {
 	public BouncingHitscan(float damage, float recoil, float initialWidth, Color color, float iX, float iY, float angle, int bounces) {
-		super(damage, recoil, initialWidth, color, iX, iY, angle, false);
+		super(damage, initialWidth, color, iX, iY, angle, false);
 		if (bounces>0) {
 			int side = Util.getSide(x, y, Level.getLayout());
 			float newAngle = Util.bounceAngle(angle, side==LEFT||side==RIGHT);

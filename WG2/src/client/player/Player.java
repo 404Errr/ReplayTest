@@ -10,8 +10,11 @@ import client.entity.Entity;
 import client.level.Level;
 import client.level.SpawnPoint;
 import client.weapon.PlayerWeapon;
-import client.weapon.Weapon;
-import client.weapon.WeaponType;
+import client.weapon.weapon.BasicGun;
+import client.weapon.weapon.FragGrenade;
+import client.weapon.weapon.MachineGun;
+import client.weapon.weapon.RailGun;
+import client.weapon.weapon.ShotGun;
 import data.Data;
 import data.PlayerData;
 import data.TileData;
@@ -21,6 +24,7 @@ import util.Util;
 public abstract class Player extends Entity implements WeaponData, PlayerData, Data, TileData {
 	protected float health, facing;//facing is in radians
 	protected boolean[] canMove, movementControl, mouseControl;//r,d,l,u. l, m, r
+	protected boolean highPowerGrenade;
 	protected Color color;
 	protected List<PlayerWeapon> weapons;
 	protected PlayerWeapon activeWeapon;
@@ -34,10 +38,13 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		mouseControl = new boolean[3];
 		weapons = new ArrayList<>();
 		if (ALL_GUNS_AT_START) {
-			for (Weapon type:WeaponType.getTypes()) {
-				addWeapon(type);
-			}
-			selectGun(STARTING_GUN);
+			addWeapon(new PlayerWeapon(this, new BasicGun(this)));
+			addWeapon(new PlayerWeapon(this, new ShotGun(this)));
+			addWeapon(new PlayerWeapon(this, new MachineGun(this)));
+			addWeapon(new PlayerWeapon(this, new RailGun(this)));
+			addWeapon(new PlayerWeapon(this, new FragGrenade(this)));
+
+			selectWeapon(STARTING_GUN);
 		}
 	}
 
@@ -285,18 +292,18 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		return weapons;
 	}
 
-	public void selectGun(int gun) {
-		if (gun>=0&&gun<weapons.size()) {
-			activeWeapon = weapons.get(gun);
+	public void selectWeapon(int weapon) {
+		if (weapon>=0&&weapon<weapons.size()) {
+			activeWeapon = weapons.get(weapon);
 			activeWeapon.setCooldown(WEAPON_SWITCH_COOLDOWN);
 		}
 	}
 
-	public void addWeapon(Weapon type) {
-		weapons.add(new PlayerWeapon(this, type));
+	private void addWeapon(PlayerWeapon weapon) {
+		weapons.add(weapon);
 	}
 
-	public void clearGuns() {
+	public void clearWeapons() {
 		weapons.clear();
 	}
 
@@ -310,6 +317,14 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 
 	public void changeHealth(float dHealth) {//TODO
 		if (DAMAGE) this.health+=dHealth;
+	}
+
+	public boolean highPowerGrenade() {
+		return highPowerGrenade;
+	}
+
+	public void setHighPowerGrenade(boolean highPowerGrenade) {
+		this.highPowerGrenade = highPowerGrenade;
 	}
 
 //	private boolean dead;
