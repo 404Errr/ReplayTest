@@ -10,10 +10,10 @@ public interface GraphicsData {
 	float ZOOM_INCREMENT = 0.001f;
 	float DEFAULT_WINDOW_SCREEN_RATIO = 0.8f;
 
-	boolean DRAW_BOUNCE_HIT = true;
+	boolean DRAW_BOUNCE_HIT = false;
 	boolean DRAW_PROJECTILE_HIT = false;
 
-	int PROJECTILE_LIFE = 300;
+	int PROJECTILE_LIFE = 400;
 
 	int HEALTH_BAR_WIDTH = 0;
 
