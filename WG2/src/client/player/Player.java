@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import client.edit.Edit;
 import client.entity.Entity;
 import client.level.Level;
 import client.level.SpawnPoint;
@@ -67,7 +68,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		while (remaining>0) {
 			if (remaining>=inc) x+=inc*sign;//if remaining isnt smaller than increment, change x by increment
 			else x+=remaining*sign;//if it is, change x by remaining
-			if (checkWallCollision()) {//if hit something
+			if (!Edit.editMode&&checkWallCollision()) {//if hit something
 				if (sign>0) setCanMove(RIGHT, false);//if was trying to move to the right, setcanmove right to false
 				if (sign<0) setCanMove(LEFT, false);
 				x = Math.round(x);//reallign to grid
@@ -80,7 +81,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		while (remaining>0) {
 			if (remaining>=inc) y+=inc*sign;
 			else y+=remaining*sign;
-			if (checkWallCollision()) {
+			if (!Edit.editMode&&checkWallCollision()) {
 				if (sign<0) setCanMove(UP, false);
 				if (sign>0) setCanMove(DOWN, false);
 				y = Math.round(y);
@@ -156,7 +157,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		for (PlayerWeapon weapon:weapons) {
 			weapon.tick();
 		}
-		if (isDead()) respawn(Level.getSafestSpawnPoint(this));
+		if (!Edit.editMode&&isDead()) respawn(Level.getSafestSpawnPoint(this));
 		return false;
 	}
 

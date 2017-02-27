@@ -1,14 +1,11 @@
 package client.level;
 
-import data.MapData;
 import util.Util;
 
-public class MapParser implements MapData{
-	public static final String PATH = "src/maps/";
-
-	public static int[][] parseMap(String mapName) {
-		String in = Util.fileToString(PATH+mapName);
-		System.out.println("Map at: "+PATH+mapName+" loaded");
+public class LayoutParser {
+	public static int[][] parseLayout(String path) {
+		String in = Util.fileToString(path);
+		System.out.println(path+" loaded");
 		String[] rawRows = in.split(";");
 		String[][] raw = new String[rawRows.length][rawRows[0].length()/2+1];
 		for (int r = 0;r<rawRows.length;r++) {

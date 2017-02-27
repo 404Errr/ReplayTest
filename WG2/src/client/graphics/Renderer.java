@@ -41,7 +41,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		try {
 			drawTiles();
 			Debug.drawDebug();
-			drawEntities();
+			if (!Edit.editMode) drawEntities();
 			if (Edit.editMode) Edit.drawSelected();
 		}
 		catch (Exception e) {

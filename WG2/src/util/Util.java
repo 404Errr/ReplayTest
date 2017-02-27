@@ -229,5 +229,12 @@ public class Util {
 		return null;
 	}
 
-
+	public static int[][] fillArray(int[][] layout, int emptyType) {
+		for (int r = 0;r<layout.length;r++) {
+			for (int c = 0;c<layout[0].length;c++) {
+				layout[r][c] = emptyType;
+			}
+		}
+		return layout;
+	}
 }

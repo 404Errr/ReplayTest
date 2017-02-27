@@ -17,27 +17,30 @@ public class Level implements MapData, TileData {
 	private static List<SpawnPoint> spawnPoints;
 
 	public static void init() {
-		if (MAP.charAt(0)==EMPTY_TAGS[0]) {
-			try {
-				String[] dimensions = MAP.substring(1).split("x");
-				layout = getEmpty(Integer.parseInt(dimensions[0]),Integer.parseInt(dimensions[1]));
+		if (MAP!=null) {
+			if (MAP.charAt(0)==EMPTY_TAGS[0]) {
+				try {
+					String[] dimensions = MAP.substring(1).split("x");
+					layout = getEmpty(Integer.parseInt(dimensions[0]),Integer.parseInt(dimensions[1]));
+				}
+				catch (Exception e) {
+					System.err.println("Error with empty creation");
+				}
 			}
-			catch (Exception e) {
-				System.err.println("Error with empty creation");
+			else layout = LayoutParser.parseLayout(PATH+MAP);
+			if (ADD_EDGE&&!Edit.editMode) {
+				if (!(AUTO_DISABLE_ADD_EDGE&&(!shouldAddEdge(layout)||layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD))) {
+					System.out.println("Adding edge of type: "+EDGE_TYPE);
+					layout = addEdge(layout);
+				}
+				else {
+					System.out.print("Not adding edge");
+					if (layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD) System.out.println(", because map area is too large: "+layout.length*layout[0].length+"/"+AUTO_DISABLE_ADD_EDGE_THREASHOLD);
+					else System.out.println(".");
+				}
 			}
 		}
-		else layout = MapParser.parseMap(MAP);
-		if (ADD_EDGE&&!Edit.editMode) {
-			if (!(AUTO_DISABLE_ADD_EDGE&&(!shouldAddEdge(layout)||layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD))) {
-				System.out.println("Adding edge of type: "+EDGE_TYPE);
-				layout = addEdge(layout);
-			}
-			else {
-				System.out.print("Not adding edge");
-				if (layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD) System.out.println(", because map area is too large: "+layout.length*layout[0].length+"/"+AUTO_DISABLE_ADD_EDGE_THREASHOLD);
-				else System.out.println(".");
-			}
-		}
+//		else layout = LayoutGenerator.generate(10, 10);
 		createTiles();
 	}
 
