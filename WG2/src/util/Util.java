@@ -15,18 +15,6 @@ import data.TileData;
 public class Util {
 	public static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
 
-	public static final float byteArray2Float(byte[] in) {
-		return ByteBuffer.wrap(in).getFloat();
-	}
-
-	public static byte [] long2ByteArray (long value) {
-	    return ByteBuffer.allocate(8).putLong(value).array();
-	}
-
-	public static byte [] float2ByteArray (float value) {
-	     return ByteBuffer.allocate(4).putFloat(value).array();
-	}
-
 	public static int getSide(float x, float y) {
 		float[] distances = new float[4];
 		distances[RIGHT] = (int)x+1-x;
@@ -242,12 +230,24 @@ public class Util {
 		return null;
 	}
 
-	public static int[][] fillArray(int[][] layout, int emptyType) {
+	public static int[][] fillArray(int[][] layout, int type) {
 		for (int r = 0;r<layout.length;r++) {
 			for (int c = 0;c<layout[0].length;c++) {
-				layout[r][c] = emptyType;
+				layout[r][c] = type;
 			}
 		}
 		return layout;
+	}
+	
+	public static final float byteArray2Float(byte[] in) {
+		return ByteBuffer.wrap(in).getFloat();
+	}
+
+	public static byte [] long2ByteArray (long value) {
+	    return ByteBuffer.allocate(8).putLong(value).array();
+	}
+
+	public static byte [] float2ByteArray (float value) {
+	     return ByteBuffer.allocate(4).putFloat(value).array();
 	}
 }
