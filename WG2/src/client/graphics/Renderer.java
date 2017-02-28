@@ -36,7 +36,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 	@Override
 	public void paintComponent(Graphics g0) {
 		g = (Graphics2D) g0;
-		setBackground(COLOR_BACKROUND);
+		setBackground(COLOR_BACKGROUND);
 		super.paintComponent(g);
 		try {
 			drawTiles();

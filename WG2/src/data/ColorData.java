@@ -16,7 +16,7 @@ public interface ColorData {
 	Color COLOR_DEBUG_GREEN = new Color(0,180,0,255);//darker than lime green
 	Color COLOR_DEBUG_BLUE = new Color(0x0000C1);//blue
 	Color COLOR_ERROR = new Color(0x940e94);//magenta
-	Color COLOR_BACKROUND = new Color(0xf0f0f0);//backround color
+	Color COLOR_BACKGROUND = new Color(0xf0f0f0);//backround color
 
 	Color COLOR_HEALTH_BAR = new Color(0xff0000);//red
 

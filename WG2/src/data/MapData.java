@@ -2,7 +2,7 @@ package data;
 
 public interface MapData {
 //	String MAP = "$30x30";
-	String MAP = "map0";
+//	String MAP = "map0";
 //	String MAP = "map1";
 //	String MAP = "map2";
 //	String MAP = "map3";
@@ -21,7 +21,7 @@ public interface MapData {
 //	String MAP = "105_0";
 //	String MAP = "small";
 //	String MAP = "AItest1";
-//	String MAP = null;
+	String MAP = null;
 
 	boolean EDIT_MODE = false;
 	int EDIT_HISTORY_LIMIT = 666;

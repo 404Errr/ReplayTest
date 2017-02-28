@@ -39,7 +39,7 @@ public class Debug implements Data, ColorData, MapData {
 				float ups = UPS/(ClientUpdateLoop.getCurrentUpdateTime()/(1000f/UPS));
 				if (ups>UPS) ups = UPS;
 				text.append("UPS = "+ups+"$");
-				text.append("I forgot = "+ClientUpdateLoop.getCurrentUpdateTime()+"$");
+//				text.append("I forgot = "+ClientUpdateLoop.getCurrentUpdateTime()+"$");
 				text.append("Window = "+Window.width()+"x"+Window.height()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Camera.getScale()+"$");
 				text.append("Zoomed = "+Camera.isZoomed()+"$");
 				text.append("Render Distance = "+GraphicsData.getRenderDistanceX()+", "+GraphicsData.getRenderDistanceY()+"$");
