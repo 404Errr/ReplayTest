@@ -37,14 +37,6 @@ public class Util {
 		return minInArray(distances);
 	}
 
-//	public static int getSide(float x, float y) {
-//		if (Math.abs(x-(int)x)<0.001f) return LEFT;
-//		if (Math.abs((int)x+1-x)<0.001f) return RIGHT;
-//		if (Math.abs(y-(int)y)<0.001f) return UP;
-//		if (Math.abs((int)y+1-y)<0.001f) return DOWN;
-//		return 0;//right
-//	}
-
 	public static double distance(double x1, double y1, double x2, double y2) {
 		return Math.hypot(x1-x2, y1-y2);
 	}
