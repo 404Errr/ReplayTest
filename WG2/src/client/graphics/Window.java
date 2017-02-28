@@ -23,17 +23,21 @@ public class Window extends JFrame implements GraphicsData {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout());
-		if (FULLSCREEN) {
+		switch (WINDOW_FORMAT) {//FIXME TODO test
+		case BORDERLESS_FULLSCREEN:
 			frame.setUndecorated(true);
-		}
-		else {
+			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			break;
+		case WINDOWED_FULLSCREEN:
+			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);			
+		case WINDOWED:
 			frame.setTitle("WG2");
 			frame.setLocationRelativeTo(null);
 			GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 			frame.setPreferredSize(new Dimension((int)(screen.getDisplayMode().getWidth()*DEFAULT_WINDOW_SCREEN_RATIO), (int)(screen.getDisplayMode().getHeight()*DEFAULT_WINDOW_SCREEN_RATIO)));
 			frame.pack();
+			break;
 		}
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.addKeyListener(input);
 		frame.addMouseMotionListener(input);
 		frame.addMouseListener(input);

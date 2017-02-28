@@ -30,6 +30,9 @@ public class LayoutGenerator implements LayoutGenData, MapData {
 //		x = r cos theta = a cos theta
 //		
 //		add logarithmic spiral
+		
+		
+		
 		return layout;
 	}
 

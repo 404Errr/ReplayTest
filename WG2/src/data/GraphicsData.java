@@ -4,7 +4,10 @@ import client.graphics.Camera;
 import client.graphics.Window;
 
 public interface GraphicsData {
-	boolean FULLSCREEN = false;
+	WindowType WINDOW_FORMAT = WindowType.WINDOWED;
+	enum WindowType {
+		BORDERLESS_FULLSCREEN, WINDOWED_FULLSCREEN, WINDOWED
+	}
 
 	float DEFAULT_SCALE_RATIO = 0.035f;
 	float ZOOM_INCREMENT = 0.001f;
@@ -30,3 +33,4 @@ public interface GraphicsData {
 		return RENDER_DISTANCE_Y;
 	}
 }
+

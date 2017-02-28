@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Random;
 
 import client.edit.Edit;
+import client.mapgen.LayoutGenerator;
 import client.player.Player;
 import data.ColorData;
 import data.MapData;
 import data.TileData;
+import util.Util;
 
 public class Level implements MapData, TileData {
 	private static int[][] layout;
@@ -40,7 +42,7 @@ public class Level implements MapData, TileData {
 				}
 			}
 		}
-//		else layout = LayoutGenerator.generate(10, 10);
+		else layout = LayoutGenerator.generate(6, 6);
 		createTiles();
 	}
 
@@ -97,13 +99,7 @@ public class Level implements MapData, TileData {
 	}
 
 	public static int[][] getEmpty(int width, int height) {
-		int[][] layout = new int[height][width];
-		for (int r = 0;r<layout.length;r++) {
-			for (int c = 0;c<layout[0].length;c++) {
-				layout[r][c] = EMPTY_TYPE;
-			}
-		}
-		return layout;
+		return Util.fillArray(new int[height][width], EMPTY_TYPE);
 	}
 
 	public static Point getFirstUsableTile() {//for spawning and stuff

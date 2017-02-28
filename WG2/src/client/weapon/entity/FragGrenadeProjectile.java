@@ -48,7 +48,7 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 
 	private void bounce() {//FIXME
 		Hitscan finder = new Hitscan(0, 0.2f, Color.MAGENTA, x+grenadeSize/2, y+grenadeSize/2, Util.getAngle(0, 0, dX, dY), true);
-		if (DRAW_BOUNCE_HIT) Game.addEntity(finder);
+		if (DRAW_BOUNCE_HIT) Game.addEntity(finder);//display it
 		int side = Util.getSide(finder.getX(), finder.getY(), Level.getLayout());
 		if (side==RIGHT) {
 			dX = Math.abs(dX);
@@ -84,7 +84,7 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 		final int radius = 2;
 		for (int r = (int)y-radius;r<=y+radius;r++) {//for each row within the radius
 			for (int c = (int)x-radius;c<=x+radius;c++) {//for each collumn within the radius
-				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(c, r).isSolid(SOLID_WALLS)) {//bounds check and if tile is solid
+				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&(Level.getTile(c, r).isSolid(SOLID_WALLS)||Level.getTile(c, r).isSolid(SOLID_PROJECTILES))) {//bounds check and if tile is solid
 					if (hitline.intersects(Level.getTile(c, r).getBounds())) {//check for collision
 						bounce();
 					}

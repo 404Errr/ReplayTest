@@ -24,19 +24,6 @@ public class Util {
 		return minInArray(distances);
 	}
 
-	public static int getSide(float x, float y, int[][] layout) {
-		float[] distances = new float[4];
-		distances[RIGHT] = (int)x+1-x;
-		distances[DOWN] = (int)y+1-y;
-		distances[LEFT] = x-(int)x;
-		distances[UP] = y-(int)y;
-		if (x>=layout[0].length-1||(x<layout[0].length-1&&TileData.getSolid(layout[(int) y][(int) (x+1)])[TileData.SOLID_WALLS])) distances[RIGHT]+=1;
-		if (y>=layout.length-1||(y<layout.length-1&&TileData.getSolid(layout[(int) (y+1)][(int) x])[TileData.SOLID_WALLS])) distances[DOWN]+=1;
-		if (x<=0||(x>0&&TileData.getSolid(layout[(int) y][(int) (x-1)])[TileData.SOLID_WALLS])) distances[LEFT]+=1;
-		if (y<=0||(y>0&&TileData.getSolid(layout[(int) (y-1)][(int) x])[TileData.SOLID_WALLS])) distances[UP]+=1;
-		return minInArray(distances);
-	}
-
 	public static double distance(double x1, double y1, double x2, double y2) {
 		return Math.hypot(x1-x2, y1-y2);
 	}

@@ -86,34 +86,22 @@ public interface ColorData {
 	Color COLOR_TILE_y = COLOR_ERROR;
 	Color COLOR_TILE_z = COLOR_ERROR;
 
-	static Color[] colors = {
-			null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+	static Color[] COLOR_TILES = {//FIXME TODO test this
+			/*null,*/null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 			COLOR_TILE_0, COLOR_TILE_1, COLOR_TILE_2, COLOR_TILE_3, COLOR_TILE_4, COLOR_TILE_5, COLOR_TILE_6, COLOR_TILE_7, COLOR_TILE_8, COLOR_TILE_9,  
 			null,null,null,null,null,null,null,
 			COLOR_TILE_A, COLOR_TILE_B, COLOR_TILE_C, COLOR_TILE_D, COLOR_TILE_E, COLOR_TILE_F, COLOR_TILE_G, COLOR_TILE_H, COLOR_TILE_I, COLOR_TILE_J, COLOR_TILE_K, COLOR_TILE_L, COLOR_TILE_M, COLOR_TILE_N, COLOR_TILE_O, COLOR_TILE_P, COLOR_TILE_Q, COLOR_TILE_R, COLOR_TILE_S, COLOR_TILE_T, COLOR_TILE_U, COLOR_TILE_V, COLOR_TILE_W, COLOR_TILE_X, COLOR_TILE_Y, COLOR_TILE_Z,
 			null,null,null,null,null,null,
 			COLOR_TILE_a, COLOR_TILE_b, COLOR_TILE_c, COLOR_TILE_d, COLOR_TILE_e, COLOR_TILE_f, COLOR_TILE_g, COLOR_TILE_h, COLOR_TILE_i, COLOR_TILE_j, COLOR_TILE_k, COLOR_TILE_l, COLOR_TILE_m, COLOR_TILE_n, COLOR_TILE_o, COLOR_TILE_p, COLOR_TILE_q, COLOR_TILE_r, COLOR_TILE_t, COLOR_TILE_u, COLOR_TILE_v, COLOR_TILE_w, COLOR_TILE_x, COLOR_TILE_y, COLOR_TILE_z,
-			
-			
 	};
 	
 	
-	//0 48
-	//9 57
-	//
-	//A 65
-	//Z 90
-	//
-	//a 97
-	//z 122
+	//'0' 48-'9' 57
+	//'A' 65-'Z' 90
+	//'a' 97-'z' 122
 	
 	static Color getTileColor(int type) {//dont touch
-//		return c olors[type];//FIXME
-		
-		
-		
-		
-		return null;
+		return COLOR_TILES[type];//FIXME TODO test
 //		switch (type) {//preferably in order of frequency
 //		case '0':
 //		case 's'://spawn
