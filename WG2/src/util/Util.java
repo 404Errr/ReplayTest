@@ -10,11 +10,13 @@ import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
 import java.util.Scanner;
 
-import data.TileData;
-
 public class Util {
 	public static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
 
+	public static boolean inArrayBounds(float x, float y, int[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+	
 	public static int getSide(float x, float y) {
 		float[] distances = new float[4];
 		distances[RIGHT] = (int)x+1-x;

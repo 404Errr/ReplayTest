@@ -20,5 +20,5 @@ public class BasicGun extends Weapon implements WeaponData {
 		Game.addEntity(new Projectile(BASICGUN_DAMAGE, BASICGUN_RECOIL, BASICGUN_SIZE, owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
 		owner.recoil(Util.getAngle(0, 0, dX, dY), -BASICGUN_RECOIL);
 	}
-
+	
 }

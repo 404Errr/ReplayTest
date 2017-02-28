@@ -16,12 +16,13 @@ import client.level.Level;
 import client.level.pathfinding.PathFindingTester;
 import client.main.ClientUpdateLoop;
 import data.ColorData;
+import data.ControlData;
 import data.Data;
 import data.GraphicsData;
 import data.MapData;
 import util.Util;
 
-public class Debug implements Data, ColorData, MapData {
+public class Debug implements Data, ColorData, MapData, ControlData {
 	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = false;
 	private final static int textX = 25, textY = 30, textSize = 15;
 

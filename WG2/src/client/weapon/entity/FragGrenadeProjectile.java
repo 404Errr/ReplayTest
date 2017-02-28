@@ -10,6 +10,7 @@ import data.GraphicsData;
 import data.TileData;
 import data.WeaponData;
 import util.Util;
+import util.WGUtil;
 
 public class FragGrenadeProjectile extends WeaponEntity implements Data, TileData, WeaponData, GraphicsData {
 	private boolean destroy;
@@ -49,7 +50,7 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 	private void bounce() {//FIXME
 		Hitscan finder = new Hitscan(0, 0.2f, Color.MAGENTA, x+grenadeSize/2, y+grenadeSize/2, Util.getAngle(0, 0, dX, dY), true);
 		if (DRAW_BOUNCE_HIT) Game.addEntity(finder);//display it
-		int side = Util.getSide(finder.getX(), finder.getY(), Level.getLayout());
+		int side = WGUtil.getSide(finder.getX(), finder.getY(), Level.getLayout());
 		if (side==RIGHT) {
 			dX = Math.abs(dX);
 			x+=grenadeSize/3;

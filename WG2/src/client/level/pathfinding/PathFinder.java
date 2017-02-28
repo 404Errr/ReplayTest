@@ -7,6 +7,7 @@ import java.util.List;
 import client.level.Level;
 import client.level.pathfinding.PathfindingTile.CurrentList;
 import data.TileData;
+import util.Util;
 
 public class PathFinder implements TileData {
 	private List<PathfindingTile> openList;//, closedList;
@@ -23,6 +24,7 @@ public class PathFinder implements TileData {
 
 	public List<Point> getPath(int x1, int y1, int x2, int y2) {
 		List<Point> pathPoints = new LinkedList<>();
+		if (!Util.inArrayBounds(x1, y1, Level.getLayout())||!Util.inArrayBounds(x2, y2, Level.getLayout())) return pathPoints;
 		if (!Level.getTile(x1, y1).isUsable()||!Level.getTile(x2, y2).isUsable()) {
 			return pathPoints;
 		}
@@ -33,7 +35,7 @@ public class PathFinder implements TileData {
 		return pathPoints;
 	}
 
-	public List<PathfindingTile> findPath(int iC, int iR, int nC, int nR) {//initial and new
+	public List<PathfindingTile> findPath(int iC, int iR, int fC, int fR) {
 		for (int r = 0;r<Level.getHeight();r++) {
 			for (int c = 0;c<Level.getWidth();c++) {
 				tiles[r][c].setCurrentList(CurrentList.NONE);
@@ -48,7 +50,7 @@ public class PathFinder implements TileData {
 			currentPathfindingTile = getLowestCombinedInOpen();//get node with lowest combined Costs from openList
 			openList.remove(currentPathfindingTile);
 			currentPathfindingTile.setCurrentList(CurrentList.CLOSED);
-			if ((currentPathfindingTile.getC()==nC)&&(currentPathfindingTile.getR()==nR)) {//found goal
+			if ((currentPathfindingTile.getC()==fC)&&(currentPathfindingTile.getR()==fR)) {//found goal
 				return calcPath(tiles[iR][iC], currentPathfindingTile);
 			}
 			List<PathfindingTile> adjacentTiles = getAdjacents(currentPathfindingTile);
@@ -56,7 +58,7 @@ public class PathFinder implements TileData {
 				PathfindingTile currentAdjacent = adjacentTiles.get(i);
 				if (currentAdjacent.getCurrentList()!=CurrentList.OPEN) {//node is not in openList
 					currentAdjacent.setPrevious(currentPathfindingTile);//set current node as previous for this node
-					currentAdjacent.setDistanceCost(tiles[nR][nC]);//set distance
+					currentAdjacent.setDistanceCost(tiles[fR][fC]);//set distance
 					currentAdjacent.setTotalCost(currentPathfindingTile);//set total
 					currentAdjacent.setCurrentList(CurrentList.OPEN);
 					openList.add(currentAdjacent);//add node to openList
@@ -139,14 +141,14 @@ public class PathFinder implements TileData {
 				adjacent.add(temp);
 			}
 		}
-		if (x>0&&y<Level.getHeight()) {
+		if (x<Level.getWidth()&&y>0) {
 			temp = tiles[y-1][x+1];
 			if (temp.isUsable()&&temp.getCurrentList()!=CurrentList.CLOSED) {
 				temp.setIsDiagonal(true);
 				adjacent.add(temp);
 			}
 		}
-		if (x<Level.getWidth()&&y>0) {
+		if (x>0&&y<Level.getHeight()) {
 			temp = tiles[y+1][x-1];
 			if (temp.isUsable()&&temp.getCurrentList()!=CurrentList.CLOSED) {
 				temp.setIsDiagonal(true);

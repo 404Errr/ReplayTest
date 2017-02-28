@@ -6,7 +6,6 @@ import data.WeaponData;
 
 public class PlayerWeapon implements Data, WeaponData {
 	private Weapon type;
-	private float cooldown;
 	private Player owner;
 
 	public PlayerWeapon(Player owner, Weapon type) {
@@ -16,16 +15,7 @@ public class PlayerWeapon implements Data, WeaponData {
 
 	public void tick() {
 		if (isActive()) {
-			if (cooldown>0) {
-				cooldown-=COOLDOWN_INCREMENT;
-			}
-			else {
-				setCooldown(0);
-				if (owner.getMouseControl(MOUSE1)) {//if should shoot
-					setCooldown(type.getCooldown());
-					type.use();
-				}
-			}
+			type.tick();
 		}
 	}
 
@@ -36,13 +26,13 @@ public class PlayerWeapon implements Data, WeaponData {
 	public Weapon getType() {
 		return type;
 	}
-
-	public float getCooldown() {
-		return cooldown;
+	
+	public void setCooldown(float cooldown) {
+		type.setCooldown(cooldown);
 	}
 
-	public void setCooldown(float cooldown) {
-		this.cooldown = cooldown;
+	public float getCooldown() {
+		return type.getCooldown();
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package client.player.controlled;
 
 import java.awt.Color;
 
-import client.game.Game;
 import client.input.Cursor;
 import client.level.SpawnPoint;
 import client.player.Player;

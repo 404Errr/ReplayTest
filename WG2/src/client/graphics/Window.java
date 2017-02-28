@@ -32,10 +32,10 @@ public class Window extends JFrame implements GraphicsData {
 			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);			
 		case WINDOWED:
 			frame.setTitle("WG2");
-			frame.setLocationRelativeTo(null);
 			GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 			frame.setPreferredSize(new Dimension((int)(screen.getDisplayMode().getWidth()*DEFAULT_WINDOW_SCREEN_RATIO), (int)(screen.getDisplayMode().getHeight()*DEFAULT_WINDOW_SCREEN_RATIO)));
 			frame.pack();
+			frame.setLocationRelativeTo(null);
 			break;
 		}
 		frame.addKeyListener(input);

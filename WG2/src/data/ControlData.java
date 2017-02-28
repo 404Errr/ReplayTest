@@ -3,8 +3,12 @@ package data;
 import java.awt.event.KeyEvent;
 
 public interface ControlData {
+	int MOUSE1 = 0, MOUSE2 = 1, MOUSE3 = 2;//left, middle, right (mouse)
+	
 	int ZOOM_KEY = -1;//disabled
 
+	int SHOOT_1 = MOUSE1;
+	
 	int DEBUG_LOS_LINE_KEY = KeyEvent.VK_F2;
 	int DEBUG_TEXT_KEY = KeyEvent.VK_F3;
 	int DEBUG_DRAW_WEAPONS_KEY = KeyEvent.VK_F1;

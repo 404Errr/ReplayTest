@@ -19,5 +19,5 @@ public class MachineGun extends Weapon implements WeaponData {
 		Game.addEntity(new Projectile(MACHINEGUN_DAMAGE, MACHINEGUN_RECOIL, MACHINEGUN_SIZE, owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
 		owner.recoil(owner.getFacing(), -MACHINEGUN_RECOIL);
 	}
-
+	
 }

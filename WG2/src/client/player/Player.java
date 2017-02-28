@@ -16,13 +16,14 @@ import client.weapon.weapon.FragGrenade;
 import client.weapon.weapon.MachineGun;
 import client.weapon.weapon.RailGun;
 import client.weapon.weapon.ShotGun;
+import data.ControlData;
 import data.Data;
 import data.PlayerData;
 import data.TileData;
 import data.WeaponData;
 import util.Util;
 
-public abstract class Player extends Entity implements WeaponData, PlayerData, Data, TileData {
+public abstract class Player extends Entity implements WeaponData, PlayerData, Data, TileData, ControlData {
 	protected float health, facing;//facing is in radians
 	protected boolean[] canMove, movementControl, mouseControl;//r,d,l,u. l, m, r
 	protected boolean highPowerGrenade;

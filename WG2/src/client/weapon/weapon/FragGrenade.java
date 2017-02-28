@@ -23,5 +23,4 @@ public class FragGrenade extends Weapon implements WeaponData, Data {
 		Game.addEntity(new FragGrenadeProjectile(owner.getColor(), owner.getXCenter()-FRAGGRENADE_GRENADE_SIZE/2, owner.getYCenter()-FRAGGRENADE_GRENADE_SIZE/2, dX, dY));
 	}
 
-
 }

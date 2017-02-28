@@ -6,12 +6,13 @@ import client.game.Game;
 import client.level.Level;
 import data.Data;
 import util.Util;
+import util.WGUtil;
 
 public class BouncingHitscan extends Hitscan implements Data {
 	public BouncingHitscan(float damage, float recoil, float initialWidth, Color color, float iX, float iY, float angle, int bounces) {
 		super(damage, initialWidth, color, iX, iY, angle, false);
 		if (bounces>0) {
-			int side = Util.getSide(x, y, Level.getLayout());
+			int side = WGUtil.getSide(x, y, Level.getLayout());
 			float newAngle = Util.bounceAngle(angle, side==LEFT||side==RIGHT);
 			switch (side) {
 			case UP:
