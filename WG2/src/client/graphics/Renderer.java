@@ -15,6 +15,7 @@ import client.edit.Edit;
 import client.entity.Entity;
 import client.game.Game;
 import client.level.Level;
+import client.level.SpawnPointVisibiltiyLine;
 import client.player.Player;
 import client.player.ai.AIPlayer;
 import client.weapon.Weapon;
@@ -43,6 +44,14 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			Debug.drawDebug();
 			if (!Edit.editMode) drawEntities();
 			if (Edit.editMode) Edit.drawSelected();
+
+			g.setStr oke(new BasicStroke(1));//FIX ME
+			for (int j = 0;j<Level.getSpawnPointVisibiltyLines().size();j++) {
+				SpawnPointVisibiltiyLine line = Level.getSpawnPointVisibiltyLines().get(j);
+				if (line.isUninterrupted()) g.setColor(Color.BLUE);
+				else g.setColor(Color.RED);
+				g.drawLine(gridX(line.getX1()), gridY(line.getY1()), gridX(line.getX2()), gridY(line.getY2()));
+			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -79,7 +88,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 							g.setStroke(new BasicStroke(2));
 							for (int j = 0;j<((AIPlayer)entity).getSightLines().size();j++) {
 								Line2D line = ((AIPlayer)entity).getSightLines().get(j).getLine();
-								if (((AIPlayer)entity).getSightLines().get(j).getCanSee()) g.setColor(Color.BLUE);
+								if (((AIPlayer)entity).getSightLines().get(j).isUninterrupted()) g.setColor(Color.BLUE);
 								else g.setColor(Color.RED);
 								g.drawLine(gridX((float)line.getX1()), gridY((float)line.getY1()), gridX((float)line.getX2()), gridY((float)line.getY2()));
 							}

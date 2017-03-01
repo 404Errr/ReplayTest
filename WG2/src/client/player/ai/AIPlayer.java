@@ -12,9 +12,10 @@ import client.level.SpawnPoint;
 import client.level.pathfinding.PathFinder;
 import client.level.pathfinding.WanderFinder;
 import client.player.Player;
+import data.AIData;
 import util.Util;
 
-public class AIPlayer extends Player {
+public class AIPlayer extends Player implements AIData {
 	private PathFinder pathFinder;
 	private List<Point> currentPath;
 	private Point currentPathGoal, currentTargetPoint;
@@ -25,8 +26,8 @@ public class AIPlayer extends Player {
 
 	private boolean control;
 
-	private float sway, dSway = 1;
-	private final float SWAY_A = 5, SWAY_B = 0.4f, SWAY_C = 0.15f, SWAY_D = 8;
+	private float sway, dSway = 1, weaponReactionCooldown, pathfindingReactionCooldown;
+	private final float SWAY_A = 5, SWAY_B = 0.4f, SWAY_C = 0.15f, SWAY_D = 2, SWAY_E = 20;
 
 	public AIPlayer(Color color, SpawnPoint spawnPoint) {
 		super(color, (float)spawnPoint.getX(), (float)spawnPoint.getY());
@@ -60,30 +61,50 @@ public class AIPlayer extends Player {
 		setMouseControl(MOUSE1, currentTargetPlayer!=null);
 	}
 
-	private boolean targetWeaponPlayer() {
+	private void targetWeaponPlayer() {
+		boolean found = false;
 		for (int i = 0;i<sightLines.size();i++) {
-			if (sightLines.get(i).getCanSee()) {
-				currentTargetPlayer = sightLines.get(i).getTarget();
-				return true;
+			if (sightLines.get(i).isUninterrupted()) {
+				found = true;
+				if (weaponReactionCooldown>0) {
+					weaponReactionCooldown-=1000f/UPS;
+				}
+				else {
+					currentTargetPlayer = sightLines.get(i).getTarget();
+					weaponReactionCooldown = 0;
+					return;
+				}
 			}
 		}
-		currentTargetPlayer = null;
-		return false;
+		if (!found) {
+			weaponReactionCooldown = VISION_REACTION_TIME;
+			currentTargetPlayer = null;
+		}
 	}
 
-	private boolean targetPathPlayer() {//true if found target
+	private void targetPathPlayer() {
+		boolean found = false;
 		for (int i = 0;i<sightLines.size();i++) {
-			if (sightLines.get(i).getCanSee()&&Util.distance(x, y, sightLines.get(i).getTarget().getX(), sightLines.get(i).getTarget().getY())>2f) {
-				currentPathGoal = sightLines.get(i).getTarget().getPoint();
-				return true;
+			if (sightLines.get(i).isUninterrupted()) {//can see
+				found = true;
+				System.out.println("pathing "+i+" "+pathfindingReactionCooldown);
+				if (pathfindingReactionCooldown>0) {
+					pathfindingReactionCooldown-=1000f/UPS;
+				}
+				else {
+					pathfindingReactionCooldown = 0;
+					currentPathGoal = sightLines.get(i).getTarget().getPoint();
+					return;
+				}
 			}
 		}
-		return false;
+		if (!found) pathfindingReactionCooldown = VISION_REACTION_TIME;
+
 	}
 
 	private void updateSightLines() {
 		for (int i = 0;i<sightLines.size();i++) {
-			sightLines.get(i).tick();
+			sightLines.get(i).update();
 		}
 	}
 
@@ -102,11 +123,11 @@ public class AIPlayer extends Player {
 			sway+=dSway*Util.getSpread(SWAY_B, SWAY_C);
 			if (sway>SWAY_A) dSway = -1;
 			if (sway<-SWAY_A) dSway = 1;
-			if ((int)(Math.random()*SWAY_D)==0) dSway*=-1;
+			if ((int)(Math.random()*SWAY_E)==0) dSway*=-1;
 			if ((int)(Math.random()*SWAY_D)==0) sway*=0.1f;
 			setFacing((float)(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY())+Math.toRadians(sway)));
 
-//			setFacing(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY()));
+			//			setFacing(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY()));
 		}
 		else if (Math.abs(dX)+Math.abs(dY)>0.1f) setFacing(Util.getAngle(0, 0, dX, dY));
 	}
@@ -133,9 +154,7 @@ public class AIPlayer extends Player {
 		}
 		else wandering = true;
 		if (currentTargetPlayer!=null) wandering = false;
-		if (wandering) {
-			currentPathGoal = WanderFinder.getWanderLocation(getXTile(), getYTile());
-		}
+		if (wandering) currentPathGoal = WanderFinder.getWanderLocation(getXTile(), getYTile());
 		if (currentPathGoal!=null) updatePath();
 	}
 

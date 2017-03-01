@@ -17,6 +17,7 @@ public class Level implements MapData, TileData {
 	private static int[][] layout;
 	private static Tile[][] tiles;//the level
 	private static List<SpawnPoint> spawnPoints;
+	private static List<SpawnPointVisibiltiyLine> spawnPointVisibiltyLines;
 
 	public static void init() {
 		if (MAP!=null) {
@@ -43,11 +44,21 @@ public class Level implements MapData, TileData {
 			}
 		}
 		else layout = LayoutGenerator.generate(6, 6);
+		spawnPoints = findSpawnPoints(layout);
 		createTiles();
+		initSpawnPointVisibilityLines();
+	}
+
+	public static void initSpawnPointVisibilityLines() {
+		spawnPointVisibiltyLines = new ArrayList<>();
+		for (int i = 0;i<spawnPoints.size();i++) {
+			for (int j = i;j<spawnPoints.size();j++) {
+				if (i!=j) spawnPointVisibiltyLines.add(new SpawnPointVisibiltiyLine(spawnPoints.get(i), spawnPoints.get(j)));
+			}
+		}
 	}
 
 	public static void createTiles() {
-		spawnPoints = findSpawnPoints(layout);
 		tiles = new Tile[layout.length][layout[0].length];
 		for (int r = 0;r<layout.length;r++) {
 			for (int c = 0;c<layout[0].length;c++) {
@@ -125,6 +136,10 @@ public class Level implements MapData, TileData {
 			}
 		}
 		return safest;
+	}
+
+	public static List<SpawnPointVisibiltiyLine> getSpawnPointVisibiltyLines() {
+		return spawnPointVisibiltyLines;
 	}
 
 	public static int[][] getLayout() {

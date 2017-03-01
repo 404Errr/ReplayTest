@@ -19,20 +19,13 @@ public class LayoutGenerator implements LayoutGenData, MapData {
 		int[][] layout = new int[ySize*CHUNK_SIZE][xSize*CHUNK_SIZE];
 		layout = Util.fillArray(layout, EMPTY_TYPE);
 
-		/*for (int r = 0;r<ySize;r++) {
+		for (int r = 0;r<ySize;r++) {
 			for (int c = 0;c<xSize;c++) {
 				appendChunk(c*CHUNK_SIZE, r*CHUNK_SIZE, chunks.get(0).getLayout(), layout);
 			}
-		}*/
+		}
 //		appendChunk(0, 0, chunks.get(0).getLayout(), layout);
 
-		
-//		x = r cos theta = a cos theta
-//		
-//		add logarithmic spiral
-		
-		
-		
 		return layout;
 	}
 

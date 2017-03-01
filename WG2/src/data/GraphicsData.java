@@ -4,7 +4,7 @@ import client.graphics.Camera;
 import client.graphics.Window;
 
 public interface GraphicsData {
-	WindowType WINDOW_FORMAT = WindowType.WINDOWED;
+	WindowType WINDOW_FORMAT = WindowType.WINDOWED_FULLSCREEN;
 	enum WindowType {
 		BORDERLESS_FULLSCREEN, WINDOWED_FULLSCREEN, WINDOWED
 	}
