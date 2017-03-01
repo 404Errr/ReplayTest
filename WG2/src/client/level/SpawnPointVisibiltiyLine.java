@@ -7,7 +7,7 @@ public class SpawnPointVisibiltiyLine extends BreakableLine {
 	private SpawnPoint spawnPoint;
 	private Player player;
 
-	public SpawnPointVisibiltiyLine(SpawnPo int spawnPoint, Player player) {
+	public SpawnPointVisibiltiyLine(SpawnPoint spawnPoint, Player player) {
 		this.spawnPoint = spawnPoint;
 		this.player = player;
 	}
@@ -22,9 +22,9 @@ public class SpawnPointVisibiltiyLine extends BreakableLine {
 
 	@Override
 	public void setLocation() {
-//		x1 = spawnPoint1.x;
-//		y1 = spawnPoint1.y;
-//		x2 = spawnPoint2.x;
-//		y2 = spawnPoint2.y;
+		x1 = player.getX();
+		y1 = player.getY();
+		x2 = spawnPoint.x;
+		y2 = spawnPoint.y;
 	}
 }

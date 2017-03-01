@@ -149,8 +149,14 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 						g.setColor(Level.getTile(c, r).getColor());
 						g.fillRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
 					}
+					if (DRAW_TILE_COORDS) {
+//						g.drawRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
+						g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/4));
+						g.setColor(COLOR_DEBUG_GREEN);
+						g.drawString(c+","+r, gridX(c+0.35f), gridY(r+0.7f));
+					}
 					if (Edit.editMode&&Level.getLayoutType(c, r)==SPAWN_POINT_TYPE) {
-						g.drawRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
+//						g.drawRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
 						g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/2));
 						g.setColor(COLOR_DEBUG_GREEN);
 						g.drawString("S", gridX(c+0.35f), gridY(r+0.7f));

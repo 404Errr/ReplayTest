@@ -13,6 +13,7 @@ public interface GraphicsData {
 	float ZOOM_INCREMENT = 0.001f;
 	float DEFAULT_WINDOW_SCREEN_RATIO = 0.8f;
 
+	boolean DRAW_TILE_COORDS = true;
 	boolean DRAW_BOUNCE_HIT = false;
 	boolean DRAW_PROJECTILE_HIT = false;
 
