@@ -8,11 +8,12 @@ import client.level.Level;
 
 public class Client {
 	public static void run() {
-		Level.init();
+		Level.preInit();
 		EditHistory.init();
 		Camera.init();
 		Game.init();
 		Window.init();
+		Level.postInit();
 		ClientUpdateLoop.run();
 	}
 }

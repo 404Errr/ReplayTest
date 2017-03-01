@@ -64,7 +64,7 @@ public class AIPlayer extends Player implements AIData {
 	private void targetWeaponPlayer() {
 		boolean found = false;
 		for (int i = 0;i<sightLines.size();i++) {
-			if (sightLines.get(i).isUninterrupted()) {
+			if (!sightLines.get(i).isBroken()) {
 				found = true;
 				if (weaponReactionCooldown>0) {
 					weaponReactionCooldown-=1000f/UPS;
@@ -85,7 +85,7 @@ public class AIPlayer extends Player implements AIData {
 	private void targetPathPlayer() {
 		boolean found = false;
 		for (int i = 0;i<sightLines.size();i++) {
-			if (sightLines.get(i).isUninterrupted()) {//can see
+			if (!sightLines.get(i).isBroken()) {//can see
 				found = true;
 				System.out.println("pathing "+i+" "+pathfindingReactionCooldown);
 				if (pathfindingReactionCooldown>0) {

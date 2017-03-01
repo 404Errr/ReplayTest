@@ -110,10 +110,10 @@ public class Edit implements MapData, TileData, ColorData {
 			if (type==TYPES[i]) currentType = i;
 		}
 	}
-
-	public static void fill(int sX, int sY, int from, int to, int[][] layout) {
+	
+	public static void fill(int iX, int iY, int from, int to, int[][] layout) {
 		Stack<Point> points = new Stack<>();
-		points.add(new Point(sX, sY));
+		points.add(new Point(iX, iY));
 		while (!points.isEmpty()) {
 			Point currentPoint = points.pop();
 			int x = currentPoint.x, y = currentPoint.y;
@@ -130,34 +130,15 @@ public class Edit implements MapData, TileData, ColorData {
 
 	public static void floodFill() {
 		EditHistory.saveState(Level.getLayout());
-		int sX = Cursor.getTileX(), sY = Cursor.getTileY();
+		int iX = Cursor.getTileX(), iY = Cursor.getTileY();
 		int[][] layout = Level.getLayout().clone();
-		if (layout[sY][sX]==getType()) return;
-		System.out.println("Fill "+(char)layout[sY][sX]+" --> "+(char)getType());
-		fill(sX, sY, layout[sY][sX], getType(), layout);
+		if (layout[iY][iX]==getType()) return;
+		System.out.println("Fill "+(char)layout[iY][iX]+" --> "+(char)getType());
+		fill(iX, iY, layout[iY][iX], getType(), layout);
 		for (int x = 0;x<Level.getWidth();x++) {
 			for (int y = 0;y<Level.getHeight();y++) {
 				if (Level.getLayoutType(x, y)!=layout[y][x]) changeType(x, y);
 			}
 		}
 	}
-
-	/*public static void saveLevel(int[][] layout, int sizeX, int sizeY) throws IOException {//old
-		StringBuilder board = new StringBuilder();
-		for (int y = 0;y<sizeY;y++) {
-			for (int x = 0;x<sizeX;x++) {
-				board.append(layout[y][x]+",");
-			}
-			board.setCharAt(board.length()-1, ';');
-			board.append("\n");
-		}
-
-		System.out.println(board+"\n\n"+fileName);
-		FileWriter fw = new FileWriter(new File(fileName));
-
-		BufferedWriter w = new BufferedWriter(fw);
-		w.write(board.toString());
-		w.close();
-	}*/
-
 }

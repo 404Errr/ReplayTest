@@ -2,10 +2,10 @@ package client.player.ai;
 
 import java.awt.geom.Line2D;
 
-import client.ai.InterruptableLine;
+import client.logic.BreakableLine;
 import client.player.Player;
 
-public class SightLine extends InterruptableLine {
+public class SightLine extends BreakableLine {
 
 	private Player owner, target;
 	private Line2D line;
