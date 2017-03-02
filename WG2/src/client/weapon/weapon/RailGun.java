@@ -15,10 +15,10 @@ public class RailGun extends Weapon implements WeaponData {
 	@Override
 	protected void use() {
 		Game.addEntity(new Hitscan(RAILGUN_DAMAGE, RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), owner.getXCenter(), owner.getYCenter(), owner.getFacing(), false));
-//		Game.addEntity(new BouncingHitscan(type.getDamage(), type.getRecoil(), RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), owner.getXCenter(), owner.getYCenter(), owner.getFacing(), 200));
-		/*for (float a = 0;a<360;a+=0.5d) {
-			Game.addEntity(new Hitscan(type.getDamage(), type.getRecoil(), 0.5f, owner.getColor(), owner.getXCenter(), owner.getYCenter(), (float)Math.toRadians(a), false));
-		}*/
+//		Game.addEntity(new BouncingHitscan(0, 0, RAILGUN_LINE_INITIAL_WIDTH, owner.getColor(), owner.getXCenter(), owner.getYCenter(), owner.getFacing(), 200));
+//		for (float a = 0;a<360;a+=0.5d) {
+//			Game.addEntity(new Hitscan(0, 0.25f, owner.getColor(), owner.getXCenter(), owner.getYCenter(), (float)Math.toRadians(a), false));
+//		}
 		owner.recoil(owner.getFacing(), -RAILGUN_RECOIL);
 	}
 

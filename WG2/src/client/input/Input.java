@@ -49,6 +49,9 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			case DEBUG_DRAW_SIGHT_LINES_KEY:
 				Debug.toggleSightLines();
 				break;
+			case KeyEvent.VK_F9:
+				Debug.toggleSpawnPointVisibilityLines();
+				break;
 			case KeyEvent.VK_F8:
 				Edit.toggleEditMode();
 				break;

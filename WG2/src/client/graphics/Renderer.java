@@ -15,14 +15,12 @@ import client.edit.Edit;
 import client.entity.Entity;
 import client.game.Game;
 import client.level.Level;
-import client.level.SpawnPointVisibiltiyLine;
 import client.player.Player;
 import client.player.ai.AIPlayer;
 import client.weapon.Weapon;
+import client.weapon.entity.AbstractProjectile;
 import client.weapon.entity.FragGrenadeProjectile;
 import client.weapon.entity.Hitscan;
-import client.weapon.entity.LimitedProjectile;
-import client.weapon.entity.Projectile;
 import data.ColorData;
 import data.GraphicsData;
 import data.MapData;
@@ -44,13 +42,11 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			Debug.drawDebug();
 			if (!Edit.editMode) drawEntities();
 			if (Edit.editMode) Edit.drawSelected();
-
-			g.setStroke(new BasicStroke(1));
-			for (int i = 0;i<Level.getSpawnPoints().size();i++)for (int j = 0;j<Level.getSpawnPoints().get(i).getSpawnPointVisibilityLines().size();j++) {
-				SpawnPointVisibiltiyLine line = Level.getSpawnPoints().get(i).getSpawnPointVisibilityLines().get(j);
-				if (!line.isBroken()) g.setColor(Util.colorOpacity(Color.BLUE, 0.75f));
-				else g.setColor(Util.colorOpacity(Color.RED, 0.25f));
-				g.drawLine(gridX(line.getX1()), gridY(line.getY1()), gridX(line.getX2()), gridY(line.getY2()));
+			
+			if (Debug.isSpawnPointVisibilityLines()) for (int i = 0;i<Level.getSpawnPoints().size();i++) {
+				if (Level.getSpawnPoints().get(i).isVisible()) g.setColor(Util.colorOpacity(Color.GREEN, 0.25f));
+				else g.setColor(Util.colorOpacity(Color.RED, 0.1f));
+				g.fillOval(gridX(Level.getSpawnPoints().get(i).x), gridY(Level.getSpawnPoints().get(i).y), Camera.getScale(), Camera.getScale());
 			}
 		}
 		catch (Exception e) {
@@ -68,12 +64,6 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		for (int i = entities.size()-1;i>=0;i--) {//reverse order so players will be drawn last (the player last too)
 			try {
 				Entity entity = entities.get(i);
-				/*if (entity instanceof Projectile) {
-					drawEntity((Projectile) entity);
-				}
-				if (entity instanceof LimitedProjectile) {
-					drawEntity((LimitedProjectile) entity);
-				}*/
 				if (entity instanceof AbstractProjectile) {//FIXME TODO test
 					drawEntity((AbstractProjectile) entity);
 				}
@@ -120,18 +110,8 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		g.setStroke(new BasicStroke((int)(hitscan.getWidth()*Camera.getScale())));
 		g.drawLine(gridX(hitscan.getiX()), gridY(hitscan.getiY()), gridX(hitscan.getfX()), gridY(hitscan.getfY()));
 	}
-
-	/*private void drawEntity(Projectile projectile) {
-		g.setColor(projectile.getColor());
-		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
-	}
-
-	private void drawEntity(LimitedProjectile projectile) {
-		g.setColor(projectile.getColor());
-		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
-	}*/
 	
-	private void drawEntity(AbstractProjectilee projectile) {//FIXME TODO test
+	private void drawEntity(AbstractProjectile projectile) {
 		g.setColor(projectile.getColor());
 		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
 	}
