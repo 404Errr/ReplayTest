@@ -7,13 +7,14 @@ import java.util.List;
 import client.entity.Entity;
 import client.game.Game;
 import client.player.Player;
+import data.MapData;
 import util.Util;
 
 @SuppressWarnings("serial")
-public class SpawnPoint extends Point {
+public class SpawnPoint extends Point implements MapData {
 	private List<SpawnPointVisibiltiyLine> spawnPointVisibilityLines;
 	private boolean visible;
-	
+
 	public SpawnPoint(Point point/*, Color color*/) {
 		setLocation(point.x, point.y);
 	}
@@ -57,11 +58,17 @@ public class SpawnPoint extends Point {
 		return visible;
 	}
 
-	public int getSaf etyRating(Player player) {
-		// TODO Auto-generated method stub
-		return 0;
+	public float getSafetyRating(Player exclude) {
+		float rating = 0;
+		List<Entity> entities = Game.getEntities();
+		for (int i = 0;i<entities.size();i++) {
+			if (entities.get(i) instanceof Player&&Game.getPlayer(i)!=exclude) {
+				rating+=distanceTo(entities.get(i));
+			}
+		}
+		if (isVisible()) return 0.01f*rating;
+		else return rating;
 	}
-
-
-
 }
+
+

@@ -121,7 +121,7 @@ public class Level implements MapData, TileData {
 		return spawnPoints.get((new Random()).nextInt(spawnPoints.size()));
 	}
 
-	public static SpawnPoint getSafe stSpawnPoint(Player exclude) {
+	public static SpawnPoint getSafestSpawnPoint(Player exclude) {
 		SpawnPoint safest = spawnPoints.get(0);
 		for (int i = 0;i<spawnPoints.size();i++) {
 			if (spawnPoints.get(i).getSafetyRating(exclude)>safest.getSafetyRating(exclude)) {
