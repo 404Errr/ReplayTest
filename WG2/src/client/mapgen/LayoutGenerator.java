@@ -9,7 +9,7 @@ import data.MapData;
 import util.Util;
 
 public class LayoutGenerator implements LayoutGenData, MapData {
-	private static List<Chunk> chunks;
+	private static List<MapGenChunk> chunks;
 
 	static {
 		initChunks();
@@ -34,7 +34,7 @@ public class LayoutGenerator implements LayoutGenData, MapData {
 		chunks = new ArrayList<>();
 		for (String path:chunkList) {
 			System.out.println(path);
-			chunks.add(new Chunk(LayoutParser.parseLayout(CHUNK_PATH+path)));
+			chunks.add(new MapGenChunk(LayoutParser.parseLayout(CHUNK_PATH+path)));
 		}
 	}
 

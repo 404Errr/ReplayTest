@@ -1,9 +1,9 @@
 package client.mapgen;
 
-public class Chunk {
+public class MapGenChunk {
 	private int[][] layout;
 
-	public Chunk(int[][] layout) {
+	public MapGenChunk(int[][] layout) {
 		this.layout = layout;
 	}
 

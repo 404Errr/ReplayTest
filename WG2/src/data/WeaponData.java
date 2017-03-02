@@ -1,7 +1,7 @@
 package data;
 
 public interface WeaponData {
-	boolean ALL_GUNS_AT_START = true, RECOIL = true, DAMAGE = false;
+	boolean ALL_GUNS_AT_START = false, RECOIL = true, DAMAGE = true, CONTROLLED_PLAYER_DAMAGE = false;
 	int STARTING_GUN = 3;
 
 	float WEAPON_SWITCH_COOLDOWN = 30f;

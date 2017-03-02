@@ -12,17 +12,12 @@ import java.awt.event.WindowListener;
 
 import javax.swing.event.MouseInputListener;
 
-import client.edit.Edit;
-import client.edit.EditHistory;
+import client.debug.Debug;
 import client.game.Game;
 import client.graphics.Camera;
-import client.level.Level;
-import client.level.pathfinding.PathFindingTester;
-import client.player.ai.AIPlayer;
 import data.ControlData;
 import data.Data;
 import data.PlayerData;
-import main.Debug;
 
 
 public class Input implements KeyListener, MouseInputListener, MouseWheelListener, ComponentListener, WindowListener, ControlData, Data, PlayerData {
@@ -52,9 +47,9 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			case KeyEvent.VK_F9:
 				Debug.toggleSpawnPointVisibilityLines();
 				break;
-			case KeyEvent.VK_F8:
-				Edit.toggleEditMode();
-				break;
+//			case KeyEvent.VK_F8:
+//				Edit.toggleEditMode();
+//				break;
 			case KeyEvent.VK_MINUS://dash
 				Camera.changeScaleRatio(-1);
 				Camera.updateScale();
@@ -67,67 +62,67 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			case KeyEvent.VK_Q://teleport 0
 				Game.getPlayer().move(Cursor.getTileX(), Cursor.getTileY());
 				break;
-			case KeyEvent.VK_E://pathfind 0
-				PathFindingTester.set1(Game.getPlayer().getXTile(), Game.getPlayer().getYTile());
-				PathFindingTester.set2(Cursor.getTileX(), Cursor.getTileY());
-				try{
-					PathFindingTester.find();
-				}
-				catch (Exception e1) {}
-				break;
-
-			case KeyEvent.VK_BACK_SLASH://pathfind all
-				for (int i = 0;i<Game.getEntities().size();i++) {
-					if (Game.getEntities().get(i) instanceof AIPlayer) {
-						((AIPlayer)Game.getPlayer(i)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
-					}
-				}
-
-			case KeyEvent.VK_Y://pathfind 1
-				((AIPlayer)Game.getPlayer(1)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
-				break;
-			case KeyEvent.VK_V://toggle movement 1
-				((AIPlayer)Game.getPlayer(1)).toggleControl();
-				break;
-			case KeyEvent.VK_R://teleport 1
-				((AIPlayer)Game.getPlayer(1)).move(Cursor.getTileX(), Cursor.getTileY());
-				break;
-
-			case KeyEvent.VK_O://pathfind 2
-				((AIPlayer)Game.getPlayer(2)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
-				break;
-			case KeyEvent.VK_M://toggle movement 2
-				((AIPlayer)Game.getPlayer(2)).toggleControl();
-				break;
-			case KeyEvent.VK_U://teleport 2
-				((AIPlayer)Game.getPlayer(2)).move(Cursor.getTileX(), Cursor.getTileY());
-				break;
-
-			case KeyEvent.VK_CLOSE_BRACKET://pathfind 3
-				((AIPlayer)Game.getPlayer(3)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
-				break;
-			case KeyEvent.VK_SLASH://toggle movement 3
-				((AIPlayer)Game.getPlayer(3)).toggleControl();
-				break;
-			case KeyEvent.VK_P://teleport 3
-				((AIPlayer)Game.getPlayer(3)).move(Cursor.getTileX(), Cursor.getTileY());
-				break;
-
-			case KeyEvent.VK_COMMA:
-				PathFindingTester.set1(Cursor.getTileX(), Cursor.getTileY());
-				break;
-			case KeyEvent.VK_PERIOD:
-				PathFindingTester.set2(Cursor.getTileX(), Cursor.getTileY());
-				break;
-			case KeyEvent.VK_SHIFT:
-				if (e.getKeyLocation()==KeyEvent.KEY_LOCATION_RIGHT) {
-					try {
-						PathFindingTester.find();
-					}
-					catch (Exception e1) {}
-				}
-				else Game.getPlayer().setHighPowerGrenade(true);
-				break;
+//			case KeyEvent.VK_E://pathfind 0
+//				PathFindingTester.set1(Game.getPlayer().getXTile(), Game.getPlayer().getYTile());
+//				PathFindingTester.set2(Cursor.getTileX(), Cursor.getTileY());
+//				try{
+//					PathFindingTester.find();
+//				}
+//				catch (Exception e1) {}
+//				break;
+//
+//			case KeyEvent.VK_BACK_SLASH://pathfind all
+//				for (int i = 0;i<Game.getEntities().size();i++) {
+//					if (Game.getEntities().get(i) instanceof AIPlayer) {
+//						((AIPlayer)Game.getPlayer(i)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
+//					}
+//				}
+//
+//			case KeyEvent.VK_Y://pathfind 1
+//				((AIPlayer)Game.getPlayer(1)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
+//				break;
+//			case KeyEvent.VK_V://toggle movement 1
+//				((AIPlayer)Game.getPlayer(1)).toggleControl();
+//				break;
+//			case KeyEvent.VK_R://teleport 1
+//				((AIPlayer)Game.getPlayer(1)).move(Cursor.getTileX(), Cursor.getTileY());
+//				break;
+//
+//			case KeyEvent.VK_O://pathfind 2
+//				((AIPlayer)Game.getPlayer(2)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
+//				break;
+//			case KeyEvent.VK_M://toggle movement 2
+//				((AIPlayer)Game.getPlayer(2)).toggleControl();
+//				break;
+//			case KeyEvent.VK_U://teleport 2
+//				((AIPlayer)Game.getPlayer(2)).move(Cursor.getTileX(), Cursor.getTileY());
+//				break;
+//
+//			case KeyEvent.VK_CLOSE_BRACKET://pathfind 3
+//				((AIPlayer)Game.getPlayer(3)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
+//				break;
+//			case KeyEvent.VK_SLASH://toggle movement 3
+//				((AIPlayer)Game.getPlayer(3)).toggleControl();
+//				break;
+//			case KeyEvent.VK_P://teleport 3
+//				((AIPlayer)Game.getPlayer(3)).move(Cursor.getTileX(), Cursor.getTileY());
+//				break;
+//
+//			case KeyEvent.VK_COMMA:
+//				PathFindingTester.set1(Cursor.getTileX(), Cursor.getTileY());
+//				break;
+//			case KeyEvent.VK_PERIOD:
+//				PathFindingTester.set2(Cursor.getTileX(), Cursor.getTileY());
+//				break;
+//			case KeyEvent.VK_SHIFT:
+//				if (e.getKeyLocation()==KeyEvent.KEY_LOCATION_RIGHT) {
+//					try {
+//						PathFindingTester.find();
+//					}
+//					catch (Exception e1) {}
+//				}
+//				else Game.getPlayer().setHighPowerGrenade(true);
+//				break;
 
 			case KeyEvent.VK_1:
 				Game.getPlayer().selectWeapon(0);
@@ -157,15 +152,15 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				Game.getPlayer().selectWeapon(8);
 				break;
 
-			case KeyEvent.VK_Z:
-				if (Edit.editMode&&!e.isControlDown()) Edit.changeType(-1);
-				break;
-			case KeyEvent.VK_X:
-				if (Edit.editMode&&!e.isControlDown()) Edit.changeType(1);
-				break;
-			case KeyEvent.VK_N:
-				if (Edit.editMode) Edit.floodFill();
-				break;
+//			case KeyEvent.VK_Z:
+//				if (Edit.editMode&&!e.isControlDown()) Edit.changeType(-1);
+//				break;
+//			case KeyEvent.VK_X:
+//				if (Edit.editMode&&!e.isControlDown()) Edit.changeType(1);
+//				break;
+//			case KeyEvent.VK_N:
+//				if (Edit.editMode) Edit.floodFill();
+//				break;
 			}
 		}
 		catch (Exception e1) {}
@@ -175,15 +170,15 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 	public void keyReleased(KeyEvent e) {
 		playerMovement(e, false);
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_BACK_SPACE:
-			if (Edit.editMode) Edit.printLayout();
-			break;
-		case KeyEvent.VK_Z:
-			if (e.isControlDown()) EditHistory.undo();
-			break;
-		case KeyEvent.VK_0:
-			EditHistory.saveState(Level.getLayout());
-			break;
+//		case KeyEvent.VK_BACK_SPACE:
+//			if (Edit.editMode) Edit.printLayout();
+//			break;
+//		case KeyEvent.VK_Z:
+//			if (e.isControlDown()) EditHistory.undo();
+//			break;
+//		case KeyEvent.VK_0:
+//			EditHistory.saveState(Level.getLayout());
+//			break;
 		case KeyEvent.VK_SHIFT:
 			if (e.getKeyLocation()==KeyEvent.KEY_LOCATION_LEFT) {
 				Game.getPlayer().setHighPowerGrenade(false);
@@ -262,22 +257,22 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			else Camera.changeScaleRatio(1);//zoom in
 			Camera.updateScale();
 		}
-		else if (!Edit.editMode) {
-//			if (e.getWheelRotation()>0) Game.getPlayer().changeWeapon(-1);
-//			else Game.getPlayer().changeWeapon(1);
-		}
-		else {
-			if (e.getWheelRotation()>0) Edit.changeType(-1);
-			else Edit.changeType(1);
-		}
+//		else if (!Edit.editMode) {
+////			if (e.getWheelRotation()>0) Game.getPlayer().changeWeapon(-1);
+////			else Game.getPlayer().changeWeapon(1);
+//		}
+//		else {
+//			if (e.getWheelRotation()>0) Edit.changeType(-1);
+//			else Edit.changeType(1);
+//		}
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		Cursor.updateMouse(e);
-		if (Edit.editMode) {
-			Edit.setEnd();
-		}
+//		if (Edit.editMode) {
+//			Edit.setEnd();
+//		}
 	}
 
 	@Override
@@ -288,7 +283,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 	public static void click(MouseEvent e, boolean down) {
 		switch (e.getButton()) {
 		case MouseEvent.BUTTON1://left
-			if (!Edit.editMode) Game.getPlayer().setMouseControl(MOUSE1, down);
+			/*if (!Edit.editMode) */Game.getPlayer().setMouseControl(MOUSE1, down);
 			break;
 		case MouseEvent.BUTTON2://middle
 			Game.getPlayer().setMouseControl(MOUSE2, down);
@@ -303,26 +298,26 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 	@Override
 	public void mousePressed(MouseEvent e) {
 		Cursor.updateMouse(e);
-		if (e.getButton()==MouseEvent.BUTTON1&&Edit.editMode) {
-			Edit.setStart();
-			Edit.setEnd();
-			Edit.setDraw(true);
-		}
-		if (e.getButton()==MouseEvent.BUTTON2&&Edit.editMode) {
-			Edit.pickType();
-		}
+//		if (e.getButton()==MouseEvent.BUTTON1&&Edit.editMode) {
+//			Edit.setStart();
+//			Edit.setEnd();
+//			Edit.setDraw(true);
+//		}
+//		if (e.getButton()==MouseEvent.BUTTON2&&Edit.editMode) {
+//			Edit.pickType();
+//		}
 		click(e, true);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		Cursor.updateMouse(e);
-		if (e.getButton()==MouseEvent.BUTTON1&&Edit.editMode) {
-			Edit.setDraw(false);
-			Edit.setEnd();
-			Edit.changeTiles();
-			Edit.setStart();
-		}
+//		if (e.getButton()==MouseEvent.BUTTON1&&Edit.editMode) {
+//			Edit.setDraw(false);
+//			Edit.setEnd();
+//			Edit.changeTiles();
+//			Edit.setStart();
+//		}
 		click(e, false);
 	}
 

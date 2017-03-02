@@ -6,10 +6,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import client.edit.Edit;
 import client.entity.Entity;
-import client.level.Level;
 import client.level.SpawnPoint;
+import client.player.controlled.ControlledPlayer;
 import client.weapon.PlayerWeapon;
 import client.weapon.weapon.BasicGun;
 import client.weapon.weapon.FragGrenade;
@@ -69,7 +68,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		while (remaining>0) {
 			if (remaining>=inc) x+=inc*sign;//if remaining isnt smaller than increment, change x by increment
 			else x+=remaining*sign;//if it is, change x by remaining
-			if (!Edit.editMode&&checkWallCollision()) {//if hit something
+			if (/*!Edit.editMode&&*/checkWallCollision()) {//if hit something
 				if (sign>0) setCanMove(RIGHT, false);//if was trying to move to the right, setcanmove right to false
 				if (sign<0) setCanMove(LEFT, false);
 				x = Math.round(x);//reallign to grid
@@ -82,7 +81,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		while (remaining>0) {
 			if (remaining>=inc) y+=inc*sign;
 			else y+=remaining*sign;
-			if (!Edit.editMode&&checkWallCollision()) {
+			if (/*!Edit.editMode&&*/checkWallCollision()) {
 				if (sign<0) setCanMove(UP, false);
 				if (sign>0) setCanMove(DOWN, false);
 				y = Math.round(y);
@@ -93,16 +92,16 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	}
 
 	protected boolean checkWallCollision() {
-		final Rectangle2D hitbox = new Rectangle2D.Float(x, y, PLAYER_SIZE, PLAYER_SIZE);
-		for (int r = getYTile()-1;r<getYTile()+2;r++) {//for each row within the radius
-			for (int c = getXTile()-1;c<getXTile()+2;c++) {//for each collumn within the radius
-				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(c, r).isSolid(SOLID_WALLS)) {//bounds check and if tile is solid
-					if (Level.getTile(c, r).getBounds().intersects(hitbox)) {
-						return true;
-					}
-				}
-			}
-		}
+//		final Rectangle2D hitbox = new Rectangle2D.Float(x, y, PLAYER_SIZE, PLAYER_SIZE);
+//		for (int r = getYTile()-1;r<getYTile()+2;r++) {//for each row within the radius
+//			for (int c = getXTile()-1;c<getXTile()+2;c++) {//for each collumn within the radius
+//				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(c, r).isSolid(SOLID_WALLS)) {//bounds check and if tile is solid
+//					if (Level.getTile(c, r).getBounds().intersects(hitbox)) {
+//						return true;
+//					}
+//				}
+//			}
+//		}
 		return false;
 	}
 
@@ -158,7 +157,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		for (PlayerWeapon weapon:weapons) {
 			weapon.tick();
 		}
-		if (!Edit.editMode&&isDead()) respawn(Level.getSafestSpawnPoint(this));
+//		if (!Edit.editMode&&isDead()) respawn(Level.getSafestSpawnPoint(this));
 		return false;
 	}
 
@@ -318,7 +317,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	}
 
 	public void changeHealth(float dHealth) {//TODO
-		if (DAMAGE) this.health+=dHealth;
+		if (!(DAMAGE!=new Boolean(true)||(this instanceof ControlledPlayer&&CONTROLLED_PLAYER_DAMAGE!=new Boolean(true)))) this.health+=dHealth;
 	}
 
 	public boolean highPowerGrenade() {

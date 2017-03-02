@@ -26,6 +26,10 @@ public interface MapData {
 	boolean EDIT_MODE = false;
 	int EDIT_HISTORY_LIMIT = 666;
 
+	boolean ADD_EDGE = true;//puts and edge around the map
+	boolean AUTO_DISABLE_ADD_EDGE = true;//disables if it finds an empty tile or if the map area is greater than the value below
+	int AUTO_DISABLE_ADD_EDGE_THREASHOLD = 10000;//area
+
 	int EDGE_TYPE = '1';
 	int SPAWN_POINT_TYPE = 's', SPAWN_POINT_REPLACEMENT_TYPE = '0';//don't touch
 	int[] EMPTY_TAGS = {'$', 'x'};//don't touch
@@ -33,7 +37,4 @@ public interface MapData {
 
 	String PATH = "src/maps/";
 
-	boolean ADD_EDGE = true;//puts and edge around the map
-	boolean AUTO_DISABLE_ADD_EDGE = true;//disables if it finds an empty tile or if the map area is greater than the value below
-	int AUTO_DISABLE_ADD_EDGE_THREASHOLD = 10000;//area
 }

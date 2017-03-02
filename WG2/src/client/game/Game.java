@@ -1,14 +1,13 @@
 package client.game;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import client.edit.Edit;
 import client.entity.Entity;
-import client.level.Level;
+import client.level.SpawnPoint;
 import client.player.Player;
-import client.player.ai.AIPlayer;
 import client.player.controlled.ControlledPlayer;
 import data.ColorData;
 import data.Data;
@@ -20,14 +19,14 @@ public class Game implements ColorData, TileData, Data {
 
 	public static void init() {
 		entities = new ArrayList<>();
-		player = new ControlledPlayer(COLOR_PLAYER, Level.getRandomSpawnPoint());//the player
+		player = new ControlledPlayer(COLOR_PLAYER, new SpawnPoint(new Point(0, 0)));//the player
 		entities.add(player);
-		if (Edit.editMode) return;
-		if (getBotCount()>=1) entities.add(new AIPlayer(COLOR_PLAYER_1, Level.getSafestSpawnPoint(null)));
-		if (getBotCount()>=2) entities.add(new AIPlayer(COLOR_PLAYER_2, Level.getSafestSpawnPoint(null)));
-		if (getBotCount()>=3) entities.add(new AIPlayer(COLOR_PLAYER_3, Level.getSafestSpawnPoint(null)));
-		for (int i = 0;i<getBotCount()-3;i++) entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
-		for (Entity entity:entities) if (entity instanceof AIPlayer) ((AIPlayer)entity).initSightLines();//assumes there are only players in entities
+//		if (Edit.editMode) return;
+//		if (getBotCount()>=1) entities.add(new AIPlayer(COLOR_PLAYER_1, Level.getSafestSpawnPoint(null)));
+//		if (getBotCount()>=2) entities.add(new AIPlayer(COLOR_PLAYER_2, Level.getSafestSpawnPoint(null)));
+//		if (getBotCount()>=3) entities.add(new AIPlayer(COLOR_PLAYER_3, Level.getSafestSpawnPoint(null)));
+//		for (int i = 0;i<getBotCount()-3;i++) entities.add(new AIPlayer(getRandomColor(), Level.getSafestSpawnPoint(null)));
+//		for (Entity entity:entities) if (entity instanceof AIPlayer) ((AIPlayer)entity).initSightLines();//assumes there are only players in entities
 	}
 
 	public static Color getRandomColor() {

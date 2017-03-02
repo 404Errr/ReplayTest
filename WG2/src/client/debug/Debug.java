@@ -1,20 +1,13 @@
-package main;
+package client.debug;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.Point;
-import java.util.List;
 
-import client.edit.Edit;
 import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Renderer;
 import client.graphics.Window;
 import client.input.Cursor;
-import client.level.Level;
-import client.level.SpawnPointVisibiltiyLine;
-import client.level.pathfinding.PathFindingTester;
 import client.main.ClientUpdateLoop;
 import data.ColorData;
 import data.ControlData;
@@ -24,7 +17,7 @@ import data.MapData;
 import util.Util;
 
 public class Debug implements Data, ColorData, MapData, ControlData {
-	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = false, spawnPointVisibilityLines = true;
+	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = false, spawnPointVisibilityLines = false;
 	private final static int textX = 25, textY = 30, textSize = 15;
 
 //	public static int[] kills = new int[4];
@@ -42,7 +35,7 @@ public class Debug implements Data, ColorData, MapData, ControlData {
 				if (ups>UPS) ups = UPS;
 				text.append("UPS = "+ups+"$");
 //				text.append("I forgot = "+ClientUpdateLoop.getCurrentUpdateTime()+"$");
-				text.append("Window = "+Window.width()+"x"+Window.height()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Camera.getScale()+"$");
+//				text.append("Window = "+Window.width()+"x"+Window.height()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Camera.getScale()+"$");
 				text.append("Zoomed = "+Camera.isZoomed()+"$");
 				text.append("Render Distance = "+GraphicsData.getRenderDistanceX()+", "+GraphicsData.getRenderDistanceY()+"$");
 				text.append("X, Y Tile = "+Game.getPlayer().getXTile()+", "+Game.getPlayer().getYTile()+"$");
@@ -52,9 +45,9 @@ public class Debug implements Data, ColorData, MapData, ControlData {
 				text.append("ddx, ddy = "+Game.getPlayer().getddX()+", "+Game.getPlayer().getddY()+"$");
 				text.append("Facing = "+((float)Math.toDegrees(Game.getPlayer().getFacing())+((Game.getPlayer().getFacing()<0)?360:0))+" ("+Game.getPlayer().getFacing()+")"+"$");
 				text.append("Cursor = "+Cursor.getScreenX()+","+Cursor.getScreenY()+" ("+Cursor.getPlayerX()+","+Cursor.getPlayerY()+")"+"$");
-				text.append("Active Weapon = "+Game.getPlayer().getActiveWeapon()+" Cooldown = "+Game.getPlayer().getActiveWeapon().getCooldown()+"$");
+//				text.append("Active Weapon = "+Game.getPlayer().getActiveWeapon()+" Cooldown = "+Game.getPlayer().getActiveWeapon().getCooldown()+"$");
 				text.append("Debug Text = true, LOS Line = "+losLine+"$");
-				if (Edit.editMode) text.append("Type = "+(char)Edit.getType());
+//				if (Edit.editMode) text.append("Type = "+(char)Edit.getType());
 
 				String[] textLines = text.toString().split("\\$");
 				Renderer.getG().setColor(COLOR_DEBUG_GREEN);
@@ -63,7 +56,7 @@ public class Debug implements Data, ColorData, MapData, ControlData {
 					Renderer.getG().drawString(textLines[i], textX, textY+textSize*i);
 				}
 			}
-			if (losLine&&!Edit.editMode) {
+			if (losLine/*&&!Edit.editMode*/) {
 				Renderer.getG().setColor(COLOR_DEBUG_GREEN);
 				Renderer.getG().setStroke(new BasicStroke(1));
 				final int w = Window.centerX(), h = Window.centerY(), lineLength = Math.max(Window.width(), Window.height())*2;
@@ -75,33 +68,33 @@ public class Debug implements Data, ColorData, MapData, ControlData {
 					Renderer.getG().drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));//los
 				}
 			}
-			if (spawnPointVisibilityLines&&!Edit.editMode) {
-				Renderer.getG().setStroke(new BasicStroke(1));
-				for (int i = 0;i<Level.getSpawnPoints().size();i++)for (int j = 0;j<Level.getSpawnPoints().get(i).getSpawnPointVisibilityLines().size();j++) {
-					SpawnPointVisibiltiyLine line = Level.getSpawnPoints().get(i).getSpawnPointVisibilityLines().get(j);
-					if (!line.isBroken()) Renderer.getG().setColor(Util.colorOpacity(Color.BLUE, 0.75f));
-					else Renderer.getG().setColor(Util.colorOpacity(Color.RED, 0.05f));
-					Renderer.getG().drawLine(Renderer.gridX(line.getX1()), Renderer.gridY(line.getY1()), Renderer.gridX(line.getX2()), Renderer.gridY(line.getY2()));
-				}
-			}
+//			if (spawnPointVisibilityLines&&!Edit.editMode) {
+//				Renderer.getG().setStroke(new BasicStroke(1));
+//				for (int i = 0;i<Level.getSpawnPoints().size();i++)for (int j = 0;j<Level.getSpawnPoints().get(i).getSpawnPointVisibilityLines().size();j++) {
+//					SpawnPointVisibiltiyLine line = Level.getSpawnPoints().get(i).getSpawnPointVisibilityLines().get(j);
+//					if (!line.isBroken()) Renderer.getG().setColor(Util.colorOpacity(Color.BLUE, 0.75f));
+//					else Renderer.getG().setColor(Util.colorOpacity(Color.RED, 0.05f));
+//					Renderer.getG().drawLine(Renderer.gridX(line.getX1()), Renderer.gridY(line.getY1()), Renderer.gridX(line.getX2()), Renderer.gridY(line.getY2()));
+//				}
+//			}
 //			drawPath(PathFindingTester.linesAStar, Color.BLUE, 2);
 //			drawPath(PathFindingTester.linesMaze, Color.CYAN, 2);
 		}
 	}
 
-	public static void drawPath(List<Point> lines, Color color, int size) {
-		if (drawDebugPathfinding&&!Edit.editMode) {
-			Renderer.getG().setColor(color);
-			Renderer.getG().setStroke(new BasicStroke(size));
-			for (int i = 1;i<lines.size();i++) {
-				Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
-			}
-			Renderer.getG().setColor(Color.green);
-			Renderer.getG().setStroke(new BasicStroke(7));
-			Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()));
-			Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
-		}
-	}
+//	public static void drawPath(List<Point> lines, Color color, int size) {
+//		if (drawDebugPathfinding/*&&!Edit.editMode*/) {
+//			Renderer.getG().setColor(color);
+//			Renderer.getG().setStroke(new BasicStroke(size));
+//			for (int i = 1;i<lines.size();i++) {
+//				Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
+//			}
+//			Renderer.getG().setColor(Color.green);
+//			Renderer.getG().setStroke(new BasicStroke(7));
+//			Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()));
+//			Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
+//		}
+//	}
 
 	public static void toggleText() {
 		debugText = !debugText;

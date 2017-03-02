@@ -3,7 +3,6 @@ package client.main;
 import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Window;
-import client.level.Level;
 import data.Data;
 
 public class ClientUpdateLoop implements Data {
@@ -17,10 +16,10 @@ public class ClientUpdateLoop implements Data {
 		currentUpdateTime = 0;
 		while (true) {
 			startTime = System.nanoTime();
-			
+
 			update();//update
 			Window.getRendererer().repaint();//refresh the screen
-			
+
 			wait = (updateSpeed-(System.nanoTime()-startTime))/1000000;
 			currentUpdateTime = UPS-(UPS*((updateSpeed-(System.nanoTime()-startTime))/updateSpeed));
 			if (wait>=1) try {
@@ -36,7 +35,7 @@ public class ClientUpdateLoop implements Data {
 				if (Game.getEntities().get(i).tick()) Game.getEntities().remove(i);
 				else i++;
 			}
-			Level.tick();
+//			Level.tick();
 			Camera.tick();
 		}
 		catch (Exception e) {

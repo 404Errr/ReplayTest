@@ -10,54 +10,57 @@ import data.TileData;
 
 public class Tile implements MapData, AIData, TileData {
 
-	protected boolean usable;
-	protected int c, r, nextToWallCost;
+//	protected boolean usable;
+	protected int cX, cY, x, y, type;//, nextToWallCost
 
-	public Tile(int c, int r, int tileType, boolean solid) {//x, y, soliditity
-		this.c = c;
-		this.r = r;
-		this.usable = !solid&&getColor()!=null;
-		if (!solid) for (int i = 1;i<WALL_DISTANCE;i++) {
-			if (isNextToWall(i)) nextToWallCost+=WALL_MOVEMENT_COST;
-		}
+	public Tile(int cX, int cY, int x, int y, int tileType) {//x, y, soliditity
+		this.cX = cX;
+		this.cY = cY;
+		this.x = x;
+		this.y = y;
+		this.type = tileType;
+//		this.usable = !solid&&getColor()!=null;
+//		if (!solid) for (int i = 1;i<WALL_DISTANCE;i++) {
+//			if (isNextToWall(i)) nextToWallCost+=WALL_MOVEMENT_COST;
+//		}
 	}
 
-	public int getC() {
-		return c;
+	public int getX() {
+		return cX*Level.size+x;
 	}
 
-	public int getR() {
-		return r;
+	public int getY() {
+		return cY*Level.size+y;
 	}
 
 	public Rectangle2D getBounds() {
-		return new Rectangle2D.Double(c, r, 1, 1);
+		return new Rectangle2D.Double(cX*Level.size+x, cY*Level.size+y, 1, 1);
 	}
 
-	public boolean isSolid(int solidityType) {
-		return TileData.getSolid(Level.getLayoutType(c, r))[solidityType];
-	}
+//	public boolean isSolid(int solidityType) {
+//		return TileData.getSolid(Level.getLayoutType(c, r))[solidityType];
+//	}
 
 	public Color getColor() {
-		return ColorData.getTileColor(Level.getLayoutType(c, r));
+		return ColorData.getTileColor(type);
 	}
 
-	public int getNextToWallCost() {
-		return nextToWallCost;
-	}
+//	public int getNextToWallCost() {
+//		return nextToWallCost;
+//	}
+//
+//	public boolean isUsable() {
+//		return usable;
+//	}
 
-	public boolean isUsable() {
-		return usable;
-	}
-
-	public boolean isNextToWall(int range) {
-		for (int y = r-range;y<=r+range;y++) {
-			for (int x = c-range;x<=c+range;x++) {
-				if (y>0&&x>0&&y<Level.getHeight()&&x<Level.getWidth()&&TileData.getSolid(Level.getLayoutType(x, y))[SOLID_WALLS]) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+//	public boolean isNextToWall(int range) {
+//		for (int y = r-range;y<=r+range;y++) {
+//			for (int x = c-range;x<=c+range;x++) {
+//				if (y>0&&x>0&&y<Level.getHeight()&&x<Level.getWidth()&&TileData.getSolid(Level.getLayoutType(x, y))[SOLID_WALLS]) {
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
+//	}
 }
