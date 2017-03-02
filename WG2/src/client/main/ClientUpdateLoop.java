@@ -18,7 +18,13 @@ public class ClientUpdateLoop implements Data {
 		while (true) {
 			startTime = System.nanoTime();
 			update();//update
-			Window.getRendererer().repaint();//refresh the screen
+			
+			enable one of these//FIXME TODO
+			//Window.getRendererer().repaint();//repaint the screen
+			//Window.getRendererer().repaintImmediately(0, 0, Window.getRendererer.getWidth(), Window.getRendererer.getHeight());//TODO test
+			//Window.getRendererer().paint();//TODO test
+			//Window.getRendererer().paintComponent();//TODO test
+			
 			wait = (updateSpeed-(System.nanoTime()-startTime))/1000000;
 			currentUpdateTime = UPS-(UPS*((updateSpeed-(System.nanoTime()-startTime))/updateSpeed));
 			if (wait>=1) try {
