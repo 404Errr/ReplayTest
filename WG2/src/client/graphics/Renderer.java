@@ -68,27 +68,30 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		for (int i = entities.size()-1;i>=0;i--) {//reverse order so players will be drawn last (the player last too)
 			try {
 				Entity entity = entities.get(i);
-				if (entity instanceof Projectile) {
-					drawEntity((Projectile)entity);
+				/*if (entity instanceof Projectile) {
+					drawEntity((Projectile) entity);
 				}
 				if (entity instanceof LimitedProjectile) {
-					drawEntity((LimitedProjectile)entity);
+					drawEntity((LimitedProjectile) entity);
+				}*/
+				if (entity instanceof AbstractProjectile) {//FIXME TODO test
+					drawEntity((AbstractProjectile) entity);
 				}
 				if (entity instanceof Hitscan) {
-					drawEntity((Hitscan)entity);
+					drawEntity((Hitscan) entity);
 				}
 				if (entity instanceof FragGrenadeProjectile) {
-					drawEntity((FragGrenadeProjectile)entity);
+					drawEntity((FragGrenadeProjectile) entity);
 				}
 				if (entity instanceof Player) {
-					drawPlayer((Player)entity);
+					drawPlayer((Player) entity);
 					if (entity instanceof AIPlayer) {
-						Debug.drawPath(((AIPlayer)entity).getCurrentPath(), ((Player)entity).getColor(), 2);
+						Debug.drawPath(((AIPlayer) entity).getCurrentPath(), ((Player) entity).getColor(), 2);
 						if (Debug.isDrawSightLines()) {
 							g.setStroke(new BasicStroke(2));
-							for (int j = 0;j<((AIPlayer)entity).getSightLines().size();j++) {
-								Line2D line = ((AIPlayer)entity).getSightLines().get(j).getLine();
-								if (!((AIPlayer)entity).getSightLines().get(j).isBroken()) g.setColor(Util.colorOpacity(Color.BLUE, 0.75f));
+							for (int j = 0;j<((AIPlayer) entity).getSightLines().size();j++) {
+								Line2D line = ((AIPlayer) entity).getSightLines().get(j).getLine();
+								if (!((AIPlayer) entity).getSightLines().get(j).isBroken()) g.setColor(Util.colorOpacity(Color.BLUE, 0.75f));
 								else g.setColor(Util.colorOpacity(Color.RED, 0.25f));
 								g.drawLine(gridX((float)line.getX1()), gridY((float)line.getY1()), gridX((float)line.getX2()), gridY((float)line.getY2()));
 							}
@@ -118,12 +121,17 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		g.drawLine(gridX(hitscan.getiX()), gridY(hitscan.getiY()), gridX(hitscan.getfX()), gridY(hitscan.getfY()));
 	}
 
-	private void drawEntity(Projectile projectile) {
+	/*private void drawEntity(Projectile projectile) {
 		g.setColor(projectile.getColor());
 		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
 	}
 
 	private void drawEntity(LimitedProjectile projectile) {
+		g.setColor(projectile.getColor());
+		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
+	}*/
+	
+	private void drawEntity(AbstractProjectilee projectile) {//FIXME TODO test
 		g.setColor(projectile.getColor());
 		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
 	}
