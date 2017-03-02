@@ -11,8 +11,9 @@ import util.Util;
 
 @SuppressWarnings("serial")
 public class SpawnPoint extends Point {
-	pri vate List<SpawnPointVisibiltiyLine> spawnPointVisibilityLines;//TODO
-
+	private List<SpawnPointVisibiltiyLine> spawnPointVisibilityLines;
+	private boolean visible;
+	
 	public SpawnPoint(Point point/*, Color color*/) {
 		setLocation(point.x, point.y);
 	}
@@ -42,12 +43,25 @@ public class SpawnPoint extends Point {
 	}
 
 	public void tick() {
-		for (int i = 0;i<spawnPointVisibilityLines.size();i++) spawnPointVisibilityLines.get(i).tick();
+		visible = false;
+		for (int i = 0;i<spawnPointVisibilityLines.size();i++) {
+			if (!spawnPointVisibilityLines.get(i).tick()) visible = true;
+		}
 	}
 
 	public List<SpawnPointVisibiltiyLine> getSpawnPointVisibilityLines() {
 		return spawnPointVisibilityLines;
 	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public int getSaf etyRating(Player player) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 
 }

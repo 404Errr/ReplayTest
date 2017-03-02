@@ -13,6 +13,7 @@ import client.graphics.Renderer;
 import client.graphics.Window;
 import client.input.Cursor;
 import client.level.Level;
+import client.level.SpawnPointVisibiltiyLine;
 import client.level.pathfinding.PathFindingTester;
 import client.main.ClientUpdateLoop;
 import data.ColorData;
@@ -23,7 +24,7 @@ import data.MapData;
 import util.Util;
 
 public class Debug implements Data, ColorData, MapData, ControlData {
-	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = false;
+	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = false, spawnPointVisibilityLines = true;
 	private final static int textX = 25, textY = 30, textSize = 15;
 
 //	public static int[] kills = new int[4];
@@ -74,7 +75,16 @@ public class Debug implements Data, ColorData, MapData, ControlData {
 					Renderer.getG().drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));//los
 				}
 			}
-			drawPath(PathFindingTester.linesAStar, Color.BLUE, 2);
+			if (spawnPointVisibilityLines&&!Edit.editMode) {
+				Renderer.getG().setStroke(new BasicStroke(1));
+				for (int i = 0;i<Level.getSpawnPoints().size();i++)for (int j = 0;j<Level.getSpawnPoints().get(i).getSpawnPointVisibilityLines().size();j++) {
+					SpawnPointVisibiltiyLine line = Level.getSpawnPoints().get(i).getSpawnPointVisibilityLines().get(j);
+					if (!line.isBroken()) Renderer.getG().setColor(Util.colorOpacity(Color.BLUE, 0.75f));
+					else Renderer.getG().setColor(Util.colorOpacity(Color.RED, 0.05f));
+					Renderer.getG().drawLine(Renderer.gridX(line.getX1()), Renderer.gridY(line.getY1()), Renderer.gridX(line.getX2()), Renderer.gridY(line.getY2()));
+				}
+			}
+//			drawPath(PathFindingTester.linesAStar, Color.BLUE, 2);
 //			drawPath(PathFindingTester.linesMaze, Color.CYAN, 2);
 		}
 	}
@@ -129,5 +139,16 @@ public class Debug implements Data, ColorData, MapData, ControlData {
 		drawDebugPathfinding = !drawDebugPathfinding;
 	}
 
+	public static boolean isDrawDebugPathfinding() {
+		return drawDebugPathfinding;
+	}
+
+	public static boolean isSpawnPointVisibilityLines() {
+		return spawnPointVisibilityLines;
+	}
+
+	public static void toggleSpawnPointVisibilityLines() {
+		spawnPointVisibilityLines = !spawnPointVisibilityLines;
+	}
 
 }

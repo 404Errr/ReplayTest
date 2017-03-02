@@ -1,7 +1,7 @@
 package data;
 
 public interface MapData {
-//	String MAP = "$30x30";
+//	String MAP = "$60x60";
 //	String MAP = "map0";
 //	String MAP = "map1";
 //	String MAP = "map2";

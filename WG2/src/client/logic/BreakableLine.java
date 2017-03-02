@@ -31,9 +31,10 @@ public abstract class BreakableLine implements Data, AIData, TileData, PlayerDat
 		}
 	}
 	
-	public void tick() {
+	public boolean tick() {
 		setLocation();
 		update();
+		return isBroken();
 	}
 	
 	public void update() {

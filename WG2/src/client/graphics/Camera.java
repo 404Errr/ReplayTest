@@ -35,21 +35,21 @@ public class Camera implements GraphicsData {
 		Camera.x = x;
 		Camera.y = y;
 	}
-
+	
 	public static float getX() {
 		return x;
 	}
-
+	
 	public static float getY() {
 		return y;
 	}
-
+	
 	public static int getXTile() {
-		return Math.round(x);
+		return Math.round(getX());
 	}
 
 	public static int getYTile() {
-		return Math.round(y);
+		return Math.round(getY());
 	}
 
 	public static float getScaleRatio() {
