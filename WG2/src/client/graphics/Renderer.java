@@ -42,11 +42,14 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			Debug.drawDebug();
 			if (!Edit.editMode) drawEntities();
 			if (Edit.editMode) Edit.drawSelected();
-			
+
 			if (Debug.isSpawnPointVisibilityLines()) for (int i = 0;i<Level.getSpawnPoints().size();i++) {
 				if (Level.getSpawnPoints().get(i).isVisible()) g.setColor(Util.colorOpacity(Color.GREEN, 0.25f));
 				else g.setColor(Util.colorOpacity(Color.RED, 0.1f));
-				g.fillOval(gridX(Level.getSpawnPoints().get(i).x), gridY(Level.getSpawnPoints().get(i).y), Camera.getScale(), Camera.getScale());
+				g.fillOval(gridX(Level.getSpawnPoints().get(i).x+0.4f), gridY(Level.getSpawnPoints().get(i).y+0.4f), (int) (Camera.getScale()*0.2f), (int) (Camera.getScale()*0.2f));
+				g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/4));
+				g.setColor(COLOR_DEBUG_GREEN);
+				g.drawString(Level.getSpawnPoints().get(i).getSafetyRating(null)+"", gridX(Level.getSpawnPoints().get(i).x+0.35f), gridY(Level.getSpawnPoints().get(i).y+0.8f));
 			}
 		}
 		catch (Exception e) {
@@ -110,7 +113,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		g.setStroke(new BasicStroke((int)(hitscan.getWidth()*Camera.getScale())));
 		g.drawLine(gridX(hitscan.getiX()), gridY(hitscan.getiY()), gridX(hitscan.getfX()), gridY(hitscan.getfY()));
 	}
-	
+
 	private void drawEntity(AbstractProjectile projectile) {
 		g.setColor(projectile.getColor());
 		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
