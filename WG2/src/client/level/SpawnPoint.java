@@ -1,6 +1,7 @@
 package client.level;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 import client.entity.Entity;
@@ -10,10 +11,17 @@ import util.Util;
 
 @SuppressWarnings("serial")
 public class SpawnPoint extends Point {
-//	private Color color;//teams?
+	pri vate List<SpawnPointVisibiltiyLine> spawnPointVisibilityLines;//TODO
 
 	public SpawnPoint(Point point/*, Color color*/) {
 		setLocation(point.x, point.y);
+	}
+
+	public void init() {
+		spawnPointVisibilityLines = new ArrayList<>();
+		for (int i = 0;i<Game.getEntities().size();i++) {
+			spawnPointVisibilityLines.add(new SpawnPointVisibiltiyLine(this, Game.getPlayer(i)));
+		}
 	}
 
 	public float distanceToClosestPlayer(Player exclude) {
@@ -32,4 +40,14 @@ public class SpawnPoint extends Point {
 	private float distanceTo(Entity entity) {
 		return Util.distance(x, y, entity.getX(), entity.getY());
 	}
+
+	public void tick() {
+		for (int i = 0;i<spawnPointVisibilityLines.size();i++) spawnPointVisibilityLines.get(i).tick();
+	}
+
+	public List<SpawnPointVisibiltiyLine> getSpawnPointVisibilityLines() {
+		return spawnPointVisibilityLines;
+	}
+
+
 }

@@ -87,7 +87,6 @@ public class AIPlayer extends Player implements AIData {
 		for (int i = 0;i<sightLines.size();i++) {
 			if (!sightLines.get(i).isBroken()) {//can see
 				found = true;
-				System.out.println("pathing "+i+" "+pathfindingReactionCooldown);
 				if (pathfindingReactionCooldown>0) {
 					pathfindingReactionCooldown-=1000f/UPS;
 				}
@@ -127,7 +126,7 @@ public class AIPlayer extends Player implements AIData {
 			if ((int)(Math.random()*SWAY_D)==0) sway*=0.1f;
 			setFacing((float)(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY())+Math.toRadians(sway)));
 
-			//			setFacing(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY()));
+//			setFacing(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY()));
 		}
 		else if (Math.abs(dX)+Math.abs(dY)>0.1f) setFacing(Util.getAngle(0, 0, dX, dY));
 	}

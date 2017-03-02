@@ -13,7 +13,7 @@ public class Client {
 		Camera.init();
 		Game.init();
 		Window.init();
-		Level.postInit();
+		Level.initSpawnPoints();
 		ClientUpdateLoop.run();
 	}
 }

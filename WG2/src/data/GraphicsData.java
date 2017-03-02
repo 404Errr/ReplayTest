@@ -4,7 +4,9 @@ import client.graphics.Camera;
 import client.graphics.Window;
 
 public interface GraphicsData {
-	WindowType WINDOW_FORMAT = WindowType.WINDOWED;//_FULLSCREEN;
+//	WindowType WINDOW_FORMAT = WindowType.WINDOWED;
+	WindowType WINDOW_FORMAT = WindowType.WINDOWED_FULLSCREEN;
+//	WindowType WINDOW_FORMAT = WindowType.BORDERLESS_FULLSCREEN;
 	enum WindowType {
 		BORDERLESS_FULLSCREEN, WINDOWED_FULLSCREEN, WINDOWED
 	}
@@ -13,7 +15,7 @@ public interface GraphicsData {
 	float ZOOM_INCREMENT = 0.001f;
 	float DEFAULT_WINDOW_SCREEN_RATIO = 0.8f;
 
-	boolean DRAW_TILE_COORDS = true;
+	boolean DRAW_TILE_COORDS = false;
 	boolean DRAW_BOUNCE_HIT = false;
 	boolean DRAW_PROJECTILE_HIT = false;
 

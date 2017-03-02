@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import client.edit.Edit;
-import client.game.Game;
 import client.mapgen.LayoutGenerator;
 import client.player.Player;
 import data.ColorData;
@@ -18,12 +17,7 @@ public class Level implements MapData, TileData {
 	private static int[][] layout;
 	private static Tile[][] tiles;//the level
 	private static List<SpawnPoint> spawnPoints;
-	private static List<SpawnPointVisibiltiyLine> spawnPointVisibilityLines;
 
-	public static void postInit() {		
-		initSpawnPointVisibilityLines();
-	}
-	
 	public static void preInit() {
 		if (MAP!=null) {
 			if (MAP.charAt(0)==EMPTY_TAGS[0]) {
@@ -53,13 +47,8 @@ public class Level implements MapData, TileData {
 		createTiles();
 	}
 
-	public static void initSpawnPointVisibilityLines() {
-		spawnPointVisibilityLines = new ArrayList<>();
-		for (int i = 0;i<Game.getEntities().size();i++) {
-			for (int j = 0;j<spawnPoints.size();j++) {
-				spawnPointVisibilityLines.add(new SpawnPointVisibiltiyLine(spawnPoints.get(j), Game.getPlayer(i)));
-			}
-		}
+	public static void initSpawnPoints() {
+		for (int i = 0;i<spawnPoints.size();i++) spawnPoints.get(i).init();
 	}
 
 	public static void createTiles() {
@@ -141,13 +130,9 @@ public class Level implements MapData, TileData {
 		}
 		return safest;
 	}
-	
-	public static void tick() {
-		for (int i = 0;i<spawnPointVisibilityLines.size();i++) spawnPointVisibilityLines.get(i).tick();
-	}
 
-	public static List<SpawnPointVisibiltiyLine> getSpawnPointVisibiltyLines() {
-		return spawnPointVisibilityLines;
+	public static void tick() {
+		for (int i = 0;i<spawnPoints.size();i++) spawnPoints.get(i).tick();
 	}
 
 	public static int[][] getLayout() {
