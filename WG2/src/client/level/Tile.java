@@ -33,6 +33,18 @@ public class Tile implements MapData, AIData, TileData {
 		return cY*Level.size+y;
 	}
 
+	public int getcX() {
+		return cX;
+	}
+
+	public int getcY() {
+		return cY;
+	}
+
+	public int getType() {
+		return type;
+	}
+
 	public Rectangle2D getBounds() {
 		return new Rectangle2D.Double(cX*Level.size+x, cY*Level.size+y, 1, 1);
 	}

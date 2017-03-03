@@ -20,6 +20,7 @@ public class Level implements MapData, TileData {
 		chunks = new HashMap<>();
 
 		chunks.put(new Point(0, 0), new Chunk(0, 0, getEmpty(size, size)));
+		chunks.put(new Point(1, 0), new Chunk(1, 0, getEmpty(size, size)));
 		chunks.put(new Point(0, 1), new Chunk(0, 1, getEmpty(size, size)));
 		chunks.put(new Point(0, -1), new Chunk(0, -1, getEmpty(size, size)));
 		chunks.put(new Point(-1, 0), new Chunk(-1, 0, getEmpty(size, size)));
@@ -50,11 +51,6 @@ public class Level implements MapData, TileData {
 //		else layout = LayoutGenerator.generate(6, 6);
 //		spawnPoints = findSpawnPoints(layout);
 //		createTiles();
-	}
-
-	public static SpawnPoint getRandomSpawnPoint() {
-		// TODO Auto-generated method stub
-		return new SpawnPoint(new Point(0, 0));
 	}
 
 //	public static void initSpawnPoints() {
@@ -116,13 +112,14 @@ public class Level implements MapData, TileData {
 		return Util.fillArray(new int[height][width], '1');//EMPTY_TYPE);
 	}
 
-	public static Tile getTile(int c, int r) {
-		return chunks.get(new Point(c/size, r/size)).tiles[c%15][r%15];
+	public static Tile getTile(int x, int y) {
+		return chunks.get(
+				new Point(x/size, y/size) fix this
+				).getTile(x%size, y%size);//TODO
 	}
 
 	public static int getTileType(int x, int y) {
-		// TODO Auto-generated method stub
-		return 0;
+		return chunks.get(new Point(x/size, y/size)).getTile(x%size, y%size).getType();
 	}
 
 //	public static Point getFirstUsableTile() {//for spawning and stuff

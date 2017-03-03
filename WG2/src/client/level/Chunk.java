@@ -20,4 +20,29 @@ public class Chunk {
 			}
 		}
 	}
+
+	public Tile[][] getTiles() {
+		return tiles;
+	}
+
+	public int[][] getLayout() {
+		return layout;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public Tile getTile(int x, int y) {
+		int c = 0, r = 0;
+		if (x<0) c = Level.size;
+		if (y<0) r = Level.size;
+		return tiles[y+r][x+c];
+	}
+
+
 }
