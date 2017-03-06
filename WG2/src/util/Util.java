@@ -8,6 +8,8 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Util {
@@ -26,6 +28,53 @@ public class Util {
 		return minInArray(distances);
 	}
 
+	public static int[][] getRandomArray(int sizeX, int sizeY, int lowerBound, int upperBound) {
+		int[][] array = new int[sizeY][sizeX];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				array[r][c] = rand(lowerBound, upperBound);
+			}
+		}
+		return array;
+ 	}
+	
+	public static int[][] getRandomArray(int sizeX, int sizeY, int upperBound) {
+		int[][] array = new int[sizeY][sizeX];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				array[r][c] = rand(upperBound);
+			}
+		}
+		return array;
+ 	}
+	
+	public static int rand(int upperBound) {
+		return new Random().nextInt(upperBound);
+	}
+	
+	public static int rand(int lowerBound, int upperBound) {
+		return new Random().nextInt(upperBound-lowerBound)+lowerBound;
+	}
+	
+	public static void printArray(int[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+",");
+		}
+		System.out.println(str);
+	}
+	
+	public static void printArray(int[][] array) {
+		StringBuilder str = new StringBuilder();
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				str.append(array[r][c]+",");
+			}
+			str.replace(str.length()-1, str.length(), "\n");
+		}
+		System.out.println(str);
+	}
+	
 	public static double distance(double x1, double y1, double x2, double y2) {
 		return Math.hypot(x1-x2, y1-y2);
 	}
@@ -189,6 +238,23 @@ public class Util {
 		return new Color(colorComps[0], colorComps[1], colorComps[2], opacity);
 	}
 
+	public static int[][] StringToArray(String string) {//, and ;
+		String[] rows = string.split(";");
+		int[][] array = new int[rows.length][rows[0].split(",").length];
+		for (int r = 0;r<rows.length;r++) {
+			String[] collumns = rows[r].split(",");
+			for (int c = 0;c<collumns.length;c++) {
+				try {
+					array[r][c] = Integer.parseInt(collumns[c]);
+				}
+				catch (Exception e) {
+					System.err.println(e.getMessage());
+				}
+			}
+		}
+		return array;
+	}
+	
 	public static String fileToString(String path) {
 		try {
 			File theFile = new File(path);
