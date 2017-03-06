@@ -27,11 +27,4 @@ public class WanderFinder implements AIData {
 		if (!tile.isUsable()) return Integer.MAX_VALUE;
 		return (int)(tile.getNextToWallCost()+Util.distance(x, y, tile.getC(), tile.getR())/8);
 	}
-
-//		Point point;
-//		do {
-//			point = new Point(rand.nextInt(Level.getWidth()), rand.nextInt(Level.getHeight()));
-//		} while (!Level.getTile(point.x, point.y).isUsable());
-//		return point;
-
 }
