@@ -19,7 +19,7 @@ public class ClientUpdateLoop implements Data {
 			startTime = System.nanoTime();
 			
 			update();//update
-			Window.getRendererer().repaint();//refresh the screen
+			Window.getRendererer().repaint();//repaint the screen
 			
 			wait = (updateSpeed-(System.nanoTime()-startTime))/1000000;
 			currentUpdateTime = UPS-(UPS*((updateSpeed-(System.nanoTime()-startTime))/updateSpeed));
