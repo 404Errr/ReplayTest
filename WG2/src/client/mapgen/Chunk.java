@@ -1,10 +1,18 @@
 package client.mapgen;
 
-public class Chunk {
-	private int[][] layout;
+import data.Data;
 
-	public Chunk(int[][] layout) {
+public class Chunk implements Data {
+	private int[][] layout;
+	private int[] sideSize = new int[4];
+	
+	public Chunk(int[][] layout, int[] sideSize) {
 		this.layout = layout;
+		this.sideSize = sideSize;
+	}
+	
+	public int[] getSideSize() {
+		return sideSize;
 	}
 
 	public int[][] getLayout() {
