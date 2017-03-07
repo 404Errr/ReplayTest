@@ -19,7 +19,7 @@ public class Util {
 		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
 	}
 	
-	public static int getSide(float x, float y) {
+	public static int getSide(float x, float y) {//FIXME
 		float[] distances = new float[4];
 		distances[RIGHT] = (int)x+1-x;
 		distances[DOWN] = (int)y+1-y;
@@ -28,6 +28,32 @@ public class Util {
 		return minInArray(distances);
 	}
 
+	public static void mirrorArrayDiag(int[][] array, boolean tLBR, boolean tRBL) {
+		if (tLBR) for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				array[c][r] = array[r][c];
+			}
+		}
+		if (tRBL) for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				array[c][r] = array[array.length-1-r][array[0].length-1-c];
+			}
+		}
+	}
+
+	public static void mirrorArray(int[][] array, boolean yAxis, boolean xAxis) {
+		if (yAxis) for (int r = 0;r<array.length;r++) {
+			for (int cR = array[0].length-1, cL = 0;cL!=cR;cR--, cL++) {
+				array[r][cL] = array[r][cR];
+			}
+		}
+		if (xAxis) for (int rR = array.length-1, rL = 0;rL!=rR;rR--, rL++) {
+			for (int c = 0;c<array[0].length;c++) {
+				array[rL][c] = array[rR][c];
+			}
+		}
+	}
+	
 	public static int[][] getRandomArray(int sizeX, int sizeY, int lowerBound, int upperBound) {
 		int[][] array = new int[sizeY][sizeX];
 		for (int r = 0;r<array.length;r++) {
@@ -70,6 +96,15 @@ public class Util {
 		System.out.print(str);
 	}
 	
+	public static void printIntAsCharArray(int[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append((char)array[i]+",");
+		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
+	}
+	
 	public static void printArray(int[] array) {
 		StringBuilder str = new StringBuilder();
 		for (int i = 0;i<array.length;i++) {
@@ -79,12 +114,16 @@ public class Util {
 		System.out.print(str);
 	}
 	
+	public static void printIntAsCharArray(int[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			printIntAsCharArray(array[r]);
+		}
+	}
+	
 	public static void printArray(int[][] array) {
-		StringBuilder str = new StringBuilder();
 		for (int r = 0;r<array.length;r++) {
 			printArray(array[r]);
 		}
-		System.out.print(str);
 	}
 	
 	public static double distance(double x1, double y1, double x2, double y2) {

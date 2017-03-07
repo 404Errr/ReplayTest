@@ -13,7 +13,8 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 	private static List<Chunk> chunks;
 
 	public static void main(String[] args) {
-		generate(3, 3);
+		int[][] generated = generate(3, 3);
+		Util.printIntAsCharArray(generated);
 	}
 	
 	static {
@@ -29,8 +30,8 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 				appendChunk(c*CHUNK_SIZE, r*CHUNK_SIZE, chunks.get(0).getLayout(), layout);
 			}
 		}
-//		appendChunk(0, 0, chunks.get(0).getLayout(), layout);
-
+		
+		
 		return layout;
 	}
 
@@ -38,9 +39,8 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 		String[] chunkList = Util.fileToString(CHUNK_PATH+"chunkList").split(";");
 		chunks = new ArrayList<>();
 		for (String path:chunkList) {
-			System.out.println(path);
 			int[][] layout = LayoutParser.parseLayout(CHUNK_PATH+path);
-			chunks.add(new Chunk(layout, getChunkSideSize(layout)));
+			chunks.add(new Chunk(layout, getChunkDoorSize(layout)));
 		}
 	}
 
@@ -52,11 +52,10 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 		}
 	}
 
-	public static int[] getChunkSideSize(int[][] layout) {
+	public static int[] getChunkDoorSize(int[][] layout) {
 		int[] sides = new int[4];
 		for (int i = 0;i<4;i++) {
-			sides[i] = getSideSize(getSide(layout, i));
-			System.out.println(getSideSize(getSide(layout, i)));
+			sides[i] = getDoorSize(getSide(layout, i));
 		}
 		return sides;
 	}
@@ -64,30 +63,25 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 	public static int[] getSide(int[][] layout, int side) {
 		int col = 0;
 		switch (side) {
-		case UP:
-			return layout[0];
+		case RIGHT:
+			col = layout[0].length-1;
+			break;
 		case DOWN:
 			return layout[layout.length-1];
 		case LEFT:
 			col = 0;
 			break;
-		case RIGHT:
-			col = layout[0].length-1;
-			break;
+		case UP:
+			return layout[0];
 		}
-		int[] layoutSide = new int[layout.length];
+		int[] layoutSide = new int[layout.length];//for vertical sides (left and right)
 		for (int i = 0;i<layout.length;i++) layoutSide[i] = layout[i][col];
 		return layoutSide;
 	}
 	
-	public static int getSideSize(int[] layoutSide) {
+	public static int getDoorSize(int[] layoutSide) {
 		int i = layoutSide.length/2;
-		if (layoutSide[i]!='0') return 0;
-		while (i<layoutSide.length) {
-			System.out.println(i+", "+(char)layoutSide[i]);
-			if (layoutSide[i]!='0') {
-				break;
-			}
+		while (i<layoutSide.length&&layoutSide[i]=='0') {
 			i++;
 		}
 		return i-layoutSide.length/2+1;
