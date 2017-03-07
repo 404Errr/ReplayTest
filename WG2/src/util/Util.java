@@ -52,6 +52,10 @@ public final class Util {
 		}
 	}
 	
+	public static void rotateArray(int[][] array, int rotations) {//90 degrees clockwise
+		t//TODO
+	}
+	
 	public static void mirrorArrayDiag(int[][] array, boolean tLBR, boolean tRBL) {
 		if (tLBR) for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
