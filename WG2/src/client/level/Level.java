@@ -2,6 +2,7 @@ package client.level;
 
 import java.awt.Point;
 import java.util.HashMap;
+import java.util.Map;
 
 import data.MapData;
 import data.TileData;
@@ -9,6 +10,8 @@ import util.Util;
 
 public class Level implements MapData, TileData {
 	public static final int size = 15;
+
+	public static int widthN, widthP, heightN, heightP;
 
 //	private static int[][] layout;
 	private static HashMap<Point, Chunk> chunks;//the level
@@ -19,11 +22,20 @@ public class Level implements MapData, TileData {
 
 		chunks = new HashMap<>();
 
-		chunks.put(new Point(0, 0), new Chunk(0, 0, getEmpty(size, size)));
-		chunks.put(new Point(1, 0), new Chunk(1, 0, getEmpty(size, size)));
-		chunks.put(new Point(0, 1), new Chunk(0, 1, getEmpty(size, size)));
-		chunks.put(new Point(0, -1), new Chunk(0, -1, getEmpty(size, size)));
-		chunks.put(new Point(-1, 0), new Chunk(-1, 0, getEmpty(size, size)));
+
+		for (int i = -5;i<5;i++) {
+			for (int j = -5;j<5;j++) {
+				chunks.put(new Point(i, j), new Chunk(i, j, Util.fillArray(new int[size][size], '0')));
+			}
+		}
+
+		updateDims();
+
+//		chunks.put(new Point(0, 0), new Chunk(0, 0, Util.fillArray(new int[size][size], '1')));
+//		chunks.put(new Point(1, 0), new Chunk(1, 0, Util.fillArray(new int[size][size], '4')));
+//		chunks.put(new Point(0, 1), new Chunk(0, 1, Util.fillArray(new int[size][size], '3')));
+//		chunks.put(new Point(0, -1), new Chunk(0, -1, Util.fillArray(new int[size][size], '0')));
+//		chunks.put(new Point(-1, 0), new Chunk(-1, 0, Util.fillArray(new int[size][size], '5')));
 
 //		if (MAP!=null) {
 //			if (MAP.charAt(0)==EMPTY_TAGS[0]) {
@@ -109,17 +121,27 @@ public class Level implements MapData, TileData {
 //	}
 
 	public static int[][] getEmpty(int width, int height) {
-		return Util.fillArray(new int[height][width], '1');//EMPTY_TYPE);
+		return Util.fillArray(new int[height][width], '1');//EMPTY_TYPE);1
 	}
 
 	public static Tile getTile(int x, int y) {
-		return chunks.get(
-				new Point(x/size, y/size) fix this
-				).getTile(x%size, y%size);//TODO
+		return chunks.get(new Point((int)Math.floor(x/(float)size), (int)Math.floor(y/(float)size))).getTile(x-size*(int)Math.floor(x/(float)size), y-size*(int)Math.floor(y/(float)size));
 	}
 
-	public static int getTileType(int x, int y) {
-		return chunks.get(new Point(x/size, y/size)).getTile(x%size, y%size).getType();
+	public static boolean tileExists(int x, int y) {
+		return chunks.get(new Point((int)Math.floor(x/(float)size), (int)Math.floor(y/(float)size)))!=null;
+	}
+
+	public static void updateDims() {
+		int xMin = 0, xMax = 0, yMin = 0, yMax = 0;
+		Map<Point, Chunk> map = chunks;
+		for (Map.Entry<Point, Chunk> chunk:map.entrySet()) {
+			Point point = chunk.getKey();
+			if (point.x<xMin) xMin = point.x;
+			if (point.x>xMax) xMax = point.x;
+			if (point.y<yMin) yMin = point.y;
+			if (point.y>yMax) yMax = point.y;
+		}
 	}
 
 //	public static Point getFirstUsableTile() {//for spawning and stuff

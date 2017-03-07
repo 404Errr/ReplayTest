@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ import client.entity.Entity;
 import client.game.Game;
 import client.level.Level;
 import client.player.Player;
+import client.player.ai.AIPlayer;
 import client.weapon.Weapon;
 import client.weapon.entity.AbstractProjectile;
 import client.weapon.entity.FragGrenadeProjectile;
@@ -75,18 +77,18 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 				}
 				if (entity instanceof Player) {
 					drawPlayer((Player) entity);
-//					if (entity instanceof AIPlayer) {
-//						Debug.drawPath(((AIPlayer) entity).getCurrentPath(), ((Player) entity).getColor(), 2);
-//						if (Debug.isDrawSightLines()) {
-//							g.setStroke(new BasicStroke(2));
-//							for (int j = 0;j<((AIPlayer) entity).getSightLines().size();j++) {
-//								Line2D line = ((AIPlayer) entity).getSightLines().get(j).getLine();
-//								if (!((AIPlayer) entity).getSightLines().get(j).isBroken()) g.setColor(Util.colorOpacity(Color.BLUE, 0.75f));
-//								else g.setColor(Util.colorOpacity(Color.RED, 0.25f));
-//								g.drawLine(gridX((float)line.getX1()), gridY((float)line.getY1()), gridX((float)line.getX2()), gridY((float)line.getY2()));
-//							}
-//						}
-//					}
+					if (entity instanceof AIPlayer) {
+						Debug.drawPath(((AIPlayer) entity).getCurrentPath(), ((Player) entity).getColor(), 2);
+						if (Debug.isDrawSightLines()) {
+							g.setStroke(new BasicStroke(2));
+							for (int j = 0;j<((AIPlayer) entity).getSightLines().size();j++) {
+								Line2D line = ((AIPlayer) entity).getSightLines().get(j).getLine();
+								if (!((AIPlayer) entity).getSightLines().get(j).isBroken()) g.setColor(Util.colorOpacity(Color.BLUE, 0.75f));
+								else g.setColor(Util.colorOpacity(Color.RED, 0.25f));
+								g.drawLine(gridX((float)line.getX1()), gridY((float)line.getY1()), gridX((float)line.getX2()), gridY((float)line.getY2()));
+							}
+						}
+					}
 //					if (!Edit.editMode) {
 						g.setColor(Color.BLACK);
 						g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/3));
@@ -140,15 +142,12 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 							g.fillRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
 //							g.fillRect((int) (getXOrigin()+(Camera.getScale()*c)), (int) (getYOrigin()+(Camera.getScale()*r)), Camera.getScale(), Camera.getScale());
 						}
-					}
-					catch (Exception e) {
-						e.printStackTrace();
-					}
+
 //					if (DRAW_TILE_COORDS) {
 ////						g.drawRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
-//						g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/4));
-//						g.setColor(COLOR_DEBUG_GREEN);
-//						g.drawString(c+","+r, gridX(c+0.35f), gridY(r+0.7f));
+						g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/5));
+						g.setColor(COLOR_DEBUG_GREEN);
+						g.drawString(c+","+r, gridX(c+0.35f), gridY(r+0.7f));
 //					}
 //					if (Edit.editMode&&Level.getLayoutType(c, r)==SPAWN_POINT_TYPE) {
 ////						g.drawRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
@@ -156,6 +155,8 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 //						g.setColor(COLOR_DEBUG_GREEN);
 //						g.drawString("S", gridX(c+0.35f), gridY(r+0.7f));
 //					}
+					}
+					catch (Exception e) {}
 //				}
 
 			}

@@ -29,6 +29,7 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 		if (closest!=this) {
 			setFacing(Util.getAngle(x, y, closest.getX(), closest.getY()));//aimbot
 		}*/
-		/*else */setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
+		/*else */
+		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
 	}
 }
