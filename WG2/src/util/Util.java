@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -56,23 +56,35 @@ public class Util {
 		return new Random().nextInt(upperBound-lowerBound)+lowerBound;
 	}
 	
+	public static <T> void swap(int i1, int i2, List<T> array) {
+		T temp = array.get(i1);
+		array.set(i1, array.set(i2, temp));
+	}
+	
+	public static <T> void printArray(List<T> array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.size();i++) {
+			str.append(array.get(i)+",");
+		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
+	}
+	
 	public static void printArray(int[] array) {
 		StringBuilder str = new StringBuilder();
 		for (int i = 0;i<array.length;i++) {
 			str.append(array[i]+",");
 		}
-		System.out.println(str);
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
 	}
 	
 	public static void printArray(int[][] array) {
 		StringBuilder str = new StringBuilder();
 		for (int r = 0;r<array.length;r++) {
-			for (int c = 0;c<array[0].length;c++) {
-				str.append(array[r][c]+",");
-			}
-			str.replace(str.length()-1, str.length(), "\n");
+			printArray(array[r]);
 		}
-		System.out.println(str);
+		System.out.print(str);
 	}
 	
 	public static double distance(double x1, double y1, double x2, double y2) {
@@ -238,7 +250,23 @@ public class Util {
 		return new Color(colorComps[0], colorComps[1], colorComps[2], opacity);
 	}
 
-	public static int[][] StringToArray(String string) {//, and ;
+	public static int[] StringTo1DArray(String string) {//, (and ;)
+		if (string.charAt(string.length()-1)==';') string = string.split(";")[0];
+		int[] array = new int[string.split(",").length];
+		String[] arrayStr = string.split(",");
+		for (int i = 0;i<arrayStr.length;i++) {
+			try {
+				array[i] = Integer.parseInt(arrayStr[i]);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
+		}
+		return array;
+	}
+	
+	public static int[][] StringTo2DArray(String string) {//, and ;
 		String[] rows = string.split(";");
 		int[][] array = new int[rows.length][rows[0].split(",").length];
 		for (int r = 0;r<rows.length;r++) {
@@ -248,7 +276,8 @@ public class Util {
 					array[r][c] = Integer.parseInt(collumns[c]);
 				}
 				catch (Exception e) {
-					System.err.println(e.getMessage());
+					e.printStackTrace();
+					System.exit(0);
 				}
 			}
 		}
