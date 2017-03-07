@@ -12,10 +12,18 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Util {
+public final class Util {
 	public static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
 
 	public static boolean inArrayBounds(float x, float y, int[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+	
+	public static boolean inArrayBounds(double x, double y, int[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+	
+	public static boolean inArrayBounds(int x, int y, int[][] array) {
 		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
 	}
 	
@@ -28,6 +36,22 @@ public class Util {
 		return minInArray(distances);
 	}
 
+	public static void appendArrayToArray(int x, int y, int[][] toAppend, int[][] array) {
+		for (int r = 0;r<toAppend.length&&r<array.length-y;r++) {
+			for (int c = 0;c<toAppend[r].length&&c<array[r].length-x;c++) {
+				if (r+y>=0&&c+x>=0) array[r+y][c+x] = toAppend[r][c];
+			}
+		}
+	}
+	
+	public static void replaceAllInArray(int[][] array, int from, int to) {
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				if (array[r][c]==from) array[r][c] = to;
+			}
+		}
+	}
+	
 	public static void mirrorArrayDiag(int[][] array, boolean tLBR, boolean tRBL) {
 		if (tLBR) for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
@@ -41,13 +65,13 @@ public class Util {
 		}
 	}
 
-	public static void mirrorArray(int[][] array, boolean yAxis, boolean xAxis) {
-		if (yAxis) for (int r = 0;r<array.length;r++) {
+	public static void mirrorArray(int[][] array, boolean horz, boolean vert) {
+		if (horz) for (int r = 0;r<array.length;r++) {
 			for (int cR = array[0].length-1, cL = 0;cL!=cR;cR--, cL++) {
 				array[r][cL] = array[r][cR];
 			}
 		}
-		if (xAxis) for (int rR = array.length-1, rL = 0;rL!=rR;rR--, rL++) {
+		if (vert) for (int rR = array.length-1, rL = 0;rL!=rR;rR--, rL++) {
 			for (int c = 0;c<array[0].length;c++) {
 				array[rL][c] = array[rR][c];
 			}
@@ -345,6 +369,35 @@ public class Util {
 		return null;
 	}
 
+	public static int[] getArraySlice(int[][] array, int side) {
+		int col = 0;
+		switch (side) {
+		case RIGHT:
+			col = array[0].length-1;
+			break;
+		case DOWN:
+			return array[array.length-1];
+		case LEFT:
+			col = 0;
+			break;
+		case UP:
+			return array[0];
+		}
+		int[] layoutSide = new int[array.length];
+		for (int i = 0;i<array.length;i++) layoutSide[i] = array[i][col];
+		return layoutSide;
+	}
+	
+	public static int[][] getNewfilledArray(int sizeX, int sizeY, int type) {
+		int[][] layout = new int[sizeY][sizeX]; 
+		for (int r = 0;r<layout.length;r++) {
+			for (int c = 0;c<layout[0].length;c++) {
+				layout[r][c] = type;
+			}
+		}
+		return layout;
+	}
+	
 	public static int[][] fillArray(int[][] layout, int type) {
 		for (int r = 0;r<layout.length;r++) {
 			for (int c = 0;c<layout[0].length;c++) {
@@ -366,3 +419,7 @@ public class Util {
 	     return ByteBuffer.allocate(4).putFloat(value).array();
 	}
 }
+
+
+
+
