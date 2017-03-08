@@ -3,7 +3,6 @@ package client.mapgen;
 import java.util.ArrayList;
 import java.util.List;
 
-import client.level.LayoutParser;
 import data.Data;
 import data.LayoutGenData;
 import data.MapData;
@@ -14,7 +13,7 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 
 	public static void main(String[] args) {
 		int[][] generated = generate(3, 3);
-		Util.printIntAsCharArray(generated);
+//		Util.printIntAsCharArray(generated);
 	}
 
 	public static int[][] generate(int xSize, int ySize) {
@@ -33,21 +32,25 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 		String[] chunkList = Util.fileToString(CHUNK_PATH+"chunkList").split(";");
 		chunks = new ArrayList<>();
 		for (String path:chunkList) {
-			int[][] layout = LayoutParser.parseLayout(CHUNK_PATH+path);
-//			chunks.add(new Chunk(layout, getChunkDoorSize(layout)));//TODO FIXME
-			chunks.addAll(getAllChunkPermutations(layout));
+			int[][] layout = Util.parseIntArrayFromFile(CHUNK_PATH+path);
+			chunks.add(new Chunk(layout, getChunkDoorSize(layout)));//TODO FIXME
+//			chunks.addAll(getAllChunkPermutations(layout));
 		}
 	}
 	
-	private static List<Chunk> getAllChunkPermutations(int[][] layout) {t//TODO
-		return new ArrayList<>();
-	}
+//	private static List<Chunk> getAllChunkPermutations(int[][] layout) {//TODO
+//		
+//		
+//		
+//		return new ArrayList<>();
+//	}
 
 	private static int[] getChunkDoorSize(int[][] layout) {
 		int[] sides = new int[4];
 		for (int i = 0;i<4;i++) {
 			sides[i] = getDoorSize(layout, i);
 		}
+		Util.printArray(sides);
 		return sides;
 	}
 	

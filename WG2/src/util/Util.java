@@ -18,15 +18,15 @@ public final class Util {
 	public static boolean inArrayBounds(float x, float y, int[][] array) {
 		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
 	}
-	
+
 	public static boolean inArrayBounds(double x, double y, int[][] array) {
 		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
 	}
-	
+
 	public static boolean inArrayBounds(int x, int y, int[][] array) {
 		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
 	}
-	
+
 	public static int getSide(float x, float y) {//FIXME
 		float[] distances = new float[4];
 		distances[RIGHT] = (int)x+1-x;
@@ -36,6 +36,33 @@ public final class Util {
 		return minInArray(distances);
 	}
 
+	public static void dumbThing(int[][] array, boolean doDiag) {
+		int[][] ref = copyArray(array);
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				int total = 0;
+				for (int i = -1;i<=1;i++) {//r
+					for (int j = -1;j<=1;j++) {//c
+						if (Util.inArrayBounds(c+j, r+i, array)&&!(i==0&&j==0)&&(doDiag==!(i==0||j==0))) {5//FIXME
+							total+=ref[r+i][c+j];
+						}
+					}
+				}
+				array[r][c] = total;
+			}
+		}
+	}
+	
+	public static int[][] copyArray(int[][] array) {
+		int[][] newArray = new int[array.length][array[0].length];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				newArray[r][c] = array[r][c];
+			}
+		}
+		return newArray;
+	}
+	
 	public static void appendArrayToArray(int x, int y, int[][] toAppend, int[][] array) {
 		for (int r = 0;r<toAppend.length&&r<array.length-y;r++) {
 			for (int c = 0;c<toAppend[r].length&&c<array[r].length-x;c++) {
@@ -43,7 +70,7 @@ public final class Util {
 			}
 		}
 	}
-	
+
 	public static void replaceAllInArray(int[][] array, int from, int to) {
 		for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
@@ -51,7 +78,7 @@ public final class Util {
 			}
 		}
 	}
-	
+
 	public static int[][] rotateArray(int[][] array, int rotations) {//90 degrees clockwise
 		for (int rotationCount = 0;rotationCount<rotations;rotationCount++) {
 			int[][] newArray = new int[array[0].length][array.length];
@@ -64,7 +91,7 @@ public final class Util {
 		}
 		return array;
 	}
-	
+
 	public static void mirrorArrayDiag(int[][] array, boolean tLBR, boolean tRBL) {
 		if (tLBR) for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
@@ -80,17 +107,17 @@ public final class Util {
 
 	public static void mirrorArray(int[][] array, boolean horz, boolean vert) {
 		if (horz) for (int r = 0;r<array.length;r++) {
-			for (int cR = array[0].length-1, cL = 0;cL!=cR;cR--, cL++) {
+			for (int cR = array[0].length-1, cL = 0;cL<cR;cR--, cL++) {
 				array[r][cL] = array[r][cR];
 			}
 		}
-		if (vert) for (int rR = array.length-1, rL = 0;rL!=rR;rR--, rL++) {
+		if (vert) for (int rR = array.length-1, rL = 0;rL<rR;rR--, rL++) {
 			for (int c = 0;c<array[0].length;c++) {
 				array[rL][c] = array[rR][c];
 			}
 		}
 	}
-	
+
 	public static int[][] getRandomArray(int sizeX, int sizeY, int lowerBound, int upperBound) {
 		int[][] array = new int[sizeY][sizeX];
 		for (int r = 0;r<array.length;r++) {
@@ -99,8 +126,8 @@ public final class Util {
 			}
 		}
 		return array;
- 	}
-	
+	}
+
 	public static int[][] getRandomArray(int sizeX, int sizeY, int upperBound) {
 		int[][] array = new int[sizeY][sizeX];
 		for (int r = 0;r<array.length;r++) {
@@ -109,21 +136,20 @@ public final class Util {
 			}
 		}
 		return array;
- 	}
-	
+	}
+
 	public static int rand(int upperBound) {
 		return new Random().nextInt(upperBound);
 	}
-	
+
 	public static int rand(int lowerBound, int upperBound) {
 		return new Random().nextInt(upperBound-lowerBound)+lowerBound;
 	}
-	
+
 	public static <T> void swap(int i1, int i2, List<T> array) {
-		T temp = array.get(i1);
-		array.set(i1, array.set(i2, temp));
+		array.set(i1, array.set(i2, array.get(i1)));
 	}
-	
+
 	public static <T> void printArray(List<T> array) {
 		StringBuilder str = new StringBuilder();
 		for (int i = 0;i<array.size();i++) {
@@ -132,7 +158,7 @@ public final class Util {
 		str.replace(str.length()-1, str.length(), "\n");
 		System.out.print(str);
 	}
-	
+
 	public static void printIntAsCharArray(int[] array) {
 		StringBuilder str = new StringBuilder();
 		for (int i = 0;i<array.length;i++) {
@@ -141,7 +167,7 @@ public final class Util {
 		str.replace(str.length()-1, str.length(), "\n");
 		System.out.print(str);
 	}
-	
+
 	public static void printArray(int[] array) {
 		StringBuilder str = new StringBuilder();
 		for (int i = 0;i<array.length;i++) {
@@ -150,19 +176,19 @@ public final class Util {
 		str.replace(str.length()-1, str.length(), "\n");
 		System.out.print(str);
 	}
-	
+
 	public static void printIntAsCharArray(int[][] array) {
 		for (int r = 0;r<array.length;r++) {
 			printIntAsCharArray(array[r]);
 		}
 	}
-	
+
 	public static void printArray(int[][] array) {
 		for (int r = 0;r<array.length;r++) {
 			printArray(array[r]);
 		}
 	}
-	
+
 	public static double distance(double x1, double y1, double x2, double y2) {
 		return Math.hypot(x1-x2, y1-y2);
 	}
@@ -341,7 +367,7 @@ public final class Util {
 		}
 		return array;
 	}
-	
+
 	public static int[][] StringTo2DArray(String string) {//, and ;
 		String[] rows = string.split(";");
 		int[][] array = new int[rows.length][rows[0].split(",").length];
@@ -359,7 +385,30 @@ public final class Util {
 		}
 		return array;
 	}
-	
+
+	public static int[][] parseIntArrayFromFile(String path) {
+		String in = Util.fileToString(path);
+		System.out.println(path+" loaded");
+		String[] rawRows = in.split(";");
+		String[][] raw = new String[rawRows.length][rawRows[0].length()/2+1];
+		for (int r = 0;r<rawRows.length;r++) {
+			raw[r] = rawRows[r].split(",");
+		}
+		int[][] layout = new int[raw.length][raw[0].length];
+		for (int r = 0;r<raw.length;r++) {
+			for (int c = 0;c<raw[0].length;c++) {
+				try {
+					layout[r][c] = raw[r][c].charAt(0);
+				}
+				catch (Exception e) {
+					System.err.println("error at: "+r+","+c);
+					layout[r][c] = -1;
+				}
+			}
+		}
+		return layout;
+	}
+
 	public static String fileToString(String path) {
 		try {
 			File theFile = new File(path);
@@ -400,7 +449,7 @@ public final class Util {
 		for (int i = 0;i<array.length;i++) layoutSide[i] = array[i][col];
 		return layoutSide;
 	}
-	
+
 	public static int[][] getNewfilledArray(int sizeX, int sizeY, int type) {
 		int[][] layout = new int[sizeY][sizeX]; 
 		for (int r = 0;r<layout.length;r++) {
@@ -410,7 +459,7 @@ public final class Util {
 		}
 		return layout;
 	}
-	
+
 	public static int[][] fillArray(int[][] layout, int type) {
 		for (int r = 0;r<layout.length;r++) {
 			for (int c = 0;c<layout[0].length;c++) {
@@ -419,17 +468,17 @@ public final class Util {
 		}
 		return layout;
 	}
-	
+
 	public static final float byteArray2Float(byte[] in) {
 		return ByteBuffer.wrap(in).getFloat();
 	}
 
 	public static byte [] long2ByteArray (long value) {
-	    return ByteBuffer.allocate(8).putLong(value).array();
+		return ByteBuffer.allocate(8).putLong(value).array();
 	}
 
 	public static byte [] float2ByteArray (float value) {
-	     return ByteBuffer.allocate(4).putFloat(value).array();
+		return ByteBuffer.allocate(4).putFloat(value).array();
 	}
 }
 
