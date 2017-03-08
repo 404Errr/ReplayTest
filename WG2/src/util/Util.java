@@ -52,23 +52,17 @@ public final class Util {
 		}
 	}
 	
-	public static void rotateArray(int[][] array, int rotations) {//90 degrees clockwise
-		t//TODO
+	public static int[][] rotateArray(int[][] array, int rotations) {//90 degrees clockwise
 		for (int rotationCount = 0;rotationCount<rotations;rotationCount++) {
 			int[][] newArray = new int[array[0].length][array.length];
-			
-			for (int i = 0;i<newArray.length;i++) {
-				for (int j = 0;j<newArray[0].length;j++) {
-		//			newArray[newArray[0]-1]
-					newArray[i][j] = array[j][array[0].length-i];
+			for (int r = 0;r<newArray.length;r++) {
+				for (int c = 0;c<newArray[0].length;c++) {
+					newArray[r][c] = array[array.length-1-c][r];
 				}
 			}
-			
 			array = newArray;
-			
-			
-			
 		}
+		return array;
 	}
 	
 	public static void mirrorArrayDiag(int[][] array, boolean tLBR, boolean tRBL) {
