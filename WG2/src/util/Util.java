@@ -79,7 +79,7 @@ public final class Util {
 		}
 	}
 
-	public static int[][] rotateArray(int[][] array, int rotations) {//90 degrees clockwise
+	public static void rotateArray(int[][] array, int rotations) {//90 degrees clockwise
 		for (int rotationCount = 0;rotationCount<rotations;rotationCount++) {
 			int[][] newArray = new int[array[0].length][array.length];
 			for (int r = 0;r<newArray.length;r++) {
@@ -89,10 +89,9 @@ public final class Util {
 			}
 			array = newArray;
 		}
-		return array;
 	}
 
-	public static void mirrorArrayDiag(int[][] array, boolean tLBR, boolean tRBL) {
+	/*public static void mirrorArrayDiag(int[][] array, boolean tLBR, boolean tRBL) {
 		if (tLBR) for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
 				array[c][r] = array[r][c];
@@ -103,17 +102,33 @@ public final class Util {
 				array[c][r] = array[array.length-1-r][array[0].length-1-c];
 			}
 		}
-	}
+	}*/
 
-	public static void mirrorArray(int[][] array, boolean horz, boolean vert) {
+	public static void mirrorArray(int[][] array, boolean horz, boolean vert) {//copies top/left into bottom/right
 		if (horz) for (int r = 0;r<array.length;r++) {
 			for (int cR = array[0].length-1, cL = 0;cL<cR;cR--, cL++) {
-				array[r][cL] = array[r][cR];
+				array[r][cR] = array[r][cL];
 			}
 		}
 		if (vert) for (int rR = array.length-1, rL = 0;rL<rR;rR--, rL++) {
 			for (int c = 0;c<array[0].length;c++) {
-				array[rL][c] = array[rR][c];
+				array[rR][c] = array[rL][c];
+			}
+		}
+	}
+	
+	public static void flipArray(int[][] array, boolean horz, boolean vert) {
+		int[][] refArray = copyArray(array);
+		if (horz) for (int r = 0;r<array.length;r++) {
+			for (int cR = array[0].length-1, cL = 0;cL<cR;cR--, cL++) {
+				array[r][cL] = refArray[r][cR];
+				array[r][cR] = refArray[r][cL];
+			}
+		}
+		if (vert) for (int rR = array.length-1, rL = 0;rL<rR;rR--, rL++) {
+			for (int c = 0;c<array[0].length;c++) {
+				array[rL][c] = refArray[rR][c];
+				array[rR][c] = refArray[rL][c];
 			}
 		}
 	}
