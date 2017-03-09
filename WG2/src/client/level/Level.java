@@ -29,7 +29,7 @@ public class Level implements MapData, TileData {
 					System.err.println("Error with empty creation");
 				}
 			}
-			else layout = LayoutParser.parseLayout(PATH+MAP);
+			else layout = Util.parseIntArrayFromFile(PATH+MAP);
 			if (ADD_EDGE&&!Edit.editMode) {
 				if (!(AUTO_DISABLE_ADD_EDGE&&(!shouldAddEdge(layout)||layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD))) {
 					System.out.println("Adding edge of type: "+EDGE_TYPE);

@@ -1,20 +1,23 @@
 package client.mapgen;
 
 import data.Data;
+import data.LayoutGenData;
 import util.Util;
 
-public class Chunk implements Data {
+public class Chunk implements Data, LayoutGenData {
 	private int[][] layout;
-	private int[] doorSize = new int[4];
 	
-	public Chunk(int[][] layout, int[] doorSize) {
+	public Chunk(int[][] layout) {
 		this.layout = layout;
-		this.doorSize = doorSize;
-		Util.printArray(doorSize);
+		Util.printIntAsCharArray(getSeams(layout));
 	}
 	
-	public int[] getSideSize() {
-		return doorSize;
+	private static int[][] getSeams(int[][] layout) {
+		int[][] seams = new int[4][CHUNK_SIZE];
+		for (int i = 0;i<4;i++) {
+			seams[i] = Util.getArraySlice(layout, i);
+		}
+		return seams;
 	}
 
 	public int[][] getLayout() {

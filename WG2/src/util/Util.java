@@ -36,22 +36,22 @@ public final class Util {
 		return minInArray(distances);
 	}
 
-	public static void dumbThing(int[][] array, boolean doDiag) {
-		int[][] ref = copyArray(array);
-		for (int r = 0;r<array.length;r++) {
-			for (int c = 0;c<array[0].length;c++) {
-				int total = 0;
-				for (int i = -1;i<=1;i++) {//r
-					for (int j = -1;j<=1;j++) {//c
-						if (Util.inArrayBounds(c+j, r+i, array)&&!(i==0&&j==0)&&(doDiag==!(i==0||j==0))) {5//FIXME
-							total+=ref[r+i][c+j];
-						}
-					}
-				}
-				array[r][c] = total;
-			}
-		}
-	}
+//	public static void dumbThing(int[][] array, boolean doDiag) {
+//		int[][] ref = copyArray(array);
+//		for (int r = 0;r<array.length;r++) {
+//			for (int c = 0;c<array[0].length;c++) {
+//				int total = 0;
+//				for (int i = -1;i<=1;i++) {//r
+//					for (int j = -1;j<=1;j++) {//c
+//						if (Util.inArrayBounds(c+j, r+i, array)&&!(i==0&&j==0)&&(doDiag==!(i==0||j==0))) {//FIXME
+//							total+=ref[r+i][c+j];
+//						}
+//					}
+//				}
+//				array[r][c] = total;
+//			}
+//		}
+//	}
 	
 	public static int[][] copyArray(int[][] array) {
 		int[][] newArray = new int[array.length][array[0].length];
@@ -431,7 +431,7 @@ public final class Util {
 		return null;
 	}
 
-	public static int[] getArraySlice(int[][] array, int side) {
+	public static int[] getArraySlice(int[][] array, int side) {//from top or left
 		int col = 0;
 		switch (side) {
 		case RIGHT:
