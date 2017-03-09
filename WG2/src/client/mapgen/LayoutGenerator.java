@@ -45,23 +45,24 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 //		return new ArrayList<>();
 //	}
 
-	private static int[] getChunkDoorSize(int[][] layout) {
-		int[] sides = new int[4];
+	private static int[][] getChunkSeams(int[][] layout) {
+		int[][] sides = new int[4][CHUNK_SIZE];
 		for (int i = 0;i<4;i++) {
-			sides[i] = getDoorSize(layout, i);
+			sides[i] = Util.getArraySlice(layout, i);
 		}
 		Util.printArray(sides);
 		return sides;
 	}
 	
-	public static int getDoorSize(int[][] layout, int side) {
+	/*public static int[][] getDoors(int[][] layout, int side) {
 		int[] layoutSide = Util.getArraySlice(layout, side);
 		int i = layoutSide.length/2;
 		while (i<layoutSide.length&&layoutSide[i]=='0') {
 			i++;
 		}
-		return i-layoutSide.length/2+1;
-	}
+		return new int[1][3];
+		//return i-layoutSide.length/2+1;
+	}*/
 }
 
 
