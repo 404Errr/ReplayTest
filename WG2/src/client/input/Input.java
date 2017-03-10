@@ -164,7 +164,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				if (Edit.editMode&&!e.isControlDown()) Edit.changeType(1);
 				break;
 			case KeyEvent.VK_N:
-				if (Edit.editMode) Edit.floodFill();
+				if (Edit.editMode) Edit.fill();
 				break;
 			}
 		}

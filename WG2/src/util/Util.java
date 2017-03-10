@@ -1,6 +1,7 @@
 package util;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
@@ -11,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Stack;
 
 public final class Util {
 	public static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
@@ -52,7 +54,7 @@ public final class Util {
 //			}
 //		}
 //	}
-	
+
 	public static int[][] copyArray(int[][] array) {
 		int[][] newArray = new int[array.length][array[0].length];
 		for (int r = 0;r<array.length;r++) {
@@ -62,7 +64,7 @@ public final class Util {
 		}
 		return newArray;
 	}
-	
+
 	public static void appendArrayToArray(int x, int y, int[][] toAppend, int[][] array) {
 		for (int r = 0;r<toAppend.length&&r<array.length-y;r++) {
 			for (int c = 0;c<toAppend[r].length&&c<array[r].length-x;c++) {
@@ -79,16 +81,17 @@ public final class Util {
 		}
 	}
 
-	public static void rotateArray(int[][] array, int rotations) {//90 degrees clockwise
+	public static int[][] rotateArray(int[][] array, int rotations) {//90 degrees clockwise
 		for (int rotationCount = 0;rotationCount<rotations;rotationCount++) {
-			int[][] newArray = new int[array[0].length][array.length];
-			for (int r = 0;r<newArray.length;r++) {
-				for (int c = 0;c<newArray[0].length;c++) {
-					newArray[r][c] = array[array.length-1-c][r];
+			int[][] tempArray = new int[array[0].length][array.length];
+			for (int r = 0;r<tempArray.length;r++) {
+				for (int c = 0;c<tempArray[0].length;c++) {
+					tempArray[r][c] = array[array.length-1-c][r];
 				}
 			}
-			array = newArray;
+			array = tempArray;
 		}
+		return array;
 	}
 
 	/*public static void mirrorArrayDiag(int[][] array, boolean tLBR, boolean tRBL) {
@@ -104,31 +107,67 @@ public final class Util {
 		}
 	}*/
 
-	public static void mirrorArray(int[][] array, boolean horz, boolean vert) {//copies top/left into bottom/right
+	/*public static void mirrorArray(int[][] array, boolean horz, boolean vert) {//copies top/left into bottom/right
 		if (horz) for (int r = 0;r<array.length;r++) {
-			for (int cR = array[0].length-1, cL = 0;cL<cR;cR--, cL++) {
+			for (int cR = array[0].length-1, cL = 0;cL<=cR;cR--, cL++) {
 				array[r][cR] = array[r][cL];
 			}
 		}
-		if (vert) for (int rR = array.length-1, rL = 0;rL<rR;rR--, rL++) {
+		if (vert) for (int rR = array.length-1, rL = 0;rL<=rR;rR--, rL++) {
 			for (int c = 0;c<array[0].length;c++) {
 				array[rR][c] = array[rL][c];
 			}
 		}
-	}
-	
-	public static void flipArray(int[][] array, boolean horz, boolean vert) {
+	}*/
+
+	public static int[][] flipArray(int[][] array, boolean horz, boolean vert) {
 		int[][] refArray = copyArray(array);
 		if (horz) for (int r = 0;r<array.length;r++) {
-			for (int cR = array[0].length-1, cL = 0;cL<cR;cR--, cL++) {
-				array[r][cL] = refArray[r][cR];
-				array[r][cR] = refArray[r][cL];
+			for (int cH = array[0].length-1, cL = 0;cL<=cH;cH--, cL++) {
+				array[r][cL] = refArray[r][cH];
+				array[r][cH] = refArray[r][cL];
 			}
 		}
-		if (vert) for (int rR = array.length-1, rL = 0;rL<rR;rR--, rL++) {
+		if (vert) for (int rH = array.length-1, rL = 0;rL<=rH;rH--, rL++) {
 			for (int c = 0;c<array[0].length;c++) {
-				array[rL][c] = refArray[rR][c];
-				array[rR][c] = refArray[rL][c];
+				array[rL][c] = refArray[rH][c];
+				array[rH][c] = refArray[rL][c];
+			}
+		}
+		return array;
+	}
+
+	public static boolean equalArrays(int[] array1, int[] array2) {
+		if (array1.length!=array2.length) return false;
+		for (int i = 0;i<array1.length;i++) {
+			if (array1[i]!=array2[i]) return false;
+		}
+		return true;
+	}
+
+	public static boolean equalArrays(int[][] array1, int[][] array2) {
+		if (array1.length!=array2.length||array1[0].length!=array2[0].length) return false;
+		for (int r = 0;r<array1.length;r++) {
+			for (int c = 0;c<array1[0].length;c++) {
+				if (array1[r][c]!=array2[r][c]) return false;
+			}
+		}
+		return true;
+	}
+
+	public static void floodFill(int iX, int iY, int from, int to, int[][] array) {
+		Stack<Point> points = new Stack<>();
+		points.add(new Point(iX, iY));
+		while (!points.isEmpty()) {
+			Point currentPoint = points.pop();
+			int x = currentPoint.x, y = currentPoint.y;
+			if (x<0||y<0||y>=array.length||x>=array[0].length) continue;
+			if (from==array[y][x]) {
+				array[y][x] = to;
+				points.push(new Point(x+1, y));
+				points.push(new Point(x-1, y));
+				points.push(new Point(x, y+1));
+				points.push(new Point(x, y-1));
 			}
 		}
 	}
@@ -409,19 +448,19 @@ public final class Util {
 		for (int r = 0;r<rawRows.length;r++) {
 			raw[r] = rawRows[r].split(",");
 		}
-		int[][] layout = new int[raw.length][raw[0].length];
+		int[][] array = new int[raw.length][raw[0].length];
 		for (int r = 0;r<raw.length;r++) {
 			for (int c = 0;c<raw[0].length;c++) {
 				try {
-					layout[r][c] = raw[r][c].charAt(0);
+					array[r][c] = raw[r][c].charAt(0);
 				}
 				catch (Exception e) {
 					System.err.println("error at: "+r+","+c);
-					layout[r][c] = -1;
+					array[r][c] = -1;
 				}
 			}
 		}
-		return layout;
+		return array;
 	}
 
 	public static String fileToString(String path) {
@@ -466,22 +505,22 @@ public final class Util {
 	}
 
 	public static int[][] getNewfilledArray(int sizeX, int sizeY, int type) {
-		int[][] layout = new int[sizeY][sizeX]; 
-		for (int r = 0;r<layout.length;r++) {
-			for (int c = 0;c<layout[0].length;c++) {
-				layout[r][c] = type;
+		int[][] array = new int[sizeY][sizeX];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				array[r][c] = type;
 			}
 		}
-		return layout;
+		return array;
 	}
 
-	public static int[][] fillArray(int[][] layout, int type) {
-		for (int r = 0;r<layout.length;r++) {
-			for (int c = 0;c<layout[0].length;c++) {
-				layout[r][c] = type;
+	public static int[][] fillArray(int[][] array, int type) {
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				array[r][c] = type;
 			}
 		}
-		return layout;
+		return array;
 	}
 
 	public static final float byteArray2Float(byte[] in) {

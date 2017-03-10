@@ -1,8 +1,6 @@
 package client.edit;
 
 import java.awt.BasicStroke;
-import java.awt.Point;
-import java.util.Stack;
 
 import client.graphics.Camera;
 import client.graphics.Renderer;
@@ -110,31 +108,14 @@ public class Edit implements MapData, TileData, ColorData {
 			if (type==TYPES[i]) currentType = i;
 		}
 	}
-	
-	public static void fill(int iX, int iY, int from, int to, int[][] layout) {
-		Stack<Point> points = new Stack<>();
-		points.add(new Point(iX, iY));
-		while (!points.isEmpty()) {
-			Point currentPoint = points.pop();
-			int x = currentPoint.x, y = currentPoint.y;
-			if (x<0||y<0||y>=layout.length||x>=layout[0].length) continue;
-			if (from==layout[y][x]) {
-				layout[y][x] = to;
-				points.push(new Point(x+1, y));
-				points.push(new Point(x-1, y));
-				points.push(new Point(x, y+1));
-				points.push(new Point(x, y-1));
-			}
-		}
-	}
 
-	public static void floodFill() {
+	public static void fill() {
 		EditHistory.saveState(Level.getLayout());
 		int iX = Cursor.getTileX(), iY = Cursor.getTileY();
 		int[][] layout = Level.getLayout().clone();
 		if (layout[iY][iX]==getType()) return;
 		System.out.println("Fill "+(char)layout[iY][iX]+" --> "+(char)getType());
-		fill(iX, iY, layout[iY][iX], getType(), layout);
+		Util.floodFill(iX, iY, layout[iY][iX], getType(), layout);
 		for (int x = 0;x<Level.getWidth();x++) {
 			for (int y = 0;y<Level.getHeight();y++) {
 				if (Level.getLayoutType(x, y)!=layout[y][x]) changeType(x, y);
