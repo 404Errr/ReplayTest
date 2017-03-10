@@ -10,7 +10,6 @@ import data.GraphicsData;
 import data.TileData;
 import data.WeaponData;
 import util.Util;
-import util.WGUtil;
 
 public class FragGrenadeProjectile extends WeaponEntity implements Data, TileData, WeaponData, GraphicsData {
 	private boolean destroy;
@@ -28,7 +27,7 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 	@Override
 	public boolean tick() {
 		move();
-		if (x<0||y<0||x>Level.getWidth()||y>Level.getHeight()) destroy = true;//if off of the map
+		if (x<Level.getWidthN()||y<Level.getHeightN()||x>Level.getWidthP()||y>Level.getHeightP()) destroy = true;//if off of the map
 		checkCollision();
 		timer-=1000/UPS;
 		if (timer<0) {
@@ -50,7 +49,7 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 	private void bounce() {//FIXME
 		Hitscan finder = new Hitscan(0, 0.2f, Color.MAGENTA, x+grenadeSize/2, y+grenadeSize/2, Util.getAngle(0, 0, dX, dY), true);
 		if (DRAW_BOUNCE_HIT) Game.addEntity(finder);//display it
-		int side = WGUtil.getSide(finder.getX(), finder.getY(), Level.getLayout());
+		int side = 0;//WGUtil.getSide(finder.getX(), finder.getY(), Level.getLayout());FIXME
 		if (side==RIGHT) {
 			dX = Math.abs(dX);
 			x+=grenadeSize/3;
@@ -85,7 +84,7 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 		final int radius = 2;
 		for (int r = (int)y-radius;r<=y+radius;r++) {//for each row within the radius
 			for (int c = (int)x-radius;c<=x+radius;c++) {//for each collumn within the radius
-				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&(Level.getTile(c, r).isSolid(SOLID_WALLS)||Level.getTile(c, r).isSolid(SOLID_PROJECTILES))) {//bounds check and if tile is solid
+				if (x<Level.getWidthN()||y<Level.getHeightN()||x>Level.getWidthP()||y>Level.getHeightP()||(Level.tileExists(c, r)&&(Level.getTile(c, r).isSolid(SOLID_WALLS)||Level.getTile(c, r).isSolid(SOLID_PROJECTILES)))) {//bounds check and if tile is solid
 					if (hitline.intersects(Level.getTile(c, r).getBounds())) {//check for collision
 						bounce();
 					}

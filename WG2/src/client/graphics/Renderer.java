@@ -78,7 +78,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 				if (entity instanceof Player) {
 					drawPlayer((Player) entity);
 					if (entity instanceof AIPlayer) {
-						Debug.drawPath(((AIPlayer) entity).getCurrentPath(), ((Player) entity).getColor(), 2);
+//						Debug.drawPath(((AIPlayer) entity).getCurrentPath(), ((Player) entity).getColor(), 2);
 						if (Debug.isDrawSightLines()) {
 							g.setStroke(new BasicStroke(2));
 							for (int j = 0;j<((AIPlayer) entity).getSightLines().size();j++) {
@@ -97,6 +97,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 				}
 			}
 			catch (Exception e) {
+				e.printStackTrace();
 				continue;
 			}
 		}
@@ -119,6 +120,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 	}
 
 	private void drawWeapon(Player player) {
+		if (player.getActiveWeapon()==null) return;
 		Weapon gun = player.getActiveWeapon().getType();
 		g.setColor(player.getColor());
 		g.setStroke(new BasicStroke(gun.getWidth()*Camera.getScale()));
@@ -145,9 +147,11 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 
 //					if (DRAW_TILE_COORDS) {
 ////						g.drawRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
-						g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/5));
-						g.setColor(COLOR_DEBUG_GREEN);
-						g.drawString(c+","+r, gridX(c+0.35f), gridY(r+0.7f));
+
+//						g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/5));
+//						g.setColor(COLOR_DEBUG_GREEN);
+//						g.drawString(c+","+r, gridX(c+0.35f), gridY(r+0.7f));
+
 //					}
 //					if (Edit.editMode&&Level.getLayoutType(c, r)==SPAWN_POINT_TYPE) {
 ////						g.drawRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());

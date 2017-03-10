@@ -19,8 +19,8 @@ public class Tile implements MapData, AIData, TileData {
 		this.x = x;
 		this.y = y;
 		this.type = tileType;
-		this.usable = !TileData.getSolid(Level.getTile(x, y).getType())[SOLID_WALLS]&&getColor()!=null;
-		if (!TileData.getSolid(Level.getTile(x, y).getType())[SOLID_WALLS]) for (int i = 1;i<WALL_DISTANCE;i++) {
+		this.usable = !TileData.getSolid(tileType)[SOLID_WALLS]&&getColor()!=null;
+		if (!TileData.getSolid(tileType)[SOLID_WALLS]) for (int i = 1;i<WALL_DISTANCE;i++) {
 			if (isNextToWall(i)) nextToWallCost+=WALL_MOVEMENT_COST;
 		}
 	}
@@ -60,7 +60,7 @@ public class Tile implements MapData, AIData, TileData {
 	}
 
 	public boolean isSolid(int solidityType) {
-		return TileData.getSolid(Level.getTile(x, y).getType())[solidityType];
+		return TileData.getSolid(type)[solidityType];
 	}
 
 	public Color getColor() {

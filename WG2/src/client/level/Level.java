@@ -133,16 +133,46 @@ public class Level implements MapData, TileData {
 	}
 
 	public static void updateDims() {
-		int xMin = 0, xMax = 0, yMin = 0, yMax = 0;
+		int widthMin = 0, widthMax = 0, heightMin = 0, heightMax = 0;
 		Map<Point, Chunk> map = chunks;
 		for (Map.Entry<Point, Chunk> chunk:map.entrySet()) {
 			Point point = chunk.getKey();
-			if (point.x<xMin) xMin = point.x;
-			if (point.x>xMax) xMax = point.x;
-			if (point.y<yMin) yMin = point.y;
-			if (point.y>yMax) yMax = point.y;
+			if (point.x<widthMin) widthMin = point.x;
+			if (point.x>widthMax) widthMax = point.x;
+			if (point.y<heightMin) heightMin = point.y;
+			if (point.y>heightMax) heightMax = point.y;
 		}
+		widthN = widthMin;
+		widthP = widthMax;
+		heightN = heightMin;
+		heightP = heightMax;
 	}
+
+	public static int getWidthN() {
+		return widthN;
+	}
+
+	public static int getWidthP() {
+		return widthP;
+	}
+
+	public static int getHeightN() {
+		return heightN;
+	}
+
+	public static int getHeightP() {
+		return heightP;
+	}
+
+	public static HashMap<Point, Chunk> getChunks() {
+		return chunks;
+	}
+
+	public static Tile getTile(float x, float y) {
+		return getTile((int)x, (int)y);
+	}
+
+
 
 //	public static Point getFirstUsableTile() {//for spawning and stuff
 //		for (int r = 0;r<layout.length;r++) {

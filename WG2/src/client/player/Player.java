@@ -51,7 +51,8 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 
 	public void respawn(SpawnPoint spawnPoint) {
 		health = PLAYER_INITIAL_HEALTH;
-		move((float)spawnPoint.getX(), (float)spawnPoint.getY());
+//		move((float)spawnPoint.getX(), (float)spawnPoint.getY());TODO
+		move(0,0);
 	}
 
 	public void move(float x, float y, float facing) {
@@ -156,7 +157,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		for (PlayerWeapon weapon:weapons) {
 			weapon.tick();
 		}
-//		if (!Edit.editMode&&isDead()) respawn(Level.getSafestSpawnPoint(this));
+		if (/*!Edit.editMode&&*/isDead()) respawn(null);
 		return false;
 	}
 
@@ -284,11 +285,11 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		return activeWeapon;
 	}
 
-	public void setGun(PlayerWeapon activeGun) {
+	public void setActiveWeapon(PlayerWeapon activeGun) {
 		this.activeWeapon = activeGun;
 	}
 
-	public List<PlayerWeapon> getGuns() {
+	public List<PlayerWeapon> getWeapons() {
 		return weapons;
 	}
 
@@ -315,7 +316,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		this.health = health;
 	}
 
-	public void changeHealth(float dHealth) {//TODO
+	public void changeHealth(float dHealth) {
 		if (!(DAMAGE!=new Boolean(true)||(this instanceof ControlledPlayer&&CONTROLLED_PLAYER_DAMAGE!=new Boolean(true)))) this.health+=dHealth;
 	}
 
@@ -326,13 +327,5 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	public void setHighPowerGrenade(boolean highPowerGrenade) {
 		this.highPowerGrenade = highPowerGrenade;
 	}
-
-//	private boolean dead;
-//	public void changeHealth(float dHealth, int type) {//temp
-//		if (DAMAGE) this.health+=dHealth;
-//		if (!dead&&health<=0) {
-//			dead = true;Debug.addKill(type);
-//		}
-//	}
 
 }

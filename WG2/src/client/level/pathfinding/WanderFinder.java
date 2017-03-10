@@ -15,7 +15,7 @@ public class WanderFinder implements AIData {
 	public static Point getWanderLocation(int x, int y) {
 		Tile best = null, temp;
 		for (int i = 0;i<SAMPLE_SIZE;i++) {
-			temp = Level.getTile(rand.nextInt(Level.getWidth()), rand.nextInt(Level.getHeight()));
+			temp = Level.getTile(rand.nextInt(Level.getWidthP()+Level.getWidthN())-Level.getWidthN(), rand.nextInt(Level.getHeightP()+Level.getHeightN())-Level.getHeightN());
 			if (best==null||getCost(x, y, temp)<getCost(x, y, best)) {
 				best = temp;
 			}
