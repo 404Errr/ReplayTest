@@ -35,7 +35,8 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 	@Override
 	public void paintComponent(Graphics g0) {
 		g = (Graphics2D) g0;
-		setBackground(COLOR_BACKGROUND);
+		if (!Edit.editMode) setBackground(COLOR_BACKGROUND);
+		else setBackground(COLOR_BACKGROUND.darker());
 		super.paintComponent(g);
 		try {
 			drawTiles();
@@ -43,7 +44,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			if (!Edit.editMode) drawEntities();
 			if (Edit.editMode) Edit.drawSelected();
 
-			if (Debug.isSpawnPointVisibilityLines()) for (int i = 0;i<Level.getSpawnPoints().size();i++) {
+			if (!Edit.editMode&&Debug.isSpawnPointVisibilityLines()) for (int i = 0;i<Level.getSpawnPoints().size();i++) {
 				if (Level.getSpawnPoints().get(i).isVisible()) g.setColor(Util.colorOpacity(Color.GREEN, 0.25f));
 				else g.setColor(Util.colorOpacity(Color.RED, 0.1f));
 				g.fillOval(gridX(Level.getSpawnPoints().get(i).x+0.4f), gridY(Level.getSpawnPoints().get(i).y+0.4f), (int) (Camera.getScale()*0.2f), (int) (Camera.getScale()*0.2f));
@@ -139,6 +140,10 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()) {
 					if (Level.getTile(c, r).getColor()!=null) {
 						g.setColor(Level.getTile(c, r).getColor());
+						g.fillRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
+					}
+					else if (Edit.editMode) {
+						g.setColor(COLOR_BACKGROUND);
 						g.fillRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
 					}
 					if (DRAW_TILE_COORDS) {

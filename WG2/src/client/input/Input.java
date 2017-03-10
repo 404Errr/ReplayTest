@@ -113,10 +113,10 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				((AIPlayer)Game.getPlayer(3)).move(Cursor.getTileX(), Cursor.getTileY());
 				break;
 
-			case KeyEvent.VK_COMMA:
+			case KeyEvent.VK_Z:
 				PathFindingTester.set1(Cursor.getTileX(), Cursor.getTileY());
 				break;
-			case KeyEvent.VK_PERIOD:
+			case KeyEvent.VK_X:
 				PathFindingTester.set2(Cursor.getTileX(), Cursor.getTileY());
 				break;
 			case KeyEvent.VK_SHIFT:
@@ -157,10 +157,10 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				Game.getPlayer().selectWeapon(8);
 				break;
 
-			case KeyEvent.VK_Z:
+			case KeyEvent.VK_COMMA:
 				if (Edit.editMode&&!e.isControlDown()) Edit.changeType(-1);
 				break;
-			case KeyEvent.VK_X:
+			case KeyEvent.VK_PERIOD:
 				if (Edit.editMode&&!e.isControlDown()) Edit.changeType(1);
 				break;
 			case KeyEvent.VK_N:

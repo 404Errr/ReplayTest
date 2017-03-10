@@ -1,8 +1,8 @@
 package client.mapgen;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import data.Data;
 import data.LayoutGenData;
@@ -13,25 +13,27 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 	private static List<Chunk> chunks;
 
 	public static void main(String[] args) {
-		int[][] generated = generate(5, 3);
-		System.out.println("\n");
+		int[][] generated = generate(6, 4);
+		System.out.println();
 		Util.printIntAsCharArray(generated);
 	}
 
 	public static int[][] generate(int xSize, int ySize) {
 		initChunks();
-
-		int[][] layout = Util.getNewfilledArray(xSize*CHUNK_SIZE, ySize*CHUNK_SIZE, UNUSED_TYPE);
+		long startTime = System.currentTimeMillis();
 
 		Chunk[][] toPlace;
 
-		final Chunk emptyChunk = new Chunk(Util.getNewfilledArray(CHUNK_SIZE, CHUNK_SIZE, EMPTY_TYPE));
+		final Chunk emptyChunk = new Chunk(Util.getNewfilledArray(CHUNK_SIZE, CHUNK_SIZE, EMPTY_TYPE), 1.0f);
+
+		int attemptCount = 0;
 
 		do {
 			toPlace = new Chunk[ySize][xSize];
 			for (int r = 0;r<toPlace.length;r++) {
 				for (int c = 0;c<toPlace[0].length;c++) {
-					Collections.shuffle(chunks);
+					//					Collections.shuffle(chunks);
+					shuffle(chunks);
 					Chunk chunk = emptyChunk, tempChunk;
 					for (int i = 0;i<chunks.size();i++) {
 						tempChunk = chunks.get(i);
@@ -52,14 +54,18 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 					toPlace[r][c] = chunk;
 				}
 			}
-		} while (invalidMapLayout(toPlace));//TODO
+			attemptCount++;
+		} while (invalidMapLayout(toPlace));
 
+		System.out.println("\nAttemps: "+attemptCount);
+		System.out.println("Time taken: "+(System.currentTimeMillis()-startTime)/1000f);
+
+		int[][] layout = Util.getNewfilledArray(xSize*CHUNK_SIZE, ySize*CHUNK_SIZE, UNUSED_TYPE);
 		for (int r = 0;r<ySize;r++) {
 			for (int c = 0;c<xSize;c++) {
 				Util.appendArrayToArray(c*CHUNK_SIZE, r*CHUNK_SIZE, toPlace[r][c].getLayout(), layout);
 			}
 		}
-
 		Util.replaceAllInArray(layout, UNUSED_TYPE, EMPTY_TYPE);
 		return layout;
 	}
@@ -67,20 +73,25 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 	private static void initChunks() {
 		String[] chunkList = Util.fileToString(CHUNK_PATH+"chunkList").split(";");
 		chunks = new ArrayList<>();
-		for (String path:chunkList) {
-			int[][] layout = Util.parseIntArrayFromFile(CHUNK_PATH+path);
-			List<int[][]> allArrayPermutations = getAllArrayPermutations(layout);
-			System.out.println("number of layouts: "+allArrayPermutations.size());
-			for (int[][] chunkLayout:allArrayPermutations) chunks.add(new Chunk(chunkLayout));
+		for (String chunkPath:chunkList) {
+			if (chunkPath.startsWith("//")) continue;
+			String[] full = chunkPath.split(",");
+			int[][] layout = Util.parseIntArrayFromFile(CHUNK_PATH+full[0]);
+			List<int[][]> orientations = getAllArrayOrientations(layout);
+			float rarity = Float.parseFloat(full[1])/orientations.size();
+			System.out.println("number of layouts: "+orientations.size()+"\tRarity: "+rarity);
+			for (int[][] chunkLayout:orientations) {
+				chunks.add(new Chunk(chunkLayout, rarity));
+			}
 		}
 		System.out.println("\nNumber of chunks: "+chunks.size());
 	}
 
-	private static List<int[][]> getAllArrayPermutations(int[][] layout) {
+	private static List<int[][]> getAllArrayOrientations(int[][] array) {
 		List<int[][]> arrays = new ArrayList<>();
 		boolean h = false, v = false;
 		for (int p = 0;p<16;p++) {
-			int[][] tempArray = Util.copyArray(layout);
+			int[][] tempArray = Util.copyArray(array);
 			tempArray = Util.flipArray(tempArray, (v)?h=!h:h, v=!v);
 			tempArray = Util.rotateArray(tempArray, p/4);
 			arrays.add(tempArray);
@@ -103,7 +114,6 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 				Util.appendArrayToArray(c*CHUNK_SIZE, r*CHUNK_SIZE, chunkLayout[r][c].getLayout(), layout);
 			}
 		}
-		final int fillTypeTo = '!';
 		int iX = -1, iY = -1;
 		for (int y = 0;y<layout.length;y++) {
 			for (int x = 0;x<layout[0].length;x++) {
@@ -114,7 +124,8 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 			}
 		}
 		if (iX==-1||iY==-1) return true;
-		Util.floodFill(iX, iY, FLOOR_TYPE, fillTypeTo, layout);
+		final int tempFillType = '!';
+		Util.floodFill(iX, iY, FLOOR_TYPE, tempFillType, layout);
 		for (int y = 0;y<layout.length;y++) {
 			for (int x = 0;x<layout[0].length;x++) {
 				if (layout[y][x]==FLOOR_TYPE) {
@@ -130,9 +141,18 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 		int[] seam1 = chunk1.getSeam(side1), seam2 = chunk2.getSeam(side2);
 		if (seam1.length!=seam2.length) return false;
 		for (int i = 0;i<seam1.length;i++) {
-			if ((seam1[i]==FLOOR_TYPE||seam2[i]==FLOOR_TYPE)&&seam1[i]!=seam2[i]) return false;
+			if (/*(seam1[i]==FLOOR_TYPE||seam2[i]==FLOOR_TYPE)&&*/seam1[i]!=seam2[i]) return false;
 		}
 		return true;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static void shuffle(List<?> array) {
+		Random rand = new Random();
+		for (int i = array.size();i>1;i--) {
+			final List arr = array;
+			arr.set(i-1, arr.set(rand.nextInt(i), arr.get(i-1)));
+		}
 	}
 }
 

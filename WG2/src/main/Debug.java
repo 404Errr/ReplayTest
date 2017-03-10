@@ -24,7 +24,7 @@ import data.MapData;
 import util.Util;
 
 public class Debug implements Data, ColorData, MapData, ControlData {
-	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = false, spawnPointVisibilityLines = true;
+	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = false, spawnPointVisibilityLines = false;
 	private final static int textX = 25, textY = 30, textSize = 15;
 
 //	public static int[] kills = new int[4];

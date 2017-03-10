@@ -6,7 +6,7 @@ public interface MapData {
 //	String MAP = "map1";
 //	String MAP = "map2";
 //	String MAP = "map3";
-	String MAP = "map4";
+//	String MAP = "map4";
 //	String MAP = "buttonsSmall";
 //	String MAP = "buttonsMedium2";
 //	String MAP = "buttonsMedium";
@@ -23,15 +23,20 @@ public interface MapData {
 //	String MAP = "AItest1";
 //	String MAP = null;
 
-	boolean EDIT_MODE = false;
+//	String PATH = "src/maps/";
+	//---
+	String MAP = "edit";
+
+	String PATH = "src/client/mapgen/chunks/";
+	//---
+
+	boolean EDIT_MODE = true;
 	int EDIT_HISTORY_LIMIT = 666;
 
 	int EDGE_TYPE = '1';
 	int SPAWN_POINT_TYPE = 's', SPAWN_POINT_REPLACEMENT_TYPE = '0';//don't touch
 	int[] EMPTY_TAGS = {'$', 'x'};//don't touch
 	int EMPTY_TYPE = '2';
-
-	String PATH = "src/maps/";
 
 	boolean ADD_EDGE = true;//puts and edge around the map
 	boolean AUTO_DISABLE_ADD_EDGE = true;//disables if it finds an empty tile or if the map area is greater than the value below
