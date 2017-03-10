@@ -74,12 +74,14 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 		String[] chunkList = Util.fileToString(CHUNK_PATH+"chunkList").split(";");
 		chunks = new ArrayList<>();
 		for (String chunkPath:chunkList) {
-			if (chunkPath.startsWith("//")) continue;
+			if (chunkPath.startsWith("//")) {
+				continue;
+			}
 			String[] full = chunkPath.split(",");
 			int[][] layout = Util.parseIntArrayFromFile(CHUNK_PATH+full[0]);
 			List<int[][]> orientations = getAllArrayOrientations(layout);
 			float rarity = Float.parseFloat(full[1])/orientations.size();
-			System.out.println("number of layouts: "+orientations.size()+"\tRarity: "+rarity);
+			System.out.println("number of orientations: "+orientations.size()+"\tRarity: "+rarity);
 			for (int[][] chunkLayout:orientations) {
 				chunks.add(new Chunk(chunkLayout, rarity));
 			}
@@ -88,23 +90,23 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 	}
 
 	private static List<int[][]> getAllArrayOrientations(int[][] array) {
-		List<int[][]> arrays = new ArrayList<>();
+		List<int[][]> orientations = new ArrayList<>();
 		boolean h = false, v = false;
 		for (int p = 0;p<16;p++) {
 			int[][] tempArray = Util.copyArray(array);
 			tempArray = Util.flipArray(tempArray, (v)?h=!h:h, v=!v);
 			tempArray = Util.rotateArray(tempArray, p/4);
-			arrays.add(tempArray);
+			orientations.add(tempArray);
 		}
-		for (int i = 0;i<arrays.size()-1;i++) {
-			for (int j = i+1;j<arrays.size();) {
-				if (Util.equalArrays(arrays.get(i), arrays.get(j))) {
-					arrays.remove(j);
+		for (int i = 0;i<orientations.size()-1;i++) {
+			for (int j = i+1;j<orientations.size();) {
+				if (Util.equalArrays(orientations.get(i), orientations.get(j))) {
+					orientations.remove(j);
 				}
 				else j++;
 			}
 		}
-		return arrays;
+		return orientations;
 	}
 
 	private static boolean invalidMapLayout(Chunk[][] chunkLayout) {
