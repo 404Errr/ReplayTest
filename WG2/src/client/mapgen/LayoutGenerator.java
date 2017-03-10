@@ -86,7 +86,7 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 				chunks.add(new Chunk(chunkLayout, rarity));
 			}
 		}
-		System.out.println("\nNumber of chunks: "+chunks.size());
+		System.out.println("\nTotal number of chunks: "+chunks.size());
 	}
 
 	private static List<int[][]> getAllArrayOrientations(int[][] array) {

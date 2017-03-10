@@ -1,6 +1,6 @@
 chunk1,1;
-//chunk2I,1;
-chunk2L,1;
+chunk2I,0.75;
+chunk2L,0.75;
 chunk3,1;
 chunk4,1;
 
