@@ -132,21 +132,22 @@ public final class Util {
 	}
 
 	public static boolean continuousCheck(int[][] array, int type) {
+		int[][] arr = copyArray(array);
 		int iX = -1, iY = -1;
-		for (int y = 0;y<array.length;y++) {
-			for (int x = 0;x<array[0].length;x++) {
-				if (array[y][x]==type) {
-					iX = x;
-					iY = y;
+		for (int r = 0;r<arr.length;r++) {
+			for (int c = 0;c<arr[0].length;c++) {
+				if (arr[r][c]==type) {
+					iX = c;
+					iY = r;
 				}
 			}
 		}
 		if (iX==-1||iY==-1) return false;
 		final int tempFillType = 1000;
-		floodFill(iX, iY, type, tempFillType, array);
-		for (int y = 0;y<array.length;y++) {
-			for (int x = 0;x<array[0].length;x++) {
-				if (array[y][x]==type) {
+		floodFill(iX, iY, type, tempFillType, arr);
+		for (int r = 0;r<arr.length;r++) {
+			for (int c = 0;c<arr[0].length;c++) {
+				if (arr[r][c]==type) {
 					return false;
 				}
 			}
@@ -190,7 +191,6 @@ public final class Util {
 	}
 
 	public static void weighedShuffle(List<HasWeight> array, float shuffledness) {//0 = completely sorted, 1 = complelety randomized
-		if (shuffledness<=0) throw new IllegalArgumentException("shuffledness must be greater than 0");
 		Collections.sort(array);
 		Random rand = new Random();
 		for (int i = array.size();i>1;i--) {

@@ -9,31 +9,34 @@ import data.MapData;
 import util.Util;
 import util.Util.HasWeight;
 
-public class LayoutGenerator implements LayoutGenData, MapData, Data {
+public class LayoutGen implements LayoutGenData, MapData, Data {
 	private static List<HasWeight> chunks;
+	private static int attemptCount = 0, leakCount = 0, notContinuousCount = 0;
 
 	public static void main(String[] args) {
-		int[][] generated = generate(6, 4);
+		int[][] generated = generate(20, 20);
 		System.out.println();
 		Util.printIntAsCharArray(generated);
 	}
 
 	public static int[][] generate(int xSize, int ySize) {
 		initChunks();
-		long startTime = System.currentTimeMillis();
+
+		long startTime = System.currentTimeMillis(), lastTime = startTime;
+
 
 		Chunk[][] toPlace;
-
 		final Chunk emptyChunk = new Chunk(Util.getNewfilledArray(CHUNK_SIZE, CHUNK_SIZE, EMPTY_TYPE), 1.0f);
 
-		int attemptCount = 0;
+		System.out.println("Generating "+xSize+"x"+ySize+"...");
 
 		do {
 			toPlace = new Chunk[ySize][xSize];
 			for (int r = 0;r<toPlace.length;r++) {
 				for (int c = 0;c<toPlace[0].length;c++) {
-					Util.weighedShuffle(chunks, 0.4f);
-//					Util.weighedShuffle(chunks, 0.0f);
+//					Util.weighedShuffle(chunks, 0.4f);
+					Util.weighedShuffle(chunks, 0.5f);
+
 					Chunk chunk = emptyChunk, tempChunk;
 					for (int i = 0;i<chunks.size();i++) {
 						tempChunk = (Chunk)chunks.get(i);
@@ -54,11 +57,14 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 					toPlace[r][c] = chunk;
 				}
 			}
+			if (System.currentTimeMillis()-lastTime>2000) {
+				lastTime = System.currentTimeMillis();
+				System.out.println("Time taken: "+(System.currentTimeMillis()-startTime)/1000f+"\t\tAttemps: "+attemptCount+"\tTotal leaks: "+leakCount+"\tTotal not-continuous: "+notContinuousCount);
+			}
 			attemptCount++;
-		} while (invalidMapLayout(toPlace));
+		} while (!validMapLayout(toPlace));
 
-		System.out.println("\nAttemps: "+attemptCount);
-		System.out.println("Time taken: "+(System.currentTimeMillis()-startTime)/1000f);
+		System.out.println("\nTotal attemps: "+attemptCount+"\tTotal leaks: "+leakCount+"\tTotal not-continuous: "+notContinuousCount+"\t\tTime taken: "+(System.currentTimeMillis()-startTime)/1000f);
 
 		int[][] layout = Util.getNewfilledArray(xSize*CHUNK_SIZE, ySize*CHUNK_SIZE, UNUSED_TYPE);
 		for (int r = 0;r<ySize;r++) {
@@ -71,7 +77,8 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 	}
 
 	private static void initChunks() {
-		String[] chunkList = Util.fileToString(CHUNK_PATH+"chunkList").split(";");
+		long startTime = System.currentTimeMillis();
+		String[] chunkList = Util.fileToString(CHUNK_PATH+"_chunkList").split(";");
 		chunks = new ArrayList<>();
 		for (String chunkPath:chunkList) {
 			if (chunkPath.startsWith("//")) {
@@ -86,19 +93,43 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 				chunks.add(new Chunk(chunkLayout, rarity));
 			}
 		}
-		System.out.println("\nTotal number of chunks: "+chunks.size());
+		System.out.println("\nTotal number of chunks: "+chunks.size()+"\tTime taken: "+(System.currentTimeMillis()-startTime)/1000f+"\n");
 	}
 
-	private static boolean invalidMapLayout(Chunk[][] chunkLayout) {
+	private static boolean validMapLayout(Chunk[][] chunkLayout) {
 		int[][] layout = Util.getNewfilledArray(chunkLayout[0].length*CHUNK_SIZE, chunkLayout.length*CHUNK_SIZE, UNUSED_TYPE);
 		for (int r = 0;r<chunkLayout.length;r++) {
 			for (int c = 0;c<chunkLayout[0].length;c++) {
 				Util.appendArrayToArray(c*CHUNK_SIZE, r*CHUNK_SIZE, chunkLayout[r][c].getLayout(), layout);
 			}
 		}
-		if (!Util.continuousCheck(layout, FLOOR_TYPE)) return true;
+		if (!Util.continuousCheck(layout, FLOOR_TYPE)) {
+//			System.out.println("not continuous");
+			notContinuousCount++;
+			return false;
+		}
+		if (leakCheck(layout, FLOOR_TYPE, EMPTY_TYPE)) {
+//			System.out.println("leak");
+			leakCount++;
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean leakCheck(int[][] array, int type, int otherType) {
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				if (array[r][c]==type) {
+					if (r>0&&array[r+1][c]==otherType) return true;
+					if (r<array.length-1&&array[r-1][c]==otherType) return true;
+					if (c>0&&array[r][c+1]==otherType) return true;
+					if (c<array[0].length&&array[r][c-1]==otherType) return true;
+				}
+			}
+		}
 		return false;
 	}
+
 
 	private static boolean canSew(Chunk chunk1, int side1, Chunk chunk2, int side2) {
 		return Util.equalArrays(chunk1.getSeam(side1), chunk2.getSeam(side2));

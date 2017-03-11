@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import client.edit.Edit;
-import client.mapgen.LayoutGenerator;
+import client.mapgen.LayoutGen;
 import client.player.Player;
 import data.ColorData;
 import data.MapData;
@@ -42,7 +42,7 @@ public class Level implements MapData, TileData {
 				}
 			}
 		}
-		else layout = LayoutGenerator.generate(6, 6);
+		else layout = LayoutGen.generate(6, 6);
 		spawnPoints = findSpawnPoints(layout);
 		createTiles();
 	}
