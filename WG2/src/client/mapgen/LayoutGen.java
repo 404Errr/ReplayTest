@@ -12,6 +12,7 @@ import util.Util.HasWeight;
 public class LayoutGen implements LayoutGenData, MapData, Data {
 	private static List<HasWeight> chunks;
 	private static int attemptCount = 0, leakCount = 0, notContinuousCount = 0;
+	private static float shuffledness = SHUFFLEDNESS;
 
 	public static void main(String[] args) {
 		int[][] generated = generate(20, 20);
@@ -28,14 +29,13 @@ public class LayoutGen implements LayoutGenData, MapData, Data {
 		Chunk[][] toPlace;
 		final Chunk emptyChunk = new Chunk(Util.getNewfilledArray(CHUNK_SIZE, CHUNK_SIZE, EMPTY_TYPE), 1.0f);
 
-		System.out.println("Generating "+xSize+"x"+ySize+"...");
+		System.out.println("Generating "+xSize+"x"+ySize+"...\n");
 
 		do {
 			toPlace = new Chunk[ySize][xSize];
 			for (int r = 0;r<toPlace.length;r++) {
 				for (int c = 0;c<toPlace[0].length;c++) {
-//					Util.weighedShuffle(chunks, 0.4f);
-					Util.weighedShuffle(chunks, 0.5f);
+					Util.weighedShuffle(chunks, shuffledness);
 
 					Chunk chunk = emptyChunk, tempChunk;
 					for (int i = 0;i<chunks.size();i++) {

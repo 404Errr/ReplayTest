@@ -8,17 +8,23 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Stack;
 
 public final class Util {
 
-	public static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
+	private static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
+	private static Random rand;
+
+	static {
+		rand = new Random();
+	}
 
 	public static boolean inArrayBounds(float x, float y, int[][] array) {
 		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
@@ -51,18 +57,26 @@ public final class Util {
 		return newArray;
 	}
 
-	public static void appendArrayToArray(int x, int y, int[][] toAppend, int[][] array) {
+	public static void appendArrayToArray(int x, int y, int[][] toAppend, int[][] array) {//add toAppend to array starting at x, y
 		for (int r = 0;r<toAppend.length&&r<array.length-y;r++) {
 			for (int c = 0;c<toAppend[r].length&&c<array[r].length-x;c++) {
-				if (r+y>=0&&c+x>=0) array[r+y][c+x] = toAppend[r][c];
+				if (r+y>=0&&c+x>=0) {
+					array[r+y][c+x] = toAppend[r][c];
+				}
 			}
 		}
 	}
 
 	public static void replaceAllInArray(int[][] array, int from, int to) {
 		for (int r = 0;r<array.length;r++) {
-			for (int c = 0;c<array[0].length;c++) {
-				if (array[r][c]==from) array[r][c] = to;
+			replaceAllInArray(array[r], from, to);
+		}
+	}
+
+	public static void replaceAllInArray(int[] array, int from, int to) {
+		for (int i = 0;i<array.length;i++) {
+			if (array[i]==from) {
+				array[i] = to;
 			}
 		}
 	}
@@ -191,15 +205,13 @@ public final class Util {
 	}
 
 	public static void weighedShuffle(List<HasWeight> array, float shuffledness) {//0 = completely sorted, 1 = complelety randomized
-		Collections.sort(array);
-		Random rand = new Random();
+		sort(array);
 		for (int i = array.size();i>1;i--) {
 			if (rand.nextFloat()<=shuffledness) swap(array, i-1, rand.nextInt(i/2));
 		}
 	}
 
 	public static <T> void shuffle(List<T> array) {
-		Random rand = new Random();
 		for (int i = array.size();i>1;i--) {
 			swap(array, i-1, rand.nextInt(i));
 		}
@@ -207,6 +219,89 @@ public final class Util {
 
 	public static <T> void swap(List<T> array, int i, int j) {
 		array.set(i, array.set(j, array.get(i)));
+	}
+
+	public static void swap(Object[] array, int i, int j) {
+		Object temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends Comparable<? super T>> void sort(List<T> list) {
+		Object[] a = list.toArray();
+		sort(a);
+		ListIterator<T> i = list.listIterator();
+		for (int j=0; j<a.length; j++) {
+			i.next();
+			i.set((T)a[j]);
+		}
+	}
+
+	public static void sort(Object[] a) {
+		Object[] aux = a.clone();
+		mergeSort(aux, a, 0, a.length, 0);
+	}
+
+	public static void sort(Object[] a, int fromIndex, int toIndex) {
+		rangeCheck(a.length, fromIndex, toIndex);
+		Object[] aux = copyOfRange(a, fromIndex, toIndex);
+		mergeSort(aux, a, fromIndex, toIndex, -fromIndex);
+	}
+
+	private static final int INSERTIONSORT_THRESHOLD = 7;
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static void mergeSort(Object[] src, Object[] dest, int low, int high, int off) {
+		int length = high-low;
+		if (length<INSERTIONSORT_THRESHOLD) {
+			for (int i = low;i<high;i++) {
+				for (int j = i;j>low&&((Comparable) dest[j-1]).compareTo(dest[j])>0;j--) {
+					swap(dest, j, j-1);
+				}
+			}
+			return;
+		}
+		int destLow  = low;
+		int destHigh = high;
+		low+=off;
+		high+=off;
+		int mid = (low+high) >>> 1;
+			mergeSort(dest, src, low, mid, -off);
+			mergeSort(dest, src, mid, high, -off);
+			if (((Comparable)src[mid-1]).compareTo(src[mid]) <= 0) {
+				System.arraycopy(src, low, dest, destLow, length);
+				return;
+			}
+			for (int i = destLow, p = low, q = mid;i<destHigh;i++) {
+				if (q>=high||p<mid&&((Comparable)src[p]).compareTo(src[q])<=0) {
+					dest[i] = src[p++];
+				}
+				else {
+					dest[i] = src[q++];
+				}
+			}
+	}
+
+	private static void rangeCheck(int arrayLen, int fromIndex, int toIndex) {
+		if (fromIndex>toIndex) throw new IllegalArgumentException("fromIndex("+fromIndex+") > toIndex("+toIndex+")");
+		if (fromIndex<0) throw new ArrayIndexOutOfBoundsException(fromIndex);
+		if (toIndex>arrayLen) throw new ArrayIndexOutOfBoundsException(toIndex);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T[] copyOfRange(T[] original, int from, int to) {
+		return copyOfRange(original, from, to, (Class<T[]>) original.getClass());
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T,U> T[] copyOfRange(U[] original, int from, int to, Class<? extends T[]> newType) {
+		int newLength = to-from;
+		if (newLength<0) {
+			throw new IllegalArgumentException(from+" > "+to);
+		}
+		T[] copy = ((Object)newType==(Object) Object[].class)?(T[]) new Object[newLength]:(T[]) Array.newInstance(newType.getComponentType(), newLength);
+		System.arraycopy(original, from, copy, 0, Math.min(original.length - from, newLength));
+		return copy;
 	}
 
 	public static boolean equalArrays(int[][] array1, int[][] array2) {
@@ -248,7 +343,7 @@ public final class Util {
 		int[][] array = new int[sizeY][sizeX];
 		for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
-				array[r][c] = rand(lowerBound, upperBound);
+				array[r][c] = randomInt(lowerBound, upperBound);
 			}
 		}
 		return array;
@@ -258,17 +353,17 @@ public final class Util {
 		int[][] array = new int[sizeY][sizeX];
 		for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
-				array[r][c] = rand(upperBound);
+				array[r][c] = randomInt(upperBound);
 			}
 		}
 		return array;
 	}
 
-	public static int rand(int upperBound) {
+	public static int randomInt(int upperBound) {
 		return new Random().nextInt(upperBound);
 	}
 
-	public static int rand(int lowerBound, int upperBound) {
+	public static int randomInt(int lowerBound, int upperBound) {
 		return new Random().nextInt(upperBound-lowerBound)+lowerBound;
 	}
 
