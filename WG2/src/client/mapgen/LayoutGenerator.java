@@ -10,7 +10,7 @@ import util.Util;
 import util.Util.HasWeight;
 
 public class LayoutGenerator implements LayoutGenData, MapData, Data {
-	private static List<HasWeight> chunks;
+	private static List<HasWeight> chunks;//chunk list
 	private static int attemptCount = 0, leakCount = 0, notContinuousCount = 0;
 	private static int chunkSize;
 
