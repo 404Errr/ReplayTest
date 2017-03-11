@@ -22,21 +22,18 @@ public interface MapData {
 //	String MAP = "small";
 //	String MAP = "AItest1";
 //	String MAP = null;
-
 //	String PATH = "src/maps/";
-	//---
-	String MAP = "edit";
 
+	String MAP = "edit";
 	String PATH = "src/client/mapgen/chunks/";
-	//---
 
 	boolean EDIT_MODE = true;
 	int EDIT_HISTORY_LIMIT = 666;
 
 	int EDGE_TYPE = '1';
+	int EMPTY_TYPE = '2';
 	int SPAWN_POINT_TYPE = 's', SPAWN_POINT_REPLACEMENT_TYPE = '0';//don't touch
 	int[] EMPTY_TAGS = {'$', 'x'};//don't touch
-	int EMPTY_TYPE = '2';
 
 	boolean ADD_EDGE = true;//puts and edge around the map
 	boolean AUTO_DISABLE_ADD_EDGE = true;//disables if it finds an empty tile or if the map area is greater than the value below

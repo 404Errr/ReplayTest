@@ -18,17 +18,6 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 
 	@Override
 	protected void turn() {
-		/*Player closest = this;
-		for (int i = 0;i<Game.getEntities().size();i++) {
-			if (Game.getEntity(i) instanceof Player) {
-				if (closest==this||Util.distance(x, y, Game.getPlayer(i).getX(), Game.getPlayer(i).getY())<Util.distance(x, y, closest.getX(), closest.getY())) {
-					closest = Game.getPlayer(i);
-				}
-			}
-		}
-		if (closest!=this) {
-			setFacing(Util.getAngle(x, y, closest.getX(), closest.getY()));//aimbot
-		}*/
-		/*else */setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
+		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
 	}
 }
