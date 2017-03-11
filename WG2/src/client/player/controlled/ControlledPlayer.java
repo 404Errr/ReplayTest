@@ -1,7 +1,10 @@
 package client.player.controlled;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
+import client.game.Game;
 import client.input.Cursor;
 import client.level.SpawnPoint;
 import client.player.Player;
@@ -25,10 +28,37 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 					closest = Game.getPlayer(i);
 				}
 			}
+			else break;
 		}
 		if (closest!=this) {
 			setFacing(Util.getAngle(x, y, closest.getX(), closest.getY()));//aimbot
-		}*/
-		/*else */setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
+		}
+		return;*/
+
+//		Player closest = this;
+		List<Float> playerAngles = new ArrayList<>();
+		for (int i = 0;i<Game.getEntities().size();i++) {
+			if (Game.getEntity(i) instanceof Player) {
+				playerAngles.add(Util.getAngle(x, y, Game.getPlayer(i).getX(), Game.getPlayer(i).getY()));
+			}
+			else break;//no more players
+		}
+		float cursorAngle = Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()), angle = cursorAngle;
+
+
+
+
+		setFacing(angle);
+
+//		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
 	}
+
+
+
+
+
+
+
+
+
 }
