@@ -1,8 +1,6 @@
 package client.player.controlled;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 
 import client.game.Game;
 import client.input.Cursor;
@@ -37,26 +35,27 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 		}
 		return;*/
 
-		List<Float> playerAngles = new ArrayList<>();
+		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
+		final float cursorAngle = Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY());
 		for (int i = 0;i<Game.getEntities().size();i++) {
 			if (Game.getEntity(i) instanceof Player) {
-				playerAngles.add(Util.getAngle(x, y, Game.getPlayer(i).getX(), Game.getPlayer(i).getY()));
+				float angle = Util.getAngle(x, y, Game.getPlayer(i).getX(), Game.getPlayer(i).getY());
+				if (withinAngle(cursorAngle, angle, AIM_ASSIST)) {
+					setFacing(angle);
+					return;
+				}
 			}
 			else break;//no more players
 		}
-		final float cursorAngle = Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY());
-		float angle = cursorAngle;
-
-		for (int i = 0;i<playerAngles.size();i++) {
-
-		}
-
-		setFacing(angle);
-
-//		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
 	}
 
+	public static boolean withinAngle(float a1, float a2, float range) {//radians, radians, degrees
+		double temp1 = Math.toDegrees(a1), temp2 = Math.toDegrees(a2);
 
+
+		return Math.abs(temp1-temp2)<range;
+
+	}
 
 
 
