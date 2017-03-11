@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import client.edit.Edit;
-import client.mapgen.LayoutGenerator;
 import client.player.Player;
 import data.ColorData;
 import data.MapData;
@@ -18,18 +17,18 @@ public class Level implements MapData, TileData {
 	private static Tile[][] tiles;//the level
 	private static List<SpawnPoint> spawnPoints;
 
-	public static void preInit() {
+	public static void init() {
 		if (MAP!=null) {
-			if (MAP.charAt(0)==EMPTY_TAGS[0]) {
+			/*if (MAP.charAt(0)==EMPTY_TAGS[0]) {
 				try {
 					String[] dimensions = MAP.substring(1).split("x");
-					layout = getEmpty(Integer.parseInt(dimensions[0]),Integer.parseInt(dimensions[1]));
+					layout = Util.fillArray(new int[Integer.parseInt(dimensions[1])][Integer.parseInt(dimensions[0])], EMPTY_TYPE);
 				}
 				catch (Exception e) {
 					System.err.println("Error with empty creation");
 				}
-			}
-			else layout = Util.parseIntArrayFromFile(PATH+MAP);
+			}*/
+			/*else */layout = Util.parseIntArrayFromFile(PATH+MAP);
 			if (ADD_EDGE&&!Edit.editMode) {
 				if (!(AUTO_DISABLE_ADD_EDGE&&(!shouldAddEdge(layout)||layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD))) {
 					System.out.println("Adding edge of type: "+EDGE_TYPE);
@@ -42,8 +41,8 @@ public class Level implements MapData, TileData {
 				}
 			}
 		}
-		else layout = LayoutGenerator.generate(6, 6);
-		spawnPoints = findSpawnPoints(layout);
+//		else layout = LayoutGenerator.generate(6, 6);
+		createSpawnPoints(layout);
 		createTiles();
 	}
 
@@ -58,6 +57,10 @@ public class Level implements MapData, TileData {
 				tiles[r][c] = new Tile(c, r, layout[r][c], TileData.getSolid(layout[r][c])[SOLID_WALLS]);
 			}
 		}
+	}
+
+	private static void createSpawnPoints(int[][] layout) {
+		spawnPoints = findSpawnPoints(layout);
 	}
 
 	public static List<SpawnPoint> findSpawnPoints(int[][] layout) {
@@ -100,10 +103,6 @@ public class Level implements MapData, TileData {
 			}
 		}
 		return true;
-	}
-
-	public static int[][] getEmpty(int width, int height) {
-		return Util.fillArray(new int[height][width], EMPTY_TYPE);
 	}
 
 	public static Point getFirstUsableTile() {//for spawning and stuff

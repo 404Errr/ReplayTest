@@ -8,7 +8,7 @@ import client.level.Level;
 
 public class Client {
 	public static void run() {
-		Level.preInit();
+		Level.init();
 		EditHistory.init();
 		Camera.init();
 		Game.init();
