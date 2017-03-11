@@ -9,12 +9,15 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Stack;
 
 public final class Util {
+
 	public static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
 
 	public static boolean inArrayBounds(float x, float y, int[][] array) {
@@ -29,7 +32,7 @@ public final class Util {
 		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
 	}
 
-	public static int getSide(float x, float y) {//FIXME
+	public static int getSide(float x, float y) {
 		float[] distances = new float[4];
 		distances[RIGHT] = (int)x+1-x;
 		distances[DOWN] = (int)y+1-y;
@@ -37,23 +40,6 @@ public final class Util {
 		distances[UP] = y-(int)y;
 		return minInArray(distances);
 	}
-
-//	public static void dumbThing(int[][] array, boolean doDiag) {
-//		int[][] ref = copyArray(array);
-//		for (int r = 0;r<array.length;r++) {
-//			for (int c = 0;c<array[0].length;c++) {
-//				int total = 0;
-//				for (int i = -1;i<=1;i++) {//r
-//					for (int j = -1;j<=1;j++) {//c
-//						if (Util.inArrayBounds(c+j, r+i, array)&&!(i==0&&j==0)&&(doDiag==!(i==0||j==0))) {//FIXME
-//							total+=ref[r+i][c+j];
-//						}
-//					}
-//				}
-//				array[r][c] = total;
-//			}
-//		}
-//	}
 
 	public static int[][] copyArray(int[][] array) {
 		int[][] newArray = new int[array.length][array[0].length];
@@ -145,12 +131,98 @@ public final class Util {
 		return true;
 	}
 
+	public static boolean continuousCheck(int[][] array, int type) {
+		int iX = -1, iY = -1;
+		for (int y = 0;y<array.length;y++) {
+			for (int x = 0;x<array[0].length;x++) {
+				if (array[y][x]==type) {
+					iX = x;
+					iY = y;
+				}
+			}
+		}
+		if (iX==-1||iY==-1) return false;
+		final int tempFillType = 1000;
+		floodFill(iX, iY, type, tempFillType, array);
+		for (int y = 0;y<array.length;y++) {
+			for (int x = 0;x<array[0].length;x++) {
+				if (array[y][x]==type) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public static List<int[][]> getAllArrayOrientations(int[][] array) {
+		List<int[][]> orientations = new ArrayList<>();
+		boolean h = false, v = false;
+		for (int p = 0;p<16;p++) {
+			int[][] tempArray = copyArray(array);
+			tempArray = flipArray(tempArray, (v)?h=!h:h, v=!v);
+			tempArray = rotateArray(tempArray, p/4);
+			orientations.add(tempArray);
+		}
+		for (int i = 0;i<orientations.size()-1;i++) {
+			for (int j = i+1;j<orientations.size();) {
+				if (equalArrays(orientations.get(i), orientations.get(j))) {
+					orientations.remove(j);
+				}
+				else j++;
+			}
+		}
+		return orientations;
+	}
+
+
+
+
+
+
+	public interface HasWeight extends Comparable<HasWeight> {
+		public float getWeight();
+
+		@Override
+		default int compareTo(HasWeight other) {
+			if (getWeight()==other.getWeight()) return 0;
+			return (getWeight()<other.getWeight())?1:-1;
+		}
+	}
+
+	public static void weighedShuffle(List<HasWeight> array, float shuffledness) {//0 = completely sorted, 1 = complelety randomized
+		if (shuffledness<=0) throw new IllegalArgumentException("shuffledness must be greater than 0");
+		Collections.sort(array);
+		Random rand = new Random();
+		for (int i = array.size();i>1;i--) {
+			if (rand.nextFloat()<=shuffledness) swap(array, i-1, rand.nextInt(i/2));
+		}
+	}
+
+	public static <T> void shuffle(List<T> array) {
+		Random rand = new Random();
+		for (int i = array.size();i>1;i--) {
+			swap(array, i-1, rand.nextInt(i));
+		}
+	}
+
+	public static <T> void swap(List<T> array, int i, int j) {
+		array.set(i, array.set(j, array.get(i)));
+	}
+
 	public static boolean equalArrays(int[][] array1, int[][] array2) {
 		if (array1.length!=array2.length||array1[0].length!=array2[0].length) return false;
 		for (int r = 0;r<array1.length;r++) {
 			for (int c = 0;c<array1[0].length;c++) {
 				if (array1[r][c]!=array2[r][c]) return false;
 			}
+		}
+		return true;
+	}
+
+	public static boolean equalArraysType(int[] array1, int[] array2, int type) {
+		if (array1.length!=array2.length) return false;
+		for (int i = 0;i<array1.length;i++) {
+			if (array1[i]==type||array2[i]==type&&array1[i]!=array2[i]) return false;
 		}
 		return true;
 	}
@@ -198,10 +270,6 @@ public final class Util {
 
 	public static int rand(int lowerBound, int upperBound) {
 		return new Random().nextInt(upperBound-lowerBound)+lowerBound;
-	}
-
-	public static <T> void swap(int i1, int i2, List<T> array) {
-		array.set(i1, array.set(i2, array.get(i1)));
 	}
 
 	public static <T> void printArray(List<T> array) {
@@ -308,6 +376,90 @@ public final class Util {
 		int total = 0;
 		for (int num:nums) total+=num;
 		return total/nums.length;
+	}
+
+	public static long avg(long... nums) {
+		long total = 0;
+		for (long num:nums) total+=num;
+		return total/nums.length;
+	}
+
+	public static short avg(short... nums) {
+		short total = 0;
+		for (short num:nums) total+=num;
+		return (short)(total/nums.length);
+	}
+
+	public static int maxInArray(short[] values) {
+		int max = 0;
+		for (int i = 0;i<values.length;i++) {
+			if (values[i]>values[max]) max = i;
+		}
+		return max;
+	}
+
+	public static int minInArray(short[] values) {
+		int min = 0;
+		for (int i = 0;i<values.length;i++) {
+			if (values[i]<values[min]) min = i;
+		}
+		return min;
+	}
+
+	public static int maxInArray(long[] values) {
+		int max = 0;
+		for (int i = 0;i<values.length;i++) {
+			if (values[i]>values[max]) max = i;
+		}
+		return max;
+	}
+
+	public static int minInArray(long[] values) {
+		int min = 0;
+		for (int i = 0;i<values.length;i++) {
+			if (values[i]<values[min]) min = i;
+		}
+		return min;
+	}
+
+	public static int maxInArray(int[] values) {
+		int max = 0;
+		for (int i = 0;i<values.length;i++) {
+			if (values[i]>values[max]) max = i;
+		}
+		return max;
+	}
+
+	public static int minInArray(int[] values) {
+		int min = 0;
+		for (int i = 0;i<values.length;i++) {
+			if (values[i]<values[min]) min = i;
+		}
+		return min;
+	}
+
+	public static int maxInArray(double[] values) {
+		int max = 0;
+		for (int i = 0;i<values.length;i++) {
+			if (values[i]>values[max]) max = i;
+		}
+		return max;
+	}
+
+	public static int minInArray(double[] values) {
+		int min = 0;
+		for (int i = 0;i<values.length;i++) {
+			if (values[i]<values[min]) min = i;
+		}
+		return min;
+	}
+
+	public static int maxInArray(float[] values) {
+		int max = 0;
+		for (int i = 0;i<values.length;i++) {
+			if (values[i]>values[max]) max = i;
+		}
+		return max;
 	}
 
 	public static int minInArray(float[] values) {
@@ -526,16 +678,37 @@ public final class Util {
 	public static final float byteArray2Float(byte[] in) {
 		return ByteBuffer.wrap(in).getFloat();
 	}
+	public static final short byteArray2Short(byte[] in) {
+		return ByteBuffer.wrap(in).getShort();
+	}
+	public static final int byteArray2Int(byte[] in) {
+		return ByteBuffer.wrap(in).getInt();
+	}
+	public static final long byteArray2Long(byte[] in) {
+		return ByteBuffer.wrap(in).getLong();
+	}
+	public static final double byteArray2Double(byte[] in) {
+		return ByteBuffer.wrap(in).getDouble();
+	}
 
-	public static byte [] long2ByteArray (long value) {
+	public static byte[] short2ByteArray (short value) {
+		return ByteBuffer.allocate(8).putShort(value).array();
+	}
+
+	public static byte[] double2ByteArray (double value) {
+		return ByteBuffer.allocate(8).putDouble(value).array();
+	}
+
+	public static byte[] int2ByteArray (int value) {
+		return ByteBuffer.allocate(8).putInt(value).array();
+	}
+
+	public static byte[] long2ByteArray (long value) {
 		return ByteBuffer.allocate(8).putLong(value).array();
 	}
 
-	public static byte [] float2ByteArray (float value) {
+	public static byte[] float2ByteArray (float value) {
 		return ByteBuffer.allocate(4).putFloat(value).array();
 	}
 }
-
-
-
 

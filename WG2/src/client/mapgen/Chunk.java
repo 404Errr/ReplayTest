@@ -3,15 +3,16 @@ package client.mapgen;
 import data.Data;
 import data.LayoutGenData;
 import util.Util;
+import util.Util.HasWeight;
 
-public class Chunk implements Data, LayoutGenData {
+public class Chunk implements Data, LayoutGenData, HasWeight {
 	private int[][] layout;
 	private int[][] seams;
-	private float rarity;
+	private float weight;
 
 	public Chunk(int[][] layout, float rarity) {
 		this.layout = layout;
-		this.rarity = rarity;
+		this.weight = rarity;
 		setSeams(layout);
 	}
 
@@ -22,8 +23,9 @@ public class Chunk implements Data, LayoutGenData {
 		}
 	}
 
-	public float getRarity() {
-		return rarity;
+	@Override
+	public float getWeight() {
+		return weight;
 	}
 
 	public int[] getSeam(int side) {
