@@ -9,7 +9,7 @@ import data.MapData;
 import util.Util;
 import util.Util.HasWeight;
 
-public class LayoutGen implements LayoutGenData, MapData, Data {
+public class LayoutGenerator implements LayoutGenData, MapData, Data {
 	private static List<HasWeight> chunks;
 	private static int attemptCount = 0, leakCount = 0, notContinuousCount = 0;
 	private static int chunkSize;
