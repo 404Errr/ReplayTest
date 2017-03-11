@@ -160,9 +160,8 @@ public final class Util {
 		}
 		return false;
 	}
-	
-	public static int[][] addEdgeToArray(int[][] array, int val) {//takes given map and adds EDGE_TYPE around it
-		System.out.println("Map size: "+array.length+","+array[0].length);
+
+	public static void addEdgeToArray(int[][] array, int val) {//takes given map and adds EDGE_TYPE around it
 		int[][] newArray = new int[array.length+2][array[0].length+2];//new array size of map +1 on every side
 		for (int r = 0;r<newArray.length;r++) {
 			for (int c = 0;c<newArray[0].length;c++) {
@@ -174,9 +173,9 @@ public final class Util {
 				}
 			}
 		}
-		return newArray;
+		array = newArray;
 	}
-	
+
 	public static boolean equalArrays(int[][] array1, int[][] array2) {
 		if (array1.length!=array2.length||array1[0].length!=array2[0].length) return false;
 		for (int r = 0;r<array1.length;r++) {

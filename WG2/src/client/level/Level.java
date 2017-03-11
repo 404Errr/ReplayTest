@@ -32,7 +32,7 @@ public class Level implements MapData, TileData {
 			if (ADD_EDGE&&!Edit.editMode) {
 				if (!(AUTO_DISABLE_ADD_EDGE&&(!shouldAddEdge(layout)||layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD))) {
 					System.out.println("Adding edge of type: "+EDGE_TYPE);
-					layout = addEdge(layout);
+					Util.addEdgeToArray(layout, EDGE_TYPE);
 				}
 				else {
 					System.out.print("Not adding edge");
@@ -44,6 +44,17 @@ public class Level implements MapData, TileData {
 //		else layout = LayoutGenerator.generate(6, 6);
 		createSpawnPoints(layout);
 		createTiles();
+	}
+
+	public static boolean shouldAddEdge(int[][] layout) {//false if layout contains empty tiles (null color)
+		for (int r = 0;r<layout.length;r++) {
+			for (int c = 0;c<layout[0].length;c++) {
+				if (ColorData.getTileColor(layout[r][c])==null) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public static void initSpawnPoints() {
