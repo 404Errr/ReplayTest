@@ -6,7 +6,7 @@ public interface MapData {
 //	String MAP = "map1";
 //	String MAP = "map2";
 //	String MAP = "map3";
-//	String MAP = "map4";
+	String MAP = "map4";
 //	String MAP = "buttonsSmall";
 //	String MAP = "buttonsMedium2";
 //	String MAP = "buttonsMedium";
@@ -22,12 +22,14 @@ public interface MapData {
 //	String MAP = "small";
 //	String MAP = "AItest1";
 //	String MAP = null;
-//	String PATH = "src/maps/";
 
-	String MAP = "edit";
-	String PATH = "src/client/mapgen/chunks/";
+	String PATH = "src/maps/";
 
-	boolean EDIT_MODE = true;
+//	String MAP = "edit";
+
+//	String PATH = "src/client/mapgen/chunks/";
+
+	boolean EDIT_MODE = false;
 	int EDIT_HISTORY_LIMIT = 666;
 
 	int EDGE_TYPE = '1';
