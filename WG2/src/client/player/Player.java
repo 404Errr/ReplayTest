@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.entity.Entity;
+import client.level.Level;
 import client.level.SpawnPoint;
 import client.player.controlled.ControlledPlayer;
 import client.weapon.PlayerWeapon;
@@ -51,8 +52,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 
 	public void respawn(SpawnPoint spawnPoint) {
 		health = PLAYER_INITIAL_HEALTH;
-//		move((float)spawnPoint.getX(), (float)spawnPoint.getY());TODO
-		move(0,0);
+		move((float)spawnPoint.getX(), (float)spawnPoint.getY());
 	}
 
 	public void move(float x, float y, float facing) {
@@ -92,16 +92,14 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	}
 
 	protected boolean checkWallCollision() {
-//		final Rectangle2D hitbox = new Rectangle2D.Float(x, y, PLAYER_SIZE, PLAYER_SIZE);
-//		for (int r = getYTile()-1;r<getYTile()+2;r++) {//for each row within the radius
-//			for (int c = getXTile()-1;c<getXTile()+2;c++) {//for each collumn within the radius
-//				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&Level.getTile(c, r).isSolid(SOLID_WALLS)) {//bounds check and if tile is solid
-//					if (Level.getTile(c, r).getBounds().intersects(hitbox)) {
-//						return true;
-//					}
-//				}
-//			}
-//		}
+		final Rectangle2D hitbox = new Rectangle2D.Float(x, y, PLAYER_SIZE, PLAYER_SIZE);
+		for (int y = getYTile()-1;y<getYTile()+2;y++) {//for each row within the radius
+			for (int x = getXTile()-1;x<getXTile()+2;x++) {//for each collumn within the radius
+				if (Level.tileExists(x, y)&&Level.getTile(x, y).isSolid(SOLID_WALLS)&&Level.getTile(x, y).getBounds().intersects(hitbox)) {//bounds check and if tile is solid and if intersects
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 

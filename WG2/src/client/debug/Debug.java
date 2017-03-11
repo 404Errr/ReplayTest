@@ -1,7 +1,10 @@
 package client.debug;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
+import java.util.List;
 
 import client.game.Game;
 import client.graphics.Camera;
@@ -17,13 +20,9 @@ import data.MapData;
 import util.Util;
 
 public class Debug implements Data, ColorData, MapData, ControlData {
-	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = false, spawnPointVisibilityLines = false;
+	private static boolean debugText = true, losLine = true, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = false, spawnPointVisibilityLines = true;
 	private final static int textX = 25, textY = 30, textSize = 15;
 
-//	public static int[] kills = new int[4];
-//	public static void addKill(int type) {
-//		kills[type]++;
-//	}
 
 	public static void drawDebug() {
 //		System.out.println("BASICGUN: "+kills[0]+"\tSHOTGUN: "+kills[1]+"\tMACHINEGUN: "+kills[2]+"\tRAILGUN: "+kills[3]);
@@ -82,19 +81,19 @@ public class Debug implements Data, ColorData, MapData, ControlData {
 		}
 	}
 
-//	public static void drawPath(List<Point> lines, Color color, int size) {
+	public static void drawPath(List<Point> lines, Color color, int size) {
 //		if (drawDebugPathfinding/*&&!Edit.editMode*/) {
-//			Renderer.getG().setColor(color);
-//			Renderer.getG().setStroke(new BasicStroke(size));
-//			for (int i = 1;i<lines.size();i++) {
-//				Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
-//			}
+			Renderer.getG().setColor(color);
+			Renderer.getG().setStroke(new BasicStroke(size));
+			for (int i = 1;i<lines.size();i++) {
+				Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
+			}
 //			Renderer.getG().setColor(Color.green);
 //			Renderer.getG().setStroke(new BasicStroke(7));
 //			Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()));
 //			Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
 //		}
-//	}
+	}
 
 	public static void toggleText() {
 		debugText = !debugText;

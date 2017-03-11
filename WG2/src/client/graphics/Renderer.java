@@ -42,24 +42,19 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			/*if (!Edit.editMode) */drawEntities();
 //			if (Edit.editMode) Edit.drawSelected();
 
-//			if (Debug.isSpawnPointVisibilityLines()) for (int i = 0;i<Level.getSpawnPoints().size();i++) {
-//				if (Level.getSpawnPoints().get(i).isVisible()) g.setColor(Util.colorOpacity(Color.GREEN, 0.25f));
-//				else g.setColor(Util.colorOpacity(Color.RED, 0.1f));
-//				g.fillOval(gridX(Level.getSpawnPoints().get(i).x+0.4f), gridY(Level.getSpawnPoints().get(i).y+0.4f), (int) (Camera.getScale()*0.2f), (int) (Camera.getScale()*0.2f));
-//				g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/4));
-//				g.setColor(COLOR_DEBUG_GREEN);
-//				g.drawString(Level.getSpawnPoints().get(i).getSafetyRating(null)+"", gridX(Level.getSpawnPoints().get(i).x+0.35f), gridY(Level.getSpawnPoints().get(i).y+0.8f));
-//			}
+			/*if (Debug.isSpawnPointVisibilityLines()) */for (int i = 0;i<Level.getSpawnPoints().size();i++) {
+				if (Level.getSpawnPoints().get(i).isVisible()) g.setColor(Util.colorOpacity(Color.GREEN, 0.25f));
+				else g.setColor(Util.colorOpacity(Color.RED, 0.1f));
+				g.fillOval(gridX(Level.getSpawnPoints().get(i).x+0.4f), gridY(Level.getSpawnPoints().get(i).y+0.4f), (int) (Camera.getScale()*0.2f), (int) (Camera.getScale()*0.2f));
+				g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/4));
+				g.setColor(COLOR_DEBUG_GREEN);
+				g.drawString(Level.getSpawnPoints().get(i).getSafetyRating(null)+"", gridX(Level.getSpawnPoints().get(i).x+0.35f), gridY(Level.getSpawnPoints().get(i).y+0.8f));
+			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-//	private void drawUI() {
-//		g.setColor(Util.getRedGreenColorShift(Game.getPlayer().getHealth()));
-//		g.fillRect(Window.width()-HEALTH_BAR_WIDTH, (int)((1f-Game.getPlayer().getHealth())*Window.height()), HEALTH_BAR_WIDTH, Window.height());
-//	}
 
 	private void drawEntities() {
 		List<Entity> entities = Game.getEntities();
@@ -78,7 +73,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 				if (entity instanceof Player) {
 					drawPlayer((Player) entity);
 					if (entity instanceof AIPlayer) {
-//						Debug.drawPath(((AIPlayer) entity).getCurrentPath(), ((Player) entity).getColor(), 2);
+						Debug.drawPath(((AIPlayer) entity).getCurrentPath(), ((Player) entity).getColor(), 2);
 						if (Debug.isDrawSightLines()) {
 							g.setStroke(new BasicStroke(2));
 							for (int j = 0;j<((AIPlayer) entity).getSightLines().size();j++) {

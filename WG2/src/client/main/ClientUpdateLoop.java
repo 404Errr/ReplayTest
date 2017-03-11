@@ -3,6 +3,7 @@ package client.main;
 import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Window;
+import client.level.Level;
 import data.Data;
 
 public class ClientUpdateLoop implements Data {
@@ -35,7 +36,7 @@ public class ClientUpdateLoop implements Data {
 				if (Game.getEntities().get(i).tick()) Game.getEntities().remove(i);
 				else i++;
 			}
-//			Level.tick();
+			Level.tick();
 			Camera.tick();
 		}
 		catch (Exception e) {

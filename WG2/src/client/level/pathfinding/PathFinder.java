@@ -13,51 +13,53 @@ public class PathFinder implements TileData {
 	private PathfindingTile[][] tiles;
 
 	public PathFinder() {
-		tiles = new PathfindingTile[Level.getHeightP()][Level.getWidthP()];
-		for (int r = 0;r<Level.getHeightP();r++) {
-			for (int c = 0;c<Level.getWidthP();c++) {
+		tiles = new PathfindingTile[1000][1000];
+		System.out.println(tiles.length+"\t"+tiles[0].length);
+		for (int r = 0;r<Level.getWidthP();r++) {
+			for (int c = 0;c<Level.getHeightP();c++) {
 				tiles[r][c] = new PathfindingTile(c, r);
 			}
 		}
 	}
 
-	public List<Point> getPath(int x1, int y1, int x2, int y2) {
+	public List<Point> getPath(int iX, int iY, int fX, int fY) {
 		List<Point> pathPoints = new LinkedList<>();
-		if (!Level.tileExists(x1, y1)||!Level.tileExists(x2, y2)) return pathPoints;
-		if (!Level.getTile(x1, y1).isUsable()||!Level.getTile(x2, y2).isUsable()) {
+		if (!Level.tileExists(iX, iY)||!Level.tileExists(fX, fY)) return pathPoints;
+		if (!Level.getTile(iX, iY).isUsable()||!Level.getTile(fX, fY).isUsable()) {
 			return pathPoints;
 		}
-		List<PathfindingTile> path = findPath(x1, y1, x2, y2);
+		List<PathfindingTile> path = findPath(iX, iY, fX, fY);
 		for (PathfindingTile tileNode:path) {
 			pathPoints.add(new Point(tileNode.getX(), tileNode.getY()));
 		}
 		return pathPoints;
 	}
 
-	public List<PathfindingTile> findPath(int iC, int iR, int fC, int fR) {
+	public List<PathfindingTile> findPath(int iX, int iY, int fX, int fY) {
 		for (int r = 0;r<Level.getHeightP();r++) {
 			for (int c = 0;c<Level.getWidthP();c++) {
-				tiles[r][c].setCurrentList(CurrentList.NONE);
+				if (tiles[r][c]!=null) tiles[r][c].setCurrentList(CurrentList.NONE);
 			}
 		}
+		System.out.println(tiles.length+"\t"+tiles[0].length);
 		openList = new LinkedList<>();
-		openList.add(tiles[iR][iC]);//add first
-		tiles[iR][iC].setCurrentList(CurrentList.OPEN);//add first
+		openList.add(tiles[iY][iX]);//add first
+		tiles[iY][iX].setCurrentList(CurrentList.OPEN);//add first
 
 		PathfindingTile currentPathfindingTile;
 		while (openList.size()>0) {
 			currentPathfindingTile = getLowestCombinedInOpen();//get node with lowest combined Costs from openList
 			openList.remove(currentPathfindingTile);
 			currentPathfindingTile.setCurrentList(CurrentList.CLOSED);
-			if ((currentPathfindingTile.getX()==fC)&&(currentPathfindingTile.getY()==fR)) {//found goal
-				return calcPath(tiles[iR][iC], currentPathfindingTile);
+			if ((currentPathfindingTile.getX()==fX)&&(currentPathfindingTile.getY()==fY)) {//found goal
+				return calcPath(tiles[iY][iX], currentPathfindingTile);
 			}
 			List<PathfindingTile> adjacentTiles = getAdjacents(currentPathfindingTile);
 			for (int i = 0;i<adjacentTiles.size();i++) {
 				PathfindingTile currentAdjacent = adjacentTiles.get(i);
 				if (currentAdjacent.getCurrentList()!=CurrentList.OPEN) {//node is not in openList
 					currentAdjacent.setPrevious(currentPathfindingTile);//set current node as previous for this node
-					currentAdjacent.setDistanceCost(tiles[fR][fC]);//set distance
+					currentAdjacent.setDistanceCost(tiles[fY][fX]);//set distance
 					currentAdjacent.setTotalCost(currentPathfindingTile);//set total
 					currentAdjacent.setCurrentList(CurrentList.OPEN);
 					openList.add(currentAdjacent);//add node to openList

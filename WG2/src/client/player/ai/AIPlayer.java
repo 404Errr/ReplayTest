@@ -31,6 +31,7 @@ public class AIPlayer extends Player implements AIData {
 
 	public AIPlayer(Color color, SpawnPoint spawnPoint) {
 		super(color, (float)spawnPoint.getX(), (float)spawnPoint.getY());
+		initSightLines();
 		pathFinder = new PathFinder();
 		currentPath = new LinkedList<>();
 		control = true;
@@ -149,7 +150,6 @@ public class AIPlayer extends Player implements AIData {
 				wandering = true;
 			}
 			else wandering = false;
-
 		}
 		else wandering = true;
 		if (currentTargetPlayer!=null) wandering = false;
@@ -159,6 +159,7 @@ public class AIPlayer extends Player implements AIData {
 
 	public void updatePath() {
 		if (currentPathGoal!=null) try {
+			System.out.println(getXTile()+"\t"+getYTile());
 			currentPath = pathFinder.getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y);
 			if (currentPath.size()>1) currentTargetPoint = currentPath.get(1);
 		}
