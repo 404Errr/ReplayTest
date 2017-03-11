@@ -20,16 +20,16 @@ public class Level implements MapData, TileData {
 
 	public static void preInit() {
 		if (MAP!=null) {
-			if (MAP.charAt(0)==EMPTY_TAGS[0]) {
-				try {
-					String[] dimensions = MAP.substring(1).split("x");
-					layout = getEmpty(Integer.parseInt(dimensions[0]),Integer.parseInt(dimensions[1]));
-				}
-				catch (Exception e) {
-					System.err.println("Error with empty creation");
-				}
-			}
-			else layout = Util.parseIntArrayFromFile(PATH+MAP);
+//			if (MAP.charAt(0)==EMPTY_TAGS[0]) {
+//				try {
+//					String[] dimensions = MAP.substring(1).split("x");
+//					layout = getEmpty(Integer.parseInt(dimensions[0]),Integer.parseInt(dimensions[1]));
+//				}
+//				catch (Exception e) {
+//					System.err.println("Error with empty creation");
+//				}
+//			}
+			/*else */layout = Util.parseIntArrayFromFile(PATH+MAP);
 			if (ADD_EDGE&&!Edit.editMode) {
 				if (!(AUTO_DISABLE_ADD_EDGE&&(!shouldAddEdge(layout)||layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD))) {
 					System.out.println("Adding edge of type: "+EDGE_TYPE);
@@ -73,33 +73,6 @@ public class Level implements MapData, TileData {
 			output.add(new SpawnPoint(getFirstUsableTile()));
 		}
 		return output;
-	}
-
-	public static int[][] addEdge(int[][] map) {//takes given map and adds EDGE_TYPE around it
-		System.out.println("Map size: "+map.length+","+map[0].length);
-		int[][] output = new int[map.length+2][map[0].length+2];//new array size of map +1 on every side
-		for (int r = 0;r<output.length;r++) {
-			for (int c = 0;c<output[0].length;c++) {
-				if (r==0||c==0||r==output.length-1||c==output[0].length-1) {
-					output[r][c] = EDGE_TYPE;
-				}
-				else {
-					output[r][c] = map[r-1][c-1];
-				}
-			}
-		}
-		return output;
-	}
-
-	public static boolean shouldAddEdge(int[][] layout) {//false if layout contains empty tiles (null color)
-		for (int r = 0;r<layout.length;r++) {
-			for (int c = 0;c<layout[0].length;c++) {
-				if (ColorData.getTileColor(layout[r][c])==null) {
-					return false;
-				}
-			}
-		}
-		return true;
 	}
 
 	public static int[][] getEmpty(int width, int height) {
