@@ -13,7 +13,7 @@ import data.TileData;
 import util.Util;
 
 public class Level implements MapData, TileData {
-	private static int[][] layout;
+	private static int[][] layout;//the current layout for the level
 	private static Tile[][] tiles;//the level
 	private static List<SpawnPoint> spawnPoints;
 
@@ -76,33 +76,6 @@ public class Level implements MapData, TileData {
 			output.add(new SpawnPoint(getFirstUsableTile()));
 		}
 		return output;
-	}
-
-	public static int[][] addEdge(int[][] map) {//takes given map and adds EDGE_TYPE around it
-		System.out.println("Map size: "+map.length+","+map[0].length);
-		int[][] output = new int[map.length+2][map[0].length+2];//new array size of map +1 on every side
-		for (int r = 0;r<output.length;r++) {
-			for (int c = 0;c<output[0].length;c++) {
-				if (r==0||c==0||r==output.length-1||c==output[0].length-1) {
-					output[r][c] = EDGE_TYPE;
-				}
-				else {
-					output[r][c] = map[r-1][c-1];
-				}
-			}
-		}
-		return output;
-	}
-
-	public static boolean shouldAddEdge(int[][] layout) {//false if layout contains empty tiles (null color)
-		for (int r = 0;r<layout.length;r++) {
-			for (int c = 0;c<layout[0].length;c++) {
-				if (ColorData.getTileColor(layout[r][c])==null) {
-					return false;
-				}
-			}
-		}
-		return true;
 	}
 
 	public static Point getFirstUsableTile() {//for spawning and stuff
