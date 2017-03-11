@@ -1,15 +1,18 @@
 chunk1,0.1;
 chunk2I,0.5;
 chunk2L,0.5;
-chunk3,1;
-chunk4,1;
+chunk3;
+chunk4;
 
 room1_0,0.5;
 room1_1,0.5;
 room1_2,0.5;
 
-hall3_1,0.1;
+//hall3_1,0.1;
+hall3_1,10;
 hall3_2L,0.5;
 hall3_2I,0.5;
-hall3_3,1;
-hall3_4,3;
+hall3_3;
+hall3_4,2;
+
+//bigroom1_floor;
