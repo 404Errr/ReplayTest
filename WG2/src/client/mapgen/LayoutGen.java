@@ -16,43 +16,21 @@ public class LayoutGen implements LayoutGenData, MapData, Data {
 
 	private static float shuffledness = SHUFFLEDNESS;
 	private static final int UNUSED_TYPE = '&';//don't change to something in use
-	//private static List<String> s;
 
 	public static void main(String[] args) {
-		/*s = new ArrayList<>();
-		for (int i = 0;i<100;i++) {
-			long startTime = System.currentTimeMillis();
-			shuffledness = new Random().nextFloat()*0.75f+0.2f;//0.2 - 0.95
-			//shuffledness = 0.01f;
-			int[][] generated = generate(10,10);
-			System.out.println();
-			Util.printIntAsCharArray(generated);
-			s.add(shuffledness+",\t"+((System.currentTimeMillis()-startTime)/1000f)+"\n");
-			System.out.print("\n----------\n,");
-			Util.printArray(s);
-			//System.out.println(Util.avg(s));
-			System.out.println("----------\n");
-			System.out.println("\n\n\n");
-		}*/
-
-		/*for (int i = 0;i<100;i++) {
-			int[][] generated = generate();
-			System.out.println();
-			Util.printIntAsCharArray(generated);
-		}*/
-
 		int[][] generated = generate(50, 50);
 		System.out.println();
 		Util.printIntAsCharArray(generated);
 	}
 
 	public static int[][] generate(int xSize, int ySize) {
-		if (chunks==null) initChunks();
+		if (chunks==null) initChunks();//initialize chunk list
 
 		long startTime = System.currentTimeMillis(), lastTime = startTime;
-		final Chunk emptyChunk = new Chunk(Util.getNewfilledArray(chunkSize, chunkSize, EMPTY_TYPE), 1.0f);
 
 		System.out.println("Generating "+xSize+"x"+ySize+"...\n");
+
+		final Chunk emptyChunk = new Chunk(Util.getNewfilledArray(chunkSize, chunkSize, EMPTY_TYPE), -1);
 
 		Chunk[][] chunkLayout;
 
@@ -61,33 +39,33 @@ public class LayoutGen implements LayoutGenData, MapData, Data {
 			for (int r = 0;r<chunkLayout.length;r++) {
 				for (int c = 0;c<chunkLayout[0].length;c++) {
 
-					Util.weighedShuffle(chunks, shuffledness);//shuffle the list of chunks
+					Util.weighedShuffle(chunks, shuffledness);//(re)shuffle the list of chunks
 
-					Chunk chunk = emptyChunk, tempChunk;
-					for (int i = 0;i<chunks.size();i++) {
-						tempChunk = (Chunk)chunks.get(i);
+					Chunk chunk, chunkToPlace = emptyChunk;
+					for (int i = 0;i<chunks.size();i++) {//for every chunk in the chunk list
+						chunk = (Chunk)chunks.get(i);
 
-						if (r<=0&&!canPlaceAdjacent(tempChunk, UP, emptyChunk, DOWN)) continue;//up bound
-						if (r>0&&chunkLayout[r-1][c]!=null&&!canPlaceAdjacent(tempChunk, UP, chunkLayout[r-1][c], DOWN)) continue;//invalid up
+						if (r<=0&&!canPlaceAdjacent(chunk, UP, emptyChunk, DOWN)) continue;//up out of bounds
+						if (r>0&&chunkLayout[r-1][c]!=null&&!canPlaceAdjacent(chunk, UP, chunkLayout[r-1][c], DOWN)) continue;//invalid up
 
-						if (r>=ySize-1&&!canPlaceAdjacent(tempChunk, DOWN, emptyChunk, UP)) continue;//down bound
-						if (r<ySize-1&&chunkLayout[r+1][c]!=null&&!canPlaceAdjacent(tempChunk, DOWN, chunkLayout[r+1][c], UP)) continue;//invalid down
+						if (r>=ySize-1&&!canPlaceAdjacent(chunk, DOWN, emptyChunk, UP)) continue;//down out of bounds
+						if (r<ySize-1&&chunkLayout[r+1][c]!=null&&!canPlaceAdjacent(chunk, DOWN, chunkLayout[r+1][c], UP)) continue;//invalid down
 
-						if (c<=0&&!canPlaceAdjacent(tempChunk, LEFT, emptyChunk, RIGHT)) continue;//left bound
-						if (c>0&&chunkLayout[r][c-1]!=null&&!canPlaceAdjacent(tempChunk, LEFT, chunkLayout[r][c-1], RIGHT)) continue;//invalid left
+						if (c<=0&&!canPlaceAdjacent(chunk, LEFT, emptyChunk, RIGHT)) continue;//left out of bounds
+						if (c>0&&chunkLayout[r][c-1]!=null&&!canPlaceAdjacent(chunk, LEFT, chunkLayout[r][c-1], RIGHT)) continue;//invalid left
 
-						if (c>=xSize-1&&!canPlaceAdjacent(tempChunk, RIGHT, emptyChunk, LEFT)) continue;//right bound
-						if (c<xSize-1&&chunkLayout[r][c+1]!=null&&!canPlaceAdjacent(tempChunk, RIGHT, chunkLayout[r][c+1], LEFT)) continue;//invalid right
+						if (c>=xSize-1&&!canPlaceAdjacent(chunk, RIGHT, emptyChunk, LEFT)) continue;//right out of bounds
+						if (c<xSize-1&&chunkLayout[r][c+1]!=null&&!canPlaceAdjacent(chunk, RIGHT, chunkLayout[r][c+1], LEFT)) continue;//invalid right
 
-						chunk = tempChunk;
+						chunkToPlace = chunk;
 						break;//valid, stops looking
 					}
-					chunkLayout[r][c] = chunk;//add the chunk to the layout
+					chunkLayout[r][c] = chunkToPlace;//add the chunk to the layout
 				}
 			}
-			if (System.currentTimeMillis()-lastTime>2000) {//debug info every 2 seconds
-				lastTime = System.currentTimeMillis();
+			if (System.currentTimeMillis()-lastTime>2000) {//debug info every ~2 seconds
 				System.out.println("Time taken: "+(System.currentTimeMillis()-startTime)/1000f+"\tAttemps: "+attemptCount+"\tLeaks: "+leakCount+"\tNot-continuous: "+notContinuousCount);
+				lastTime = System.currentTimeMillis();
 			}
 			attemptCount++;
 		} while (!validMapLayout(chunkLayout));//checks if it created a valid layout
@@ -105,6 +83,7 @@ public class LayoutGen implements LayoutGenData, MapData, Data {
 		List<int[]> counts = Util.countValuesInIntArray(layout, 0, 256);
 		for (int[] typeAndCount:counts) System.out.print((char)typeAndCount[0]+":"+typeAndCount[1]+"\t");
 		System.out.println();
+
 		return layout;
 	}
 
