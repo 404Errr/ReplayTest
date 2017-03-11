@@ -152,6 +152,31 @@ public final class Util {
 		return new Random().nextInt(upperBound-lowerBound)+lowerBound;
 	}
 
+	public static boolean arrayContains(int[][] array, int value) {
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				if (array[r][c]==value) return true;
+			}
+		}
+		return false;
+	}
+	
+	public static int[][] addEdgeToArray(int[][] array, int val) {//takes given map and adds EDGE_TYPE around it
+		System.out.println("Map size: "+array.length+","+array[0].length);
+		int[][] newArray = new int[array.length+2][array[0].length+2];//new array size of map +1 on every side
+		for (int r = 0;r<newArray.length;r++) {
+			for (int c = 0;c<newArray[0].length;c++) {
+				if (r==0||c==0||r==newArray.length-1||c==newArray[0].length-1) {
+					newArray[r][c] = val;
+				}
+				else {
+					newArray[r][c] = array[r-1][c-1];
+				}
+			}
+		}
+		return newArray;
+	}
+	
 	public static boolean equalArrays(int[][] array1, int[][] array2) {
 		if (array1.length!=array2.length||array1[0].length!=array2[0].length) return false;
 		for (int r = 0;r<array1.length;r++) {
