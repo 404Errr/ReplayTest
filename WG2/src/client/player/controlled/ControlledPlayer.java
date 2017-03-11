@@ -19,6 +19,8 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 		super(color, (float)spawnPoint.getX(), (float)spawnPoint.getY());
 	}
 
+	public static final float AIM_ASSIST = 20.0f;
+
 	@Override
 	protected void turn() {
 		/*Player closest = this;
@@ -35,7 +37,6 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 		}
 		return;*/
 
-//		Player closest = this;
 		List<Float> playerAngles = new ArrayList<>();
 		for (int i = 0;i<Game.getEntities().size();i++) {
 			if (Game.getEntity(i) instanceof Player) {
@@ -43,10 +44,12 @@ public class ControlledPlayer extends Player implements PlayerData, Data, Weapon
 			}
 			else break;//no more players
 		}
-		float cursorAngle = Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()), angle = cursorAngle;
+		final float cursorAngle = Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY());
+		float angle = cursorAngle;
 
+		for (int i = 0;i<playerAngles.size();i++) {
 
-
+		}
 
 		setFacing(angle);
 
