@@ -13,6 +13,10 @@ public interface TileData {
 		return Util.getBooleanArrayContains(Level.getLayout(), new int[] {'1',type==SOLID_WALLS?'3':'4','5'});
 	}
 
+	static boolean[][] getUseable() {
+		return Util.getBooleanArrayContains(Level.getLayout(), new int[] {'0','s','4'});
+	}
+
 	static boolean[] getSolid(int type) {
 		boolean[] solid = new boolean[2];
 		switch (type) {

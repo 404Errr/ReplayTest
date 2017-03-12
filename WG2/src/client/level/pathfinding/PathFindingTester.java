@@ -12,10 +12,11 @@ public class PathFindingTester implements TileData {
 
 	public static void find() {
 		try {
-			linesAStar = new PathFinder().getPath(x1, y1, x2, y2);
-			//linesMaze = new MazePathFinder().getPath(x1, y1, x2, y2);
+//			linesAStar = new OldPathFinder().getPath(x1, y1, x2, y2);
+			linesAStar = new PathFinder().getPath(x1, y1, x2, y2, TileData.getUseable());
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

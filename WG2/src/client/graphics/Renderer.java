@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.List;
@@ -14,7 +15,11 @@ import javax.swing.JPanel;
 import client.edit.Edit;
 import client.entity.Entity;
 import client.game.Game;
+import client.input.Cursor;
 import client.level.Level;
+import client.level.SpawnPointVisibiltiyLine;
+import client.level.pathfinding.PathFindingTester;
+import client.main.ClientUpdateLoop;
 import client.player.Player;
 import client.player.ai.AIPlayer;
 import client.weapon.Weapon;
@@ -22,6 +27,7 @@ import client.weapon.entity.AbstractProjectile;
 import client.weapon.entity.FragGrenadeProjectile;
 import client.weapon.entity.Hitscan;
 import data.ColorData;
+import data.Data;
 import data.GraphicsData;
 import data.MapData;
 import data.PlayerData;
@@ -29,7 +35,7 @@ import main.Debug;
 import util.Util;
 
 @SuppressWarnings("serial")
-public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsData, MapData {
+public class Renderer extends JPanel implements ColorData, Data, PlayerData, GraphicsData, MapData {
 	private static Graphics2D g;
 
 	@Override
@@ -40,7 +46,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		super.paintComponent(g);
 		try {
 			drawTiles();
-			Debug.drawDebug();
+			drawDebug();
 			if (!Edit.editMode) drawEntities();
 			if (Edit.editMode) Edit.drawSelected();
 
@@ -56,6 +62,80 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private final static int textX = 25, textY = 30, textSize = 15;
+	private void drawDebug() {
+		if (DEBUG) {
+			if (Debug.isDebugText()) {
+				StringBuilder text = new StringBuilder();
+
+				float ups = UPS/(ClientUpdateLoop.getCurrentUpdateTime()/(1000f/UPS));
+				if (ups>UPS) ups = UPS;
+				text.append("UPS = "+ups+"$");
+				text.append("Window = "+Window.width()+"x"+Window.height()+" Map = "+Level.getWidth()+"x"+Level.getHeight()+" Scale = "+Camera.getScale()+"$");
+				text.append("Zoomed = "+Camera.isZoomed()+"$");
+				text.append("Render Distance = "+GraphicsData.getRenderDistanceX()+", "+GraphicsData.getRenderDistanceY()+"$");
+				text.append("X, Y Tile = "+Game.getPlayer().getXTile()+", "+Game.getPlayer().getYTile()+"$");
+				text.append("X, Y Exact = ("+Game.getPlayer().getX()+", "+Game.getPlayer().getY()+")"+"$");
+				text.append("velocity (m/s) = "+Math.hypot(Game.getPlayer().getdX(), Game.getPlayer().getdY())*Data.UPS+"$");
+				text.append("dx, dy = "+Game.getPlayer().getdX()+", "+Game.getPlayer().getdY()+"$");
+				text.append("ddx, ddy = "+Game.getPlayer().getddX()+", "+Game.getPlayer().getddY()+"$");
+				text.append("Facing = "+((float)Math.toDegrees(Game.getPlayer().getFacing())+((Game.getPlayer().getFacing()<0)?360:0))+" ("+Game.getPlayer().getFacing()+")"+"$");
+				text.append("Cursor = "+Cursor.getScreenX()+","+Cursor.getScreenY()+" ("+Cursor.getPlayerX()+","+Cursor.getPlayerY()+")"+"$");
+				text.append("Active Weapon = "+Game.getPlayer().getActiveWeapon()+" Cooldown = "+Game.getPlayer().getActiveWeapon().getCooldown()+"$");
+				text.append("Debug Text = true, LOS Line = "+Debug.isLosLine()+"$");
+				if (Edit.editMode) text.append("Type = "+(char)Edit.getType());
+
+				String[] textLines = text.toString().split("\\$");
+				g.setColor(COLOR_DEBUG_GREEN);
+				g.setFont(new Font("Helvetica", Font.BOLD, textSize));
+				for (int i = 0;i<textLines.length;i++) {
+					g.drawString(textLines[i], textX, textY+textSize*i);
+				}
+			}
+			if (Debug.isLosLine()&&!Edit.editMode) {
+				g.setColor(COLOR_DEBUG_GREEN);
+				g.setStroke(new BasicStroke(1));
+				final int w = Window.centerX(), h = Window.centerY(), lineLength = Math.max(Window.width(), Window.height())*2;
+				final int cursorPlayerX = (int) (Cursor.getPlayerX()*Camera.getScale()), cursorPlayerY = (int) (Cursor.getPlayerY()*Camera.getScale());
+				if (Camera.isZoomed()) {
+					g.drawLine(w-cursorPlayerX, h-cursorPlayerY, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w+cursorPlayerX), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h+cursorPlayerY));//los
+				}
+				else {
+					g.drawLine(w, h, (int)(Util.getXComp(Game.getPlayer().getFacing(), lineLength)+w), (int)(-Util.getYComp(Game.getPlayer().getFacing(), lineLength)+h));//los
+				}
+			}
+			if (Debug.isSpawnPointVisibilityLines()&&!Edit.editMode) {
+				g.setStroke(new BasicStroke(1));
+				for (int i = 0;i<Level.getSpawnPoints().size();i++)for (int j = 0;j<Level.getSpawnPoints().get(i).getSpawnPointVisibilityLines().size();j++) {
+					SpawnPointVisibiltiyLine line = Level.getSpawnPoints().get(i).getSpawnPointVisibilityLines().get(j);
+					if (!line.isBroken()) g.setColor(Util.colorOpacity(Color.BLUE, 0.75f));
+					else g.setColor(Util.colorOpacity(Color.RED, 0.05f));
+					g.drawLine(Renderer.gridX(line.getX1()), Renderer.gridY(line.getY1()), Renderer.gridX(line.getX2()), Renderer.gridY(line.getY2()));
+				}
+			}
+			drawPath(PathFindingTester.linesAStar, Color.BLUE, 2);
+			drawPathDots();
+//			drawPath(PathFindingTester.linesMaze, Color.CYAN, 2);
+		}
+	}
+
+	private void drawPath(List<Point> lines, Color color, int size) {
+		if (Debug.isDrawDebugPathfinding()&&!Edit.editMode) {
+			Renderer.getG().setColor(color);
+			Renderer.getG().setStroke(new BasicStroke(size));
+			for (int i = 1;i<lines.size();i++) {
+				Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
+			}
+		}
+	}
+
+	private void drawPathDots() {
+		Renderer.getG().setColor(Color.green);
+		Renderer.getG().setStroke(new BasicStroke(7));
+		Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()));
+		Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
 	}
 
 	private void drawEntities() {
@@ -75,7 +155,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 				if (entity instanceof Player) {
 					drawPlayer((Player) entity);
 					if (entity instanceof AIPlayer) {
-						Debug.drawPath(((AIPlayer) entity).getCurrentPath(), ((Player) entity).getColor(), 2);
+						drawPath(((AIPlayer) entity).getCurrentPath(), ((Player) entity).getColor(), 2);
 						if (Debug.isDrawSightLines()) {
 							g.setStroke(new BasicStroke(2));
 							for (int j = 0;j<((AIPlayer) entity).getSightLines().size();j++) {
@@ -100,7 +180,7 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 
 	private void drawEntity(FragGrenadeProjectile grenade) {
 		g.setColor(grenade.getColor());
-		g.fill(new Ellipse2D.Double(gridX(grenade.getX())-grenade.getGrenadeSize()/2, gridY(grenade.getY())-grenade.getGrenadeSize()/2, Camera.getScale()*grenade.getGrenadeSize(), Camera.getScale()*grenade.getGrenadeSize()));
+		g.fill(new Ellipse2D.Double(gridX(grenade.getX()-grenade.getGrenadeSize()/2), gridY(grenade.getY()-grenade.getGrenadeSize()/2), Camera.getScale()*grenade.getGrenadeSize(), Camera.getScale()*grenade.getGrenadeSize()));
 	}
 
 	private void drawEntity(Hitscan hitscan) {
@@ -161,10 +241,12 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		}
 	}
 
+	private static final int HEALTH_VISUAL_MAX = 100;
+
 	private static final boolean ROMAN = true;
 	private static String getHealthString(float health) {
-		if (ROMAN) return Util.toRomanNumeral((int)(health*100));
-		return (int)(health*100)+"";
+		if (ROMAN) return Util.toRomanNumeral((int)(health*HEALTH_VISUAL_MAX));
+		return (int)(health*HEALTH_VISUAL_MAX)+"";
 	}
 
 

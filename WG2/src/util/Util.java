@@ -1003,6 +1003,102 @@ public final class Util {
 		return ByteBuffer.allocate(4).putFloat(value).array();
 	}
 
+	public static boolean inArrayBounds(float x, float y, Object[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(double x, double y, Object[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(int x, int y, Object[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(float x, float y, char[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(double x, double y, char[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(int x, int y, char[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(float x, float y, String[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(double x, double y, String[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(int x, int y, String[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(float x, float y, double[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(double x, double y, double[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(int x, int y, double[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(float x, float y, float[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(double x, double y, float[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(int x, int y, float[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(float x, float y, long[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(double x, double y, long[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(int x, int y, long[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(float x, float y, short[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(double x, double y, short[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(int x, int y, short[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(float x, float y, boolean[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(double x, double y, boolean[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
+	public static boolean inArrayBounds(int x, int y, boolean[][] array) {
+		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
+	}
+
 	public static boolean inArrayBounds(float x, float y, int[][] array) {
 		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
 	}

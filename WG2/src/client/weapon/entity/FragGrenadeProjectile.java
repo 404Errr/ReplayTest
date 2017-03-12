@@ -9,6 +9,7 @@ import data.Data;
 import data.GraphicsData;
 import data.TileData;
 import data.WeaponData;
+import util.ScanLine;
 import util.Util;
 
 public class FragGrenadeProjectile extends WeaponEntity implements Data, TileData, WeaponData, GraphicsData {
@@ -26,19 +27,19 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 
 	@Override
 	public boolean tick() {
-		move();
-		checkCollision();
+		if (!checkCollision()) {
+			move();
+		}
+		if (!Util.inArrayBounds(x, y, Level.getLayout())) destroy = true;//if off of the map
 		timer-=1000/UPS;
 		if (timer<0) {
 			explode();
 			destroy = true;
 		}
-		if (x<0||y<0||x>Level.getWidth()||y>Level.getHeight()) destroy = true;//if off of the map
 		return destroy;
 	}
 
 	private void explode() {
-		System.out.println();//FIXME
 		if (FRAGGRENADE_SHARD_COUNT>0) for (float a = 0;a<Math.PI*2;a+=Math.PI/FRAGGRENADE_SHARD_COUNT) {
 			float speed = Util.getSpread(FRAGGRENADE_SPEED, FRAGGRENADE_SPREAD);
 			float range = Util.getSpread(FRAGGRENADE_RANGE, FRAGGRENADE_SPREAD);
@@ -48,32 +49,17 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 	}
 
 	private void bounce() {//FIXME
-		/*Hitscan contactPointFinder = new Hitscan(0, 0.2f, Color.MAGENTA, x+grenadeSize/2, y+grenadeSize/2, Util.getAngle(0, 0, dX, dY), true);
-		/*if (DRAW_BOUNCE_HIT) Game.addEntity(contactPointFinder);//display it
-		int side = WGUtil.getSide(contactPointFinder.getX(), contactPointFinder.getY(), dX, dY, Level.getLayout());
-//		int side = WGUtil.getSide(contactPointFinder.getX(), contactPointFinder.getY(), dX, dY);
-//		int side = WGUtil.getSide(contactPointFinder.getX(), contactPointFinder.getY(), Level.getLayout());
-		float angle = Util.getBounceAngle(Util.getAngle(0, 0, dX, dY), side==LEFT||side==RIGHT);
-		System.out.println(side);//FIXME
-		float magnitude = Util.getDistance(0, 0, dX, dY);
-		dX = Util.getXComp(angle, magnitude);
-		dY = -Util.getYComp(angle, magnitude);*/
-		/*if (side==RIGHT) {
-//			dX = Math.abs(dX);
-			x+=grenadeSize/3;
+//		Hitscan contactPointFinder = new Hitscan(0f, 0.2f, Color.magenta, x, y, Util.getAngle(0, 0, dX, dY));
+//		Game.addEntity(contactPointFinder);
+		ScanLine contactPointFinder = new ScanLine(x, y, Util.getAngle(0, 0, dX, dY), TileData.getHitable(SOLID_WALLS));
+		move(contactPointFinder.getfX()-Math.signum(dX)*0.0001f, contactPointFinder.getfY()-Math.signum(dY)*0.0001f);
+		float x = contactPointFinder.getfX(), y = contactPointFinder.getfY();
+		if (Math.min((int)x+1-x, x-(int)x)<Math.min((int)y+1-y, y-(int)y)) {
+			dX = -dX;
 		}
-		if (side==DOWN) {
-//			dY = Math.abs(dY);
-			y+=grenadeSize/3;
+		else {
+			dY = -dY;
 		}
-		if (side==LEFT) {
-//			dX = -Math.abs(dX);
-			x-=grenadeSize/3;
-		}
-		if (side==UP) {
-//			dY = -Math.abs(dY);
-			y-=grenadeSize/3;
-		}*/
 	}
 
 	protected void move() {
@@ -83,17 +69,14 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 		y+=dY;
 	}
 
-	protected void checkCollision() {
-		if (checkWallCollision()) bounce();
-	}
-
-	private boolean checkWallCollision() {
-		Line2D hitline = new Line2D.Float(x+grenadeSize/2, y+grenadeSize/2, x+dX+grenadeSize/2, y+dY+grenadeSize/2);
-		final int radius = 2;
-		for (int r = (int)y-radius;r<=y+radius;r++) {//for each row within the radius
-			for (int c = (int)x-radius;c<=x+radius;c++) {//for each collumn within the radius
-				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()&&(Level.getTile(c, r).isSolid(SOLID_WALLS)||Level.getTile(c, r).isSolid(SOLID_PROJECTILES))) {//bounds check and if tile is solid
-					if (hitline.intersects(Level.getTile(c, r).getBounds())) {//check for collision
+	protected boolean checkCollision() {
+		Line2D hitline = new Line2D.Float(x, y, x+dX, y+dY);
+		final int zone = 2;
+		for (int r = (int)y-zone;r<=y+zone;r++) {
+			for (int c = (int)x-zone;c<=x+zone;c++) {
+				if (Util.inArrayBounds(c, r, Level.getLayout())&&(Level.getTile(c, r).isSolid(SOLID_WALLS)/*||Level.getTile(c, r).isSolid(SOLID_PROJECTILES)*/)) {
+					if (hitline.intersects(Level.getTile(c, r).getBounds())) {
+						bounce();
 						return true;
 					}
 				}
@@ -105,5 +88,4 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 	public float getGrenadeSize() {
 		return grenadeSize;
 	}
-
 }

@@ -13,6 +13,7 @@ import client.level.pathfinding.PathFinder;
 import client.level.pathfinding.WanderFinder;
 import client.player.Player;
 import data.AIData;
+import data.TileData;
 import util.Util;
 
 public class AIPlayer extends Player implements AIData {
@@ -159,7 +160,7 @@ public class AIPlayer extends Player implements AIData {
 
 	public void updatePath() {
 		if (currentPathGoal!=null) try {
-			currentPath = pathFinder.getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y);
+			currentPath = pathFinder.getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y, TileData.getUseable());
 			if (currentPath.size()>1) currentTargetPoint = currentPath.get(1);
 		}
 		catch (Exception e) {

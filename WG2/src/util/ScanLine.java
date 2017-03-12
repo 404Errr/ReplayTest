@@ -1,9 +1,10 @@
 package util;
 
+import data.Data;
 import data.TileData;
 import data.WeaponData;
 
-public class ScanLine implements TileData, WeaponData {
+public class ScanLine implements TileData, Data, WeaponData {
 	protected float iX, iY, fX, fY;
 	private static float INITIAL_INCREMENT = 0.25f;
 	private static float FINAL_INCREMENT = 0.001f;
@@ -12,10 +13,10 @@ public class ScanLine implements TileData, WeaponData {
 		this.iX = iX;//set initial position
 		this.iY = iY;
 		final float dX = Util.getXComp(angle, INITIAL_INCREMENT), dY = -Util.getYComp(angle, INITIAL_INCREMENT);
-		float x = iX, y = iY, incrementMultiplier = 1.0f;
+		float x = iX, y = iY, incrementMultiplier = INITIAL_INCREMENT;
 		boolean firstHit = true, firstCheck = true;
 		while (true) {
-			if (y>=hitable.length||x>=hitable[0].length||y<0||x<0||hitable[(int)y][(int)x]) {//if it hit something
+			if (!Util.inArrayBounds(x, y, hitable)||hitable[(int)y][(int)x]) {//if it hit something
 				if (firstCheck) {
 					break;
 				}
@@ -35,6 +36,19 @@ public class ScanLine implements TileData, WeaponData {
 			x+=dX*incrementMultiplier;//change the x and y
 			y+=dY*incrementMultiplier;
 		}
+		float[] distances = new float[4];
+		distances[RIGHT] = (int)x+1-x;
+		distances[DOWN] = (int)y+1-y;
+		distances[LEFT] = x-(int)x;
+		distances[UP] = y-(int)y;
+		int side = Util.minInArray(distances);
+		if (side==RIGHT||side==LEFT) {
+			x = Math.round(x);
+		}
+		if (side==DOWN||side==UP) {
+			y = Math.round(y);
+		}
+
 		this.fX = x;//set final position
 		this.fY = y;
 	}

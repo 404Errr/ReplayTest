@@ -22,8 +22,7 @@ public class Roman {
 		}
 	}
 
-	private static int MIN_VALUE = 1;
-	private static int MAX_VALUE = 4999;
+	private static int MIN_VALUE = 1, MAX_VALUE = 4999;
 	public static String intToRoman(int num) {
 		if (num<MIN_VALUE||num>MAX_VALUE) throw new IllegalArgumentException("Number must be between "+MIN_VALUE+" and "+MAX_VALUE);
 		return toRoman(num);
