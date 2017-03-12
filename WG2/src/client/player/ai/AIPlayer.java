@@ -9,7 +9,7 @@ import java.util.Random;
 
 import client.game.Game;
 import client.level.SpawnPoint;
-import client.level.pathfinding.PathFinder;
+import client.level.pathfinding.AStarPathFinder;
 import client.level.pathfinding.WanderFinder;
 import client.player.Player;
 import data.AIData;
@@ -17,7 +17,7 @@ import data.TileData;
 import util.Util;
 
 public class AIPlayer extends Player implements AIData {
-	private PathFinder pathFinder;
+	private AStarPathFinder pathFinder;
 	private List<Point> currentPath;
 	private Point currentPathGoal, currentTargetPoint;
 
@@ -32,7 +32,7 @@ public class AIPlayer extends Player implements AIData {
 
 	public AIPlayer(Color color, SpawnPoint spawnPoint) {
 		super(color, (float)spawnPoint.getX(), (float)spawnPoint.getY());
-		pathFinder = new PathFinder();
+		pathFinder = new AStarPathFinder();
 		currentPath = new LinkedList<>();
 		control = true;
 		selectWeapon((new Random()).nextInt(4));
@@ -111,7 +111,7 @@ public class AIPlayer extends Player implements AIData {
 	public void initSightLines() {
 		sightLines = new ArrayList<>();
 		for (int i = 0;i<Game.getEntities().size();i++) {//assumes there are only players in entities
-			if (this.getColor()!=Game.getEntities().get(i).getColor()) sightLines.add(new SightLine(this, Game.getPlayer(i)));
+			if (this.getColor()!=Game.getEntities().get(i).getColor()) sightLines.add(new SightLine(this, Game.getPlayer(i), TileData.getNotVisible()));
 		}
 		updateSightLines();
 	}
@@ -182,7 +182,7 @@ public class AIPlayer extends Player implements AIData {
 		currentPathGoal = null;
 	}
 
-	public PathFinder getPathFinder() {
+	public AStarPathFinder getPathFinder() {
 		return pathFinder;
 	}
 

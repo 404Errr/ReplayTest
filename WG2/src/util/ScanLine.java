@@ -7,7 +7,7 @@ import data.WeaponData;
 public class ScanLine implements TileData, Data, WeaponData {
 	protected float iX, iY, fX, fY;
 	private static float INITIAL_INCREMENT = 0.25f;
-	private static float FINAL_INCREMENT = 0.001f;
+	private static float FINAL_INCREMENT = 0.01f;
 
 	public ScanLine(float iX, float iY, float angle, boolean[][] hitable) {
 		this.iX = iX;//set initial position
@@ -36,19 +36,12 @@ public class ScanLine implements TileData, Data, WeaponData {
 			x+=dX*incrementMultiplier;//change the x and y
 			y+=dY*incrementMultiplier;
 		}
-		float[] distances = new float[4];
-		distances[RIGHT] = (int)x+1-x;
-		distances[DOWN] = (int)y+1-y;
-		distances[LEFT] = x-(int)x;
-		distances[UP] = y-(int)y;
-		int side = Util.minInArray(distances);
-		if (side==RIGHT||side==LEFT) {
+		if (Math.min((int)x+1-x, x-(int)x)<Math.min((int)y+1-y, y-(int)y)) {//if hit left or right
 			x = Math.round(x);
 		}
-		if (side==DOWN||side==UP) {
+		else {//if hit up or down
 			y = Math.round(y);
 		}
-
 		this.fX = x;//set final position
 		this.fY = y;
 	}

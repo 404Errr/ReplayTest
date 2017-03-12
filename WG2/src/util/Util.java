@@ -346,13 +346,27 @@ public final class Util {
 		return new Random().nextInt(upperBound-lowerBound)+lowerBound;
 	}
 
-	public static boolean[][] getBooleanArrayContains(int[][] layout, int[] values) {
+	public static boolean[][] negateArray(boolean[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			negateArray(array[r]);
+		}
+		return array;
+	}
+
+	public static boolean[] negateArray(boolean[] array) {
+		for (int i = 0;i<array.length;i++) {
+			array[i] = !array[i];
+		}
+		return array;
+	}
+
+	public static boolean[][] getBooleanArrayContains(int[][] layout, int[] values, boolean value) {
 		boolean[][] array = new boolean[layout.length][layout[0].length];
 		for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
-				for (int value:values) {
-					if (layout[r][c]==value) {
-						array[r][c] = true;
+				for (int val:values) {
+					if (layout[r][c]==val) {
+						array[r][c] = value;
 						break;
 					}
 				}

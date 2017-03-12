@@ -18,8 +18,8 @@ public class PathfindingTile implements MapData {
 		this.c = c;
 		this.r = r;
 		this.useable = useable;
-		if (isUseable()) for (int i = 1;i<PathFinder.WALL_DISTANCE;i++) {
-			if (isNextToWall(i)) nextToWallCost+=PathFinder.WALL_MOVEMENT_COST;
+		if (isUseable()) for (int i = 1;i<AStarPathFinder.WALL_DISTANCE;i++) {
+			if (isNextToWall(i)) nextToWallCost+=AStarPathFinder.WALL_MOVEMENT_COST;
 		}
 		currentList = CurrentList.NONE;
 	}
@@ -81,11 +81,11 @@ public class PathfindingTile implements MapData {
 	}
 
 	public int calculateTotalCost(PathfindingTile previousTile) {
-		return previousTile.getTotalCost()+((diagonal)?PathFinder.DIAGONAL_MOVEMENT_COST:PathFinder.BASIC_MOVEMENT_COST)+nextToWallCost;
+		return previousTile.getTotalCost()+((diagonal)?AStarPathFinder.DIAGONAL_MOVEMENT_COST:AStarPathFinder.BASIC_MOVEMENT_COST)+nextToWallCost;
 	}
 
 	public void setDistanceCost(PathfindingTile endTile) {
-		distanceCost = (int)(Util.getDistance(c, r, endTile.getC(), endTile.getR())*PathFinder.BASIC_MOVEMENT_COST);
+		distanceCost = (int)(Util.getDistance(c, r, endTile.getC(), endTile.getR())*AStarPathFinder.BASIC_MOVEMENT_COST);
 	}
 
 	public CurrentList getCurrentList() {

@@ -6,15 +6,16 @@ import util.Util;
 public interface TileData {
 	int SOLID_WALLS = 0, SOLID_PROJECTILES = 1;//don't change
 
-//	boolean[][] HITABLE_WALLS = getHitable(SOLID_WALLS);
-//	boolean[][] HITABLE_PROJECTILES = getHitable(SOLID_PROJECTILES);
-
 	static boolean[][] getHitable(int type) {
-		return Util.getBooleanArrayContains(Level.getLayout(), new int[] {'1',type==SOLID_WALLS?'3':'4','5'});
+		return Util.getBooleanArrayContains(Level.getLayout(), new int[] {'1',type==SOLID_WALLS?'3':'4','5'}, true);
+	}
+
+	static boolean[][] getNotVisible() {
+		return Util.getBooleanArrayContains(Level.getLayout(), new int[] {'0','s','3','4'}, false);
 	}
 
 	static boolean[][] getUseable() {
-		return Util.getBooleanArrayContains(Level.getLayout(), new int[] {'0','s','4'});
+		return Util.getBooleanArrayContains(Level.getLayout(), new int[] {'0','s','4'}, true);
 	}
 
 	static boolean[] getSolid(int type) {
@@ -154,4 +155,5 @@ public interface TileData {
 		}
 		return solid;
 	}
+
 }

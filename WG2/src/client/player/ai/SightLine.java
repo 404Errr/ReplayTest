@@ -10,7 +10,8 @@ public class SightLine extends BreakableLine {
 	private Player owner, target;
 	private Line2D line;
 
-	public SightLine(Player owner, Player target) {
+	public SightLine(Player owner, Player target, boolean[][] breaks) {
+		super(breaks);
 		this.owner = owner;
 		this.target = target;
 		line = new Line2D.Float();

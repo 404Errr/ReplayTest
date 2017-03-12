@@ -8,6 +8,7 @@ import client.entity.Entity;
 import client.game.Game;
 import client.player.Player;
 import data.MapData;
+import data.TileData;
 import util.Util;
 
 @SuppressWarnings("serial")
@@ -21,8 +22,9 @@ public class SpawnPoint extends Point implements MapData {
 
 	public void init() {
 		spawnPointVisibilityLines = new ArrayList<>();
+		boolean[][] breaks = TileData.getNotVisible();
 		for (int i = 0;i<Game.getEntities().size();i++) {
-			spawnPointVisibilityLines.add(new SpawnPointVisibiltiyLine(this, Game.getPlayer(i)));
+			spawnPointVisibilityLines.add(new SpawnPointVisibiltiyLine(this, Game.getPlayer(i), breaks));
 		}
 	}
 

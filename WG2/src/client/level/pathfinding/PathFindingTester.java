@@ -8,12 +8,14 @@ import data.TileData;
 
 public class PathFindingTester implements TileData {
 	public static int x1, y1, x2, y2;
-	public static List<Point> linesAStar = new ArrayList<>();//, linesMaze = new ArrayList<>();
+	public static List<Point> linesAStar = new ArrayList<>(), linesAStar2 = new ArrayList<>(), linesMaze = new ArrayList<>(), linesMaze2 = new ArrayList<>();
 
 	public static void find() {
 		try {
-//			linesAStar = new OldPathFinder().getPath(x1, y1, x2, y2);
-			linesAStar = new PathFinder().getPath(x1, y1, x2, y2, TileData.getUseable());
+			linesMaze = new MazePathFinder().getPath(x1, y1, x2, y2);
+			linesMaze2 = RefinedPathFinder.refinePath(new MazePathFinder().getPath(x1, y1, x2, y2));
+			linesAStar = new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable());
+			linesAStar2 = RefinedPathFinder.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()));
 		}
 		catch (Exception e) {
 			e.printStackTrace();

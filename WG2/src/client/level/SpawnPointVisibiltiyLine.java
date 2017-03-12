@@ -7,7 +7,8 @@ public class SpawnPointVisibiltiyLine extends BreakableLine {
 	private SpawnPoint spawnPoint;
 	private Player player;
 
-	public SpawnPointVisibiltiyLine(SpawnPoint spawnPoint, Player player) {
+	public SpawnPointVisibiltiyLine(SpawnPoint spawnPoint, Player player, boolean[][] breaks) {
+		super(breaks);
 		this.player = player;
 		this.spawnPoint = spawnPoint;
 		x2 = spawnPoint.x+0.5f;
