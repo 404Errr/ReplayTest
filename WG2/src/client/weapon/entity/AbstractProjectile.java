@@ -11,6 +11,7 @@ import client.player.Player;
 import data.GraphicsData;
 import data.TileData;
 import data.WeaponData;
+import util.ScanLine;
 import util.Util;
 
 public abstract class AbstractProjectile extends WeaponEntity implements TileData, WeaponData, GraphicsData {
@@ -51,8 +52,7 @@ public abstract class AbstractProjectile extends WeaponEntity implements TileDat
 	protected void lastMove() {
 		x-=dX;
 		y-=dY;
-		Hitscan finder = new Hitscan(0, 0.2f, Color.MAGENTA, x+size/2, y+size/2, Util.getAngle(0, 0, dX, dY), false);
-		if (DRAW_PROJECTILE_HIT) Game.addEntity(finder);
+		ScanLine finder = new ScanLine(x+size/2, y+size/2, Util.getAngle(0, 0, dX, dY), TileData.getHitable(SOLID_PROJECTILES));
 		x = finder.getfX()-size/2;
 		y = finder.getfY()-size/2;
 	}

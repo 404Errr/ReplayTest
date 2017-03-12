@@ -20,7 +20,7 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 	public static void main(String[] args) {
 		int[][] generated = generate(50, 50);
 		System.out.println();
-		Util.printIntAsCharArray(generated);
+		Util.printAsCharArray(generated);
 	}
 
 	public static int[][] generate(int xSize, int ySize) {

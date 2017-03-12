@@ -2,8 +2,8 @@ package client.player.ai;
 
 import java.awt.geom.Line2D;
 
-import client.logic.BreakableLine;
 import client.player.Player;
+import util.BreakableLine;
 
 public class SightLine extends BreakableLine {
 

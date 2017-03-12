@@ -20,10 +20,55 @@ import java.util.Stack;
 public final class Util {
 	private static final int INSERTIONSORT_THRESHOLD = 7;
 	private static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
+
 	private static Random rand;
 
 	static {
 		rand = new Random();
+	}
+
+	public static int[] getReverseOrder(int[] array) {
+		int[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		return temp;
+	}
+
+	public static char[] getReverseOrder(char[] array) {
+		char[] temp = array.clone();
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		return temp;
+	}
+
+	public static void addToEnd(String str, String toAdd) {
+		str = str+toAdd;
+	}
+
+	public static void addToBeginning(String str, String toAdd) {
+		str = toAdd+str;
+	}
+
+	public static boolean containsOnly(String string, char[] potentialcontent) {
+		for (char character:string.toCharArray()) {
+			boolean contains = false;
+			for (char potentialMatch:potentialcontent) {
+				if (character==potentialMatch) {
+					contains = true;
+				}
+			}
+			if (!contains) return false;
+		}
+		return true;
+	}
+
+	public static boolean isNumeric(String string) {
+		for (char character:string.toCharArray()) {
+			if (!Character.isDigit(character)) return false;
+		}
+		return true;
 	}
 
 	public static boolean withinAngle(float a1, float a2, float range) {//radians, radians, degrees//FIXME
@@ -147,6 +192,21 @@ public final class Util {
 
 	public static int randomInt(int lowerBound, int upperBound) {
 		return new Random().nextInt(upperBound-lowerBound)+lowerBound;
+	}
+
+	public static boolean[][] getBooleanArrayContains(int[][] layout, int[] values) {
+		boolean[][] array = new boolean[layout.length][layout[0].length];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				for (int value:values) {
+					if (layout[r][c]==value) {
+						array[r][c] = true;
+						break;
+					}
+				}
+			}
+		}
+		return array;
 	}
 
 	public static boolean arrayContains(int[][] array, int value) {
@@ -405,13 +465,52 @@ public final class Util {
 		System.out.print(str);
 	}
 
-	public static void printIntAsCharArray(int[][] array) {
+	public static <T> void printAsCharArray(List<T> array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.size();i++) {
+			str.append((char)array.get(i)+",");
+		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
+	}
+
+	public static void printAsCharArray(int[][] array) {
 		for (int r = 0;r<array.length;r++) {
-			printIntAsCharArray(array[r]);
+			printAsCharArray(array[r]);
 		}
 	}
 
-	public static void printIntAsCharArray(int[] array) {
+	public static void printAsCharArray(int[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append((char)array[i]+",");
+		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
+	}
+
+	public static void printAsCharArray(short[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			printAsCharArray(array[r]);
+		}
+	}
+
+	public static void printAsCharArray(short[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append((char)array[i]+",");
+		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
+	}
+
+	public static void printAsCharArray(long[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			printAsCharArray(array[r]);
+		}
+	}
+
+	public static void printAsCharArray(long[] array) {
 		StringBuilder str = new StringBuilder();
 		for (int i = 0;i<array.length;i++) {
 			str.append((char)array[i]+",");
@@ -696,13 +795,12 @@ public final class Util {
 		return array;
 	}
 
-	public static int[][] fillArray(int[][] array, int type) {
+	public static void fillArray(int[][] array, int type) {
 		for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
 				array[r][c] = type;
 			}
 		}
-		return array;
 	}
 
 	public static final float byteArray2Char(byte[] in) {
@@ -765,7 +863,141 @@ public final class Util {
 		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
 	}
 
-	public static int[][] copyArray(int[][] array) {
+	public static String[] getCopy(String[] array) {
+		String[] newArray = new String[array.length];
+		for (int i = 0;i<array.length;i++) {
+			newArray[i] = array[i];
+		}
+		return newArray;
+	}
+
+	public static String[][] getCopy(String[][] array) {
+		String[][] newArray = new String[array.length][array[0].length];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				newArray[r][c] = array[r][c];
+			}
+		}
+		return newArray;
+	}
+
+	public static byte[] getCopy(byte[] array) {
+		byte[] newArray = new byte[array.length];
+		for (int i = 0;i<array.length;i++) {
+			newArray[i] = array[i];
+		}
+		return newArray;
+	}
+
+	public static byte[][] getCopy(byte[][] array) {
+		byte[][] newArray = new byte[array.length][array[0].length];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				newArray[r][c] = array[r][c];
+			}
+		}
+		return newArray;
+	}
+
+	public static short[] getCopy(short[] array) {
+		short[] newArray = new short[array.length];
+		for (int i = 0;i<array.length;i++) {
+			newArray[i] = array[i];
+		}
+		return newArray;
+	}
+
+	public static short[][] getCopy(short[][] array) {
+		short[][] newArray = new short[array.length][array[0].length];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				newArray[r][c] = array[r][c];
+			}
+		}
+		return newArray;
+	}
+
+	public static long[] getCopy(long[] array) {
+		long[] newArray = new long[array.length];
+		for (int i = 0;i<array.length;i++) {
+			newArray[i] = array[i];
+		}
+		return newArray;
+	}
+
+	public static long[][] getCopy(long[][] array) {
+		long[][] newArray = new long[array.length][array[0].length];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				newArray[r][c] = array[r][c];
+			}
+		}
+		return newArray;
+	}
+
+	public static char[] getCopy(char[] array) {
+		char[] newArray = new char[array.length];
+		for (int i = 0;i<array.length;i++) {
+			newArray[i] = array[i];
+		}
+		return newArray;
+	}
+
+	public static char[][] getCopy(char[][] array) {
+		char[][] newArray = new char[array.length][array[0].length];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				newArray[r][c] = array[r][c];
+			}
+		}
+		return newArray;
+	}
+
+	public static float[] getCopy(float[] array) {
+		float[] newArray = new float[array.length];
+		for (int i = 0;i<array.length;i++) {
+			newArray[i] = array[i];
+		}
+		return newArray;
+	}
+
+	public static float[][] getCopy(float[][] array) {
+		float[][] newArray = new float[array.length][array[0].length];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				newArray[r][c] = array[r][c];
+			}
+		}
+		return newArray;
+	}
+
+	public static double[] getCopy(double[] array) {
+		double[] newArray = new double[array.length];
+		for (int i = 0;i<array.length;i++) {
+			newArray[i] = array[i];
+		}
+		return newArray;
+	}
+
+	public static double[][] getCopy(double[][] array) {
+		double[][] newArray = new double[array.length][array[0].length];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				newArray[r][c] = array[r][c];
+			}
+		}
+		return newArray;
+	}
+
+	public static int[] getCopy(int[] array) {
+		int[] newArray = new int[array.length];
+		for (int i = 0;i<array.length;i++) {
+			newArray[i] = array[i];
+		}
+		return newArray;
+	}
+
+	public static int[][] getCopy(int[][] array) {
 		int[][] newArray = new int[array.length][array[0].length];
 		for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
@@ -839,7 +1071,7 @@ public final class Util {
 	}
 
 	public static int[][] flipArray(int[][] array, boolean horz, boolean vert) {
-		int[][] refArray = copyArray(array);
+		int[][] refArray = getCopy(array);
 		if (horz) for (int r = 0;r<array.length;r++) {
 			for (int cH = array[0].length-1, cL = 0;cL<=cH;cH--, cL++) {
 				array[r][cL] = refArray[r][cH];
@@ -856,7 +1088,7 @@ public final class Util {
 	}
 
 	public static boolean continuousCheck(int[][] array, int type) {
-		int[][] arr = copyArray(array);
+		int[][] arr = getCopy(array);
 		int iX = -1, iY = -1;
 		for (int r = 0;r<arr.length;r++) {
 			for (int c = 0;c<arr[0].length;c++) {
@@ -883,7 +1115,7 @@ public final class Util {
 		List<int[][]> orientations = new ArrayList<>();
 		boolean h = false, v = false;
 		for (int p = 0;p<16;p++) {
-			int[][] tempArray = copyArray(array);
+			int[][] tempArray = getCopy(array);
 			tempArray = flipArray(tempArray, (v)?h=!h:h, v=!v);
 			tempArray = rotateArray(tempArray, p/4);
 			orientations.add(tempArray);

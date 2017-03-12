@@ -10,7 +10,7 @@ import util.WGUtil;
 
 public class BouncingHitscan extends Hitscan implements Data {
 	public BouncingHitscan(float damage, float recoil, float initialWidth, Color color, float iX, float iY, float angle, int bounces) {
-		super(damage, initialWidth, color, iX, iY, angle, false);
+		super(damage, initialWidth, color, iX, iY, angle);
 		if (bounces>0) {
 			int side = WGUtil.getSide(x, y, Level.getLayout());
 			float newAngle = Util.getBounceAngle(angle, side==LEFT||side==RIGHT);

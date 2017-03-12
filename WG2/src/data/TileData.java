@@ -1,7 +1,17 @@
 package data;
 
+import client.level.Level;
+import util.Util;
+
 public interface TileData {
 	int SOLID_WALLS = 0, SOLID_PROJECTILES = 1;//don't change
+
+//	boolean[][] HITABLE_WALLS = getHitable(SOLID_WALLS);
+//	boolean[][] HITABLE_PROJECTILES = getHitable(SOLID_PROJECTILES);
+
+	static boolean[][] getHitable(int type) {
+		return Util.getBooleanArrayContains(Level.getLayout(), new int[] {'1',type==SOLID_WALLS?'3':'4','5'});
+	}
 
 	static boolean[] getSolid(int type) {
 		boolean[] solid = new boolean[2];

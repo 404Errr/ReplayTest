@@ -6,31 +6,28 @@ import java.util.List;
 
 import client.entity.Entity;
 import client.game.Game;
-import client.level.Level;
 import client.player.Player;
 import data.TileData;
 import data.WeaponData;
-import util.Util;
+import util.ScanLine;
 
 public class Hitscan extends WeaponEntity implements TileData, WeaponData {
 	protected float damage, initialWidth, width, iX, iY, fX, fY;
 	protected Color color;
-	private boolean hitWallsOnly;
 
-	public Hitscan(float damage, float initialWidth, Color color, float iX, float iY, float angle, boolean hitWallsOnly) {
+	public Hitscan(float damage, float initialWidth, Color color, float iX, float iY, float angle) {
 		super(color, iX, iY, damage);
 		this.damage = damage;//how much damage it does
 		this.width = initialWidth;//starting (largest) graphical width of the line
 		this.initialWidth = initialWidth;
 		this.color = color;//the color of the creator
-		this.iX = iX;//set initial position
-		this.iY = iY;
-		this.x = iX;
-		this.y = iY;
-		this.hitWallsOnly = hitWallsOnly;
-		scan(angle);//scan
-		this.fX = x;//set final position
-		this.fY = y;
+		ScanLine scan = new ScanLine(iX, iY, angle, TileData.getHitable(1));//SOLID_WALLS));
+		this.iX = scan.getiX();//set initial position
+		this.iY = scan.getiY();
+		this.x = scan.getiX();
+		this.y = scan.getiY();
+		this.fX = scan.getfX();//set final position
+		this.fY = scan.getfY();
 		checkPlayerCollision(new Line2D.Double(iX, iY, fX, fY));
 	}
 
@@ -50,33 +47,6 @@ public class Hitscan extends WeaponEntity implements TileData, WeaponData {
 			return true;//the sweet release of death
 		}
 		return false;//continue living in this cruel world
-	}
-
-	protected void scan(float angle) {
-		final float dX = Util.getXComp(angle, HITSCAN_INITIAL_INCREMENT), dY = -Util.getYComp(angle, HITSCAN_INITIAL_INCREMENT);
-		float incrementMultiplier = 1.0f;
-		boolean firstHit = true, firstCheck = true;
-		while (true) {
-			if (x<0||y<0||x>Level.getWidth()||y>Level.getHeight()||(x>=0&&y>=0&&x<Level.getWidth()&&y<Level.getHeight()&&((Level.getTile(x, y).isSolid(SOLID_WALLS)&&hitWallsOnly)||(Level.getTile(x, y).isSolid(SOLID_PROJECTILES)&&!hitWallsOnly)))) {//if it hit something
-				if (firstCheck) {
-					return;
-				}
-				if (firstHit) {
-					firstHit = false;
-					x-=dX*incrementMultiplier;//change the x and y back
-					y-=dY*incrementMultiplier;
-					incrementMultiplier = HITSCAN_FINAL_INCREMENT;
-				}
-				else {
-					return;
-				}
-			}
-			if (firstCheck) {
-				firstCheck = false;
-			}
-			x+=dX*incrementMultiplier;//change the x and y
-			y+=dY*incrementMultiplier;
-		}
 	}
 
 	public float getDamage() {

@@ -61,7 +61,5 @@ public interface WeaponData {
 	float FRAGGRENADE_RECOIL = 0.3f;
 	float FRAGGRENADE_DAMAGE = 7.5f/FRAGGRENADE_SHARD_COUNT;
 
-
-	float HITSCAN_INITIAL_INCREMENT = 0.25f, HITSCAN_FINAL_INCREMENT = 0.001f;
 	float COOLDOWN_INCREMENT = 0.01667f*Data.UPS;//don't change (or do, I don't care)
 }

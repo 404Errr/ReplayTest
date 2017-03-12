@@ -2,9 +2,10 @@ package client.weapon;
 
 import client.player.Player;
 import data.ControlData;
+import data.PlayerData;
 import data.WeaponData;
 
-public abstract class Weapon implements WeaponData, ControlData {
+public abstract class Weapon implements WeaponData, ControlData, PlayerData {
 	protected float length, width, cooldown, maxCooldown;
 	protected Player owner;
 
@@ -12,6 +13,7 @@ public abstract class Weapon implements WeaponData, ControlData {
 		this.owner = owner;
 		this.maxCooldown = maxCooldown;
 		this.length = length;
+		if (this.length==0) this.length = -HALF_PLAYER_SIZE;
 		this.width = width;
 	}
 
@@ -25,11 +27,11 @@ public abstract class Weapon implements WeaponData, ControlData {
 			}
 		}
 	}
-	
+
 	protected float getMaxCooldown() {
 		return maxCooldown;
 	}
-	
+
 	public float getCooldown() {
 		return cooldown;
 	}
@@ -37,7 +39,7 @@ public abstract class Weapon implements WeaponData, ControlData {
 	public void setCooldown(float cooldown) {
 		this.cooldown = cooldown;
 	}
-	
+
 	protected Player getPlayer() {
 		return owner;
 	}

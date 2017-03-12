@@ -1,7 +1,7 @@
 package client.level;
 
-import client.logic.BreakableLine;
 import client.player.Player;
+import util.BreakableLine;
 
 public class SpawnPointVisibiltiyLine extends BreakableLine {
 	private SpawnPoint spawnPoint;

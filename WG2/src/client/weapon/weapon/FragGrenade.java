@@ -5,10 +5,11 @@ import client.player.Player;
 import client.weapon.Weapon;
 import client.weapon.entity.FragGrenadeProjectile;
 import data.Data;
+import data.PlayerData;
 import data.WeaponData;
 import util.Util;
 
-public class FragGrenade extends Weapon implements WeaponData, Data {
+public class FragGrenade extends Weapon implements WeaponData, Data, PlayerData {
 
 	public FragGrenade(Player owner) {
 		super(owner, FRAGGRENADE_COOLDOWN, 0, 0);

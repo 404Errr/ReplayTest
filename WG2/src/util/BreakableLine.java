@@ -1,4 +1,4 @@
-package client.logic;
+package util;
 
 import client.level.Level;
 import data.AIData;
