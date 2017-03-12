@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -18,8 +19,8 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public final class Util {
-	private static final int INSERTIONSORT_THRESHOLD = 7;
 	private static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
+	private static final int INSERTIONSORT_THRESHOLD = 7;
 
 	private static Random rand;
 
@@ -27,7 +28,95 @@ public final class Util {
 		rand = new Random();
 	}
 
-	public static int[] getReverseOrder(int[] array) {
+	public static String toRomanNumeral(int num) {
+		return Roman.intToRoman(num);
+	}
+
+	public static int fromRomanNumeral(String roman) {
+		return Roman.romanToInt(roman);
+	}
+
+	public static <T> ArrayList<T> getReverse(ArrayList<T> array) {
+		ArrayList<T> temp = getCopy(array);
+		for (int i = temp.size()-1, j = 0;i>=0;i--,j++) {
+			temp.set(i, array.get(j));
+		}
+		return temp;
+	}
+
+	public static <T> LinkedList<T> getReverse(LinkedList<T> array) {
+		LinkedList<T> temp = getCopy(array);
+		for (int i = temp.size()-1, j = 0;i>=0;i--,j++) {
+			temp.set(i, array.get(j));
+		}
+		return temp;
+	}
+
+	public static Object[] getReverse(Object[] array) {
+		Object[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		return temp;
+	}
+
+	public static String[] getReverse(String[] array) {
+		String[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		return temp;
+	}
+
+	public static byte[] getReverse(byte[] array) {
+		byte[] temp = new byte[array.length];
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		return temp;
+	}
+
+	public static double[] getReverse(double[] array) {
+		double[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		return temp;
+	}
+
+	public static float[] getReverse(float[] array) {
+		float[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		return temp;
+	}
+
+	public static short[] getReverse(short[] array) {
+		short[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		return temp;
+	}
+
+	public static long[] getReverse(long[] array) {
+		long[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		return temp;
+	}
+
+	public static char[] getReverse(char[] array) {
+		char[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		return temp;
+	}
+
+	public static int[] getReverse(int[] array) {
 		int[] temp = getCopy(array);
 		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
 			temp[i] = array[j];
@@ -35,19 +124,83 @@ public final class Util {
 		return temp;
 	}
 
-	public static char[] getReverseOrder(char[] array) {
-		char[] temp = array.clone();
+	public static void reverse(Object[] array) {
+		Object[] temp = getCopy(array);
 		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
 			temp[i] = array[j];
 		}
-		return temp;
+		array = temp;
 	}
 
-	public static void addToEnd(String str, String toAdd) {
+	public static void reverse(String[] array) {
+		String[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		array = temp;
+	}
+
+	public static void reverse(byte[] array) {
+		byte[] temp = new byte[array.length];
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		array = temp;
+	}
+
+	public static void reverse(double[] array) {
+		double[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		array = temp;
+	}
+
+	public static void reverse(float[] array) {
+		float[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		array = temp;
+	}
+
+	public static void reverse(short[] array) {
+		short[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		array = temp;
+	}
+
+	public static void reverse(long[] array) {
+		long[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		array = temp;
+	}
+
+	public static void reverse(char[] array) {
+		char[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		array = temp;
+	}
+
+	public static void reverse(int[] array) {
+		int[] temp = getCopy(array);
+		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
+			temp[i] = array[j];
+		}
+		array = temp;
+	}
+
+	public static void addEnd(String str, String toAdd) {
 		str = str+toAdd;
 	}
 
-	public static void addToBeginning(String str, String toAdd) {
+	public static void addStart(String str, String toAdd) {
 		str = toAdd+str;
 	}
 
@@ -74,7 +227,6 @@ public final class Util {
 	public static boolean withinAngle(float a1, float a2, float range) {//radians, radians, degrees//FIXME
 		double temp1 = Math.toDegrees(a1), temp2 = Math.toDegrees(a2);
 		return Math.abs(temp1-temp2)<range;
-
 	}
 
 	public static double getDistance(double x1, double y1, double x2, double y2) {
@@ -863,6 +1015,22 @@ public final class Util {
 		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
 	}
 
+	public static <T> ArrayList<T> getCopy(ArrayList<T> array) {
+		List<T> newArray = new ArrayList<>();
+		for (int i = 0;i<array.size();i++) {
+			newArray.add(array.get(i));
+		}
+		return (ArrayList<T>) newArray;
+	}
+
+	public static <T> LinkedList<T> getCopy(LinkedList<T> array) {
+		List<T> newLinked = new LinkedList<>();
+		for (int i = 0;i<array.size();i++) {
+			newLinked.add(array.get(i));
+		}
+		return (LinkedList<T>) newLinked;
+	}
+
 	public static String[] getCopy(String[] array) {
 		String[] newArray = new String[array.length];
 		for (int i = 0;i<array.length;i++) {
@@ -873,6 +1041,24 @@ public final class Util {
 
 	public static String[][] getCopy(String[][] array) {
 		String[][] newArray = new String[array.length][array[0].length];
+		for (int r = 0;r<array.length;r++) {
+			for (int c = 0;c<array[0].length;c++) {
+				newArray[r][c] = array[r][c];
+			}
+		}
+		return newArray;
+	}
+
+	public static Object[] getCopy(Object[] array) {
+		Object[] newArray = new String[array.length];
+		for (int i = 0;i<array.length;i++) {
+			newArray[i] = array[i];
+		}
+		return newArray;
+	}
+
+	public static Object[][] getCopy(Object[][] array) {
+		Object[][] newArray = new String[array.length][array[0].length];
 		for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
 				newArray[r][c] = array[r][c];

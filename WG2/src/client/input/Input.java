@@ -157,6 +157,25 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				Game.getPlayer().selectWeapon(8);
 				break;
 
+			case KeyEvent.VK_HOME:
+				Game.getPlayer().setHealth(1.0f);
+				System.out.println(Game.getPlayer().getHealth());
+				break;
+			case KeyEvent.VK_END:
+				Game.getPlayer().setHealth(0.01f);
+				System.out.println(Game.getPlayer().getHealth());
+				break;
+			case KeyEvent.VK_PAGE_UP:
+				Game.getPlayer().setHealth(Game.getPlayer().getHealth()+0.01f);
+				if (Game.getPlayer().getHealth()>1.0f) Game.getPlayer().setHealth(1.0f);
+				System.out.println(Game.getPlayer().getHealth());
+				break;
+			case KeyEvent.VK_PAGE_DOWN:
+				Game.getPlayer().setHealth(Game.getPlayer().getHealth()-0.01f);
+				if (Game.getPlayer().getHealth()<0.001f) Game.getPlayer().setHealth(0.0f);
+				System.out.println(Game.getPlayer().getHealth());
+				break;
+
 			case KeyEvent.VK_COMMA:
 				if (Edit.editMode&&!e.isControlDown()) Edit.changeType(-1);
 				break;

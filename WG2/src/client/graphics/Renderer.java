@@ -58,17 +58,12 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		}
 	}
 
-//	private void drawUI() {
-//		g.setColor(Util.getRedGreenColorShift(Game.getPlayer().getHealth()));
-//		g.fillRect(Window.width()-HEALTH_BAR_WIDTH, (int)((1f-Game.getPlayer().getHealth())*Window.height()), HEALTH_BAR_WIDTH, Window.height());
-//	}
-
 	private void drawEntities() {
 		List<Entity> entities = Game.getEntities();
 		for (int i = entities.size()-1;i>=0;i--) {//reverse order so players will be drawn last (the player last too)
 			try {
 				Entity entity = entities.get(i);
-				if (entity instanceof AbstractProjectile) {//FIXME TODO test
+				if (entity instanceof AbstractProjectile) {
 					drawEntity((AbstractProjectile) entity);
 				}
 				if (entity instanceof Hitscan) {
@@ -92,9 +87,8 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 						}
 					}
 					if (!Edit.editMode) {
-						g.setColor(Color.BLACK);
-						g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/3));
-						g.drawString((int)(((Player)entity).getHealth()*100)+"", gridX(((Player)entity).getX())+Camera.getScale()/8, gridY(((Player)entity).getY())+Camera.getScale()*5/8);
+						if (Debug.isDrawWeapons()) drawWeapon((Player) entity);
+						drawHealth((Player) entity);
 					}
 				}
 			}
@@ -120,6 +114,12 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
 	}
 
+	private void drawHealth(Player player) {
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/3));
+		g.drawString(getHealthString(player.getHealth()), gridX((player).getX())+Camera.getScale()/8, gridY((player).getY())+Camera.getScale()*5/8);
+	}
+
 	private void drawWeapon(Player player) {
 		Weapon gun = player.getActiveWeapon().getType();
 		g.setColor(player.getColor());
@@ -130,7 +130,6 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 
 	private void drawPlayer(Player player) {
 		g.setColor(player.getColor());
-		if (Debug.isDrawWeapons()&&!Edit.editMode) drawWeapon(player);
 		g.fillRect(gridX(player.getX()), gridY(player.getY()), (int)getPlayerSize(), (int)getPlayerSize());
 	}
 
@@ -147,13 +146,11 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 						g.fillRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
 					}
 					if (DRAW_TILE_COORDS) {
-//						g.drawRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
 						g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/4));
 						g.setColor(COLOR_DEBUG_GREEN);
 						g.drawString(c+","+r, gridX(c+0.35f), gridY(r+0.7f));
 					}
 					if (Edit.editMode&&Level.getLayoutType(c, r)==SPAWN_POINT_TYPE) {
-//						g.drawRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
 						g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/2));
 						g.setColor(COLOR_DEBUG_GREEN);
 						g.drawString("S", gridX(c+0.35f), gridY(r+0.7f));
@@ -163,6 +160,13 @@ public class Renderer extends JPanel implements ColorData, PlayerData, GraphicsD
 			}
 		}
 	}
+
+	private static final boolean ROMAN = true;
+	private static String getHealthString(float health) {
+		if (ROMAN) return Util.toRomanNumeral((int)(health*100));
+		return (int)(health*100)+"";
+	}
+
 
 	public static int gridX(float x) {
 		return (int)(x*Camera.getScale()+getXOrigin());
