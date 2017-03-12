@@ -55,7 +55,7 @@ public class PathfindingTile extends Tile implements MapData, AIData, TileData {
 	}
 
 	public void setDistanceCost(PathfindingTile endTile) {
-		distanceCost = (int)(Util.distance(c, r, endTile.getC(), endTile.getR())*BASIC_MOVEMENT_COST);
+		distanceCost = (int)(Util.getDistance(c, r, endTile.getC(), endTile.getR())*BASIC_MOVEMENT_COST);
 	}
 
 	public CurrentList getCurrentList() {

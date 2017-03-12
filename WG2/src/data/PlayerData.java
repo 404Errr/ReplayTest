@@ -5,4 +5,7 @@ public interface PlayerData {
 	float PLAYER_ACCELERATION = 0.004f, PLAYER_ACCELERATION_LIMIT = 3f, PLAYER_DECCELERATION = 0.8f;
 	float PLAYER_SPEED_LIMIT = 0.25f;//0.3f;
 	float PLAYER_INITIAL_HEALTH = 1.0f;
+
+	boolean AIM_ASSIST = false;
+	float AIM_ASSIST_RANGE = 10.0f;
 }

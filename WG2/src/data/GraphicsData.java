@@ -16,7 +16,7 @@ public interface GraphicsData {
 	float DEFAULT_WINDOW_SCREEN_RATIO = 0.8f;
 
 	boolean DRAW_TILE_COORDS = false;
-	boolean DRAW_BOUNCE_HIT = false;
+	boolean DRAW_BOUNCE_HIT = true;
 	boolean DRAW_PROJECTILE_HIT = false;
 
 	int PROJECTILE_LIFE = 400;

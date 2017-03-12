@@ -25,6 +25,6 @@ public class WanderFinder implements AIData {
 
 	public static int getCost(int x, int y, Tile tile) {
 		if (!tile.isUsable()) return Integer.MAX_VALUE;
-		return (int)(tile.getNextToWallCost()+Util.distance(x, y, tile.getC(), tile.getR())/8);
+		return (int)(tile.getNextToWallCost()+Util.getDistance(x, y, tile.getC(), tile.getR())/8);
 	}
 }

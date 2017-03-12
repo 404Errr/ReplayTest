@@ -1,8 +1,8 @@
 package data;
 
 public interface WeaponData {
-	boolean ALL_GUNS_AT_START = true, RECOIL = true, DAMAGE = false;
-	int STARTING_GUN = 3;
+	boolean ALL_GUNS_AT_START = true, RECOIL = false, DAMAGE = false;
+	int STARTING_GUN = 0;
 
 	float WEAPON_SWITCH_COOLDOWN = 30f;
 
@@ -50,7 +50,7 @@ public interface WeaponData {
 	float FRAGGRENADE_SIZE = 0.5f;
 	float FRAGGRENADE_GRENADE_SPEED_HI = 0.8f;
 	float FRAGGRENADE_GRENADE_SPEED_LO = 0.05f;
-	float FRAGGRENADE_GRENADE_DECCELERATION = 0.96f;
+	float FRAGGRENADE_GRENADE_DECCELERATION = 0.035f;
 	float FRAGGRENADE_SPEED = 0.6f;
 	float FRAGGRENADE_SPREAD = 0.4f;
 	float FRAGGRENADE_RANGE = 6.5f;

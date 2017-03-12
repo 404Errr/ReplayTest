@@ -13,7 +13,7 @@ public class BouncingHitscan extends Hitscan implements Data {
 		super(damage, initialWidth, color, iX, iY, angle, false);
 		if (bounces>0) {
 			int side = WGUtil.getSide(x, y, Level.getLayout());
-			float newAngle = Util.bounceAngle(angle, side==LEFT||side==RIGHT);
+			float newAngle = Util.getBounceAngle(angle, side==LEFT||side==RIGHT);
 			switch (side) {
 			case UP:
 				y = Math.round(y)-0.001f;

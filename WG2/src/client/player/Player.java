@@ -147,8 +147,10 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	}
 
 	public void recoil(float angle, float magnitude) {
-		this.dX+=Util.getXComp(angle, magnitude);
-		this.dY+=-Util.getYComp(angle, magnitude);
+		if (RECOIL) {
+			this.dX+=Util.getXComp(angle, magnitude);
+			this.dY+=-Util.getYComp(angle, magnitude);
+		}
 	}
 
 	@Override
@@ -328,13 +330,5 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	public void setHighPowerGrenade(boolean highPowerGrenade) {
 		this.highPowerGrenade = highPowerGrenade;
 	}
-
-//	private boolean dead;
-//	public void changeHealth(float dHealth, int type) {//temp
-//		if (DAMAGE) this.health+=dHealth;
-//		if (!dead&&health<=0) {
-//			dead = true;Debug.addKill(type);
-//		}
-//	}
 
 }

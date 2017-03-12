@@ -14,7 +14,7 @@ import util.WGUtil;
 
 public class FragGrenadeProjectile extends WeaponEntity implements Data, TileData, WeaponData, GraphicsData {
 	private boolean destroy;
-	private float dX,  dY, grenadeSize;
+	private float dX, dY, grenadeSize;
 	private int timer;
 
 	public FragGrenadeProjectile(Color color, float x, float y, float dX, float dY) {
@@ -39,6 +39,7 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 	}
 
 	private void explode() {
+		System.out.println();//FIXME
 		for (float a = 0;a<Math.PI*2;a+=Math.PI/FRAGGRENADE_SHARD_COUNT) {
 			float speed = Util.getSpread(FRAGGRENADE_SPEED, FRAGGRENADE_SPREAD);
 			float range = Util.getSpread(FRAGGRENADE_RANGE, FRAGGRENADE_SPREAD);
@@ -48,30 +49,37 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 	}
 
 	private void bounce() {//FIXME
-		Hitscan finder = new Hitscan(0, 0.2f, Color.MAGENTA, x+grenadeSize/2, y+grenadeSize/2, Util.getAngle(0, 0, dX, dY), true);
-		if (DRAW_BOUNCE_HIT) Game.addEntity(finder);//display it
-		int side = WGUtil.getSide(finder.getX(), finder.getY(), Level.getLayout());
-		if (side==RIGHT) {
-			dX = Math.abs(dX);
+		Hitscan contactPointFinder = new Hitscan(0, 0.2f, Color.MAGENTA, x+grenadeSize/2, y+grenadeSize/2, Util.getAngle(0, 0, dX, dY), true);
+		if (DRAW_BOUNCE_HIT) Game.addEntity(contactPointFinder);//display it
+		int side = WGUtil.getSide(contactPointFinder.getX(), contactPointFinder.getY(), dX, dY, Level.getLayout());
+//		int side = WGUtil.getSide(contactPointFinder.getX(), contactPointFinder.getY(), dX, dY);
+//		int side = WGUtil.getSide(contactPointFinder.getX(), contactPointFinder.getY(), Level.getLayout());
+		float angle = Util.getBounceAngle(Util.getAngle(0, 0, dX, dY), side==LEFT||side==RIGHT);
+		System.out.println(side);//FIXME
+		float magnitude = Util.getDistance(0, 0, dX, dY);
+		dX = Util.getXComp(angle, magnitude);
+		dY = -Util.getYComp(angle, magnitude);
+		/*if (side==RIGHT) {
+//			dX = Math.abs(dX);
 			x+=grenadeSize/3;
 		}
 		if (side==DOWN) {
-			dY = Math.abs(dY);
+//			dY = Math.abs(dY);
 			y+=grenadeSize/3;
 		}
 		if (side==LEFT) {
-			dX = -Math.abs(dX);
+//			dX = -Math.abs(dX);
 			x-=grenadeSize/3;
 		}
 		if (side==UP) {
-			dY = -Math.abs(dY);
+//			dY = -Math.abs(dY);
 			y-=grenadeSize/3;
-		}
+		}*/
 	}
 
 	protected void move() {
-		dX*=FRAGGRENADE_GRENADE_DECCELERATION;
-		dY*=FRAGGRENADE_GRENADE_DECCELERATION;
+		dX*=1-FRAGGRENADE_GRENADE_DECCELERATION;
+		dY*=1-FRAGGRENADE_GRENADE_DECCELERATION;
 		x+=dX;
 		y+=dY;
 	}

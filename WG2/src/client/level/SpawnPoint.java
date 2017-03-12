@@ -40,7 +40,7 @@ public class SpawnPoint extends Point implements MapData {
 	}
 
 	private float distanceTo(Entity entity) {
-		return Util.distance(x, y, entity.getX(), entity.getY());
+		return Util.getDistance(x, y, entity.getX(), entity.getY());
 	}
 
 	public void tick() {

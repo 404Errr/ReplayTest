@@ -18,7 +18,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public final class Util {
-
+	private static final int INSERTIONSORT_THRESHOLD = 7;
 	private static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
 	private static Random rand;
 
@@ -26,62 +26,89 @@ public final class Util {
 		rand = new Random();
 	}
 
-	public static int getSide(float x, float y) {//FIXME
-		float[] distances = new float[4];
-		distances[RIGHT] = (int)x+1-x;
-		distances[DOWN] = (int)y+1-y;
-		distances[LEFT] = x-(int)x;
-		distances[UP] = y-(int)y;
-		return minInArray(distances);
+	public static boolean withinAngle(float a1, float a2, float range) {//radians, radians, degrees//FIXME
+		double temp1 = Math.toDegrees(a1), temp2 = Math.toDegrees(a2);
+		return Math.abs(temp1-temp2)<range;
+
 	}
 
-	public static double distance(double x1, double y1, double x2, double y2) {
+	public static double getDistance(double x1, double y1, double x2, double y2) {
 		return Math.hypot(x1-x2, y1-y2);
 	}
 
-	public static double distance(double x1, double y1, int x2, int y2) {
+	public static double getDistance(double x1, double y1, int x2, int y2) {
 		return Math.hypot(x1-x2, y1-y2);
 	}
 
-	public static double distance(int x1, int y1, double x2, double y2) {
+	public static double getDistance(int x1, int y1, double x2, double y2) {
 		return Math.hypot(x1-x2, y1-y2);
 	}
 
-	public static double distance(int x1, int y1, int x2, int y2) {
+	public static double getDistance(int x1, int y1, int x2, int y2) {
 		return Math.hypot(x1-x2, y1-y2);
 	}
 
-	public static float distance(float x1, float y1, float x2, float y2) {
+	public static float getDistance(float x1, float y1, float x2, float y2) {
 		return (float)Math.hypot(x1-x2, y1-y2);
 	}
 
-	public static float distance(float x1, float y1, int x2, int y2) {
+	public static float getDistance(float x1, float y1, int x2, int y2) {
 		return (float)Math.hypot(x1-x2, y1-y2);
 	}
 
-	public static float distance(int x1, int y1, float x2, float y2) {
+	public static float getDistance(int x1, int y1, float x2, float y2) {
 		return (float)Math.hypot(x1-x2, y1-y2);
 	}
 
-	public static double distance(double x1, double y1, float x2, float y2) {
+	public static double getDistance(double x1, double y1, float x2, float y2) {
 		return Math.hypot(x1-x2, y1-y2);
 	}
 
-	public static double distance(float x1, float y1, double x2, double y2) {
+	public static double getDistance(float x1, float y1, double x2, double y2) {
 		return Math.hypot(x1-x2, y1-y2);
 	}
 
-	public static float bounceAngle(float angle, boolean yAxis) {
+	public static float getBounceAngle(float angle, boolean yAxis) {
 		if (yAxis) return (float)(Math.PI-angle);
 		else return -angle;
 	}
 
-	public static double getAngleDegrees(double x, double y, double xT, double yT) {
-		double result = Math.toDegrees(Math.atan2(-(xT-x), -(yT-y)))+90;
+	public static double getAngleDegrees(double x1, double y1, double x2, double y2) {
+		double result = Math.toDegrees(Math.atan2(-(x2-x1), -(y2-y1)))+90;
 		if (result<0) {
 			result+=360;
 		}
 		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T avg(List<T> nums) {
+		if (nums.get(0) instanceof Float) {
+			float total = 0;
+			for (float num:(List<Float>)nums) total+=num;
+			return (T)new Float(total/nums.size());
+		}
+		if (nums.get(0) instanceof Double) {
+			double total = 0;
+			for (double num:(List<Double>)nums) total+=num;
+			return (T)new Double(total/nums.size());
+		}
+		if (nums.get(0) instanceof Integer) {
+			int total = 0;
+			for (int num:(List<Integer>)nums) total+=num;
+			return (T)new Integer(total/nums.size());
+		}
+		if (nums.get(0) instanceof Long) {
+			long total = 0;
+			for (long num:(List<Long>)nums) total+=num;
+			return (T)new Long(total/nums.size());
+		}
+		if (nums.get(0) instanceof Short) {
+			short total = 0;
+			for (short num:(List<Short>)nums) total+=num;
+			return (T)new Short((short)(total/nums.size()));
+		}
+		throw new IllegalArgumentException("unknown number type");
 	}
 
 	public static float avg(float... nums) {
@@ -90,23 +117,11 @@ public final class Util {
 		return total/nums.length;
 	}
 
-	public static float avg(List<Float> nums) {//FIXME
-		float total = 0;
-		for (float num:nums) total+=num;
-		return total/nums.size();
-	}
-
 	public static double avg(double... nums) {
 		double total = 0;
 		for (double num:nums) total+=num;
 		return total/nums.length;
 	}
-
-	/*public static double avg(List<Double> nums) {//FIXME
-		double total = 0;
-		for (double num:nums) total+=num;
-		return total/nums.size();
-	}*/
 
 	public static int avg(int... nums) {
 		int total = 0;
@@ -114,35 +129,17 @@ public final class Util {
 		return total/nums.length;
 	}
 
-	/*public static int avg(List<Integer> nums) {//FIXME
-		int total = 0;
-		for (int num:nums) total+=num;
-		return total/nums.size();
-	}*/
-
 	public static long avg(long... nums) {
 		long total = 0;
 		for (long num:nums) total+=num;
 		return total/nums.length;
 	}
 
-	/*public static long avg(List<Long> nums) {//FIXME
-		long total = 0;
-		for (long num:nums) total+=num;
-		return total/nums.size();
-	}*/
-
 	public static short avg(short... nums) {
 		short total = 0;
 		for (short num:nums) total+=num;
 		return (short)(total/nums.length);
 	}
-
-	/*public static short avg(List<Short> nums) {//FIXME
-		short total = 0;
-		for (short num:nums) total+=num;
-		return (short)(total/nums.size());
-	}*/
 
 	public static int randomInt(int upperBound) {
 		return new Random().nextInt(upperBound);
@@ -161,7 +158,14 @@ public final class Util {
 		return false;
 	}
 
-	public static void addEdgeToArray(int[][] array, int val) {//takes given map and adds EDGE_TYPE around it
+	public static boolean arrayContains(int[] array, int value) {
+		for (int i = 0;i<array.length;i++) {
+			if (array[i]==value) return true;
+		}
+		return false;
+	}
+
+	public static void addEdgeToArray(int[][] array, int val) {
 		int[][] newArray = new int[array.length+2][array[0].length+2];//new array size of map +1 on every side
 		for (int r = 0;r<newArray.length;r++) {
 			for (int c = 0;c<newArray[0].length;c++) {
@@ -182,6 +186,14 @@ public final class Util {
 			for (int c = 0;c<array1[0].length;c++) {
 				if (array1[r][c]!=array2[r][c]) return false;
 			}
+		}
+		return true;
+	}
+
+	public static boolean equalArrays(int[] array1, int[] array2) {
+		if (array1.length!=array2.length) return false;
+		for (int i = 0;i<array1.length;i++) {
+			if (array1[i]!=array2[i]) return false;
 		}
 		return true;
 	}
@@ -272,16 +284,119 @@ public final class Util {
 		System.out.print(str);
 	}
 
-	public static void printIntAsCharArray(int[] array) {
+	public static void printArray(Object[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			printArray(array[r]);
+		}
+	}
+
+	public static void printArray(Object[] array) {
 		StringBuilder str = new StringBuilder();
 		for (int i = 0;i<array.length;i++) {
-			str.append((char)array[i]+",");
+			str.append(array[i].toString()+",");
 		}
 		str.replace(str.length()-1, str.length(), "\n");
 		System.out.print(str);
 	}
 
+	public static void printArray(int[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			printArray(array[r]);
+		}
+	}
+
 	public static void printArray(int[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+",");
+		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
+	}
+
+	public static void printArray(long[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			printArray(array[r]);
+		}
+	}
+
+	public static void printArray(long[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+",");
+		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
+	}
+
+	public static void printArray(short[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			printArray(array[r]);
+		}
+	}
+
+	public static void printArray(short[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+",");
+		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
+	}
+
+	public static void printArray(float[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			printArray(array[r]);
+		}
+	}
+
+	public static void printArray(float[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+",");
+		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
+	}
+
+
+	public static void printArray(double[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			printArray(array[r]);
+		}
+	}
+
+	public static void printArray(double[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+",");
+		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
+	}
+
+	public static void printArray(char[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			printArray(array[r]);
+		}
+	}
+
+	public static void printArray(char[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+",");
+		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
+	}
+
+	public static void printArray(String[][] array) {
+		for (int r = 0;r<array.length;r++) {
+			printArray(array[r]);
+		}
+	}
+
+	public static void printArray(String[] array) {
 		StringBuilder str = new StringBuilder();
 		for (int i = 0;i<array.length;i++) {
 			str.append(array[i]+",");
@@ -296,10 +411,13 @@ public final class Util {
 		}
 	}
 
-	public static void printArray(int[][] array) {
-		for (int r = 0;r<array.length;r++) {
-			printArray(array[r]);
+	public static void printIntAsCharArray(int[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append((char)array[i]+",");
 		}
+		str.replace(str.length()-1, str.length(), "\n");
+		System.out.print(str);
 	}
 
 	public static int maxInArray(short[] values) {
@@ -587,20 +705,32 @@ public final class Util {
 		return array;
 	}
 
+	public static final float byteArray2Char(byte[] in) {
+		return ByteBuffer.wrap(in).getChar();
+	}
+
 	public static final float byteArray2Float(byte[] in) {
 		return ByteBuffer.wrap(in).getFloat();
 	}
+
 	public static final short byteArray2Short(byte[] in) {
 		return ByteBuffer.wrap(in).getShort();
 	}
+
 	public static final int byteArray2Int(byte[] in) {
 		return ByteBuffer.wrap(in).getInt();
 	}
+
 	public static final long byteArray2Long(byte[] in) {
 		return ByteBuffer.wrap(in).getLong();
 	}
+
 	public static final double byteArray2Double(byte[] in) {
 		return ByteBuffer.wrap(in).getDouble();
+	}
+
+	public static byte[] char2ByteArray (char value) {
+		return ByteBuffer.allocate(8).putChar(value).array();
 	}
 
 	public static byte[] short2ByteArray (short value) {
@@ -682,7 +812,7 @@ public final class Util {
 		return array;
 	}
 
-	/*public static void mirrorArrayDiag(int[][] array, boolean tLBR, boolean tRBL) {
+	public static void mirrorArrayDiag(int[][] array, boolean tLBR, boolean tRBL) {
 		if (tLBR) for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
 				array[c][r] = array[r][c];
@@ -693,9 +823,9 @@ public final class Util {
 				array[c][r] = array[array.length-1-r][array[0].length-1-c];
 			}
 		}
-	}*/
+	}
 
-	/*public static void mirrorArray(int[][] array, boolean horz, boolean vert) {//copies top/left into bottom/right
+	public static void mirrorArray(int[][] array, boolean horz, boolean vert) {//copies top/left into bottom/right
 		if (horz) for (int r = 0;r<array.length;r++) {
 			for (int cR = array[0].length-1, cL = 0;cL<=cR;cR--, cL++) {
 				array[r][cR] = array[r][cL];
@@ -706,7 +836,7 @@ public final class Util {
 				array[rR][c] = array[rL][c];
 			}
 		}
-	}*/
+	}
 
 	public static int[][] flipArray(int[][] array, boolean horz, boolean vert) {
 		int[][] refArray = copyArray(array);
@@ -723,14 +853,6 @@ public final class Util {
 			}
 		}
 		return array;
-	}
-
-	public static boolean equalArrays(int[] array1, int[] array2) {
-		if (array1.length!=array2.length) return false;
-		for (int i = 0;i<array1.length;i++) {
-			if (array1[i]!=array2[i]) return false;
-		}
-		return true;
 	}
 
 	public static boolean continuousCheck(int[][] array, int type) {
@@ -832,7 +954,6 @@ public final class Util {
 		mergeSort(aux, a, fromIndex, toIndex, -fromIndex);
 	}
 
-	private static final int INSERTIONSORT_THRESHOLD = 7;
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void mergeSort(Object[] src, Object[] dest, int low, int high, int off) {
 		int length = high-low;

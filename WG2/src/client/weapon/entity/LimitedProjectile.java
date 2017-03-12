@@ -15,7 +15,7 @@ public class LimitedProjectile extends AbstractProjectile {
 
 	@Override
 	public boolean tick() {
-		traveled+=Util.distance(0, 0, dX, dY);
+		traveled+=Util.getDistance(0, 0, dX, dY);
 		opacity = traveled/range/2+0.5f;
 		if (traveled>range) destroyIn = 0;
 		return super.tick();

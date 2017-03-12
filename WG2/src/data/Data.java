@@ -4,8 +4,8 @@ public interface Data {
 	int UPS = 70;//the updates per second
 	boolean DEBUG = true;
 
-//	int BOT_COUNT = 0;
-	int BOT_COUNT = 1;
+	int BOT_COUNT = 0;
+//	int BOT_COUNT = 1;
 //	int BOT_COUNT = 2;
 //	int BOT_COUNT = 3;
 //	int BOT_COUNT = 10;
