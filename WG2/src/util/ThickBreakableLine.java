@@ -1,7 +1,7 @@
 package util;
 
-class ThickBreakableLine {
+class ThickBreakableLine extends BreakableLine {//TODO use for refine path
 
-
+  todo
 
 }
