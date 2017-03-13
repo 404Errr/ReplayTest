@@ -8,6 +8,7 @@ import client.entity.Entity;
 import client.game.Game;
 import client.level.Level;
 import client.player.Player;
+import client.weapon.WeaponEntity;
 import data.GraphicsData;
 import data.TileData;
 import data.WeaponData;

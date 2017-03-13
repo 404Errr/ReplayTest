@@ -13,17 +13,34 @@ public abstract class Weapon implements WeaponData, ControlData, PlayerData {
 		this.owner = owner;
 		this.maxCooldown = maxCooldown;
 		this.length = length;
-		if (this.length==0) this.length = -HALF_PLAYER_SIZE;
+		if (this.length==0) this.length = -HALF_PLAYER_SIZE;//counter the default gun length
 		this.width = width;
 	}
 
+	float toBeFired;
+
 	protected void tick() {
-		if (cooldown>0) cooldown-=COOLDOWN_INCREMENT;
-		else {
-			cooldown = 0;
+		if (maxCooldown<1) {
 			if (owner.getMouseControl(SHOOT_1)) {
-				cooldown = maxCooldown;
-				use();
+				System.out.println(toBeFired);
+				while (toBeFired>=1) {
+					toBeFired--;
+					use();
+				}
+				toBeFired+=COOLDOWN_INCREMENT/maxCooldown;
+			}
+			else {
+				toBeFired = 0;
+			}
+		}
+		else {
+			if (cooldown>0) cooldown-=COOLDOWN_INCREMENT;
+			else {
+				cooldown = 0;
+				if (owner.getMouseControl(SHOOT_1)) {
+					cooldown = maxCooldown;
+					use();
+				}
 			}
 		}
 	}

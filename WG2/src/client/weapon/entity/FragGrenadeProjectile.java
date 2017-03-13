@@ -5,6 +5,7 @@ import java.awt.geom.Line2D;
 
 import client.game.Game;
 import client.level.Level;
+import client.weapon.WeaponEntity;
 import data.Data;
 import data.GraphicsData;
 import data.TileData;
@@ -44,11 +45,11 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 			float speed = Util.getSpread(FRAGGRENADE_SPEED, FRAGGRENADE_SPREAD);
 			float range = Util.getSpread(FRAGGRENADE_RANGE, FRAGGRENADE_SPREAD);
 			float dX = Util.getXComp(a, speed), dY = Util.getYComp(a, speed);
-			Game.addEntity(new LimitedProjectile(FRAGGRENADE_DAMAGE, FRAGGRENADE_RECOIL, FRAGGRENADE_SIZE, range, /*color*/Util.colorOpacity(color, 1f), x+grenadeSize/2, y+grenadeSize/2, dX, dY, true));
+			Game.addEntity(new LimitedProjectile(FRAGGRENADE_DAMAGE, FRAGGRENADE_RECOIL, FRAGGRENADE_SIZE, range, /*color*/Util.colorOpacity(color, 1f), x, y, dX, dY, true));
 		}
 	}
 
-	private void bounce() {//FIXME
+	private void bounce() {
 //		Hitscan contactPointFinder = new Hitscan(0f, 0.2f, Color.magenta, x, y, Util.getAngle(0, 0, dX, dY));
 //		Game.addEntity(contactPointFinder);
 		ScanLine contactPointFinder = new ScanLine(x, y, Util.getAngle(0, 0, dX, dY), TileData.getHitable(SOLID_WALLS));

@@ -1,4 +1,4 @@
-package client.weapon.entity;
+package client.weapon;
 
 import java.awt.Color;
 

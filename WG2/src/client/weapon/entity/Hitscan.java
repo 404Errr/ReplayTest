@@ -7,6 +7,7 @@ import java.util.List;
 import client.entity.Entity;
 import client.game.Game;
 import client.player.Player;
+import client.weapon.WeaponEntity;
 import data.TileData;
 import data.WeaponData;
 import util.ScanLine;

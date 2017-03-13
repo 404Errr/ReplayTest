@@ -11,7 +11,7 @@ public interface TileData {
 	}
 
 	static boolean[][] getNotVisible() {
-		return Util.getBooleanArrayContains(Level.getLayout(), new int[] {'0','s','3','4'}, false);
+		return Util.getBooleanArrayContains(Level.getLayout(), new int[] {'1','5'}, true);
 	}
 
 	static boolean[][] getUseable() {

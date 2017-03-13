@@ -10,6 +10,7 @@ import java.util.Random;
 import client.game.Game;
 import client.level.SpawnPoint;
 import client.level.pathfinding.AStarPathFinder;
+import client.level.pathfinding.RefinePath;
 import client.level.pathfinding.WanderFinder;
 import client.player.Player;
 import data.AIData;
@@ -17,7 +18,6 @@ import data.TileData;
 import util.Util;
 
 public class AIPlayer extends Player implements AIData {
-	private AStarPathFinder pathFinder;
 	private List<Point> currentPath;
 	private Point currentPathGoal, currentTargetPoint;
 
@@ -32,7 +32,6 @@ public class AIPlayer extends Player implements AIData {
 
 	public AIPlayer(Color color, SpawnPoint spawnPoint) {
 		super(color, (float)spawnPoint.getX(), (float)spawnPoint.getY());
-		pathFinder = new AStarPathFinder();
 		currentPath = new LinkedList<>();
 		control = true;
 		selectWeapon((new Random()).nextInt(4));
@@ -160,7 +159,9 @@ public class AIPlayer extends Player implements AIData {
 
 	public void updatePath() {
 		if (currentPathGoal!=null) try {
-			currentPath = pathFinder.getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y, TileData.getUseable());
+//			currentPath = new AStarPathFinder().getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y, TileData.getUseable());
+//			currentPath = RefinePath.refinePath(new AStarPathFinder().getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y, TileData.getUseable()));
+			currentPath = RefinePath.refinePath(new AStarPathFinder().getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y, TileData.getUseable()), 3);
 			if (currentPath.size()>1) currentTargetPoint = currentPath.get(1);
 		}
 		catch (Exception e) {
@@ -180,10 +181,6 @@ public class AIPlayer extends Player implements AIData {
 		currentPath.clear();
 		currentTargetPoint = null;
 		currentPathGoal = null;
-	}
-
-	public AStarPathFinder getPathFinder() {
-		return pathFinder;
 	}
 
 	public List<Point> getCurrentPath() {

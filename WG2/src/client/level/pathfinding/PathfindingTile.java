@@ -4,15 +4,10 @@ import data.MapData;
 import util.Util;
 
 public class PathfindingTile implements MapData {
-	private int c, r, totalCost, distanceCost, nextToWallCost;
+	private int c, r, totalCost, distanceCost, nextToWallCost, dijkstraCost;
 	private boolean diagonal;
 	private PathfindingTile previous;
-	private CurrentList currentList;
 	private boolean[][] useable;
-
-	enum CurrentList {
-		NONE, OPEN, CLOSED
-	}
 
 	public PathfindingTile(int c, int r, boolean[][] useable) {
 		this.c = c;
@@ -21,9 +16,7 @@ public class PathfindingTile implements MapData {
 		if (isUseable()) for (int i = 1;i<AStarPathFinder.WALL_DISTANCE;i++) {
 			if (isNextToWall(i)) nextToWallCost+=AStarPathFinder.WALL_MOVEMENT_COST;
 		}
-		currentList = CurrentList.NONE;
 	}
-
 
 	public int getC() {
 		return c;
@@ -84,15 +77,40 @@ public class PathfindingTile implements MapData {
 		return previousTile.getTotalCost()+((diagonal)?AStarPathFinder.DIAGONAL_MOVEMENT_COST:AStarPathFinder.BASIC_MOVEMENT_COST)+nextToWallCost;
 	}
 
+	public void setDistanceCost(int distanceCost) {
+		this.distanceCost = distanceCost;
+	}
+
 	public void setDistanceCost(PathfindingTile endTile) {
 		distanceCost = (int)(Util.getDistance(c, r, endTile.getC(), endTile.getR())*AStarPathFinder.BASIC_MOVEMENT_COST);
 	}
 
-	public CurrentList getCurrentList() {
-		return currentList;
+	public int getDijkstraCost() {
+		return dijkstraCost;
 	}
 
-	public void setCurrentList(CurrentList currentList) {
-		this.currentList = currentList;
+	public void setDijkstraCost(int dijkstraCost) {
+		this.dijkstraCost = dijkstraCost;
+	}
+
+//	public int calculateDijkstraCost(PathfindingTile previousTile) {
+//		return previousTile.getDijkstraCost()+(int)(Util.getDistance(c, r, previousTile.getC(), previousTile.getR())*AStarPathFinder.BASIC_MOVEMENT_COST);
+//	}
+
+	public void setDijkstraCost(PathfindingTile tile) {
+		this.dijkstraCost = calculateDijkstraCost(tile);
+	}
+
+	public int calculateDijkstraCost(PathfindingTile tile) {
+		return (int)(Util.getDistance(c, r, tile.getC(), tile.getR())*AStarPathFinder.BASIC_MOVEMENT_COST);
 	}
 }
+
+
+
+
+
+
+
+
+
