@@ -19,9 +19,9 @@ public class PathFindingTester implements TileData {
 		try {
 //			lines.add(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()));
 			lines.add(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()));
-			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 2));
-//			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3));
-			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable())));
+//			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 2));
+			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3));
+//			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable())));
 //			linesMaze = new MazePathFinder().getPath(x1, y1, x2, y2);
 //			linesMaze2 = RefinedPathFinder.refinePath(new MazePathFinder().getPath(x1, y1, x2, y2));
 		}

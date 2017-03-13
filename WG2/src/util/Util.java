@@ -231,10 +231,11 @@ public final class Util {
 		return Math.abs(temp1-temp2)<range;
 	}
 	
-	public static <T> void removeBetween(List<T> array, int lower, int upper) {//TODO
+	public static <T> List<T> removeBetween(List<T> array, int lower, int upper) {//TODO
 		for (int i = upper-1;i>lower;i--) {
 			array.remove(i);
 		}
+		return array;
 	}
 
 	public static double getDistance(double x1, double y1, double x2, double y2) {
