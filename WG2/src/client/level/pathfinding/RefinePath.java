@@ -40,11 +40,12 @@ public class RefinePath {
 
 	public static LinkedList<Point> removeLines(List<Point> pathPoints) {
 		if (pathPoints.isEmpty()) return (LinkedList<Point>) pathPoints;
-		for (int i = pathPoints.size()-1;i>1;i--) {
-			if (((pathPoints.get(i).x==pathPoints.get(i-1).x&&pathPoints.get(i).x==pathPoints.get(i-2).x)
-				||(pathPoints.get(i).y==pathPoints.get(i-1).y&&pathPoints.get(i).y==pathPoints.get(i-2).y))
-
-				//diagonal lines TODO
+		for (int i = pathPoints.size()-1;i>=2;i--) {
+			Point p1 = pathPoints.get(i), p2 = pathPoints.get(i-1), pathPpoints.get(i-2);
+			if (p1.x-p2.x==p2.x-p3.x&&p1.y-p2.y==p2.y-p3.y
+				
+				/*((pathPoints.get(i).x==pathPoints.get(i-1).x&&pathPoints.get(i).x==pathPoints.get(i-2).x)
+				||(pathPoints.get(i).y==pathPoints.get(i-1).y&&pathPoints.get(i).y==pathPoints.get(i-2).y))*/
 
 				&&canWalkBetween(pathPoints.get(i), pathPoints.get(i-2))) {
 				pathPoints.remove(i-1);
