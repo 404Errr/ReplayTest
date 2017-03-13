@@ -19,7 +19,7 @@ public interface GraphicsData {
 	boolean DRAW_BOUNCE_HIT = true;
 	boolean DRAW_PROJECTILE_HIT = false;
 
-	int PROJECTIL E_LIFE = 400;//TODO Speed up
+	int PROJECTILE_LIFE = 400;//TODO Speed up
 
 	int HEALTH_BAR_WIDTH = 0;
 

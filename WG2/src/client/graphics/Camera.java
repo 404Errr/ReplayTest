@@ -57,7 +57,11 @@ public class Camera implements GraphicsData {
 	}
 
 	public static void changeScaleRatio(int direction) {//zoom
-		scaleRatio+=Math.signum(direction)*ZOOM_INCREMENT;
+//		scaleRatio+=Math.signum(direction)*ZOOM_INCREMENT;
+		float dScaleRatio = (float) (-Math.signum(direction)*((0.0008f*Math.pow(scaleRatio*ZOOM_INCREMENT, 2)+Math.log(scaleRatio*ZOOM_INCREMENT))*ZOOM_INCREMENT));
+		if (Math.abs(dScaleRatio)<ZOOM_INCREMENT) dScaleRatio = Math.signum(direction)*ZOOM_INCREMENT;
+		scaleRatio+=dScaleRatio;
+		if (scaleRatio<=0) scaleRatio = ZOOM_INCREMENT/2;
 	}
 
 	public static boolean isZoomed() {

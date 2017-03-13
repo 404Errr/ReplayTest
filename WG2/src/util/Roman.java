@@ -13,7 +13,8 @@ public class Roman {
 	}
 
 	private static final TreeMap<Integer, String> numerals = new TreeMap<>();
-	private static final char[] NUMERAL_CHARS = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
+	private static final char[] NUMERAL_CHARS = {'I', 'V', 'X', 'L', 'C', 'D', 'M', 'a', 'b', 'c'};
+//	private static final char[] NUMERAL_CHARS = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
 
 	static {
 		boolean p = true;
@@ -35,6 +36,7 @@ public class Roman {
 	}
 
 	public static int romanToInt(String roman) {
+		roman = roman.toUpperCase();
 		int number = fromRoman(roman);
 		if (number==-1) throw new IllegalArgumentException("\""+roman+"\" is invalid");
 		return number;

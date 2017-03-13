@@ -12,13 +12,15 @@ public class PathFindingTester implements TileData {
 	public static int x1, y1, x2, y2;
 	public static List<LinkedList<Point>> lines = new ArrayList<>();
 	public static final Color[] COLORS = {Color.BLUE, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.RED, Color.ORANGE, Color.YELLOW};
-
+	public static final float OPACITY = 0.75f;
+	
 	public static void find() {
 		lines = new ArrayList<>();
 		try {
 //			lines.add(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()));
 			lines.add(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()));
-			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3));
+			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 2));
+//			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3));
 			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable())));
 //			linesMaze = new MazePathFinder().getPath(x1, y1, x2, y2);
 //			linesMaze2 = RefinedPathFinder.refinePath(new MazePathFinder().getPath(x1, y1, x2, y2));
