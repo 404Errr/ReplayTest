@@ -22,10 +22,9 @@ public class RefinePath {
 		return RefinePath.removeLines(pathPoints);
 	}
 
-	public static LinkedList<Point> refinePath(List<Point> pathPoints, int buffer) {
+	public static LinkedList<Point> refine Path(List<Point> pathPoints, int buffer) {
 		if (buffer<1) return refinePath(pathPoints);
 		if (pathPoints.isEmpty()) return (LinkedList<Point>) pathPoints;
-//		if (canWalkBetween(pathPoints.get(0), pathPoints.get(pathPoints.size()-1))) return new LinkedList<>(Arrays.asList(pathPoints.get(0), pathPoints.get(pathPoints.size()-1)));
 		for (int i = pathPoints.size()-1;i>buffer*2-1;i--) {
 			if (canWalkBetween(pathPoints.get(i), pathPoints.get(i-buffer*2))) {
 				pathPoints.remove(i-buffer);
@@ -53,6 +52,8 @@ public class RefinePath {
 		PathLine pathLine = new PathLine(p1.x+0.5f, p1.y+0.5f, p2.x+0.5f, p2.y+0.5f);
 		return !pathLine.isBroken();
 	}
+	
+	
 }
 
 class PathLine extends BreakableLine {

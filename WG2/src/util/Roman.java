@@ -5,7 +5,6 @@ import java.util.TreeMap;
 
 public class Roman {
 	public static void main(String[] args) {
-
 		for (int i = 4999;i>0;i--) {
 			String roman = intToRoman(i);
 			System.out.println(i+"\t"+roman+"\t"+romanToInt(roman));
@@ -13,8 +12,7 @@ public class Roman {
 	}
 
 	private static final TreeMap<Integer, String> numerals = new TreeMap<>();
-	private static final char[] NUMERAL_CHARS = {'I', 'V', 'X', 'L', 'C', 'D', 'M', 'a', 'b', 'c'};
-//	private static final char[] NUMERAL_CHARS = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
+	private static final char[] NUMERAL_CHARS = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
 
 	static {
 		boolean p = true;

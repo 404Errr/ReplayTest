@@ -226,7 +226,15 @@ public final class Util {
 
 	public static boolean withinAngle(float a1, float a2, float range) {//radians, radians, degrees//FIXME
 		double temp1 = Math.toDegrees(a1), temp2 = Math.toDegrees(a2);
+		while (temp1>180) temp1-=360;
+		while (temp2>180) temp2-=360;
 		return Math.abs(temp1-temp2)<range;
+	}
+	
+	public static <T> void removeBetween(List<T> array, int lower, int upper) {//TODO
+		for (int i = upper-1;i>lower;i--) {
+			array.remove(i);
+		}
 	}
 
 	public static double getDistance(double x1, double y1, double x2, double y2) {
