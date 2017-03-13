@@ -1,7 +1,7 @@
 package util;
 
-class ThickBreakableLine extends BreakableLine {//TODO use for refine path
-
+class ImpulseBreakableLine extends BreakableLine {
+  only tests once
   todo
 
 }
