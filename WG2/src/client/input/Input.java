@@ -119,16 +119,17 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			case KeyEvent.VK_X:
 				PathFindingTester.set2(Cursor.getTileX(), Cursor.getTileY());
 				break;
-			case KeyEvent.VK_SHIFT:
-				if (e.getKeyLocation()==KeyEvent.KEY_LOCATION_RIGHT) {
-					try {
-						PathFindingTester.find();
-					}
-					catch (Exception e1) {}
+			case KeyEvent.VK_C:
+				try {
+					PathFindingTester.find();
 				}
-				else Game.getPlayer().setHighPowerGrenade(true);
+				catch (Exception e1) {}
 				break;
 
+			case KeyEvent.VK_SHIFT:
+				Game.getPlayer().setHighPowerGrenade(true);
+				break;
+				
 			case KeyEvent.VK_1:
 				Game.getPlayer().selectWeapon(0);
 				break;
@@ -277,8 +278,8 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		if (!e.isControlDown()) {
-			if (e.getWheelRotation()>0) Camera.changeScaleRatio(-1);//zoom out
-			else Camera.changeScaleRatio(1);//zoom in
+			if (e.getWheelRotation()>0) Camera.changeScaleRatio(Camera.OUT);//zoom out
+			else Camera.changeScaleRatio(Camera.IN);//zoom in
 			Camera.updateScale();
 		}
 		else if (!Edit.editMode) {

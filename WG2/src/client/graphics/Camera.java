@@ -9,6 +9,9 @@ public class Camera implements GraphicsData {
 	private static boolean zoom;
 	private static float scale;
 
+	public static final int IN = 1, OUT = -1;
+	private static final int SMART_ZOOM_START = 40;
+	
 	public static void init() {
 		scaleRatio = DEFAULT_SCALE_RATIO;
 	}
@@ -22,9 +25,10 @@ public class Camera implements GraphicsData {
 		}
 	}
 
-	public static void updateScale() {//can go below 0 (potential bug)
-		scale = (int)(Math.min(Window.getFrame().getWidth(), Window.getFrame().getHeight())*Camera.getScaleRatio());
+	public static void updateScale() {
+		scale = Window.getFrame().getHeight()*Camera.getScaleRatio();
 		if (scale%2==0) scale+=1;
+		System.out.println(scale);
 	}
 
 	public static int getScale() {
@@ -57,11 +61,10 @@ public class Camera implements GraphicsData {
 	}
 
 	public static void changeScaleRatio(int direction) {//zoom
-//		scaleRatio+=Math.signum(direction)*ZOOM_INCREMENT;
-		float dScaleRatio = (float) (-Math.signum(direction)*((0.0008f*Math.pow(scaleRatio*ZOOM_INCREMENT, 2)+Math.log(scaleRatio*ZOOM_INCREMENT))*ZOOM_INCREMENT));
-		if (Math.abs(dScaleRatio)<ZOOM_INCREMENT) dScaleRatio = Math.signum(direction)*ZOOM_INCREMENT;
+		float dScaleRatio = direction*ZOOM_INCREMENT;
+		if (scale>SMART_ZOOM_START) dScaleRatio = (float) (-direction*((0.0008f*Math.pow(1/scale, 2)+Math.log(1/scale))*ZOOM_INCREMENT));
 		scaleRatio+=dScaleRatio;
-		if (scaleRatio<=0) scaleRatio = ZOOM_INCREMENT/2;
+		System.out.println("scale "+scale+"\tscale ratio "+scaleRatio+"\tdscaleratio "+dScaleRatio);
 	}
 
 	public static boolean isZoomed() {
