@@ -6,22 +6,34 @@ import java.util.List;
 
 import util.Util;
 
-public class AStarPathFinder {
+public class AStarPathFinder extends PathFinder {
 	public static final int BASIC_MOVEMENT_COST = 10;//10
 	public static final int DIAGONAL_MOVEMENT_COST = 14;//14
-	public static final int WALL_MOVEMENT_COST = 12;//12 additional cost if near a wall (avoid collisions)
+	public static final int WALL_MOVEMENT_COST = 12;//12 additional cost if near a wall
 	public static final int WALL_DISTANCE = 2;//2 max distance to walls it checks
 
 	private List<PathfindingTile> openList, closedList;
 	private PathfindingTile[][] tiles;
 	boolean[][] useableTiles;
 
-	public LinkedList<Point> getPath(int x1, int y1, int x2, int y2, boolean[][] useableTiles) {
+	private List<Point> currentPath;
+
+	public AStarPathFinder() {
+		this.currentPath = new LinkedList<>();
+	}
+
+	public void setPath(int x1, int y1, int x2, int y2, boolean[][] useableTiles) {
+		this.useableTiles = useableTiles;
+		Thread finder = new Thread(new FinderThread(x1, y1, x2, y2), "AStar");
+		finder.start();
+	}
+
+	@Override
+	public synchronized LinkedList<Point> getPath(int x1, int y1, int x2, int y2, boolean[][] useableTiles) {
 		List<Point> pathPoints = new LinkedList<>();
 		if (!Util.inArrayBounds(x1, y1, useableTiles)||!Util.inArrayBounds(x2, y2, useableTiles)||!useableTiles[y1][x1]||!useableTiles[y2][x2]) {
 			return (LinkedList<Point>) pathPoints;
 		}
-		this.useableTiles = useableTiles;
 		tiles = new PathfindingTile[useableTiles.length][useableTiles[0].length];
 		for (int r = 0;r<useableTiles.length;r++) {
 			for (int c = 0;c<useableTiles[0].length;c++) {
@@ -35,7 +47,7 @@ public class AStarPathFinder {
 		return (LinkedList<Point>) pathPoints;
 	}
 
-	public List<PathfindingTile> findPath(int iC, int iR, int fC, int fR) {
+	public synchronized List<PathfindingTile> findPath(int iC, int iR, int fC, int fR) {
 		closedList = new LinkedList<>();
 		openList = new LinkedList<>();
 		openList.add(tiles[iR][iC]);//add first
@@ -68,7 +80,7 @@ public class AStarPathFinder {
 		return new LinkedList<>();//no path exists; return empty list
 	}
 
-	private List<PathfindingTile> calcPath(PathfindingTile start, PathfindingTile goal) {//starts at goal, doesnt include start
+	private synchronized List<PathfindingTile> calcPath(PathfindingTile start, PathfindingTile goal) {//starts at goal, doesnt include start
 		LinkedList<PathfindingTile> path = new LinkedList<>();
 		PathfindingTile curr = goal;
 		while (true) {
@@ -79,7 +91,7 @@ public class AStarPathFinder {
 		return path;
 	}
 
-	private PathfindingTile getLowestCombinedInOpen() {
+	private synchronized PathfindingTile getLowestCombinedInOpen() {
 		PathfindingTile min = openList.get(0);
 		for (int i = 0;i<openList.size();i++) {
 			if (openList.get(i).getCombinedCosts()<min.getCombinedCosts()) {
@@ -89,7 +101,7 @@ public class AStarPathFinder {
 		return min;
 	}
 
-	private List<PathfindingTile> getAdjacents(PathfindingTile tile) {
+	private synchronized List<PathfindingTile> getAdjacents(PathfindingTile tile) {
 		int c = tile.getC(), r = tile.getR();
 		List<PathfindingTile> adjacent = new LinkedList<>();
 		PathfindingTile temp;
@@ -151,4 +163,25 @@ public class AStarPathFinder {
 		}
 		return adjacent;
 	}
+
+	public List<Point> getCurrentPath() {
+		return currentPath;
+	}
+
+	class FinderThread implements Runnable{
+		private int x1, y1, x2, y2;
+
+		public FinderThread(int x1, int y1, int x2, int y2) {
+			this.x1 = x1;
+			this.y1 = y1;
+			this.x2 = x2;
+			this.y2 = y2;
+		}
+
+		@Override
+		public void run() {
+			currentPath = AStarPathFinder.this.getPath(x1, y1, x2, y2, useableTiles);
+		}
+	}
 }
+

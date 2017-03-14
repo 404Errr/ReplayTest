@@ -115,13 +115,13 @@ public class Renderer extends JPanel implements ColorData, Data, PlayerData, Gra
 					g.drawLine(Renderer.gridX(line.getX1()), Renderer.gridY(line.getY1()), Renderer.gridX(line.getX2()), Renderer.gridY(line.getY2()));
 				}
 			}
-			for (int i = 0;i<PathFindingTester.lines.size();i++) drawPath(PathFindingTester.lines.get(i), PathFindingTester.COLORS[i], 2);
+			for (int i = 0;i<PathFindingTester.lines.size();i++) if (PathFindingTester.lines!=null) drawPath(PathFindingTester.lines.get(i), PathFindingTester.COLORS[i], 2);
 			drawPathDots();
 		}
 	}
 
 	private void drawPath(List<Point> lines, Color color, int size) {
-		if (Debug.isDrawDebugPathfinding()&&!Edit.editMode) {
+		if (lines!=null&&Debug.isDrawDebugPathfinding()&&!Edit.editMode) {
 			Renderer.getG().setColor(Util.colorOpacity(color, PathFindingTester.OPACITY));
 			Renderer.getG().setStroke(new BasicStroke(size));
 			for (int i = 1;i<lines.size();i++) {

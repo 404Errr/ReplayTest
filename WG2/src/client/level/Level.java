@@ -43,6 +43,7 @@ public class Level implements MapData, TileData {
 		}
 //		else layout = LayoutGenerator.generate(6, 6);
 		createSpawnPoints(layout);
+//		PathFindingTester.init();
 		createTiles();
 	}
 

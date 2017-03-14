@@ -4,28 +4,30 @@ import java.awt.Point;
 import java.util.LinkedList;
 import java.util.List;
 
-import client.level.Level;
-import data.TileData;
+import util.Util;
 
 
-public class MazePathFinder {
+public class MazePathFinder extends PathFinder {
 	private boolean[][] looked;
 	List<Point> path;
+	private boolean[][] useableTiles;
 
-	List<Point> getPath(int x1, int y1, int x2, int y2) {
+	@Override
+	public LinkedList<Point> getPath(int x1, int y1, int x2, int y2, boolean[][] useableTiles) {
+		this.useableTiles = useableTiles;
 		path = new LinkedList<>();
-		looked = new boolean[Level.getHeight()][Level.getWidth()];
+		looked = new boolean[useableTiles.length][useableTiles[0].length];
 		solvePath(x1, y1, x2, y2);
 		path.add(new Point(x2, y2));
-		return path;
+		return (LinkedList<Point>) path;
 	}
 
 	private boolean usable(int c, int r) {
-		return !looked[r][c]&&!Level.getTile(c, r).isSolid(TileData.SOLID_WALLS);
+		return Util.inArrayBounds(c, r, useableTiles)&&!looked[r][c]&&useableTiles[r][c];
 	}
 
 	private boolean solvePath(int c, int r, int endC, int endR) {
-		if(!(r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth())) return false;
+		if(!Util.inArrayBounds(c, r, useableTiles)) return false;
 		if (r==endR&&c==endC) return true;
 		looked[r][c] = true;
 		Point point = new Point(c, r);
@@ -38,4 +40,6 @@ public class MazePathFinder {
 		path.remove(point);
 		return false;
 	}
+
+
 }

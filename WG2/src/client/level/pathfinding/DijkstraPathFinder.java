@@ -6,7 +6,7 @@ import java.util.List;
 
 import util.Util;
 
-public class DijkstraPathFinder {
+public class DijkstraPathFinder extends PathFinder {
 	public static final int BASIC_MOVEMENT_COST = 10;//10
 	public static final int DIAGONAL_MOVEMENT_COST = 14;//14
 	public static final int WALL_MOVEMENT_COST = 12;//12 additional cost if near a wall (avoid collisions)
@@ -16,17 +16,18 @@ public class DijkstraPathFinder {
 	private PathfindingTile[][] tiles;
 	boolean[][] useableTiles;
 
-	public List<Point> getPath(int x1, int y1, int x2, int y2, boolean[][] useableTiles) {
+	@Override
+	public LinkedList<Point> getPath(int x1, int y1, int x2, int y2, boolean[][] useableTiles) {
 		List<Point> pathPoints = new LinkedList<>();
 		if (!Util.inArrayBounds(x1, y1, useableTiles)||!Util.inArrayBounds(x2, y2, useableTiles)||!useableTiles[y1][x1]||!useableTiles[y2][x2]) {
-			return pathPoints;
+			return (LinkedList<Point>) pathPoints;
 		}
 		this.useableTiles = useableTiles;
 		List<PathfindingTile> path = findPath(x1, y1, x2, y2);
 		for (PathfindingTile tileNode:path) {
 			pathPoints.add(new Point(tileNode.getC(), tileNode.getR()));
 		}
-		return pathPoints;
+		return (LinkedList<Point>) pathPoints;
 	}
 
 	public List<PathfindingTile> findPath(int iC, int iR, int fC, int fR) {

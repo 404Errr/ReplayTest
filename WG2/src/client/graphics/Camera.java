@@ -5,16 +5,9 @@ import client.input.Cursor;
 import data.GraphicsData;
 
 public class Camera implements GraphicsData {
-	private static float x, y, scaleRatio;
+	private static float x, y, scaleRatio = DEFAULT_SCALE_RATIO;
 	private static boolean zoom;
 	private static float scale;
-
-	public static final int IN = 1, OUT = -1;
-	private static final int SMART_ZOOM_START = 40;
-	
-	public static void init() {
-		scaleRatio = DEFAULT_SCALE_RATIO;
-	}
 
 	public static void tick() {
 		if (zoom) {
@@ -28,7 +21,6 @@ public class Camera implements GraphicsData {
 	public static void updateScale() {
 		scale = Window.getFrame().getHeight()*Camera.getScaleRatio();
 		if (scale%2==0) scale+=1;
-		System.out.println(scale);
 	}
 
 	public static int getScale() {
@@ -39,15 +31,15 @@ public class Camera implements GraphicsData {
 		Camera.x = x;
 		Camera.y = y;
 	}
-	
+
 	public static float getX() {
 		return x;
 	}
-	
+
 	public static float getY() {
 		return y;
 	}
-	
+
 	public static int getXTile() {
 		return Math.round(getX());
 	}
@@ -60,11 +52,12 @@ public class Camera implements GraphicsData {
 		return scaleRatio;
 	}
 
+	public static final int IN = 1, OUT = -1;
+	private static final int SMART_ZOOM_START = 70;
 	public static void changeScaleRatio(int direction) {//zoom
 		float dScaleRatio = direction*ZOOM_INCREMENT;
-		if (scale>SMART_ZOOM_START) dScaleRatio = (float) (-direction*((0.0008f*Math.pow(1/scale, 2)+Math.log(1/scale))*ZOOM_INCREMENT));
+		if (scale>SMART_ZOOM_START) dScaleRatio = (float) (-direction*((0.002f*Math.pow(1/scale, 2)+Math.log(1/scale))*ZOOM_INCREMENT));
 		scaleRatio+=dScaleRatio;
-		System.out.println("scale "+scale+"\tscale ratio "+scaleRatio+"\tdscaleratio "+dScaleRatio);
 	}
 
 	public static boolean isZoomed() {

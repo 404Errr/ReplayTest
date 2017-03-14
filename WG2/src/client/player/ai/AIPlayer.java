@@ -46,7 +46,7 @@ public class AIPlayer extends Player implements AIData {
 
 	@Override
 	public boolean tick() {
-		updateSightLines();
+		tickSightLines();
 		targetPathPlayer();
 		targetWeaponPlayer();
 		updatePathFinding();
@@ -101,9 +101,9 @@ public class AIPlayer extends Player implements AIData {
 
 	}
 
-	private void updateSightLines() {
+	private void tickSightLines() {
 		for (int i = 0;i<sightLines.size();i++) {
-			sightLines.get(i).update();
+			sightLines.get(i).tick();
 		}
 	}
 
@@ -112,7 +112,7 @@ public class AIPlayer extends Player implements AIData {
 		for (int i = 0;i<Game.getEntities().size();i++) {//assumes there are only players in entities
 			if (this.getColor()!=Game.getEntities().get(i).getColor()) sightLines.add(new SightLine(this, Game.getPlayer(i), TileData.getNotVisible()));
 		}
-		updateSightLines();
+		tickSightLines();
 	}
 
 	@Override

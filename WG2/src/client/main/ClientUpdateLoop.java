@@ -4,6 +4,7 @@ import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Window;
 import client.level.Level;
+import client.weapon.entity.Projectile;
 import data.Data;
 
 public class ClientUpdateLoop implements Data {
@@ -17,10 +18,10 @@ public class ClientUpdateLoop implements Data {
 		currentUpdateTime = 0;
 		while (true) {
 			startTime = System.nanoTime();
-			
+
 			update();//update
 			Window.getRendererer().repaint();//repaint the screen
-			
+
 			wait = (updateSpeed-(System.nanoTime()-startTime))/1000000;
 			currentUpdateTime = UPS-(UPS*((updateSpeed-(System.nanoTime()-startTime))/updateSpeed));
 			if (wait>=1) try {
@@ -32,8 +33,10 @@ public class ClientUpdateLoop implements Data {
 
 	private static void update() {
 		try {
-			for (int i = 0;i<Game.getEntities().size();) {
-				if (Game.getEntities().get(i).tick()) Game.getEntities().remove(i);
+			for (int i = 0;i<Game.getEntities().size();) {//oldest first
+				if (Game.getEntities().get(i).tick()||(Game.getEntities().get(i) instanceof Projectile&&Game.getEntities().size()>MAX_ENTITIES)) {
+					Game.getEntities().remove(i);
+				}
 				else i++;
 			}
 			Level.tick();

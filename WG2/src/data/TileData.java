@@ -18,6 +18,10 @@ public interface TileData {
 		return Util.getBooleanArrayContains(Level.getLayout(), new int[] {'0','s','4'}, true);
 	}
 
+	static boolean[][] getUseable(int[][] layout) {
+		return Util.getBooleanArrayContains(layout, new int[] {'0','s','4'}, true);
+	}
+
 	static boolean[] getSolid(int type) {
 		boolean[] solid = new boolean[2];
 		switch (type) {

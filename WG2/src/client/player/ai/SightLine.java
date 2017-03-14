@@ -3,9 +3,9 @@ package client.player.ai;
 import java.awt.geom.Line2D;
 
 import client.player.Player;
-import util.BreakableLine;
+import util.BreakableLineConstant;
 
-public class SightLine extends BreakableLine {
+public class SightLine extends BreakableLineConstant {
 
 	private Player owner, target;
 	private Line2D line;
@@ -26,10 +26,9 @@ public class SightLine extends BreakableLine {
 	}
 
 	@Override
-	public void update() {
-		setLocation();
-		line.setLine(x1, y1, x2, y2);
-		super.update();
+	public void tick() {
+		super.tick();
+		line.setLine(x1, y1,x2, y2);
 	}
 
 	public Player getOwner() {

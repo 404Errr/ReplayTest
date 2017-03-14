@@ -1,29 +1,21 @@
 package util;
 
-import data.AIData;
-import data.Data;
-import data.PlayerData;
-import data.TileData;
-
-public abstract class BreakableLine implements Data, AIData, TileData, PlayerData {
+public abstract class BreakableLine {
 
 	protected float x1, y1, x2, y2;
 	protected boolean broken;
 	protected boolean[][] breaks;
-
-	public abstract void setLocation();
 
 	public BreakableLine(boolean[][] breaks) {
 		this.breaks = breaks;
 	}
 
 	public BreakableLine(float x1, float y1, float x2, float y2, boolean[][] breaks) {
-		this.breaks = breaks;
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
-		update();
+		broken = isBroken();
 	}
 
 	public boolean setBroken() {
@@ -42,16 +34,6 @@ public abstract class BreakableLine implements Data, AIData, TileData, PlayerDat
 				y1 = y1+sy;
 			}
 		}
-	}
-
-	public boolean tick() {
-		setLocation();
-		update();
-		return isBroken();
-	}
-
-	public void update() {
-		broken = setBroken();
 	}
 
 	public boolean isBroken() {
@@ -73,6 +55,4 @@ public abstract class BreakableLine implements Data, AIData, TileData, PlayerDat
 	public float getY2() {
 		return y2;
 	}
-
-
 }

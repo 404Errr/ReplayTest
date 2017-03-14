@@ -8,8 +8,13 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -230,7 +235,7 @@ public final class Util {
 		while (temp2>180) temp2-=360;
 		return Math.abs(temp1-temp2)<range;
 	}
-	
+
 	public static <T> List<T> removeBetween(List<T> array, int lower, int upper) {//TODO
 		for (int i = upper-1;i>lower;i--) {
 			array.remove(i);
@@ -285,6 +290,23 @@ public final class Util {
 			result+=360;
 		}
 		return result;
+	}
+
+	public static boolean lineIsBrokenByBooleanArray(float x1, float y1, float x2, float y2, boolean[][] breaks) {
+		int dx = Math.abs((int)x2-(int)x1), dy = Math.abs((int)y2-(int)y1), sX = x1<x2?1:-1,  sY = y1<y2?1:-1, err = dx-dy, e2;
+		while (true) {
+			if (Util.inArrayBounds(x1, y1, breaks)&&breaks[(int)y1][(int)x1]) return true;
+			if (x1==x2&&y1==y2) return false;
+			e2 = 2*err;
+			if (e2>-dy) {
+				err = err-dy;
+				x1 = x1+sX;
+			}
+			if (e2<dx) {
+				err = err+dx;
+				y1 = y1+sY;
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -896,6 +918,63 @@ public final class Util {
 		return array;
 	}
 
+	public static String readLineInFileThrows(String path, int line) throws IOException {
+		return Files.readAllLines(Paths.get(path)).get(line);
+	}
+
+	public static String readLineInFile(String path, int line) {
+		try {
+			return Files.readAllLines(Paths.get(path)).get(line);
+		}
+		catch (Exception e) {
+			System.err.println("can't read line "+line+" of file at "+path);
+			e.printStackTrace();
+		}
+		return "";
+//		try {
+//			try (Stream<String> lines = Files.lines(Paths.get(path))) {
+//				return lines.skip(line).findFirst().get();
+//			}
+//		}
+//		catch (Exception e) {
+//			System.err.println("can't read line "+line+" of file at "+path);
+//			e.printStackTrace();
+//		}
+//		return "";
+		//String line32 = Files.readAllLines(Paths.get("file.txt")).get(32)
+		//
+	}
+
+	public static void appendToFile(String path, String toAppend) {
+		try {
+			PrintWriter pw = new PrintWriter(new FileWriter(path, true));
+			pw.write(toAppend);
+			pw.close();
+//			try(FileWriter fw = new FileWriter("outfilename", true);
+//				    BufferedWriter bw = new BufferedWriter(fw);
+//				    PrintWriter out = new PrintWriter(bw))
+//				{
+//				    out.println("the text");
+//				} catch (IOException e) {
+//				}
+//			File fout = new File(path);
+//			FileOutputStream fos = new FileOutputStream(fout);
+//
+//			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+//
+//			for (int i = 0; i < 10; i++) {
+//				bw.write(toAppend);
+//				bw.newLine();
+//			}
+//
+//			bw.close();
+		}
+		catch (Exception e) {
+			System.err.println("can't append to file at "+path);
+			e.printStackTrace();
+		}
+	}
+
 	public static int[][] parseIntArrayFromFile(String path) {
 		String in = Util.fileToString(path);
 		System.out.println(path+" loaded");
@@ -912,7 +991,7 @@ public final class Util {
 				}
 				catch (Exception e) {
 					System.err.println("error at: "+r+","+c);
-					array[r][c] = -1;
+					array[r][c] = 0;
 				}
 			}
 		}
@@ -1507,20 +1586,20 @@ public final class Util {
 		low+=off;
 		high+=off;
 		int mid = (low+high)>>>1;
-			mergeSort(dest, src, low, mid, -off);
-			mergeSort(dest, src, mid, high, -off);
-			if (((Comparable)src[mid-1]).compareTo(src[mid]) <= 0) {
-				System.arraycopy(src, low, dest, destLow, length);
-				return;
+		mergeSort(dest, src, low, mid, -off);
+		mergeSort(dest, src, mid, high, -off);
+		if (((Comparable)src[mid-1]).compareTo(src[mid]) <= 0) {
+			System.arraycopy(src, low, dest, destLow, length);
+			return;
+		}
+		for (int i = destLow, p = low, q = mid;i<destHigh;i++) {
+			if (q>=high||p<mid&&((Comparable)src[p]).compareTo(src[q])<=0) {
+				dest[i] = src[p++];
 			}
-			for (int i = destLow, p = low, q = mid;i<destHigh;i++) {
-				if (q>=high||p<mid&&((Comparable)src[p]).compareTo(src[q])<=0) {
-					dest[i] = src[p++];
-				}
-				else {
-					dest[i] = src[q++];
-				}
+			else {
+				dest[i] = src[q++];
 			}
+		}
 	}
 
 	private static void rangeCheck(int arrayLen, int fromIndex, int toIndex) {

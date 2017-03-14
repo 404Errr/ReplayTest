@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import data.TileData;
-import util.BreakableLine;
 import util.Util;
 
 public class RefinePath {
@@ -37,6 +36,28 @@ public class RefinePath {
 		return RefinePath.removeLines(pathPoints);
 	}
 
+//	public static LinkedList<Point> removeLines(List<Point> pathPoints) {
+//		if (pathPoints.isEmpty()) return (LinkedList<Point>) pathPoints;
+////		for (int k = 0;k<pathPoints.size();k++) {
+//			for (int i = pathPoints.size()-1;i>=2;i--) {
+//				Point p1 = pathPoints.get(i), p2 = pathPoints.get(i-1), p3 = pathPoints.get(i-2);
+//				int slope12 = Integer.MAX_VALUE, slope23 = Integer.MAX_VALUE;
+//				try {
+//					slope12 = (p1.y-p2.y)/(p1.x-p2.x);
+//				}
+//				catch (Exception e) {}
+//				try {
+//					slope23 = (p2.y-p3.y)/(p2.x-p3.x);
+//				}
+//				catch(Exception e) {}
+//				if (slope12==slope23) {
+//					pathPoints.remove(p2);
+//				}
+//			}
+////		}
+//		return (LinkedList<Point>) pathPoints;
+//	}
+
 	public static LinkedList<Point> removeLines(List<Point> pathPoints) {//FIXME add diagonals
 		if (pathPoints.isEmpty()) return (LinkedList<Point>) pathPoints;
 		for (int k = 0;k<pathPoints.size();k++) {
@@ -51,18 +72,10 @@ public class RefinePath {
 	}
 
 	private static boolean canWalkBetween(Point p1, Point p2) {//true if there are no obstacles between p1 and p2
-		PathLine pathLine = new PathLine(p1.x+0.5f, p1.y+0.5f, p2.x+0.5f, p2.y+0.5f);
-		return !pathLine.isBroken();
+		if (Util.lineIsBrokenByBooleanArray(p1.x, p1.y, p2.x, p2.y, Util.negateArray(TileData.getUseable()))) return false;
+		if (Util.lineIsBrokenByBooleanArray(p1.x+1, p1.y, p2.x+1, p2.y, Util.negateArray(TileData.getUseable()))) return false;
+		if (Util.lineIsBrokenByBooleanArray(p1.x, p1.y+1, p2.x, p2.y+1, Util.negateArray(TileData.getUseable()))) return false;
+		if (Util.lineIsBrokenByBooleanArray(p1.x+1, p1.y+1, p2.x+1, p2.y+1, Util.negateArray(TileData.getUseable()))) return false;
+		return true;
 	}
-}
-
-class PathLine extends BreakableLine {
-
-	public PathLine(float x1, float y1, float x2, float y2) {
-		super(x1, y1, x2, y2, Util.negateArray(TileData.getUseable()));
-	}
-
-	@Override
-	public void setLocation() {}
-
 }

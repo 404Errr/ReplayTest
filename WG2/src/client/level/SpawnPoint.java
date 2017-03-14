@@ -48,7 +48,8 @@ public class SpawnPoint extends Point implements MapData {
 	public void tick() {
 		visible = false;
 		for (int i = 0;i<spawnPointVisibilityLines.size();i++) {
-			if (!spawnPointVisibilityLines.get(i).tick()) visible = true;
+			spawnPointVisibilityLines.get(i).tick();
+			if (!spawnPointVisibilityLines.get(i).isBroken()) visible = true;
 		}
 	}
 

@@ -22,6 +22,7 @@ public interface MapData {
 //	String MAP = "small";
 //	String MAP = "AItest1";
 //	String MAP = null;
+//	String MAP = "pretest";
 
 	String PATH = "src/maps/";
 

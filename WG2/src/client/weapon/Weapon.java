@@ -22,7 +22,6 @@ public abstract class Weapon implements WeaponData, ControlData, PlayerData {
 	protected void tick() {
 		if (maxCooldown<1) {
 			if (owner.getMouseControl(SHOOT_1)) {
-				System.out.println(toBeFired);
 				while (toBeFired>=1) {
 					toBeFired--;
 					use();
