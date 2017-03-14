@@ -18,15 +18,29 @@ public class PreGeneratedPathGenerator {
 	}
 
 	public static void generate(String path, String file) {
-		final String suffix = "_nav";
 		final boolean[][] useableTiles = TileData.getUseable(Util.parseIntArrayFromFile(path+file));
-		PathFinder finder = new AStarPathFinder();
+		for (int x1 = 0;x1<useableTiles[0].length;x1++) {
+			for (int y1 = 0;y1<useableTiles.length;y1++) {
+
+			}
+		}
+	}
+
+	class Finder implements Runnable {
+
+		private final int x1, y1;
+		private final boolean[][] useableTiles;
+		private final String path, file, suffix = "_nav";
+
+
+
+		@Override
+		public void run() {
+			PathFinder finder = new AStarPathFinder();
 		LinkedList<Point> generated;
 		String generatedStr;
 		long startTime = System.currentTimeMillis();
-		for (int x1 = 0;x1<useableTiles[0].length;x1++) {
-			for (int y1 = 0;y1<useableTiles.length;y1++) {
-				StringBuilder fileContents = new StringBuilder();
+			StringBuilder fileContents = new StringBuilder();
 				for (int x2 = 0;x2<useableTiles[0].length;x2++) {
 //					StringBuilder log = new StringBuilder();
 					for (int y2 = 0;y2<useableTiles.length;y2++) {
@@ -43,9 +57,38 @@ public class PreGeneratedPathGenerator {
 				write(path+file+suffix+"/", fileContents.toString(), x1, y1);
 //				long timeRemaining = ''
 				System.out.print(y1+", "+x1+"\t"+"-"+", "+"-"+"\t"+(System.currentTimeMillis()-startTime)/1000f+"\n");
-			}
 		}
 	}
+
+//	public static void generate(String path, String file) {
+//		final String suffix = "_nav";
+//		final boolean[][] useableTiles = TileData.getUseable(Util.parseIntArrayFromFile(path+file));
+//		PathFinder finder = new AStarPathFinder();
+//		LinkedList<Point> generated;
+//		String generatedStr;
+//		long startTime = System.currentTimeMillis();
+//		for (int x1 = 0;x1<useableTiles[0].length;x1++) {
+//			for (int y1 = 0;y1<useableTiles.length;y1++) {
+//				StringBuilder fileContents = new StringBuilder();
+//				for (int x2 = 0;x2<useableTiles[0].length;x2++) {
+////					StringBuilder log = new StringBuilder();
+//					for (int y2 = 0;y2<useableTiles.length;y2++) {
+//						generated = null;
+//						generatedStr = "";
+//						if (useableTiles[y1][x1]&&useableTiles[y2][x2]) {
+//							generated = RefinePath.refinePath(finder.getPath(x1, y1, x2, y2, useableTiles));
+//							generatedStr = pointListToString(generated);
+//						}
+//						fileContents.append(generatedStr+"\n");
+////						log.append(y1+", "+x1+"\t"+y2+", "+x2+"\t"+(System.currentTimeMillis()-startTime)/1000f+"\n");
+//					}
+//				}
+//				write(path+file+suffix+"/", fileContents.toString(), x1, y1);
+////				long timeRemaining = ''
+//				System.out.print(y1+", "+x1+"\t"+"-"+", "+"-"+"\t"+(System.currentTimeMillis()-startTime)/1000f+"\n");
+//			}
+//		}
+//	}
 
 	public static void write(String path, String str, int x1, int y1) {
 		try {
