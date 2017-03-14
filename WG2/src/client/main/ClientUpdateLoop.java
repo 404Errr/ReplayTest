@@ -4,6 +4,7 @@ import client.game.Game;
 import client.graphics.Camera;
 import client.graphics.Window;
 import client.level.Level;
+import client.level.pathfinding.PathFindingTester;
 import client.weapon.entity.Projectile;
 import data.Data;
 
@@ -39,7 +40,7 @@ public class ClientUpdateLoop implements Data {
 				}
 				else i++;
 			}
-
+			PathFindingTester.tick();
 			Level.tick();
 			Camera.tick();
 		}
