@@ -52,7 +52,6 @@ public class PathFindingTester implements TileData {
 //			astarr.start();
 //			System.out.println("astar r\t"+(System.currentTimeMillis()-startTime)/1000f);
 			finder.setPath(x1, y1, x2, y2, TileData.getUseable());
-			lines.set(0, (LinkedList<Point>) finder.getCurrentPath());
 
 //			startTime = System.currentTimeMillis();
 //			lines.add(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()));
@@ -94,7 +93,10 @@ public class PathFindingTester implements TileData {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println();
+	}
+
+	public static void tick() {
+		lines.set(0, (LinkedList<Point>) finder.getCurrentPath());
 	}
 
 	public static void set1(int x, int y) {

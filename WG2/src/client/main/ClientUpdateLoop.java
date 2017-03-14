@@ -39,6 +39,7 @@ public class ClientUpdateLoop implements Data {
 				}
 				else i++;
 			}
+
 			Level.tick();
 			Camera.tick();
 		}
