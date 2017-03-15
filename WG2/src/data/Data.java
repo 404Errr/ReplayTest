@@ -4,10 +4,10 @@ public interface Data {
 	int UPS = 70;//the updates per second
 	boolean DEBUG = true;
 
-	int MAX_ENTITIES = 500;
+	int MAX_ENTITIES = 700;
 
-//	int BOT_COUNT = 0;
-	int BOT_COUNT = 1;
+	int BOT_COUNT = 0;
+//	int BOT_COUNT = 1;
 //	int BOT_COUNT = 2;
 //	int BOT_COUNT = 3;
 //	int BOT_COUNT = 10;

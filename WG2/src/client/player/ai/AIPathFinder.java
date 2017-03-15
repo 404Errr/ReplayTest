@@ -22,7 +22,7 @@ public class AIPathFinder {
 	}
 
 	public void refresh() {
-		currentPath = RefinePath.refinePath(finder.getCurrentPath(), 3);
+		currentPath = RefinePath.refinePath(finder.getCurrentPath(), 3/*, 3*/);
 	}
 
 	public LinkedList<Point> getCurrentPath() {

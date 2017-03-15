@@ -185,7 +185,7 @@ public class AStarPathFinder extends PathFinder {
 
 		@Override
 		public void run() {
-			currentPath = RefinePath.refinePath(AStarPathFinder.this.getPath(x1, y1, x2, y2, useableTiles), 3);
+			currentPath = RefinePath.removeLines(AStarPathFinder.this.getPath(x1, y1, x2, y2, useableTiles));
 		}
 	}
 }

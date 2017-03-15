@@ -18,6 +18,7 @@ public class RefinePath {
 				pathPoints.remove(i-1);
 			}
 		}
+		Util.removeRepeatsFromEnds(pathPoints);
 		return RefinePath.removeLines(pathPoints);
 	}
 
@@ -33,30 +34,31 @@ public class RefinePath {
 				pathPoints.remove(i-buffer);
 			}
 		}
+		Util.removeRepeatsFromEnds(pathPoints);
 		return RefinePath.removeLines(pathPoints);
 	}
 
-//	public static LinkedList<Point> removeLines(List<Point> pathPoints) {
-//		if (pathPoints.isEmpty()) return (LinkedList<Point>) pathPoints;
-////		for (int k = 0;k<pathPoints.size();k++) {
-//			for (int i = pathPoints.size()-1;i>=2;i--) {
-//				Point p1 = pathPoints.get(i), p2 = pathPoints.get(i-1), p3 = pathPoints.get(i-2);
-//				int slope12 = Integer.MAX_VALUE, slope23 = Integer.MAX_VALUE;
-//				try {
-//					slope12 = (p1.y-p2.y)/(p1.x-p2.x);
-//				}
-//				catch (Exception e) {}
-//				try {
-//					slope23 = (p2.y-p3.y)/(p2.x-p3.x);
-//				}
-//				catch(Exception e) {}
-//				if (slope12==slope23) {
-//					pathPoints.remove(p2);
-//				}
-//			}
-////		}
-//		return (LinkedList<Point>) pathPoints;
-//	}
+	public static LinkedList<Point> refinePath(List<Point> pathPoints, int buffer, int maxChain) {//TODO
+		if (buffer<1) return refinePath(pathPoints);
+		if (pathPoints.isEmpty()) return (LinkedList<Point>) pathPoints;
+		for (int i = 0;i<buffer;i++) {
+			pathPoints.add(0, pathPoints.get(0));
+			pathPoints.add(pathPoints.get(pathPoints.size()-1));
+		}
+		int chainCount = 0;
+		for (int i = pathPoints.size()-1;i>buffer*2-1;i--) {
+			if (canWalkBetween(pathPoints.get(i), pathPoints.get(i-buffer*2))) {
+				if (chainCount<=maxChain) {
+					pathPoints.remove(i-buffer);
+					chainCount++;
+				}
+				else chainCount = 0;
+			}
+			else chainCount = 0;
+		}
+		Util.removeRepeatsFromEnds(pathPoints);
+		return RefinePath.removeLines(pathPoints);
+	}
 
 	public static LinkedList<Point> removeLines(List<Point> pathPoints) {//FIXME add diagonals
 		if (pathPoints.isEmpty()) return (LinkedList<Point>) pathPoints;

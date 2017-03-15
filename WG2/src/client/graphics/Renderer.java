@@ -115,7 +115,7 @@ public class Renderer extends JPanel implements ColorData, Data, PlayerData, Gra
 					g.drawLine(Renderer.gridX(line.getX1()), Renderer.gridY(line.getY1()), Renderer.gridX(line.getX2()), Renderer.gridY(line.getY2()));
 				}
 			}
-			for (int i = 0;i<PathFindingTester.lines.size();i++) if (PathFindingTester.lines!=null) drawPath(PathFindingTester.lines.get(i), PathFindingTester.COLORS[i], 2);
+			for (int i = PathFindingTester.lines.size()-1;i>=0;i--) if (PathFindingTester.lines!=null) drawPath(PathFindingTester.lines.get(i), PathFindingTester.COLORS[i], 2);
 			drawPathDots();
 		}
 	}

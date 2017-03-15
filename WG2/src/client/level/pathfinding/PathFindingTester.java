@@ -10,16 +10,12 @@ import data.TileData;
 
 public class PathFindingTester implements TileData {
 	public static int x1, y1, x2, y2;
+	public static final Color[] COLORS = {Color.BLUE, Color.RED, Color.GREEN, Color.CYAN, Color.ORANGE, Color.MAGENTA, Color.YELLOW};
+	public static final float OPACITY = 0.75f;
 	public static List<LinkedList<Point>> lines = new ArrayList<>();
 	static {
-		lines.add(new LinkedList<>());
-		lines.add(new LinkedList<>());
-		lines.add(new LinkedList<>());
-		lines.add(new LinkedList<>());
-		lines.add(new LinkedList<>());
+		for (int i = 0;i<COLORS.length;i++) lines.add(new LinkedList<>());
 	}
-	public static final Color[] COLORS = {Color.BLUE, Color.GREEN, Color.CYAN, Color.MAGENTA, Color.RED, Color.ORANGE, Color.YELLOW};
-	public static final float OPACITY = 0.75f;
 
 //	static class AStarFinderThread implements Runnable{
 //		@Override
@@ -51,11 +47,15 @@ public class PathFindingTester implements TileData {
 //			Thread astarr = new Thread(new RefinedAStarFinderThread(), "Refined AStar");
 //			astarr.start();
 //			System.out.println("astar r\t"+(System.currentTimeMillis()-startTime)/1000f);
-			finder.setPath(x1, y1, x2, y2, TileData.getUseable());
 
-//			startTime = System.currentTimeMillis();
-//			lines.add(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()));
-//			System.out.println("astar\t"+(System.currentTimeMillis()-startTime)/1000f);
+			finder.setPath(x1, y1, x2, y2, TileData.getUseable());
+//			finder.setPath(x1, y1, x2, y2);
+
+			lines.set(1, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable())));
+			lines.set(2, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3));
+			lines.set(3, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3, 3));
+			lines.set(4, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3, 4));
+			lines.set(5, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3, 5));
 //
 //			startTime = System.currentTimeMillis();
 //			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3));
@@ -96,7 +96,7 @@ public class PathFindingTester implements TileData {
 	}
 
 	public static void tick() {
-		lines.set(0, (LinkedList<Point>) finder.getCurrentPath());
+		lines.set(0, finder.getCurrentPath());
 	}
 
 	public static void set1(int x, int y) {

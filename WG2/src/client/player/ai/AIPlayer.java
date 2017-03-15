@@ -135,6 +135,11 @@ public class AIPlayer extends Player implements AIData {
 			setMovementControl(DOWN, y<currentTargetPoint.y);
 			setMovementControl(LEFT, x>currentTargetPoint.x);
 			setMovementControl(RIGHT, x<currentTargetPoint.x);
+//			float angle = Util.getAngle(0, 0, currentTargetPoint.x-x, currentTargetPoint.y-y);
+//			float tDX = Util.getXComp(angle);
+//			float tDY = -Util.getYComp(angle);
+//			dX = tDX*PLAYER_SPEED_LIMIT*1/PLAYER_DECCELERATION;
+//			dY = tDY*PLAYER_SPEED_LIMIT*1/PLAYER_DECCELERATION;
 		}
 		else {//doesnt have path
 			setAllMovementControl(false);
@@ -162,9 +167,6 @@ public class AIPlayer extends Player implements AIData {
 			if (getCurrentPath().size()>1) {
 				currentTargetPoint = getCurrentPath().get(1);
 			}
-			System.out.println(getCurrentPath().size());
-			System.out.println(getCurrentPath().get(1));
-
 		}
 		catch (Exception e) {
 			e.printStackTrace();

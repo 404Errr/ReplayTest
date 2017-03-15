@@ -220,18 +220,18 @@ public final class Util {
 		return true;
 	}
 
-	public static boolean withinAngle(float a1, float a2, float range) {//radians, radians, degrees//FIXME
-		double temp1 = Math.toDegrees(a1), temp2 = Math.toDegrees(a2);
+	public static boolean withinAngle(float angle1Rad, float angle2Rad, float rangeDeg) {
+		double temp1 = Math.toDegrees(angle1Rad), temp2 = Math.toDegrees(angle2Rad);
 		while (temp1>180) temp1-=360;
 		while (temp2>180) temp2-=360;
-		return Math.abs(temp1-temp2)<range;
+		return Math.abs(temp1-temp2)<rangeDeg;
 	}
 
-	public static <T> List<T> removeBetween(List<T> array, int lower, int upper) {
+	public static <T> List<T> removeBetween(List<T> list, int lower, int upper) {
 		for (int i = upper-1;i>lower;i--) {
-			array.remove(i);
+			list.remove(i);
 		}
-		return array;
+		return list;
 	}
 
 	public static double getDistance(double x1, double y1, double x2, double y2) {
@@ -283,7 +283,7 @@ public final class Util {
 		return result;
 	}
 
-	public static <T> void removeRepeats(List<T> list) {//TODO test
+	public static <T> void removeRepeats(List<T> list) {
 		for (int i = 0;i<list.size()-1;i++) {
 			for (int j = i+1;j<list.size();j++) {
 				if (list.get(i)==list.get(j)) {
@@ -294,22 +294,20 @@ public final class Util {
 		}
 	}
 
-	public static <T> void removeAdjacentRepeats(List<T> list) {//TODO test
+	public static <T> void removeAdjacentRepeats(List<T> list) {
 		for (int i = list.size()-1;i>0;i--) {
 			if (list.get(i)==list.get(i-1)) list.remove(i);
 		}
 	}
 
-	public static <T> void removeRepeatsFromEnds(List<T> list) {//TODO test
+	public static <T> void removeRepeatsFromEnds(List<T> list) {
 		while (list.size()>1&&list.get(0)==list.get(1)) {
 			list.remove(0);
 		}
 		while (list.size()>1&&list.get(list.size()-1)==list.get(list.size()-2)) {
-			list.remove(list.size());
+			list.remove(list.size()-1);
 		}
 	}
-
-
 
 	public static <T> String combineWithSpace(List<T> list) {
 		return combineWith(" ", list);
@@ -665,10 +663,10 @@ public final class Util {
 		return array;
 	}
 
-	public static <T> void printArray(List<T> array) {
+	public static <T> void printArray(List<T> list) {
 		StringBuilder str = new StringBuilder();
-		for (int i = 0;i<array.size();i++) {
-			str.append(array.get(i)+",");
+		for (int i = 0;i<list.size();i++) {
+			str.append(list.get(i)+",");
 		}
 		str.replace(str.length()-1, str.length(), "\n");
 		System.out.print(str);
@@ -796,10 +794,10 @@ public final class Util {
 		System.out.print(str);
 	}
 
-	public static <T> void printAsCharArray(List<T> array) {
+	public static <T> void printAsCharArray(List<T> list) {
 		StringBuilder str = new StringBuilder();
-		for (int i = 0;i<array.size();i++) {
-			str.append((char)array.get(i)+",");
+		for (int i = 0;i<list.size();i++) {
+			str.append((char)list.get(i)+",");
 		}
 		str.replace(str.length()-1, str.length(), "\n");
 		System.out.print(str);
@@ -985,6 +983,22 @@ public final class Util {
 
 	public static double getYCompDegrees(double angle, double magnitude) {
 		return Math.sin(Math.toRadians(angle))*magnitude;
+	}
+
+	public static float getXComp(float angle) {
+		return (float) Math.cos(angle);
+	}
+
+	public static float getYComp(float angle) {
+		return (float) Math.sin(angle);
+	}
+
+	public static double getXComp(double angle) {
+		return Math.cos(angle);
+	}
+
+	public static double getYComp(double angle) {
+		return Math.sin(angle);
 	}
 
 	public static float getXComp(float angle, float magnitude) {
@@ -1621,21 +1635,21 @@ public final class Util {
 		}
 	}
 
-	public static void weighedShuffle(List<HasWeight> array, float shuffledness) {//0 = completely sorted, 1 = complelety randomized
-		sort(array);
-		for (int i = array.size();i>1;i--) {
-			if (rand.nextFloat()<=shuffledness) swap(array, i-1, rand.nextInt(i/2));
+	public static void weighedShuffle(List<HasWeight> list, float shuffledness) {//0 = completely sorted, 1 = complelety randomized
+		sort(list);
+		for (int i = list.size();i>1;i--) {
+			if (rand.nextFloat()<=shuffledness) swap(list, i-1, rand.nextInt(i/2));
 		}
 	}
 
-	public static <T> void shuffle(List<T> array) {
-		for (int i = array.size();i>1;i--) {
-			swap(array, i-1, rand.nextInt(i));
+	public static <T> void shuffle(List<T> list) {
+		for (int i = list.size();i>1;i--) {
+			swap(list, i-1, rand.nextInt(i));
 		}
 	}
 
-	public static <T> void swap(List<T> array, int i, int j) {
-		array.set(i, array.set(j, array.get(i)));
+	public static <T> void swap(List<T> list, int i, int j) {
+		list.set(i, list.set(j, list.get(i)));
 	}
 
 	public static void swap(Object[] array, int i, int j) {
