@@ -3,14 +3,12 @@ package client.player.ai;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 import client.game.Game;
 import client.level.SpawnPoint;
 import client.level.pathfinding.AStarPathFinder;
-import client.level.pathfinding.RefinePath;
 import client.level.pathfinding.WanderFinder;
 import client.player.Player;
 import data.AIData;
@@ -18,8 +16,10 @@ import data.TileData;
 import util.Util;
 
 public class AIPlayer extends Player implements AIData {
-	private List<Point> currentPath;
+//	private List<Point> currentPath;
 	private Point currentPathGoal, currentTargetPoint;
+
+	private AStarPathFinder pathFinder;
 
 	private List<SightLine> sightLines;
 
@@ -32,7 +32,7 @@ public class AIPlayer extends Player implements AIData {
 
 	public AIPlayer(Color color, SpawnPoint spawnPoint) {
 		super(color, (float)spawnPoint.getX(), (float)spawnPoint.getY());
-		currentPath = new LinkedList<>();
+//		currentPath = new LinkedList<>();
 		control = true;
 		selectWeapon((new Random()).nextInt(4));
 	}
@@ -40,7 +40,7 @@ public class AIPlayer extends Player implements AIData {
 	@Override
 	public void respawn(SpawnPoint spawnPoint) {
 		super.respawn(spawnPoint);
-		stopPathfinding();
+		clearPath();
 		selectWeapon((new Random()).nextInt(4));
 	}
 
@@ -117,35 +117,40 @@ public class AIPlayer extends Player implements AIData {
 
 	@Override
 	protected void turn() {
-		if (currentTargetPlayer!=null) {
+		if (currentTargetPlayer!=null) {//has target
 			getActiveWeapon();
 			sway+=dSway*Util.getSpread(SWAY_B, SWAY_C);
 			if (sway>SWAY_A) dSway = -1;
 			if (sway<-SWAY_A) dSway = 1;
-			if ((int)(Math.random()*SWAY_E)==0) dSway*=-1;
+			if ((int)(Math.random()*SWAY_E)==0) dSway = -dSway;
 			if ((int)(Math.random()*SWAY_D)==0) sway*=0.1f;
 			setFacing((float)(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY())+Math.toRadians(sway)));
-
 //			setFacing(Util.getAngle(x, y, currentTargetPlayer.getX(), currentTargetPlayer.getY()));
 		}
-		else if (Math.abs(dX)+Math.abs(dY)>0.1f) setFacing(Util.getAngle(0, 0, dX, dY));
+		else {//doesnt have target
+			if (Math.abs(dX)+Math.abs(dY)>0.1f) {
+				setFacing(Util.getAngle(0, 0, dX, dY));
+			}
+		}
 	}
 
-	private void controlMovement() {
-		if (currentTargetPoint!=null) {
+	private void controlMovement() {//TODO FIXME
+		if (currentTargetPoint!=null) {//has path
 			setMovementControl(UP, y>currentTargetPoint.y);
 			setMovementControl(DOWN, y<currentTargetPoint.y);
 			setMovementControl(LEFT, x>currentTargetPoint.x);
 			setMovementControl(RIGHT, x<currentTargetPoint.x);
 		}
-		else setAllMovementControl(false);
+		else {//doesnt have path
+			setAllMovementControl(false);
+		}
 	}
 
 	private void updatePathFinding() {
 		boolean wandering;
 		if (currentPathGoal!=null) {
 			if (currentPathGoal.x==getXTile()&&currentPathGoal.y==getYTile()) {//reached goal
-				stopPathfinding();
+				clearPath();
 				wandering = true;
 			}
 			else wandering = false;
@@ -161,8 +166,9 @@ public class AIPlayer extends Player implements AIData {
 		if (currentPathGoal!=null) try {
 //			currentPath = new AStarPathFinder().getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y, TileData.getUseable());
 //			currentPath = RefinePath.refinePath(new AStarPathFinder().getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y, TileData.getUseable()));
-			currentPath = RefinePath.refinePath(new AStarPathFinder().getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y, TileData.getUseable()), 3);
-			if (currentPath.size()>1) currentTargetPoint = currentPath.get(1);
+//			RefinePath.refinePath(new AStarPathFinder().getPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y, TileData.getUseable()), 3);
+			pathFinder.setPath(getXTile(), getYTile(), currentPathGoal.x, currentPathGoal.y, TileData.getUseable());
+			if (pathFinder.getCurrentPath().size()>1) currentTargetPoint = pathFinder.getCurrentPath().get(1);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -177,14 +183,14 @@ public class AIPlayer extends Player implements AIData {
 		currentPathGoal = point;
 	}
 
-	public void stopPathfinding() {
-		currentPath.clear();
+	public void clearPath() {
+		pathFinder.clearCurrentPath();
 		currentTargetPoint = null;
 		currentPathGoal = null;
 	}
 
 	public List<Point> getCurrentPath() {
-		return currentPath;
+		return pathFinder.getCurrentPath();
 	}
 
 	public List<SightLine> getSightLines() {

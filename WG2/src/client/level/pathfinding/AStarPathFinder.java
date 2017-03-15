@@ -165,8 +165,12 @@ public class AStarPathFinder extends PathFinder {
 		return adjacent;
 	}
 
-	public List<Point> getCurrentPath() {
-		return currentPath;
+	public LinkedList<Point> getCurrentPath() {
+		return (LinkedList<Point>) currentPath;
+	}
+
+	public void clearCurrentPath() {
+		currentPath = new LinkedList<>();
 	}
 
 	class FinderThread implements Runnable{
