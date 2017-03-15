@@ -30,6 +30,7 @@ public class AStarPathFinder extends PathFinder {
 
 	@Override
 	public synchronized LinkedList<Point> getPath(int x1, int y1, int x2, int y2, boolean[][] useableTiles) {
+		this.useableTiles = useableTiles;
 		List<Point> pathPoints = new LinkedList<>();
 		if (!Util.inArrayBounds(x1, y1, useableTiles)||!Util.inArrayBounds(x2, y2, useableTiles)||!useableTiles[y1][x1]||!useableTiles[y2][x2]) {
 			return (LinkedList<Point>) pathPoints;
@@ -180,7 +181,7 @@ public class AStarPathFinder extends PathFinder {
 
 		@Override
 		public void run() {
-			currentPath = AStarPathFinder.this.getPath(x1, y1, x2, y2, useableTiles);
+			currentPath = RefinePath.refinePath(AStarPathFinder.this.getPath(x1, y1, x2, y2, useableTiles), 3);
 		}
 	}
 }

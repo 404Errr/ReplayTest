@@ -70,8 +70,8 @@ public class PathFindingTester implements TileData {
 //			System.out.println("pre\t"+(System.currentTimeMillis()-startTime)/1000f);
 
 //			try {
-//				startTime = System.currentTimeMillis();
-//				lines.add(RefinePath.refinePath(PreGeneratedPathFinder.getPath(x1, y1, x2, y2), 3));
+//				long startTime = System.currentTimeMillis();
+//				lines.set(1, RefinePath.refinePath(PreGeneratedPathFinder.getPath(x1, y1, x2, y2), 3));
 //				System.out.println("pre\t"+(System.currentTimeMillis()-startTime)/1000f);
 //			}
 //			catch (Exception e) {

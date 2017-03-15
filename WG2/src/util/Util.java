@@ -1515,13 +1515,13 @@ public final class Util {
 		return orientations;
 	}
 
-	public interface HasWeight extends Comparable<HasWeight> {
+	public interface HasWeight extends Comparable<HasWeight> {//for weighedShuffle
 		public float getWeight();
 
 		@Override
 		default int compareTo(HasWeight other) {
 			if (getWeight()==other.getWeight()) return 0;
-			return (getWeight()>other.getWeight())?-1:1;//higher weight -1
+			return (getWeight()>other.getWeight())?-1:1;//-1 if higher weight (closer to beginning)
 		}
 	}
 
@@ -1560,14 +1560,12 @@ public final class Util {
 	}
 
 	public static void sort(Object[] a) {
-		Object[] aux = a.clone();
-		mergeSort(aux, a, 0, a.length, 0);
+		mergeSort(a.clone(), a, 0, a.length, 0);
 	}
 
 	public static void sort(Object[] a, int fromIndex, int toIndex) {
 		rangeCheck(a.length, fromIndex, toIndex);
-		Object[] aux = copyOfRange(a, fromIndex, toIndex);
-		mergeSort(aux, a, fromIndex, toIndex, -fromIndex);
+		mergeSort(copyOfRange(a, fromIndex, toIndex), a, fromIndex, toIndex, -fromIndex);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -1581,8 +1579,7 @@ public final class Util {
 			}
 			return;
 		}
-		int destLow  = low;
-		int destHigh = high;
+		int destLow  = low, destHigh = high;
 		low+=off;
 		high+=off;
 		int mid = (low+high)>>>1;
