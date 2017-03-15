@@ -51,11 +51,11 @@ public class PathFindingTester implements TileData {
 			finder.setPath(x1, y1, x2, y2, TileData.getUseable());
 //			finder.setPath(x1, y1, x2, y2);
 
-			lines.set(1, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable())));
-			lines.set(2, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3));
-			lines.set(3, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3, 3));
-			lines.set(4, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3, 4));
-			lines.set(5, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3, 5));
+//			lines.set(1, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable())));
+//			lines.set(2, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3));
+//			lines.set(3, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3, 3));
+//			lines.set(4, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3, 4));
+//			lines.set(5, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3, 5));
 //
 //			startTime = System.currentTimeMillis();
 //			lines.add(RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3));

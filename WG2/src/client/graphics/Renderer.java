@@ -125,6 +125,7 @@ public class Renderer extends JPanel implements ColorData, Data, PlayerData, Gra
 			Renderer.getG().setColor(Util.colorOpacity(color, PathFindingTester.OPACITY));
 			Renderer.getG().setStroke(new BasicStroke(size));
 			for (int i = 1;i<lines.size();i++) {
+				Renderer.getG().setColor(Util.colorOpacity(PathFindingTester.COLORS[i%2], PathFindingTester.OPACITY));
 				Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
 			}
 		}

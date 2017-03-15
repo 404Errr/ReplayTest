@@ -60,14 +60,12 @@ public class RefinePath {
 		return RefinePath.removeLines(pathPoints);
 	}
 
-	public static LinkedList<Point> removeLines(List<Point> pathPoints) {//FIXME add diagonals
+	public static LinkedList<Point> removeLines(List<Point> pathPoints) {
 		if (pathPoints.isEmpty()) return (LinkedList<Point>) pathPoints;
-		for (int k = 0;k<pathPoints.size();k++) {
-				for (int i = pathPoints.size()-1;i>=2;i--) {
-				Point p1 = pathPoints.get(i), p2 = pathPoints.get(i-1), p3 = pathPoints.get(i-2);
-				if (((p1.x==p2.x&&p2.x==p3.x)||(p1.y==p2.y&&p2.y==p3.y))) {
-					pathPoints.remove(p2);
-				}
+		for (int i = pathPoints.size()-1;i>1;i--) {
+			Point p1 = pathPoints.get(i), p2 = pathPoints.get(i-1), p3 = pathPoints.get(i-2);
+			if (Util.getAngle(p1.x, p1.y, p2.x, p2.y)==Util.getAngle(p2.x, p2.y, p3.x, p3.y)) {
+				pathPoints.remove(i-1);
 			}
 		}
 		return (LinkedList<Point>) pathPoints;

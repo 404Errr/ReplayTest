@@ -928,12 +928,20 @@ public final class Util {
 		return min;
 	}
 
-	public static double getAngle(double x, double y, double xT, double yT) {
-		return Math.atan2(x-xT, y-yT)+1.57079632679d;
+	public static double getAngle(double x, double y) {
+		return Math.atan2(-x, -y)+1.57079632679d;
 	}
 
-	public static float getAngle(float x, float y, float xT, float yT) {
-		return (float)(Math.atan2(x-xT, y-yT)+1.57079632679d);
+	public static float getAngle(float x, float y) {
+		return (float)(Math.atan2(-x, -y)+1.57079632679d);
+	}
+
+	public static double getAngle(double x1, double y1, double x2, double y2) {
+		return Math.atan2(x1-x2, y1-y2)+1.57079632679d;
+	}
+
+	public static float getAngle(float x1, float y1, float x2, float y2) {
+		return (float)(Math.atan2(x1-x2, y1-y2)+1.57079632679d);
 	}
 
 	public static double getSpread(double value, double spread) {
