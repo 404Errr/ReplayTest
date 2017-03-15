@@ -1,9 +1,6 @@
 package data;
 
 public interface WeaponData {
-	boolean ALL_GUNS_AT_START = true, RECOIL = false, DAMAGE = false;
-	int STARTING_GUN = 0;
-
 	float WEAPON_SWITCH_COOLDOWN = 30f;
 
 	float BASICGUN_LEGNTH = 0.4f;
@@ -37,7 +34,7 @@ public interface WeaponData {
 	float MACHINEGUN_RECOIL = 0.01f;
 //	float MACHINEGUN_COOLDOWN = 1f;
 	float MACHINEGUN_COOLDOWN = 0.25f;
-	float MACHINEGUN_DAMAGE = 0.04f;
+	float MACHINEGUN_DAMAGE = 0.01f;
 
 	float RAILGUN_LEGNTH = 2.3f;
 	float RAILGUN_WIDTH = 0.2f;

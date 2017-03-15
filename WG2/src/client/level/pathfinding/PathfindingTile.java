@@ -97,12 +97,12 @@ public class PathfindingTile implements MapData {
 //		return previousTile.getDijkstraCost()+(int)(Util.getDistance(c, r, previousTile.getC(), previousTile.getR())*AStarPathFinder.BASIC_MOVEMENT_COST);
 //	}
 
-	public void setDijkstraCost(PathfindingTile tile) {
-		this.dijkstraCost = calculateDijkstraCost(tile);
+	public void setDijkstraCost(int x, int y) {
+		this.dijkstraCost = calculateDijkstraCost(x, y);
 	}
 
-	public int calculateDijkstraCost(PathfindingTile tile) {
-		return (int)(Util.getDistance(c, r, tile.getC(), tile.getR())*AStarPathFinder.BASIC_MOVEMENT_COST);
+	public int calculateDijkstraCost(int x, int y) {
+		return (int)(Util.getDistance(c, r, x, y)*AStarPathFinder.BASIC_MOVEMENT_COST);
 	}
 }
 

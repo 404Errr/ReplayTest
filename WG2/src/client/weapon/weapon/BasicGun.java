@@ -18,7 +18,7 @@ public class BasicGun extends Weapon implements WeaponData {
 		float angle = Util.getAngleSpread(owner.getFacing(), BASICGUN_COF), speed = Util.getSpread(BASICGUN_SPEED, BASICGUN_SPEED_SPREAD);
 		float dX = owner.getdX()+Util.getXComp(angle, speed), dY = owner.getdY()-Util.getYComp(angle, speed);
 		Game.addEntity(new Projectile(BASICGUN_DAMAGE, BASICGUN_RECOIL, BASICGUN_SIZE, owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
-		owner.recoil(Util.getAngle(0, 0, dX, dY), -BASICGUN_RECOIL);
+		owner.recoil(Util.getAngle(dX, dY), -BASICGUN_RECOIL);
 	}
-	
+
 }

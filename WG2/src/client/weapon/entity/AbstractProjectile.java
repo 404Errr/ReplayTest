@@ -53,7 +53,7 @@ public abstract class AbstractProjectile extends WeaponEntity implements TileDat
 	protected void lastMove() {
 		x-=dX;
 		y-=dY;
-		ScanLine finder = new ScanLine(x+size/2, y+size/2, Util.getAngle(0, 0, dX, dY), TileData.getHitable(SOLID_PROJECTILES));
+		ScanLine finder = new ScanLine(x+size/2, y+size/2, Util.getAngle(dX, dY), TileData.getHitable(SOLID_PROJECTILES));
 		x = finder.getfX()-size/2;
 		y = finder.getfY()-size/2;
 	}
@@ -83,7 +83,7 @@ public abstract class AbstractProjectile extends WeaponEntity implements TileDat
 		for (int i = 0;i<entities.size();i++) {
 			if (entities.get(i) instanceof Player&&((Player) entities.get(i)).getColor()!=color&&((Player) entities.get(i)).getBounds().intersectsLine(hitline)) {
 				damage((Player) entities.get(i));
-				((Player) entities.get(i)).recoil(Util.getAngle(0, 0, dX, dY), recoil);
+				((Player) entities.get(i)).recoil(Util.getAngle(dX, dY), recoil);
 				destroyIn = 0;//destory now
 			}
 		}

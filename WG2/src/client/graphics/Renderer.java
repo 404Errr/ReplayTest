@@ -51,9 +51,9 @@ public class Renderer extends JPanel implements ColorData, Data, PlayerData, Gra
 			if (Edit.editMode) Edit.drawSelected();
 
 			if (!Edit.editMode&&Debug.isSpawnPointVisibilityLines()) for (int i = 0;i<Level.getSpawnPoints().size();i++) {
-				if (Level.getSpawnPoints().get(i).isVisible()) g.setColor(Util.colorOpacity(Color.GREEN, 0.25f));
+				if (!Level.getSpawnPoints().get(i).isVisible()) g.setColor(Util.colorOpacity(Color.GREEN, 0.25f));
 				else g.setColor(Util.colorOpacity(Color.RED, 0.1f));
-				g.fillOval(gridX(Level.getSpawnPoints().get(i).x+0.4f), gridY(Level.getSpawnPoints().get(i).y+0.4f), (int) (Camera.getScale()*0.2f), (int) (Camera.getScale()*0.2f));
+				g.fillOval(gridX(Level.getSpawnPoints().get(i).x+0.2f), gridY(Level.getSpawnPoints().get(i).y+0.2f), (int) (Camera.getScale()*0.6f), (int) (Camera.getScale()*0.6f));
 				g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/4));
 				g.setColor(COLOR_DEBUG_GREEN);
 				g.drawString(Level.getSpawnPoints().get(i).getSafetyRating(null)+"", gridX(Level.getSpawnPoints().get(i).x+0.35f), gridY(Level.getSpawnPoints().get(i).y+0.8f));
@@ -125,7 +125,7 @@ public class Renderer extends JPanel implements ColorData, Data, PlayerData, Gra
 			Renderer.getG().setColor(Util.colorOpacity(color, PathFindingTester.OPACITY));
 			Renderer.getG().setStroke(new BasicStroke(size));
 			for (int i = 1;i<lines.size();i++) {
-				Renderer.getG().setColor(Util.colorOpacity(PathFindingTester.COLORS[i%2], PathFindingTester.OPACITY));
+//				Renderer.getG().setColor(Util.colorOpacity(PathFindingTester.COLORS[i%2], PathFindingTester.OPACITY));
 				Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
 			}
 		}
@@ -219,6 +219,7 @@ public class Renderer extends JPanel implements ColorData, Data, PlayerData, Gra
 				if (r>=0&&c>=0&&r<Level.getHeight()&&c<Level.getWidth()) {
 					if (Level.getTile(c, r).getColor()!=null) {
 						g.setColor(Level.getTile(c, r).getColor());
+//						if (!canSee((int) Game.getPlayer().getX(), (int) Game.getPlayer().getY(), new Point(c, r))) g.setColor(Color.BLACK);
 						g.fillRect(gridX(c), gridY(r), Camera.getScale(), Camera.getScale());
 					}
 					else if (Edit.editMode) {
@@ -241,9 +242,14 @@ public class Renderer extends JPanel implements ColorData, Data, PlayerData, Gra
 		}
 	}
 
+//	public static boolean canSee(float x, float y, Point p) {//true if there are no obstacles between p1 and p2
+//		if (Util.lineIsBrokenByBooleanArray(x, y, p.x, p.y, Util.negateArray(TileData.getUseable()))) return false;
+//		return true;
+//	}
+
 	private static final int HEALTH_VISUAL_MAX = 100;
 
-	private static final boolean ROMAN = true;
+	private static final boolean ROMAN = false;
 	private static String getHealthString(float health) {
 		if (ROMAN) return Util.toRomanNumeral((int)(health*HEALTH_VISUAL_MAX));
 		return (int)(health*HEALTH_VISUAL_MAX)+"";

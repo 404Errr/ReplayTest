@@ -19,7 +19,8 @@ public class RefinePath {
 			}
 		}
 		Util.removeRepeatsFromEnds(pathPoints);
-		return RefinePath.removeLines(pathPoints);
+		RefinePath.removeLines(pathPoints);
+		return (LinkedList<Point>) pathPoints;
 	}
 
 	public static LinkedList<Point> refinePath(List<Point> pathPoints, int buffer) {
@@ -35,7 +36,8 @@ public class RefinePath {
 			}
 		}
 		Util.removeRepeatsFromEnds(pathPoints);
-		return RefinePath.removeLines(pathPoints);
+		RefinePath.removeLines(pathPoints);
+		return (LinkedList<Point>) pathPoints;
 	}
 
 	public static LinkedList<Point> refinePath(List<Point> pathPoints, int buffer, int maxChain) {//TODO
@@ -57,18 +59,21 @@ public class RefinePath {
 			else chainCount = 0;
 		}
 		Util.removeRepeatsFromEnds(pathPoints);
-		return RefinePath.removeLines(pathPoints);
+		RefinePath.removeLines(pathPoints);
+		return (LinkedList<Point>) pathPoints;
 	}
 
-	public static LinkedList<Point> removeLines(List<Point> pathPoints) {
-		if (pathPoints.isEmpty()) return (LinkedList<Point>) pathPoints;
+	public static void removeLines(List<Point> pathPoints) {
+		if (pathPoints.isEmpty()) return;
+		Point p1, p2, p3;
 		for (int i = pathPoints.size()-1;i>1;i--) {
-			Point p1 = pathPoints.get(i), p2 = pathPoints.get(i-1), p3 = pathPoints.get(i-2);
+			p1 = pathPoints.get(i);
+			p2 = pathPoints.get(i-1);
+			p3 = pathPoints.get(i-2);
 			if (Util.getAngle(p1.x, p1.y, p2.x, p2.y)==Util.getAngle(p2.x, p2.y, p3.x, p3.y)) {
 				pathPoints.remove(i-1);
 			}
 		}
-		return (LinkedList<Point>) pathPoints;
 	}
 
 	private static boolean canWalkBetween(Point p1, Point p2) {//true if there are no obstacles between p1 and p2

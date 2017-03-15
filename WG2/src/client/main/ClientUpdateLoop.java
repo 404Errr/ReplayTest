@@ -34,11 +34,14 @@ public class ClientUpdateLoop implements Data {
 
 	private static void update() {
 		try {
-			for (int i = 0;i<Game.getEntities().size();) {//oldest first
-				if (Game.getEntities().get(i).tick()||(Game.getEntities().get(i) instanceof Projectile&&Game.getEntities().size()>MAX_ENTITIES)) {
-					Game.getEntities().remove(i);
+			for (int i = 0;i<Game.getEntities().size();i++) {//oldest first
+				try {
+					if (Game.getEntities().get(i).tick()||(Game.getEntities().get(i) instanceof Projectile&&Game.getEntities().size()>MAX_ENTITIES)) {
+						Game.getEntities().remove(i);
+						i--;
+					}
 				}
-				else i++;
+				catch (Exception e) {}
 			}
 			PathFindingTester.tick();
 			Level.tick();

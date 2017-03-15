@@ -113,7 +113,7 @@ public class AStarPathFinder extends PathFinder {
 				adjacent.add(temp);
 			}
 		}
-		if (r<useableTiles.length-1) {
+		if (r<useableTiles.length-1-1) {
 			temp = tiles[r+1][c];
 			if (temp.isUseable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(false);
@@ -127,14 +127,14 @@ public class AStarPathFinder extends PathFinder {
 				adjacent.add(temp);
 			}
 		}
-		if (c<useableTiles[0].length) {
+		if (c<useableTiles[0].length-1) {
 			temp = tiles[r][c+1];
 			if (temp.isUseable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(false);
 				adjacent.add(temp);
 			}
 		}
-		if (c<useableTiles[0].length&&r<useableTiles.length) {
+		if (c<useableTiles[0].length-1&&r<useableTiles.length-1) {
 			temp = tiles[r+1][c+1];
 			if (temp.isUseable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(true);
@@ -148,14 +148,14 @@ public class AStarPathFinder extends PathFinder {
 				adjacent.add(temp);
 			}
 		}
-		if (c<useableTiles[0].length&&r>0) {
+		if (c<useableTiles[0].length-1&&r>0) {
 			temp = tiles[r-1][c+1];
 			if (temp.isUseable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(true);
 				adjacent.add(temp);
 			}
 		}
-		if (c>0&&r<useableTiles.length) {
+		if (c>0&&r<useableTiles.length-1) {
 			temp = tiles[r+1][c-1];
 			if (temp.isUseable()&&!closedList.contains(temp)) {
 				temp.setIsDiagonal(true);
@@ -185,7 +185,8 @@ public class AStarPathFinder extends PathFinder {
 
 		@Override
 		public void run() {
-			currentPath = RefinePath.removeLines(AStarPathFinder.this.getPath(x1, y1, x2, y2, useableTiles));
+			currentPath = AStarPathFinder.this.getPath(x1, y1, x2, y2, useableTiles);
+			RefinePath.removeLines(currentPath);
 		}
 	}
 }

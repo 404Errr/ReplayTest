@@ -36,37 +36,36 @@ public class DijkstraPathFinder extends PathFinder {
 		for (int r = 0;r<useableTiles.length;r++) {
 			for (int c = 0;c<useableTiles[0].length;c++) {
 				tiles[r][c] = new PathfindingTile(c, r, useableTiles);
-				tiles[r][c].setDijkstraCost(tiles[fR][fC]);
-				unVisited.add(tiles[r][c]);
+				tiles[r][c].setDijkstraCost(Integer.MAX_VALUE/*fC, fR*/);
+				if (useableTiles[r][c]) unVisited.add(tiles[r][c]);
 			}
 		}
+		tiles[iR][iC].setDijkstraCost(0);
 		PathfindingTile currentPathfindingTile;
 		while (unVisited.size()>0) {
-			currentPathfindingTile = getLowest();//get node with lowest combined Costs from openList
+			currentPathfindingTile = getLowest();
 			unVisited.remove(currentPathfindingTile);
-			if ((currentPathfindingTile.getC()==fC)&&(currentPathfindingTile.getR()==fR)) {//found goal
-				return calcPath(tiles[iR][iC], tiles[fR][fC]);
-			}
+			if ((currentPathfindingTile.getC()==fC)&&(currentPathfindingTile.getR()==fR)) return calcPath(tiles[iR][iC], tiles[fR][fC]);
 			List<PathfindingTile> adjacentTiles = getAdjacents(currentPathfindingTile);
 			for (int i = 0;i<adjacentTiles.size();i++) {
 				PathfindingTile currentAdjacent = adjacentTiles.get(i);
-				if (currentAdjacent.getDijkstraCost()>currentAdjacent.calculateDijkstraCost(currentPathfindingTile)) {//costs from current node are cheaper than previous costs
-					currentAdjacent.setPrevious(currentPathfindingTile);//set current node as previous for this node
-					currentAdjacent.setDijkstraCost(currentPathfindingTile);//set total
+				currentAdjacent.setPrevious(currentPathfindingTile);
+				if (currentAdjacent.getDijkstraCost()>currentAdjacent.calculateDijkstraCost(currentPathfindingTile.getC(), currentPathfindingTile.getR())) {
+					currentAdjacent.setDijkstraCost(currentPathfindingTile.getC(), currentPathfindingTile.getR());
 				}
 			}
 		}
-		return new LinkedList<>();//no path exists; return empty list
+		return new LinkedList<>();
 	}
 
 	private List<PathfindingTile> calcPath(PathfindingTile start, PathfindingTile goal) {//starts at goal, doesnt include start
 		LinkedList<PathfindingTile> path = new LinkedList<>();
 		PathfindingTile curr = goal;
-		while (true) {
-			path.addFirst(curr);
-			if (curr==start) break;
+		while (curr!=start) {
+			path.add(0, curr);
 			curr = curr.getPrevious();
 		}
+		path.add(0, start);
 		return path;
 	}
 
@@ -105,14 +104,14 @@ public class DijkstraPathFinder extends PathFinder {
 				adjacent.add(temp);
 			}
 		}
-		if (c<tiles[0].length) {
+		if (c<tiles[0].length-1) {
 			temp = tiles[r][c+1];
 			if (temp.isUseable()&&unVisited.contains(temp)) {
 				temp.setIsDiagonal(false);
 				adjacent.add(temp);
 			}
 		}
-		if (c<tiles[0].length&&r<tiles.length) {
+		if (c<tiles[0].length-1&&r<tiles.length-1) {
 			temp = tiles[r+1][c+1];
 			if (temp.isUseable()&&unVisited.contains(temp)) {
 				temp.setIsDiagonal(true);
@@ -126,14 +125,14 @@ public class DijkstraPathFinder extends PathFinder {
 				adjacent.add(temp);
 			}
 		}
-		if (c<tiles[0].length&&r>0) {
+		if (c<tiles[0].length-1&&r>0) {
 			temp = tiles[r-1][c+1];
 			if (temp.isUseable()&&unVisited.contains(temp)) {
 				temp.setIsDiagonal(true);
 				adjacent.add(temp);
 			}
 		}
-		if (c>0&&r<tiles.length) {
+		if (c>0&&r<tiles.length-1) {
 			temp = tiles[r+1][c-1];
 			if (temp.isUseable()&&unVisited.contains(temp)) {
 				temp.setIsDiagonal(true);

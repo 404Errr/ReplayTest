@@ -39,17 +39,9 @@ public class PathFindingTester implements TileData {
 
 	public static void find() {
 		try {
-//			long startTime;
+//			finder.setPath(x1, y1, x2, y2, TileData.getUseable());
 
-//			startTime = System.currentTimeMillis();
-//			Thread astar = new Thread(new AStarFinderThread(), "AStar");
-//			astar.start();
-//			Thread astarr = new Thread(new RefinedAStarFinderThread(), "Refined AStar");
-//			astarr.start();
-//			System.out.println("astar r\t"+(System.currentTimeMillis()-startTime)/1000f);
-
-			finder.setPath(x1, y1, x2, y2, TileData.getUseable());
-//			finder.setPath(x1, y1, x2, y2);
+			lines.set(1, /*RefinePath.refinePath(*/new DijkstraPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable())/*, 3)*/);
 
 //			lines.set(1, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable())));
 //			lines.set(2, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3));
@@ -96,7 +88,7 @@ public class PathFindingTester implements TileData {
 	}
 
 	public static void tick() {
-		lines.set(0, finder.getCurrentPath());
+		lines.set(0, RefinePath.refinePath(finder.getCurrentPath(), 3));
 	}
 
 	public static void set1(int x, int y) {

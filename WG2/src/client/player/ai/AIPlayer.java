@@ -124,7 +124,7 @@ public class AIPlayer extends Player implements AIData {
 		}
 		else {//doesnt have target
 			if (Math.abs(dX)+Math.abs(dY)>0.1f) {
-				setFacing(Util.getAngle(0, 0, dX, dY));
+				setFacing(Util.getAngle(dX, dY));
 			}
 		}
 	}
