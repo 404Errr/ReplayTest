@@ -16,7 +16,6 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -41,164 +40,156 @@ public final class Util {
 		return Roman.romanToInt(roman);
 	}
 
-	public static <T> ArrayList<T> getReverse(ArrayList<T> array) {
-		ArrayList<T> temp = getCopy(array);
-		for (int i = temp.size()-1, j = 0;i>=0;i--,j++) {
-			temp.set(i, array.get(j));
+	public static <T> List<T> getReverse(List<T> list) {
+		List<T> reverse = getCopy(list);
+		for (int i = reverse.size()-1, j = 0;i>=0;i--,j++) {
+			reverse.set(i, list.get(j));
 		}
-		return temp;
-	}
-
-	public static <T> LinkedList<T> getReverse(LinkedList<T> array) {
-		LinkedList<T> temp = getCopy(array);
-		for (int i = temp.size()-1, j = 0;i>=0;i--,j++) {
-			temp.set(i, array.get(j));
-		}
-		return temp;
+		return reverse;
 	}
 
 	public static Object[] getReverse(Object[] array) {
-		Object[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		Object[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		return temp;
+		return reverse;
 	}
 
 	public static String[] getReverse(String[] array) {
-		String[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		String[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		return temp;
+		return reverse;
 	}
 
 	public static byte[] getReverse(byte[] array) {
-		byte[] temp = new byte[array.length];
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		byte[] reverse = new byte[array.length];
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		return temp;
+		return reverse;
 	}
 
 	public static double[] getReverse(double[] array) {
-		double[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		double[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		return temp;
+		return reverse;
 	}
 
 	public static float[] getReverse(float[] array) {
-		float[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		float[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		return temp;
+		return reverse;
 	}
 
 	public static short[] getReverse(short[] array) {
-		short[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		short[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		return temp;
+		return reverse;
 	}
 
 	public static long[] getReverse(long[] array) {
-		long[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		long[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		return temp;
+		return reverse;
 	}
 
 	public static char[] getReverse(char[] array) {
-		char[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		char[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		return temp;
+		return reverse;
 	}
 
 	public static int[] getReverse(int[] array) {
-		int[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		int[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		return temp;
+		return reverse;
 	}
 
 	public static void reverse(Object[] array) {
-		Object[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		Object[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		array = temp;
+		array = reverse;
 	}
 
 	public static void reverse(String[] array) {
-		String[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		String[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		array = temp;
+		array = reverse;
 	}
 
 	public static void reverse(byte[] array) {
-		byte[] temp = new byte[array.length];
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		byte[] reverse = new byte[array.length];
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		array = temp;
+		array = reverse;
 	}
 
 	public static void reverse(double[] array) {
-		double[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		double[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		array = temp;
+		array = reverse;
 	}
 
 	public static void reverse(float[] array) {
-		float[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		float[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		array = temp;
+		array = reverse;
 	}
 
 	public static void reverse(short[] array) {
-		short[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		short[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		array = temp;
+		array = reverse;
 	}
 
 	public static void reverse(long[] array) {
-		long[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		long[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		array = temp;
+		array = reverse;
 	}
 
 	public static void reverse(char[] array) {
-		char[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		char[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		array = temp;
+		array = reverse;
 	}
 
 	public static void reverse(int[] array) {
-		int[] temp = getCopy(array);
-		for (int i = temp.length-1, j = 0;i>=0;i--,j++) {
-			temp[i] = array[j];
+		int[] reverse = getCopy(array);
+		for (int i = reverse.length-1, j = 0;i>=0;i--, j++) {
+			reverse[i] = array[j];
 		}
-		array = temp;
+		array = reverse;
 	}
 
 	public static void addEnd(String str, String toAdd) {
@@ -292,8 +283,150 @@ public final class Util {
 		return result;
 	}
 
+	public static <T> void removeRepeats(List<T> list) {//TODO test
+		for (int i = 0;i<list.size()-1;i++) {
+			for (int j = i+1;j<list.size();j++) {
+				if (list.get(i)==list.get(j)) {
+					list.remove(j);
+					j--;
+				}
+			}
+		}
+	}
+
+	public static <T> void removeAdjacentRepeats(List<T> list) {//TODO test
+		for (int i = list.size()-1;i>0;i--) {
+			if (list.get(i)==list.get(i-1)) list.remove(i);
+		}
+	}
+
+	public static <T> void removeRepeatsFromEnds(List<T> list) {//TODO test
+		while (list.size()>1&&list.get(0)==list.get(1)) {
+			list.remove(0);
+		}
+		while (list.size()>1&&list.get(list.size()-1)==list.get(list.size()-2)) {
+			list.remove(list.size());
+		}
+	}
+
+
+
+	public static <T> String combineWithSpace(List<T> list) {
+		return combineWith(" ", list);
+	}
+
+	public static String combineWithSpace(Object[] array) {
+		return combineWith(" ", array);
+	}
+
+	public static String combineWithSpace(String... strs) {
+		return combineWith(" ", strs);
+	}
+
+	public static <T> String combineWith(String seperator, List<T> list) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<list.size();i++) {
+			str.append(list.get(i)+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+	public static String combineWith(String seperator, Object[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+	public static String combineStringsWith(String seperator, String[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+	public static String combineWith(String seperator, int[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+	public static String combineWith(String seperator, char[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+	public static String combineWith(String seperator, short[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+	public static String combineWith(String seperator, long[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+	public static String combineWith(String seperator, float[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+	public static String combineWith(String seperator, double[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+	public static String combineWith(String seperator, byte[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+	public static String combineWith(String seperator, boolean[] array) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<array.length;i++) {
+			str.append(array[i]+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+	public static String combineWith(String seperator, String... strs) {
+		StringBuilder str = new StringBuilder();
+		for (int i = 0;i<strs.length;i++) {
+			if (strs[i]!=null) str.append(strs[i]+seperator);
+		}
+		return str.toString().substring(0, str.length()-1);
+	}
+
+
+
+
+
+
+
 	public static boolean lineIsBrokenByBooleanArray(float x1, float y1, float x2, float y2, boolean[][] breaks) {
-		int dx = Math.abs((int)x2-(int)x1), dy = Math.abs((int)y2-(int)y1), sX = x1<x2?1:-1,  sY = y1<y2?1:-1, err = dx-dy, e2;
+		int dx = Math.abs(Math.round(x2)-Math.round(x1)), dy = Math.abs(Math.round(y2)-Math.round(y1)), sX = x1<x2?1:-1,  sY = y1<y2?1:-1, err = dx-dy, e2;
 		while (true) {
 			if (Util.inArrayBounds(x1, y1, breaks)&&breaks[(int)y1][(int)x1]) return true;
 			if (x1==x2&&y1==y2) return false;
@@ -313,27 +446,27 @@ public final class Util {
 	public static <T> T avg(List<T> nums) {
 		if (nums.get(0) instanceof Float) {
 			float total = 0;
-			for (float num:(List<Float>)nums) total+=num;
+			for (float num:(List<Float>) nums) total+=num;
 			return (T)new Float(total/nums.size());
 		}
 		if (nums.get(0) instanceof Double) {
 			double total = 0;
-			for (double num:(List<Double>)nums) total+=num;
+			for (double num:(List<Double>) nums) total+=num;
 			return (T)new Double(total/nums.size());
 		}
 		if (nums.get(0) instanceof Integer) {
 			int total = 0;
-			for (int num:(List<Integer>)nums) total+=num;
+			for (int num:(List<Integer>) nums) total+=num;
 			return (T)new Integer(total/nums.size());
 		}
 		if (nums.get(0) instanceof Long) {
 			long total = 0;
-			for (long num:(List<Long>)nums) total+=num;
+			for (long num:(List<Long>) nums) total+=num;
 			return (T)new Long(total/nums.size());
 		}
 		if (nums.get(0) instanceof Short) {
 			short total = 0;
-			for (short num:(List<Short>)nums) total+=num;
+			for (short num:(List<Short>) nums) total+=num;
 			return (T)new Short((short)(total/nums.size()));
 		}
 		throw new IllegalArgumentException("unknown number type");
@@ -480,7 +613,7 @@ public final class Util {
 		}
 	}
 
-	public static List<int[]> countValuesInIntArray(int[][] array, int lower, int upper) {
+	public static List<int[]> countValuesInArray(int[][] array, int lower, int upper) {
 		List<int[]> counted = new ArrayList<>();
 		for (int currentValue = lower;currentValue<=upper;currentValue++) {
 			int count = 0;
@@ -498,7 +631,7 @@ public final class Util {
 		return counted;
 	}
 
-	public static boolean arrayAdjacentValuesCheck(int[][] array, int val1, int val2) {
+	public static boolean arrayAdjacentValues(int[][] array, int val1, int val2) {
 		for (int r = 0;r<array.length;r++) {
 			for (int c = 0;c<array[0].length;c++) {
 				if (array[r][c]==val1) {
@@ -563,6 +696,7 @@ public final class Util {
 	}
 
 	public static void printArray(int[] array) {
+		System.out.println(combineWith(",", array));
 		StringBuilder str = new StringBuilder();
 		for (int i = 0;i<array.length;i++) {
 			str.append(array[i]+",");
@@ -1183,20 +1317,12 @@ public final class Util {
 		return y>=0&&x>=0&&y<array.length&&x<array[0].length;
 	}
 
-	public static <T> ArrayList<T> getCopy(ArrayList<T> array) {
-		List<T> newArray = new ArrayList<>();
-		for (int i = 0;i<array.size();i++) {
-			newArray.add(array.get(i));
+	public static <T> List<T> getCopy(List<T> list) {
+		List<T> newList = new ArrayList<>();
+		for (int i = 0;i<list.size();i++) {
+			newList.add(list.get(i));
 		}
-		return (ArrayList<T>) newArray;
-	}
-
-	public static <T> LinkedList<T> getCopy(LinkedList<T> array) {
-		List<T> newLinked = new LinkedList<>();
-		for (int i = 0;i<array.size();i++) {
-			newLinked.add(array.get(i));
-		}
-		return (LinkedList<T>) newLinked;
+		return newList;
 	}
 
 	public static String[] getCopy(String[] array) {

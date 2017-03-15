@@ -80,7 +80,7 @@ public class LayoutGenerator implements LayoutGenData, MapData, Data {
 
 		System.out.print("\nTotal attemps: "+attemptCount+"\tTotal leaks: "+leakCount+"\tTotal not-continuous: "+notContinuousCount+"\t\tTime taken: "+(System.currentTimeMillis()-startTime)/1000f+"\nTypes:\t");
 
-		List<int[]> counts = Util.countValuesInIntArray(layout, 0, 256);
+		List<int[]> counts = Util.countValuesInArray(layout, 0, 256);
 		for (int[] typeAndCount:counts) System.out.print((char)typeAndCount[0]+":"+typeAndCount[1]+"\t");
 		System.out.println();
 

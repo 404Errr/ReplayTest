@@ -76,6 +76,7 @@ public class RefinePath {
 		if (Util.lineIsBrokenByBooleanArray(p1.x+1, p1.y, p2.x+1, p2.y, Util.negateArray(TileData.getUseable()))) return false;
 		if (Util.lineIsBrokenByBooleanArray(p1.x, p1.y+1, p2.x, p2.y+1, Util.negateArray(TileData.getUseable()))) return false;
 		if (Util.lineIsBrokenByBooleanArray(p1.x+1, p1.y+1, p2.x+1, p2.y+1, Util.negateArray(TileData.getUseable()))) return false;
+//		if (Util.lineIsBrokenByBooleanArray(p1.x+0.5f, p1.y+0.5f, p2.x+0.5f, p2.y+0.5f, Util.negateArray(TileData.getUseable()))) return false;
 		return true;
 	}
 }
