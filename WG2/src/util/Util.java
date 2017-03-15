@@ -236,7 +236,7 @@ public final class Util {
 		return Math.abs(temp1-temp2)<range;
 	}
 
-	public static <T> List<T> removeBetween(List<T> array, int lower, int upper) {//TODO
+	public static <T> List<T> removeBetween(List<T> array, int lower, int upper) {
 		for (int i = upper-1;i>lower;i--) {
 			array.remove(i);
 		}
@@ -931,18 +931,6 @@ public final class Util {
 			e.printStackTrace();
 		}
 		return "";
-//		try {
-//			try (Stream<String> lines = Files.lines(Paths.get(path))) {
-//				return lines.skip(line).findFirst().get();
-//			}
-//		}
-//		catch (Exception e) {
-//			System.err.println("can't read line "+line+" of file at "+path);
-//			e.printStackTrace();
-//		}
-//		return "";
-		//String line32 = Files.readAllLines(Paths.get("file.txt")).get(32)
-		//
 	}
 
 	public static void appendToFile(String path, String toAppend) {
@@ -950,24 +938,6 @@ public final class Util {
 			PrintWriter pw = new PrintWriter(new FileWriter(path, true));
 			pw.write(toAppend);
 			pw.close();
-//			try(FileWriter fw = new FileWriter("outfilename", true);
-//				    BufferedWriter bw = new BufferedWriter(fw);
-//				    PrintWriter out = new PrintWriter(bw))
-//				{
-//				    out.println("the text");
-//				} catch (IOException e) {
-//				}
-//			File fout = new File(path);
-//			FileOutputStream fos = new FileOutputStream(fout);
-//
-//			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-//
-//			for (int i = 0; i < 10; i++) {
-//				bw.write(toAppend);
-//				bw.newLine();
-//			}
-//
-//			bw.close();
 		}
 		catch (Exception e) {
 			System.err.println("can't append to file at "+path);
