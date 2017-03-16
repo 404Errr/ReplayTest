@@ -17,7 +17,6 @@ import util.Util;
 
 public abstract class AbstractProjectile extends WeaponEntity implements TileData, WeaponData, GraphicsData {
 	protected float damage, size, recoil;
-	protected boolean destroy;
 	protected int destroyIn = -1;
 
 	public AbstractProjectile(float damage, float recoil, float size, Color color, float x, float y, float dX, float dY) {

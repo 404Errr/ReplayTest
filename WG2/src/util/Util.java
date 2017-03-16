@@ -949,7 +949,7 @@ public final class Util {
 	public static float getSpread(float spread) {
 		return (float)((Math.random()-0.5)*spread);
 	}
-	
+
 	public static double getSpread(double value, double spread) {
 		return value+(Math.random()-0.5)*spread;
 	}
@@ -957,7 +957,7 @@ public final class Util {
 	public static float getSpread(float value, float spread) {
 		return (float)(value+(Math.random()-0.5)*spread);
 	}
-	
+
 	public static double getSpread(double value, float spread) {
 		return value+(Math.random()-0.5)*spread;
 	}
@@ -979,7 +979,7 @@ public final class Util {
 		else return new Ellipse2D.Double(x, y, size, size);
 	}
 
-	public static Polygon getPoly(int x, int y, int sides, int size) {//for TD
+	public static Polygon getPoly(int x, int y, int sides, int size) {
 		Polygon poly = new Polygon();
 		double a, shift = 0;
 		for (int i = 0;i<=sides;i++) {
@@ -1705,7 +1705,7 @@ public final class Util {
 	}
 
 	private static final int INSERTIONSORT_THRESHOLD = 7;
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void mergeSort(Object[] src, Object[] dest, int low, int high, int off) {
 		int length = high-low;

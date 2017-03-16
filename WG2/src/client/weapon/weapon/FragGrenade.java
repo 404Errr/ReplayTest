@@ -18,7 +18,7 @@ public class FragGrenade extends Weapon implements WeaponData, GameData, PlayerD
 	@Override
 	protected void use() {
 		float speed;
-		if (owner.highPowerGrenade()) speed = FRAGGRENADE_GRENADE_SPEED_LO;
+		if (owner.shiftControl()) speed = FRAGGRENADE_GRENADE_SPEED_LO;
 		else speed = FRAGGRENADE_GRENADE_SPEED_HI;
 		float dX = owner.getdX()+Util.getXComp(owner.getFacing(), speed), dY = owner.getdY()-Util.getYComp(owner.getFacing(), speed);
 		Game.addEntity(new FragGrenadeProjectile(owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));

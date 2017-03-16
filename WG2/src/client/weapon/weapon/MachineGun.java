@@ -20,7 +20,7 @@ public class MachineGun extends Weapon implements WeaponData {
 
 	@Override
 	public void tick() {
-		if (owner.getActiveWeapon()==this&&owner.getMouseControl(SHOOT_1)) {
+		if (owner.getActiveWeapon()==this&&owner.getMouseControl(USE_1)) {
 			dRpf+=ddRpf;
 			rpf+=dRpf;
 			if (rpf>mRpf) rpf = mRpf;

@@ -8,6 +8,7 @@ import data.WeaponData;
 
 public abstract class Weapon implements WeaponData, ControlData, PlayerData, GameData {
 	protected float length, width, rpf, toBeFired;
+	protected boolean constantUse;
 	protected Player owner;
 
 	public Weapon(Player owner, float rpm, float length, float width) {
@@ -20,7 +21,7 @@ public abstract class Weapon implements WeaponData, ControlData, PlayerData, Gam
 
 	public void tick() {
 		if (owner.getActiveWeapon()==this) {
-			if (owner.getMouseControl(SHOOT_1)) {
+			if (owner.getMouseControl(USE_1)||constantUse) {
 				while (toBeFired>=1) {
 					toBeFired-=1f;
 					use();

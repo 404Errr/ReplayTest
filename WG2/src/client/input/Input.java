@@ -127,7 +127,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				break;
 
 			case KeyEvent.VK_SHIFT:
-				Game.getPlayer().setHighPowerGrenade(true);
+				Game.getPlayer().setShiftControl(true);
 				break;
 
 			case KeyEvent.VK_1:
@@ -210,7 +210,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 
 		case KeyEvent.VK_SHIFT:
 			if (e.getKeyLocation()==KeyEvent.KEY_LOCATION_LEFT) {
-				Game.getPlayer().setHighPowerGrenade(false);
+				Game.getPlayer().setShiftControl(false);
 			}
 			break;
 		}

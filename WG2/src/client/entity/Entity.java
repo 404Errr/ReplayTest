@@ -67,6 +67,14 @@ abstract public class Entity {
 		return y;
 	}
 
+	public int getXTile() {
+		return Math.round(x);
+	}
+
+	public int getYTile() {
+		return Math.round(y);
+	}
+
 	public float getdX() {
 		return dX;
 	}

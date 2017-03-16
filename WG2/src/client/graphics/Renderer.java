@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.List;
@@ -26,6 +27,7 @@ import client.weapon.Weapon;
 import client.weapon.entity.AbstractProjectile;
 import client.weapon.entity.FragGrenadeProjectile;
 import client.weapon.entity.Hitscan;
+import client.weapon.weapon.Triangle;
 import data.ColorData;
 import data.GameData;
 import data.GraphicsData;
@@ -154,6 +156,9 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 				if (entity instanceof FragGrenadeProjectile) {
 					drawEntity((FragGrenadeProjectile) entity);
 				}
+				if (entity instanceof Triangle) {
+					drawEntity((Triangle) entity);
+				}
 				if (entity instanceof Player) {
 					drawPlayer((Player) entity);
 					if (entity instanceof AIPlayer) {
@@ -194,6 +199,11 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 	private void drawEntity(AbstractProjectile projectile) {
 		g.setColor(projectile.getColor());
 		g.fill(new Ellipse2D.Double(gridX(projectile.getX())-projectile.getSize()/2, gridY(projectile.getY())-projectile.getSize()/2, Camera.getScale()*projectile.getSize(), Camera.getScale()*projectile.getSize()));
+	}
+
+	private void drawEntity(Triangle triangle) {
+		g.setColor(triangle.getColor());
+		g.fill(getTriange(gridX(triangle.getX()), gridY(triangle.getY()), triangle.getFacing(), triangle.getSize()*Camera.getScale()));
 	}
 
 	private void drawHealth(Player player) {
@@ -254,9 +264,8 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 	private static final boolean ROMAN = false;
 	private static String getHealthString(float health) {
 		if (ROMAN) return Util.toRomanNumeral((int)(health*HEALTH_VISUAL_MAX));
-		return (int)(health*HEALTH_VISUAL_MAX)+"";
+		else return (int)(health*HEALTH_VISUAL_MAX)+"";
 	}
-
 
 	public static int gridX(float x) {
 		return (int)(x*Camera.getScale()+getXOrigin());
@@ -272,6 +281,16 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 
 	private static float getYOrigin() {
 		return (-Camera.getY()-HALF_PLAYER_SIZE)*Camera.getScale()+Window.centerY();
+	}
+
+	public Polygon getTriange(float x, float y, float angle, float size) {
+		Polygon poly = new Polygon();
+		double a;
+		for (int i = 0;i<3;i++) {
+			a = Math.PI*2/3*i+Math.PI/2+angle;
+			poly.addPoint((int)(Math.round(x+Math.sin(a)*size)),(int)(Math.round(y+Math.cos(a)*size)));
+		}
+		return poly;
 	}
 
 	public static float getPlayerSize() {

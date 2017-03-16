@@ -14,6 +14,7 @@ import client.weapon.Weapon;
 import client.weapon.weapon.BasicGun;
 import client.weapon.weapon.FragGrenade;
 import client.weapon.weapon.MachineGun;
+import client.weapon.weapon.RCTriangle;
 import client.weapon.weapon.RailGun;
 import client.weapon.weapon.ShotGun;
 import data.ControlData;
@@ -26,7 +27,7 @@ import util.Util;
 public abstract class Player extends Entity implements WeaponData, PlayerData, GameData, TileData, ControlData {
 	protected float health, facing;
 	protected boolean[] canMove, movementControl, mouseControl;//r,d,l,u  r,d,l,u  l, m, r
-	protected boolean highPowerGrenade;
+	protected boolean shiftControl;
 	protected Color color;
 	protected float weaponCooldown;
 	protected List<Weapon> weapons;
@@ -46,6 +47,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, G
 			addWeapon(new MachineGun(this));
 			addWeapon(new RailGun(this));
 			addWeapon(new FragGrenade(this));
+			addWeapon(new RCTriangle(this));
 
 			selectWeapon(STARTING_GUN);
 		}
@@ -275,10 +277,12 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, G
 		return y+HALF_PLAYER_SIZE;
 	}
 
+	@Override
 	public int getXTile() {
 		return Math.round(x);
 	}
 
+	@Override
 	public int getYTile() {
 		return Math.round(y);
 	}
@@ -326,12 +330,11 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, G
 		this.health+=dHealth;
 	}
 
-	public boolean highPowerGrenade() {
-		return highPowerGrenade;
+	public boolean shiftControl() {
+		return shiftControl;
 	}
 
-	public void setHighPowerGrenade(boolean highPowerGrenade) {
-		this.highPowerGrenade = highPowerGrenade;
+	public void setShiftControl(boolean shiftControl) {
+		this.shiftControl = shiftControl;
 	}
-
 }

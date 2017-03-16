@@ -7,7 +7,9 @@ public interface ControlData {
 
 	int ZOOM_KEY = -1;//disabled
 
-	int SHOOT_1 = MOUSE1;
+	int USE_1 = MOUSE1;
+	int USE_2 = MOUSE2;
+	int USE_3 = MOUSE3;
 
 	int DEBUG_LOS_LINE_KEY = KeyEvent.VK_F2;
 	int DEBUG_TEXT_KEY = KeyEvent.VK_F3;
