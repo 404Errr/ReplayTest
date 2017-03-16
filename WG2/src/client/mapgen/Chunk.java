@@ -1,11 +1,11 @@
 package client.mapgen;
 
-import data.Data;
+import data.GameData;
 import data.LayoutGenData;
 import util.Util;
 import util.Util.HasWeight;
 
-public class Chunk implements Data, LayoutGenData, HasWeight {
+public class Chunk implements GameData, LayoutGenData, HasWeight {
 	private int[][] layout;
 	private int[][] seams;
 	private float weight;

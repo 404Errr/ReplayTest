@@ -4,8 +4,9 @@ import java.awt.Color;
 
 import client.entity.Entity;
 import client.player.Player;
+import data.GameData;
 
-public abstract class WeaponEntity extends Entity {
+public abstract class WeaponEntity extends Entity implements GameData {
 	private float damage;
 
 	public WeaponEntity(Color color, float x, float y, float damage) {
@@ -14,6 +15,6 @@ public abstract class WeaponEntity extends Entity {
 	}
 
 	protected void damage(Player player) {
-		player.changeHealth(-damage);
+		if (DAMAGE) player.changeHealth(-damage);
 	}
 }

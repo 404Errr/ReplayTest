@@ -1,10 +1,10 @@
 package util;
 
-import data.Data;
+import data.GameData;
 import data.TileData;
 import data.WeaponData;
 
-public class ScanLine implements TileData, Data, WeaponData {
+public class ScanLine implements TileData, GameData, WeaponData {
 	protected float iX, iY, fX, fY;
 	private static float INITIAL_INCREMENT = 0.25f;
 	private static float FINAL_INCREMENT = 0.01f;

@@ -2,10 +2,10 @@ package main;
 
 import data.ColorData;
 import data.ControlData;
-import data.Data;
+import data.GameData;
 import data.MapData;
 
-public class Debug implements Data, ColorData, MapData, ControlData {
+public class Debug implements GameData, ColorData, MapData, ControlData {
 	private static boolean debugText = true, losLine = false, drawWeapons = true, drawDebugPathfinding = true, drawSightLines = false, spawnPointVisibilityLines = false;
 
 	public static void toggleText() {

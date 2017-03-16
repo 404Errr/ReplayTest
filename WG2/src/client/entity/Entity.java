@@ -43,6 +43,15 @@ abstract public class Entity {
 		this.ddY = 0;
 	}
 
+	public void move(double x, double y) {
+		this.x = (float) x;
+		this.y = (float) y;
+		this.dX = 0;
+		this.dY = 0;
+		this.ddX = 0;
+		this.ddY = 0;
+	}
+
 	public void move(Point point) {
 		this.x = point.x;
 		this.y = point.y;

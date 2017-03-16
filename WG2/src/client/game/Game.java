@@ -11,10 +11,10 @@ import client.player.Player;
 import client.player.ai.AIPlayer;
 import client.player.controlled.ControlledPlayer;
 import data.ColorData;
-import data.Data;
+import data.GameData;
 import data.TileData;
 
-public class Game implements ColorData, TileData, Data {
+public class Game implements ColorData, TileData, GameData {
 	private static ControlledPlayer player;//the player
 	private static List<Entity> entities;
 

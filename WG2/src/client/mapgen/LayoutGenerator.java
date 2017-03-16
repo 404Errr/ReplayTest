@@ -3,13 +3,13 @@ package client.mapgen;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.Data;
+import data.GameData;
 import data.LayoutGenData;
 import data.MapData;
 import util.Util;
 import util.Util.HasWeight;
 
-public class LayoutGenerator implements LayoutGenData, MapData, Data {
+public class LayoutGenerator implements LayoutGenData, MapData, GameData {
 	private static List<HasWeight> chunks;//chunk list
 	private static int attemptCount = 0, leakCount = 0, notContinuousCount = 0;
 	private static int chunkSize;

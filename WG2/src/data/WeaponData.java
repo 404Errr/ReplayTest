@@ -1,7 +1,7 @@
 package data;
 
 public interface WeaponData {
-	float WEAPON_SWITCH_COOLDOWN = 25f;
+	float WEAPON_SWITCH_COOLDOWN = 250f;
 
 	float BASICGUN_LEGNTH = 0.4f;
 	float BASICGUN_WIDTH = 0.25f;
@@ -17,13 +17,14 @@ public interface WeaponData {
 	float SHOTGUN_WIDTH = 0.55f;
 	float SHOTGUN_PELLET_SIZE = 0.15f;
 	float SHOTGUN_PELLET_SPEED = 1.9f;
-	float SHOTGUN_SPEED_SPREAD = 1.2f;
+	float SHOTGUN_PELLET_SPEED_SPREAD = 1.2f;
 	float SHOTGUN_COF = 2f;
 	float SHOTGUN_PELLET_COF = 15f;
-	int SHOTGUN_PELLET_COUNT = 30;
+//	int SHOTGUN_PELLET_COUNT = 30;
+	int SHOTGUN_PELLET_COUNT = 11;
 	float SHOTGUN_RECOIL = 0.15f;
-	float SHOTGUN_RPM = 200f;
-	float SHOTGUN_DAMAGE = 0.8f/SHOTGUN_PELLET_COUNT;//per pellet
+	float SHOTGUN_RPM = 150f;
+	float SHOTGUN_PELLET_DAMAGE = 0.8f/SHOTGUN_PELLET_COUNT;//per pellet
 
 	float MACHINEGUN_LEGNTH = 1.2f;
 	float MACHINEGUN_WIDTH = 0.5f;
@@ -33,7 +34,7 @@ public interface WeaponData {
 	float MACHINEGUN_SPEED_SPREAD = 0.8f;
 	float MACHINEGUN_RECOIL = 0.01f;
 	float MACHINEGUN_INITIAL_RPM = 300f;
-	float MACHINEGUN_MAX_RPM = 15000;
+	float MACHINEGUN_MAX_RPM = 12000;
 //	float MACHINEGUN_MAX_RPM = 100000;
 	float MACHINEGUN_RPM_PS_PS = 0.05f;
 	float MACHINEGUN_DAMAGE = 0.005f;
@@ -41,7 +42,7 @@ public interface WeaponData {
 	float RAILGUN_LEGNTH = 2.3f;
 	float RAILGUN_WIDTH = 0.2f;
 	float RAILGUN_LINE_INITIAL_WIDTH = 0.18f;
-	float RAILGUN_LINE_DURATION = 0.65f*Data.UPS;
+	float RAILGUN_LINE_DURATION = 0.65f*GameData.UPS;
 	float RAILGUN_RECOIL = 0.3f;
 	float RAILGUN_RPM = 69f;
 	float RAILGUN_DAMAGE = 0.75f;

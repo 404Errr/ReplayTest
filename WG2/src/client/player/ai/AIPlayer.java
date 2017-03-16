@@ -12,10 +12,11 @@ import client.level.SpawnPoint;
 import client.level.pathfinding.WanderFinder;
 import client.player.Player;
 import data.AIData;
+import data.GameData;
 import data.TileData;
 import util.Util;
 
-public class AIPlayer extends Player implements AIData {
+public class AIPlayer extends Player implements GameData, AIData {
 	private Point currentPathGoal, currentTargetPoint;
 	private AIPathFinder pathFinder;
 	private List<SightLine> sightLines;

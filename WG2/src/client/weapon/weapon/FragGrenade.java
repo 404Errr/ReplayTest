@@ -4,12 +4,12 @@ import client.game.Game;
 import client.player.Player;
 import client.weapon.Weapon;
 import client.weapon.entity.FragGrenadeProjectile;
-import data.Data;
+import data.GameData;
 import data.PlayerData;
 import data.WeaponData;
 import util.Util;
 
-public class FragGrenade extends Weapon implements WeaponData, Data, PlayerData {
+public class FragGrenade extends Weapon implements WeaponData, GameData, PlayerData {
 
 	public FragGrenade(Player owner) {
 		super(owner, FRAGGRENADE_GRENADE_RPM, 0, 0);

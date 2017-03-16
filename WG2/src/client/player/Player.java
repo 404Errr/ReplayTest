@@ -17,15 +17,15 @@ import client.weapon.weapon.MachineGun;
 import client.weapon.weapon.RailGun;
 import client.weapon.weapon.ShotGun;
 import data.ControlData;
-import data.Data;
+import data.GameData;
 import data.PlayerData;
 import data.TileData;
 import data.WeaponData;
 import util.Util;
 
-public abstract class Player extends Entity implements WeaponData, PlayerData, Data, TileData, ControlData {
+public abstract class Player extends Entity implements WeaponData, PlayerData, GameData, TileData, ControlData {
 	protected float health, facing;
-	protected boolean[] canMove, movementControl, mouseControl;//r,d,l,u. l, m, r
+	protected boolean[] canMove, movementControl, mouseControl;//r,d,l,u  r,d,l,u  l, m, r
 	protected boolean highPowerGrenade;
 	protected Color color;
 	protected float weaponCooldown;
@@ -46,14 +46,14 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 			addWeapon(new MachineGun(this));
 			addWeapon(new RailGun(this));
 			addWeapon(new FragGrenade(this));
+
 			selectWeapon(STARTING_GUN);
 		}
 	}
 
 	public void respawn(SpawnPoint spawnPoint) {
 		health = PLAYER_INITIAL_HEALTH;
-		move((float)spawnPoint.getX(), (float)spawnPoint.getY());
-//		dead = false;//temp TODO
+		move(spawnPoint.getX(), spawnPoint.getY());
 	}
 
 	public void move(float x, float y, float facing) {
@@ -323,7 +323,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	}
 
 	public void changeHealth(float dHealth) {
-		if (DAMAGE) this.health+=dHealth;
+		this.health+=dHealth;
 	}
 
 	public boolean highPowerGrenade() {

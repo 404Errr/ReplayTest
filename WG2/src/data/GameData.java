@@ -1,6 +1,6 @@
 package data;
 
-public interface Data {
+public interface GameData {
 	int UPS = 60;//the updates per second
 	boolean DEBUG = true;
 

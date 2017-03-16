@@ -2,11 +2,11 @@ package client.weapon;
 
 import client.player.Player;
 import data.ControlData;
-import data.Data;
+import data.GameData;
 import data.PlayerData;
 import data.WeaponData;
 
-public abstract class Weapon implements Data, WeaponData, ControlData, PlayerData {
+public abstract class Weapon implements WeaponData, ControlData, PlayerData, GameData {
 	protected float length, width, rpf, toBeFired;
 	protected Player owner;
 

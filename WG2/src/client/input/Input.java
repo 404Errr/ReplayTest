@@ -20,12 +20,12 @@ import client.level.Level;
 import client.level.pathfinding.PathFindingTester;
 import client.player.ai.AIPlayer;
 import data.ControlData;
-import data.Data;
+import data.GameData;
 import data.PlayerData;
 import main.Debug;
 
 
-public class Input implements KeyListener, MouseInputListener, MouseWheelListener, ComponentListener, WindowListener, ControlData, Data, PlayerData {
+public class Input implements KeyListener, MouseInputListener, MouseWheelListener, ComponentListener, WindowListener, ControlData, GameData, PlayerData {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		playerMovement(e, true);
@@ -93,7 +93,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				((AIPlayer)Game.getPlayer(1)).move(Cursor.getTileX(), Cursor.getTileY());
 				break;
 
-			case KeyEvent.VK_O://pathfind 2
+			/*case KeyEvent.VK_O://pathfind 2
 				((AIPlayer)Game.getPlayer(2)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
 				break;
 			case KeyEvent.VK_M://toggle movement 2
@@ -101,9 +101,9 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				break;
 			case KeyEvent.VK_U://teleport 2
 				((AIPlayer)Game.getPlayer(2)).move(Cursor.getTileX(), Cursor.getTileY());
-				break;
+				break;*/
 
-			case KeyEvent.VK_CLOSE_BRACKET://pathfind 3
+			/*case KeyEvent.VK_CLOSE_BRACKET://pathfind 3
 				((AIPlayer)Game.getPlayer(3)).setPathTo(Cursor.getTileX(), Cursor.getTileY());
 				break;
 			case KeyEvent.VK_SLASH://toggle movement 3
@@ -111,7 +111,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				break;
 			case KeyEvent.VK_P://teleport 3
 				((AIPlayer)Game.getPlayer(3)).move(Cursor.getTileX(), Cursor.getTileY());
-				break;
+				break;*/
 
 			case KeyEvent.VK_Z:
 				PathFindingTester.set1(Cursor.getTileX(), Cursor.getTileY());
@@ -129,7 +129,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			case KeyEvent.VK_SHIFT:
 				Game.getPlayer().setHighPowerGrenade(true);
 				break;
-				
+
 			case KeyEvent.VK_1:
 				Game.getPlayer().selectWeapon(0);
 				break;
@@ -157,6 +157,9 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			case KeyEvent.VK_9:
 				Game.getPlayer().selectWeapon(8);
 				break;
+			case KeyEvent.VK_0:
+				Game.getPlayer().selectWeapon(9);
+				break;
 
 			case KeyEvent.VK_HOME:
 				Game.getPlayer().setHealth(1.0f);
@@ -167,12 +170,12 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				System.out.println(Game.getPlayer().getHealth());
 				break;
 			case KeyEvent.VK_PAGE_UP:
-				Game.getPlayer().setHealth(Game.getPlayer().getHealth()+0.01f);
+				Game.getPlayer().changeHealth(0.01f);
 				if (Game.getPlayer().getHealth()>1.0f) Game.getPlayer().setHealth(1.0f);
 				System.out.println(Game.getPlayer().getHealth());
 				break;
 			case KeyEvent.VK_PAGE_DOWN:
-				Game.getPlayer().setHealth(Game.getPlayer().getHealth()-0.01f);
+				Game.getPlayer().changeHealth(-0.01f);
 				if (Game.getPlayer().getHealth()<0.001f) Game.getPlayer().setHealth(0.0f);
 				System.out.println(Game.getPlayer().getHealth());
 				break;
@@ -204,6 +207,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 		case KeyEvent.VK_0:
 			EditHistory.saveState(Level.getLayout());
 			break;
+
 		case KeyEvent.VK_SHIFT:
 			if (e.getKeyLocation()==KeyEvent.KEY_LOCATION_LEFT) {
 				Game.getPlayer().setHighPowerGrenade(false);
@@ -215,37 +219,37 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 	private void playerMovement(KeyEvent e, boolean pressed) {
 		try {
 			switch (e.getKeyCode()) {
-			case UP_KEY_0:
-			case UP_KEY_1:
+			case UP_KEY_0_0:
+			case UP_KEY_0_1:
 				Game.getPlayer().setMovementControl(UP, pressed);
 				break;
-			case DOWN_KEY_0:
-			case DOWN_KEY_1:
+			case DOWN_KEY_0_0:
+			case DOWN_KEY_0_1:
 				Game.getPlayer().setMovementControl(DOWN, pressed);
 				break;
-			case LEFT_KEY_0:
-			case LEFT_KEY_1:
+			case LEFT_KEY_0_0:
+			case LEFT_KEY_0_1:
 				Game.getPlayer().setMovementControl(LEFT, pressed);
 				break;
-			case RIGHT_KEY_0:
-			case RIGHT_KEY_1:
+			case RIGHT_KEY_0_0:
+			case RIGHT_KEY_0_1:
 				Game.getPlayer().setMovementControl(RIGHT, pressed);
 				break;
 
-			case KeyEvent.VK_T:
+			case UP_KEY_1:
 				Game.getPlayer(1).setMovementControl(UP, pressed);
 				break;
-			case KeyEvent.VK_G:
+			case DOWN_KEY_1:
 				Game.getPlayer(1).setMovementControl(DOWN, pressed);
 				break;
-			case KeyEvent.VK_F:
+			case LEFT_KEY_1:
 				Game.getPlayer(1).setMovementControl(LEFT, pressed);
 				break;
-			case KeyEvent.VK_H:
+			case RIGHT_KEY_1:
 				Game.getPlayer(1).setMovementControl(RIGHT, pressed);
 				break;
 
-			case KeyEvent.VK_I:
+			/*case KeyEvent.VK_I:
 				Game.getPlayer(2).setMovementControl(UP, pressed);
 				break;
 			case KeyEvent.VK_K:
@@ -256,9 +260,9 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				break;
 			case KeyEvent.VK_L:
 				Game.getPlayer(2).setMovementControl(RIGHT, pressed);
-				break;
+				break;*/
 
-			case KeyEvent.VK_OPEN_BRACKET:
+			/*case KeyEvent.VK_OPEN_BRACKET:
 				Game.getPlayer(3).setMovementControl(UP, pressed);
 				break;
 			case KeyEvent.VK_QUOTE:
@@ -269,7 +273,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				break;
 			case KeyEvent.VK_ENTER:
 				Game.getPlayer(3).setMovementControl(RIGHT, pressed);
-				break;
+				break;*/
 			}
 		}
 		catch (Exception e1) {}
@@ -282,11 +286,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			else Camera.changeScaleRatio(Camera.IN);//zoom in
 			Camera.updateScale();
 		}
-		else if (!Edit.editMode) {
-//			if (e.getWheelRotation()>0) Game.getPlayer().changeWeapon(-1);
-//			else Game.getPlayer().changeWeapon(1);
-		}
-		else {
+		else if (Edit.editMode) {
 			if (e.getWheelRotation()>0) Edit.changeType(-1);
 			else Edit.changeType(1);
 		}

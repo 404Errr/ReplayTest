@@ -20,25 +20,24 @@ public class MachineGun extends Weapon implements WeaponData {
 
 	@Override
 	public void tick() {
-		if (owner.getActiveWeapon()==this) {
-			if (owner.getMouseControl(SHOOT_1)) {
-				dRpf+=ddRpf;
-				rpf+=dRpf;
-				if (rpf>mRpf) rpf = mRpf;
-			}
-			else {
-				dRpf = 0;
-				rpf = iRpf;
-			}
+		if (owner.getActiveWeapon()==this&&owner.getMouseControl(SHOOT_1)) {
+			dRpf+=ddRpf;
+			rpf+=dRpf;
+			if (rpf>mRpf) rpf = mRpf;
+		}
+		else {
+			dRpf = 0;
+			rpf = iRpf;
 		}
 		super.tick();
 	}
 
 	@Override
-	protected void use() {//TODO remake these
-		float angle = Util.g etAngleSpread(owner.getFacing(), MACHINEGUN_COF), speed = Util.getSpread(MACHINEGUN_SPEED, MACHINEGUN_SPEED_SPREAD);
+	protected void use() {//FIXME
+		float angle = Util.getAngleSpread(owner.getFacing(), MACHINEGUN_COF), speed = Util.getSpread(MACHINEGUN_SPEED, MACHINEGUN_SPEED_SPREAD);
 		float dX = owner.getdX()+Util.getXComp(angle, speed), dY = owner.getdY()-Util.getYComp(angle, speed);
-		float x = owner.getXCenter()+(Util.getXComp(angle, length)), y = owner.getYCenter()+(-Util.getYComp(angle, length)); 
+		float startingOffset = Util.getSpread(PLAYER_SIZE);
+		float x = owner.getXCenter()+Util.getXComp(angle, startingOffset), y = owner.getYCenter()-Util.getYComp(angle, startingOffset);
 		Game.addEntity(new Projectile(MACHINEGUN_DAMAGE, MACHINEGUN_RECOIL, MACHINEGUN_SIZE, owner.getColor(), x, y, dX, dY));
 		owner.recoil(owner.getFacing(), -MACHINEGUN_RECOIL);
 	}

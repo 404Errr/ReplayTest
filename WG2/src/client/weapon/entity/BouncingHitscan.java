@@ -2,9 +2,9 @@ package client.weapon.entity;
 
 import java.awt.Color;
 
-import data.Data;
+import data.GameData;
 
-public class BouncingHitscan extends Hitscan implements Data {
+public class BouncingHitscan extends Hitscan implements GameData {
 	public BouncingHitscan(float damage, float recoil, float initialWidth, Color color, float iX, float iY, float angle, int bounces) {
 		super(damage, initialWidth, color, iX, iY, angle);
 //		if (bounces>0) {

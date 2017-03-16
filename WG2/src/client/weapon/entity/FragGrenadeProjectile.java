@@ -6,14 +6,14 @@ import java.awt.geom.Line2D;
 import client.game.Game;
 import client.level.Level;
 import client.weapon.WeaponEntity;
-import data.Data;
+import data.GameData;
 import data.GraphicsData;
 import data.TileData;
 import data.WeaponData;
 import util.ScanLine;
 import util.Util;
 
-public class FragGrenadeProjectile extends WeaponEntity implements Data, TileData, WeaponData, GraphicsData {
+public class FragGrenadeProjectile extends WeaponEntity implements GameData, TileData, WeaponData, GraphicsData {
 	private boolean destroy;
 	private float dX, dY, grenadeSize;
 	private int timer;

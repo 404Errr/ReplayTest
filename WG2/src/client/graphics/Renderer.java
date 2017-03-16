@@ -27,7 +27,7 @@ import client.weapon.entity.AbstractProjectile;
 import client.weapon.entity.FragGrenadeProjectile;
 import client.weapon.entity.Hitscan;
 import data.ColorData;
-import data.Data;
+import data.GameData;
 import data.GraphicsData;
 import data.MapData;
 import data.PlayerData;
@@ -35,7 +35,7 @@ import main.Debug;
 import util.Util;
 
 @SuppressWarnings("serial")
-public class Renderer extends JPanel implements ColorData, Data, PlayerData, GraphicsData, MapData {
+public class Renderer extends JPanel implements ColorData, GameData, PlayerData, GraphicsData, MapData {
 	private static Graphics2D g;
 
 	@Override
@@ -78,7 +78,7 @@ public class Renderer extends JPanel implements ColorData, Data, PlayerData, Gra
 				text.append("Render Distance = "+GraphicsData.getRenderDistanceX()+", "+GraphicsData.getRenderDistanceY()+"$");
 				text.append("X, Y Tile = "+Game.getPlayer().getXTile()+", "+Game.getPlayer().getYTile()+"$");
 				text.append("X, Y Exact = ("+Game.getPlayer().getX()+", "+Game.getPlayer().getY()+")"+"$");
-				text.append("velocity (m/s) = "+Math.hypot(Game.getPlayer().getdX(), Game.getPlayer().getdY())*Data.UPS+"$");
+				text.append("velocity (m/s) = "+Math.hypot(Game.getPlayer().getdX(), Game.getPlayer().getdY())*GameData.UPS+"$");
 				text.append("dx, dy = "+Game.getPlayer().getdX()+", "+Game.getPlayer().getdY()+"$");
 				text.append("ddx, ddy = "+Game.getPlayer().getddX()+", "+Game.getPlayer().getddY()+"$");
 				text.append("Facing = "+((float)Math.toDegrees(Game.getPlayer().getFacing())+((Game.getPlayer().getFacing()<0)?360:0))+" ("+Game.getPlayer().getFacing()+")"+"$");

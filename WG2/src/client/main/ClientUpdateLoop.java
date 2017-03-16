@@ -6,9 +6,9 @@ import client.graphics.Window;
 import client.level.Level;
 import client.level.pathfinding.PathFindingTester;
 import client.weapon.entity.Projectile;
-import data.Data;
+import data.GameData;
 
-public class ClientUpdateLoop implements Data {
+public class ClientUpdateLoop implements GameData {
 	static float currentUpdateTime;
 
 	public static void run() {

@@ -6,12 +6,12 @@ import client.game.Game;
 import client.input.Cursor;
 import client.level.SpawnPoint;
 import client.player.Player;
-import data.Data;
+import data.GameData;
 import data.PlayerData;
 import data.WeaponData;
 import util.Util;
 
-public class ControlledPlayer extends Player implements PlayerData, Data, WeaponData {
+public class ControlledPlayer extends Player implements PlayerData, GameData, WeaponData {
 
 	public ControlledPlayer(Color color, SpawnPoint spawnPoint) {
 		super(color, (float)spawnPoint.getX(), (float)spawnPoint.getY());
