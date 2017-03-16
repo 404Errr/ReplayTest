@@ -24,8 +24,6 @@ import java.util.Stack;
 
 public final class Util {
 	private static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
-	private static final int INSERTIONSORT_THRESHOLD = 7;
-
 	private static Random rand;
 
 	static {
@@ -944,6 +942,14 @@ public final class Util {
 		return (float)(Math.atan2(x1-x2, y1-y2)+1.57079632679d);
 	}
 
+	public static double getSpread(double spread) {
+		return (Math.random()-0.5)*spread;
+	}
+
+	public static float getSpread(float spread) {
+		return (float)((Math.random()-0.5)*spread);
+	}
+	
 	public static double getSpread(double value, double spread) {
 		return value+(Math.random()-0.5)*spread;
 	}
@@ -951,13 +957,21 @@ public final class Util {
 	public static float getSpread(float value, float spread) {
 		return (float)(value+(Math.random()-0.5)*spread);
 	}
-
-	public static double getAngleSpread(double angle, double spread) {//returns radians (radian angle input, degree spread input) spread includes both directions
-		return angle+(Math.random()-0.5)*Math.toRadians(spread);
+	
+	public static double getSpread(double value, float spread) {
+		return value+(Math.random()-0.5)*spread;
 	}
 
-	public static float getAngleSpread(float angle, float spread) {//returns radians (radian angle input, degree spread input) spread includes both directions
-		return (float) (angle+(Math.random()-0.5)*Math.toRadians(spread));
+	public static float getSpread(float value, double spread) {
+		return (float)(value+(Math.random()-0.5)*spread);
+	}
+
+	public static double getAngleSpread(double angleRad, double spreadDeg) {//returns radians
+		return angleRad+(Math.random()-0.5)*Math.toRadians(spreadDeg);
+	}
+
+	public static float getAngleSpread(float angleRad, float spreadDeg) {//returns radians
+		return (float) (angleRad+(Math.random()-0.5)*Math.toRadians(spreadDeg));
 	}
 
 	public static Ellipse2D getCircle(int x, int y, int size, boolean center) {
@@ -1690,6 +1704,8 @@ public final class Util {
 		mergeSort(copyOfRange(a, fromIndex, toIndex), a, fromIndex, toIndex, -fromIndex);
 	}
 
+	private static final int INSERTIONSORT_THRESHOLD = 7;
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void mergeSort(Object[] src, Object[] dest, int low, int high, int off) {
 		int length = high-low;

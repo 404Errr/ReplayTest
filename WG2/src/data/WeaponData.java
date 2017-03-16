@@ -15,11 +15,11 @@ public interface WeaponData {
 
 	float SHOTGUN_LEGNTH = 0.08f;
 	float SHOTGUN_WIDTH = 0.55f;
-	float SHOTGUN_SIZE = 0.15f;
-	float SHOTGUN_SPEED = 1.9f;
-	float SHOTGUN_SPEED_SPREAD = 1f;
+	float SHOTGUN_PELLET_SIZE = 0.15f;
+	float SHOTGUN_PELLET_SPEED = 1.9f;
+	float SHOTGUN_SPEED_SPREAD = 1.2f;
 	float SHOTGUN_COF = 2f;
-	float SHOTGUN_PELLET_SPREAD = 15f;
+	float SHOTGUN_PELLET_COF = 15f;
 	int SHOTGUN_PELLET_COUNT = 30;
 	float SHOTGUN_RECOIL = 0.15f;
 	float SHOTGUN_RPM = 200f;
@@ -34,6 +34,7 @@ public interface WeaponData {
 	float MACHINEGUN_RECOIL = 0.01f;
 	float MACHINEGUN_INITIAL_RPM = 300f;
 	float MACHINEGUN_MAX_RPM = 15000;
+//	float MACHINEGUN_MAX_RPM = 100000;
 	float MACHINEGUN_RPM_PS_PS = 0.05f;
 	float MACHINEGUN_DAMAGE = 0.005f;
 

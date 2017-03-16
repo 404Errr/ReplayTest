@@ -2,8 +2,11 @@ package data;
 
 import java.awt.Color;
 
+import util.Util;
+
 public interface ColorData {
-	Color COLOR_PLAYER = new Color(0x0000ff);//blue
+//	Color COLOR_PLAYER = new Color(0x0000ff);//blue
+	Color COLOR_PLAYER = Util.colorOpacity(new Color(0x0000ff), 0.25f);//blue ghost
 	Color COLOR_PLAYER_1 = new Color(0xff0000);//red
 	Color COLOR_PLAYER_2 = new Color(0x00ff00);//green
 	Color COLOR_PLAYER_3 = new Color(0x660088);//purple
@@ -13,7 +16,7 @@ public interface ColorData {
 //	Color COLOR_PLAYER_3 = new Color(0xd357f8);//purple
 
 	Color COLOR_DEBUG_RED = new Color(0x8D0B0D);//red
-	Color COLOR_DEBUG_GREEN = new Color(0x00b400);//darker than lime green
+	Color COLOR_DEBUG_GREEN = new Color(0x00b400);//darker than lime
 	Color COLOR_DEBUG_BLUE = new Color(0x0000C1);//blue
 	Color COLOR_ERROR = new Color(0x940e94);//magenta
 	Color COLOR_BACKGROUND = new Color(0xf0f0f0);//background color

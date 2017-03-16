@@ -35,10 +35,11 @@ public class MachineGun extends Weapon implements WeaponData {
 	}
 
 	@Override
-	protected void use() {
-		float angle = Util.getAngleSpread(owner.getFacing(), MACHINEGUN_COF), speed = Util.getSpread(MACHINEGUN_SPEED, MACHINEGUN_SPEED_SPREAD);
+	protected void use() {//TODO remake these
+		float angle = Util.g etAngleSpread(owner.getFacing(), MACHINEGUN_COF), speed = Util.getSpread(MACHINEGUN_SPEED, MACHINEGUN_SPEED_SPREAD);
 		float dX = owner.getdX()+Util.getXComp(angle, speed), dY = owner.getdY()-Util.getYComp(angle, speed);
-		Game.addEntity(new Projectile(MACHINEGUN_DAMAGE, MACHINEGUN_RECOIL, MACHINEGUN_SIZE, owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
+		float x = owner.getXCenter()+(Util.getXComp(angle, length)), y = owner.getYCenter()+(-Util.getYComp(angle, length)); 
+		Game.addEntity(new Projectile(MACHINEGUN_DAMAGE, MACHINEGUN_RECOIL, MACHINEGUN_SIZE, owner.getColor(), x, y, dX, dY));
 		owner.recoil(owner.getFacing(), -MACHINEGUN_RECOIL);
 	}
 

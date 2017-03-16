@@ -50,8 +50,6 @@ public abstract class Weapon implements Data, WeaponData, ControlData, PlayerDat
 		return owner;
 	}
 
-	protected abstract void use();
-
 	public float getGirth() {
 		return width;
 	}
@@ -59,4 +57,6 @@ public abstract class Weapon implements Data, WeaponData, ControlData, PlayerDat
 	public float getDepth() {
 		return length;
 	}
+
+	protected abstract void use();
 }

@@ -14,12 +14,15 @@ public class ShotGun extends Weapon implements WeaponData {
 	}
 
 	@Override
-	protected void use() {
+	protected void use() {d
 		float gunAngle = Util.getAngleSpread(owner.getFacing(), SHOTGUN_COF);
 		for (int i = 0;i<SHOTGUN_PELLET_COUNT;i++) {
-			float angle = Util.getAngleSpread(gunAngle, SHOTGUN_PELLET_SPREAD), speed = Util.getSpread(SHOTGUN_SPEED, SHOTGUN_SPEED_SPREAD);
+//			float angle = Util.getAngleSpread(gunAngle, SHOTGUN_PELLET_SPREAD), speed = Util.getSpread(SHOTGUN_SPEED, SHOTGUN_SPEED_SPREAD);
+			float angle = Util.getAngleSpread(gunAngle, SHOTGUN_PELLET_COF), speed = Util.getSpread(SHOTGUN_PELLET_SPEED, SHOTGUN_SPEED_SPREAD);
 			float dX = owner.getdX()+Util.getXComp(angle, speed), dY = owner.getdY()-Util.getYComp(angle, speed);
-			Game.addEntity(new Projectile(SHOTGUN_DAMAGE, SHOTGUN_RECOIL, SHOTGUN_SIZE, owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
+			float x = owner.getXCenter(), y = owner.getYCenter(); 
+			Game.addEntity(new Projectile(SHOTGUN_DAMAGE, SHOTGUN_RECOIL, SHOTGUN_PELLET_SIZE, owner.getColor(), x, y, dX, dY));
+//			Game.addEntity(new Projectile(SHOTGUN_DAMAGE, SHOTGUN_RECOIL, SHOTGUN_SIZE, owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
 		}
 		owner.recoil(owner.getFacing(), -SHOTGUN_RECOIL);
 	}
