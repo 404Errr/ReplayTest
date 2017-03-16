@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import client.edit.Edit;
 import client.player.Player;
 import data.ColorData;
 import data.MapData;
@@ -29,17 +28,17 @@ public class Level implements MapData, TileData {
 				}
 			}*/
 			/*else */layout = Util.parseIntArrayFromFile(PATH+MAP);
-			if (ADD_EDGE&&!Edit.editMode) {
-				if (!(AUTO_DISABLE_ADD_EDGE&&(!shouldAddEdge(layout)||layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD))) {
-					System.out.println("Adding edge of type: "+EDGE_TYPE);
-					Util.addEdgeToArray(layout, EDGE_TYPE);
-				}
-				else {
-					System.out.print("Not adding edge");
-					if (layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD) System.out.println(", because map area is too large: "+layout.length*layout[0].length+"/"+AUTO_DISABLE_ADD_EDGE_THREASHOLD);
-					else System.out.println(".");
-				}
-			}
+//			if (ADD_EDGE&&!Edit.editMode) {
+//				if (!(AUTO_DISABLE_ADD_EDGE&&(!shouldAddEdge(layout)||layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD))) {
+//					System.out.println("Adding edge of type: "+EDGE_TYPE);
+//					Util.addEdgeToArray(layout, EDGE_TYPE);
+//				}
+//				else {
+//					System.out.print("Not adding edge");
+//					if (layout.length*layout[0].length>AUTO_DISABLE_ADD_EDGE_THREASHOLD) System.out.println(", because map area is too large: "+layout.length*layout[0].length+"/"+AUTO_DISABLE_ADD_EDGE_THREASHOLD);
+//					else System.out.println(".");
+//				}
+//			}
 		}
 //		else layout = LayoutGenerator.generate(6, 6);
 		createSpawnPoints(layout);

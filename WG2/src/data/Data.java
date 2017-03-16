@@ -1,7 +1,7 @@
 package data;
 
 public interface Data {
-	int UPS = 70;//the updates per second
+	int UPS = 60;//the updates per second
 	boolean DEBUG = true;
 
 	int MAX_ENTITIES = 700;

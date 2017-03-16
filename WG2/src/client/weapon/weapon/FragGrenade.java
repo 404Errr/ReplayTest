@@ -12,7 +12,7 @@ import util.Util;
 public class FragGrenade extends Weapon implements WeaponData, Data, PlayerData {
 
 	public FragGrenade(Player owner) {
-		super(owner, FRAGGRENADE_COOLDOWN, 0, 0);
+		super(owner, FRAGGRENADE_GRENADE_RPM, 0, 0);
 	}
 
 	@Override
@@ -24,4 +24,8 @@ public class FragGrenade extends Weapon implements WeaponData, Data, PlayerData 
 		Game.addEntity(new FragGrenadeProjectile(owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
 	}
 
+	@Override
+	public String toString() {
+		return "Frag Grenade";
+	}
 }

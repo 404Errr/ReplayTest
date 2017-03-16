@@ -10,7 +10,7 @@ import client.edit.Edit;
 import client.entity.Entity;
 import client.level.Level;
 import client.level.SpawnPoint;
-import client.weapon.PlayerWeapon;
+import client.weapon.Weapon;
 import client.weapon.weapon.BasicGun;
 import client.weapon.weapon.FragGrenade;
 import client.weapon.weapon.MachineGun;
@@ -24,12 +24,13 @@ import data.WeaponData;
 import util.Util;
 
 public abstract class Player extends Entity implements WeaponData, PlayerData, Data, TileData, ControlData {
-	protected float health, facing;//facing is in radians
+	protected float health, facing;
 	protected boolean[] canMove, movementControl, mouseControl;//r,d,l,u. l, m, r
 	protected boolean highPowerGrenade;
 	protected Color color;
-	protected List<PlayerWeapon> weapons;
-	protected PlayerWeapon activeWeapon;
+	protected float weaponCooldown;
+	protected List<Weapon> weapons;
+	protected Weapon activeWeapon;
 
 	public Player(Color color, float x, float y) {
 		super(color, x, y);
@@ -40,12 +41,11 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		mouseControl = new boolean[3];
 		weapons = new ArrayList<>();
 		if (ALL_GUNS_AT_START) {
-			addWeapon(new PlayerWeapon(this, new BasicGun(this)));
-			addWeapon(new PlayerWeapon(this, new ShotGun(this)));
-			addWeapon(new PlayerWeapon(this, new MachineGun(this)));
-			addWeapon(new PlayerWeapon(this, new RailGun(this)));
-			addWeapon(new PlayerWeapon(this, new FragGrenade(this)));
-
+			addWeapon(new BasicGun(this));
+			addWeapon(new ShotGun(this));
+			addWeapon(new MachineGun(this));
+			addWeapon(new RailGun(this));
+			addWeapon(new FragGrenade(this));
 			selectWeapon(STARTING_GUN);
 		}
 	}
@@ -157,10 +157,13 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 	public boolean tick() {
 		turn();
 		moveTick();
-		for (PlayerWeapon weapon:weapons) {
+		if (weaponCooldown>0) weaponCooldown-=1000/UPS;
+		else for (Weapon weapon:weapons) {
 			weapon.tick();
 		}
-		if (!Edit.editMode&&isDead()) respawn(Level.getSafestSpawnPoint(this));
+		if (!Edit.editMode&&isDead()) {
+			respawn(Level.getSafestSpawnPoint(this));
+		}
 		return false;
 	}
 
@@ -284,26 +287,26 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		return new Point(getXTile(), getYTile());
 	}
 
-	public PlayerWeapon getActiveWeapon() {
+	public Weapon getActiveWeapon() {
 		return activeWeapon;
 	}
 
-	public void setGun(PlayerWeapon activeGun) {
+	public void setGun(Weapon activeGun) {
 		this.activeWeapon = activeGun;
 	}
 
-	public List<PlayerWeapon> getGuns() {
+	public List<Weapon> getGuns() {
 		return weapons;
 	}
 
 	public void selectWeapon(int weapon) {
 		if (weapon>=0&&weapon<weapons.size()) {
 			activeWeapon = weapons.get(weapon);
-			activeWeapon.setCooldown(WEAPON_SWITCH_COOLDOWN);
+			weaponCooldown = WEAPON_SWITCH_COOLDOWN;
 		}
 	}
 
-	private void addWeapon(PlayerWeapon weapon) {
+	private void addWeapon(Weapon weapon) {
 		weapons.add(weapon);
 	}
 
@@ -319,7 +322,7 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, D
 		this.health = health;
 	}
 
-	public void changeHealth(float dHealth) {//TODO
+	public void changeHealth(float dHealth) {
 		if (DAMAGE) this.health+=dHealth;
 	}
 

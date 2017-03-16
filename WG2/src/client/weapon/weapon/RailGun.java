@@ -9,7 +9,7 @@ import data.WeaponData;
 public class RailGun extends Weapon implements WeaponData {
 
 	public RailGun(Player owner) {
-		super(owner, RAILGUN_COOLDOWN, RAILGUN_LEGNTH, RAILGUN_WIDTH);
+		super(owner, RAILGUN_RPM, RAILGUN_LEGNTH, RAILGUN_WIDTH);
 	}
 
 	@Override
@@ -22,4 +22,8 @@ public class RailGun extends Weapon implements WeaponData {
 		owner.recoil(owner.getFacing(), -RAILGUN_RECOIL);
 	}
 
+	@Override
+	public String toString() {
+		return "Rail Gun";
+	}
 }

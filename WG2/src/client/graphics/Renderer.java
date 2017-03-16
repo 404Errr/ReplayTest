@@ -83,7 +83,9 @@ public class Renderer extends JPanel implements ColorData, Data, PlayerData, Gra
 				text.append("ddx, ddy = "+Game.getPlayer().getddX()+", "+Game.getPlayer().getddY()+"$");
 				text.append("Facing = "+((float)Math.toDegrees(Game.getPlayer().getFacing())+((Game.getPlayer().getFacing()<0)?360:0))+" ("+Game.getPlayer().getFacing()+")"+"$");
 				text.append("Cursor = "+Cursor.getScreenX()+","+Cursor.getScreenY()+" ("+Cursor.getPlayerX()+","+Cursor.getPlayerY()+")"+"$");
-				text.append("Active Weapon = "+Game.getPlayer().getActiveWeapon()+" Cooldown = "+Game.getPlayer().getActiveWeapon().getCooldown()+"$");
+				text.append("Active Weapon = "+Game.getPlayer().getActiveWeapon()+"$");
+//				text.append("Cooldown = "+Game.getPlayer().getActiveWeapon().getCooldown()+"$");
+//				text.append("To be fired = "+Game.getPlayer().getActiveWeapon().getToBeFired()+"$");
 				text.append("Debug Text = true, LOS Line = "+Debug.isLosLine()+"$");
 				if (Edit.editMode) text.append("Type = "+(char)Edit.getType());
 
@@ -201,11 +203,11 @@ public class Renderer extends JPanel implements ColorData, Data, PlayerData, Gra
 	}
 
 	private void drawWeapon(Player player) {
-		Weapon gun = player.getActiveWeapon().getType();
+		Weapon gun = player.getActiveWeapon();
 		g.setColor(player.getColor());
-		g.setStroke(new BasicStroke(gun.getWidth()*Camera.getScale()));
-		float angle = player.getFacing(), wangLength = gun.getLength()+HALF_PLAYER_SIZE;
-		g.drawLine(gridX(player.getXCenter()), gridY(player.getYCenter()), gridX(player.getXCenter())+(int)(Util.getXComp(angle, wangLength)*Camera.getScale()), gridY(player.getYCenter())+(int)(-Util.getYComp(angle, wangLength)*Camera.getScale()));
+		g.setStroke(new BasicStroke(gun.getGirth()*Camera.getScale()));
+		float angle = player.getFacing(), length = gun.getDepth();
+		g.drawLine(gridX(player.getXCenter()), gridY(player.getYCenter()), gridX(player.getXCenter())+(int)(Util.getXComp(angle, length)*Camera.getScale()), gridY(player.getYCenter())+(int)(-Util.getYComp(angle, length)*Camera.getScale()));
 	}
 
 	private void drawPlayer(Player player) {

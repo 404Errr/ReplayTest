@@ -23,7 +23,7 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 		this.dX = dX;
 		this.dY = dY;
 		this.grenadeSize = FRAGGRENADE_GRENADE_SIZE;
-		this.timer = FRAGGRENADE_TIMER;
+		this.timer = FRAGGRENADE_GRENADE_TIMER;
 	}
 
 	@Override
@@ -41,11 +41,11 @@ public class FragGrenadeProjectile extends WeaponEntity implements Data, TileDat
 	}
 
 	private void explode() {
-		if (FRAGGRENADE_SHARD_COUNT>0) for (float a = 0;a<Math.PI*2;a+=Math.PI/FRAGGRENADE_SHARD_COUNT) {
-			float speed = Util.getSpread(FRAGGRENADE_SPEED, FRAGGRENADE_SPREAD);
-			float range = Util.getSpread(FRAGGRENADE_RANGE, FRAGGRENADE_SPREAD);
-			float dX = Util.getXComp(a, speed), dY = Util.getYComp(a, speed);
-			Game.addEntity(new LimitedProjectile(FRAGGRENADE_DAMAGE, FRAGGRENADE_RECOIL, FRAGGRENADE_SIZE, range, /*color*/Util.colorOpacity(color, 1f), x, y, dX, dY, true));
+		if (FRAGGRENADE_SHARD_COUNT>0) for (float a = 0;a<360;a+=360f/FRAGGRENADE_SHARD_COUNT) {
+			float speed = Util.getSpread(FRAGGRENADE_SHARD_SPEED, FRAGGRENADE_SHARD_SPREAD);
+			float range = Util.getSpread(FRAGGRENADE_SHARD_RANGE, FRAGGRENADE_SHARD_SPREAD);
+			float dX = (float) Util.getXComp(Math.toRadians(a), speed), dY = (float) Util.getYComp(Math.toRadians(a), speed);
+			Game.addEntity(new LimitedProjectile(FRAGGRENADE_SHARD_DAMAGE, FRAGGRENADE_SHARD_RECOIL, FRAGGRENADE_SHARD_SIZE, range, /*color*/Util.colorOpacity(color, 1f), x, y, dX, dY, true));
 		}
 	}
 

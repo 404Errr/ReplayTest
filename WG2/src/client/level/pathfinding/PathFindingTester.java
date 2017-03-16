@@ -39,9 +39,7 @@ public class PathFindingTester implements TileData {
 
 	public static void find() {
 		try {
-//			finder.setPath(x1, y1, x2, y2, TileData.getUseable());
-
-			lines.set(1, /*RefinePath.refinePath(*/new DijkstraPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable())/*, 3)*/);
+			finder.setPath(x1, y1, x2, y2, TileData.getUseable());
 
 //			lines.set(1, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable())));
 //			lines.set(2, RefinePath.refinePath(new AStarPathFinder().getPath(x1, y1, x2, y2, TileData.getUseable()), 3));

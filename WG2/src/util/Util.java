@@ -985,50 +985,54 @@ public final class Util {
 		return new Rectangle(x, y, sizeX, sizeY);
 	}
 
-	public static double getXCompDegrees(double angle, double magnitude) {
-		return Math.cos(Math.toRadians(angle))*magnitude;
+	public static double getXCompDegrees(double angleDeg, double magnitude) {
+		return Math.cos(Math.toRadians(angleDeg))*magnitude;
 	}
 
-	public static double getYCompDegrees(double angle, double magnitude) {
-		return Math.sin(Math.toRadians(angle))*magnitude;
+	public static double getYCompDegrees(double angleDeg, double magnitude) {
+		return Math.sin(Math.toRadians(angleDeg))*magnitude;
 	}
 
-	public static float getXComp(float angle) {
-		return (float) Math.cos(angle);
+	public static float getXComp(float angleRad) {
+		return (float) Math.cos(angleRad);
 	}
 
-	public static float getYComp(float angle) {
-		return (float) Math.sin(angle);
+	public static float getYComp(float angleRad) {
+		return (float) Math.sin(angleRad);
 	}
 
-	public static double getXComp(double angle) {
-		return Math.cos(angle);
+	public static double getXComp(double angleRad) {
+		return Math.cos(angleRad);
 	}
 
-	public static double getYComp(double angle) {
-		return Math.sin(angle);
+	public static double getYComp(double angleRad) {
+		return Math.sin(angleRad);
 	}
 
-	public static float getXComp(float angle, float magnitude) {
-		return (float)(Math.cos(angle)*magnitude);
+	public static float getXComp(float angleRad, float magnitude) {
+		return (float)(Math.cos(angleRad)*magnitude);
 	}
 
-	public static float getYComp(float angle, float magnitude) {
-		return (float)(Math.sin(angle)*magnitude);
+	public static float getYComp(float angleRad, float magnitude) {
+		return (float)(Math.sin(angleRad)*magnitude);
 	}
 
-	public static double getXComp(double angle, double magnitude) {
-		return Math.cos(angle)*magnitude;
+	public static double getXComp(double angleRad, double magnitude) {
+		return Math.cos(angleRad)*magnitude;
 	}
 
-	public static double getYComp(double angle, double magnitude) {
-		return Math.sin(angle)*magnitude;
+	public static double getYComp(double angleRad, double magnitude) {
+		return Math.sin(angleRad)*magnitude;
 	}
 
 	public static Color getRedGreenColorShift(float value) {//0f = red, 1f = green (probably)
 		if (value<0) return new Color(1,0,0,1);
 		if (value>1) return new Color(0,1,0,0);
 		return new Color(1-value, value, 0, 1);
+	}
+
+	public static Color getColorShift(Color c1, Color c2, float v) {//TODO
+		return null;
 	}
 
 	public static Color colorOpacity(Color color, int opacity) {

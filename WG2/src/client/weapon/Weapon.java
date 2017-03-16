@@ -2,58 +2,48 @@ package client.weapon;
 
 import client.player.Player;
 import data.ControlData;
+import data.Data;
 import data.PlayerData;
 import data.WeaponData;
 
-public abstract class Weapon implements WeaponData, ControlData, PlayerData {
-	protected float length, width, cooldown, maxCooldown;
+public abstract class Weapon implements Data, WeaponData, ControlData, PlayerData {
+	protected float length, width, rpf, toBeFired;
 	protected Player owner;
 
-	public Weapon(Player owner, float maxCooldown, float length, float width) {
+	public Weapon(Player owner, float rpm, float length, float width) {
 		this.owner = owner;
-		this.maxCooldown = maxCooldown;
+		this.rpf = rpm/60f/UPS;
 		this.length = length;
-		if (this.length==0) this.length = -HALF_PLAYER_SIZE;//counter the default gun length
+		if (this.length>0) this.length+=HALF_PLAYER_SIZE;
 		this.width = width;
 	}
 
-	float toBeFired;
-
-	protected void tick() {
-		if (maxCooldown<1) {
+	public void tick() {
+		if (owner.getActiveWeapon()==this) {
 			if (owner.getMouseControl(SHOOT_1)) {
 				while (toBeFired>=1) {
-					toBeFired--;
+					toBeFired-=1f;
 					use();
 				}
-				toBeFired+=COOLDOWN_INCREMENT/maxCooldown;
+				toBeFired+=rpf;
 			}
 			else {
-				toBeFired = 0;
-			}
-		}
-		else {
-			if (cooldown>0) cooldown-=COOLDOWN_INCREMENT;
-			else {
-				cooldown = 0;
-				if (owner.getMouseControl(SHOOT_1)) {
-					cooldown = maxCooldown;
-					use();
-				}
+				toBeFired+=rpf;
+				if (toBeFired>1f) toBeFired = 1f;
 			}
 		}
 	}
 
-	protected float getMaxCooldown() {
-		return maxCooldown;
+	public float getRpf() {
+		return rpf;
 	}
 
-	public float getCooldown() {
-		return cooldown;
+	public Player getOwner() {
+		return owner;
 	}
 
-	public void setCooldown(float cooldown) {
-		this.cooldown = cooldown;
+	public float getToBeFired() {
+		return toBeFired;
 	}
 
 	protected Player getPlayer() {
@@ -62,11 +52,11 @@ public abstract class Weapon implements WeaponData, ControlData, PlayerData {
 
 	protected abstract void use();
 
-	public float getWidth() {
+	public float getGirth() {
 		return width;
 	}
 
-	public float getLength() {
+	public float getDepth() {
 		return length;
 	}
 }

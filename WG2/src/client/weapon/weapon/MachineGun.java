@@ -8,8 +8,30 @@ import data.WeaponData;
 import util.Util;
 
 public class MachineGun extends Weapon implements WeaponData {
+	private final float iRpf, mRpf, ddRpf;
+	private float dRpf;
 	public MachineGun(Player owner) {
-		super(owner, MACHINEGUN_COOLDOWN, MACHINEGUN_LEGNTH, MACHINEGUN_WIDTH);
+		super(owner, 0, MACHINEGUN_LEGNTH, MACHINEGUN_WIDTH);
+		this.iRpf = MACHINEGUN_INITIAL_RPM/60f/UPS;
+		this.mRpf = MACHINEGUN_MAX_RPM/60f/UPS;
+		this.ddRpf = MACHINEGUN_RPM_PS_PS/UPS;
+		this.rpf = iRpf;
+	}
+
+	@Override
+	public void tick() {
+		if (owner.getActiveWeapon()==this) {
+			if (owner.getMouseControl(SHOOT_1)) {
+				dRpf+=ddRpf;
+				rpf+=dRpf;
+				if (rpf>mRpf) rpf = mRpf;
+			}
+			else {
+				dRpf = 0;
+				rpf = iRpf;
+			}
+		}
+		super.tick();
 	}
 
 	@Override
@@ -19,5 +41,9 @@ public class MachineGun extends Weapon implements WeaponData {
 		Game.addEntity(new Projectile(MACHINEGUN_DAMAGE, MACHINEGUN_RECOIL, MACHINEGUN_SIZE, owner.getColor(), owner.getXCenter(), owner.getYCenter(), dX, dY));
 		owner.recoil(owner.getFacing(), -MACHINEGUN_RECOIL);
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Machine Gun";
+	}
 }

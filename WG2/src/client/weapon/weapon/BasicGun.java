@@ -10,7 +10,7 @@ import util.Util;
 public class BasicGun extends Weapon implements WeaponData {
 
 	public BasicGun(Player owner) {
-		super(owner, BASICGUN_COOLDOWN, BASICGUN_LEGNTH, BASICGUN_WIDTH);
+		super(owner, BASICGUN_RPM, BASICGUN_LEGNTH, BASICGUN_WIDTH);
 	}
 
 	@Override
@@ -21,4 +21,8 @@ public class BasicGun extends Weapon implements WeaponData {
 		owner.recoil(Util.getAngle(dX, dY), -BASICGUN_RECOIL);
 	}
 
+	@Override
+	public String toString() {
+		return "Basic Gun";
+	}
 }
