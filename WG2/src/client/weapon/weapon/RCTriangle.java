@@ -26,13 +26,16 @@ public class RCTriangle extends Weapon implements WeaponData {
 		if (owner.getActiveWeapon()==this) {
 			float x, y, dist = 0;
 			int sign = 1;
+			boolean findOwn = true;
 			if (owner.getMouseControl(USE_1)) {
 				dist = 0.5f;
+				findOwn = false;
 				x = Cursor.getGridX()+0.5f;
 				y = Cursor.getGridY()+0.5f;
 			}
 			else if (owner.getMouseControl(USE_2)) {
 				sign = -1;
+				findOwn = false;
 				x = Cursor.getGridX()+0.5f;
 				y = Cursor.getGridY()+0.5f;
 			}
@@ -44,6 +47,10 @@ public class RCTriangle extends Weapon implements WeaponData {
 			for (int i = 0;i<triangles.size();i++) {
 				triangles.get(i).settSign(sign);
 				float a = (float)(Math.PI*2/triangles.size())*i+ringAngle;
+				if (findOwn) {
+					triangles.get(i).findOwnT(Util.getXComp(a, dist), Util.getYComp(a, dist));
+					continue;
+				}
 				triangles.get(i).settX(x+Util.getXComp(a, dist));
 				triangles.get(i).settY(y-Util.getYComp(a, dist));
 			}
@@ -60,7 +67,7 @@ public class RCTriangle extends Weapon implements WeaponData {
 	@Override
 	protected void use() {
 		if (triangles.size()<RCTRIANGLE_MAX_COUNT) {
-			Triangle newTriangle = new Triangle(getOwner(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), 0);
+			Triangle newTriangle = new Triangle(getOwner(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), 0.1f);
 			triangles.add(newTriangle);
 			Game.addEntity(newTriangle);
 			System.out.println("rctriangle");
