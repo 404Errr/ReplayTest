@@ -8,7 +8,7 @@ import data.TileData;
 import data.WeaponData;
 import util.Util;
 
-public class Triangle extends WeaponEntity implements WeaponData, TileData {
+public class Triangle extends WeaponEntity implements WeaponData, TileData, PlayerData {
 	private float facing, size, tX, tY;
 	private int tSign;
 	private boolean destroy;
@@ -119,11 +119,21 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData {
 		destroy = true;
 	}
 
-	public void findOwnT(float xOffset, float yOffset) {
-//		if (Util.getDistance(x, y, , y2)) //distance to player is greater than whatever
-			//set own t
-
-		tX = xOffset;
-		tY = yOffset;
+	private static final float distance = 1;
+	public void findOwnT(float xOffset, float yOffset) {todo//TODO
+		if (Util.getDistance(x, y, owner.x, owner.y)>1||Util.BrokenByBooleanArray(/*blah*/)) {
+			pathFinder.setPath(x, y, owner.x+HALF_PLAYER_SIZE, owner.y+HALF_PLAYER_SIZE);
+			if (pathFinder.getCurrentPath().size()>1) {
+				if (checkWallCollision()) {
+					tX = pathFinder.getCurrentPoint().get(1).x;
+					tY = pathFinder.getCurrentPoint().get(1).y;
+				}
+				else {
+					tX = pathFinder.getCurrentPoint().get(1).x+XOffset;
+					tY = pathFinder.getCurrentPoint().get(1).y+yOffset;
+				}
+				
+			}
+		}
 	}
 }
