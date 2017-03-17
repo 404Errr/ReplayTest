@@ -120,7 +120,7 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData {
 	}
 
 	public void findOwnT(float xOffset, float yOffset) {
-		if (Util.getDistance(x, y, , y2)) //distance to player is greater than whatever
+//		if (Util.getDistance(x, y, , y2)) //distance to player is greater than whatever
 			//set own t
 
 		tX = xOffset;

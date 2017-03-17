@@ -39,6 +39,8 @@ public interface WeaponData {
 	float MACHINEGUN_RPM_PS_PS = 0.05f;
 	float MACHINEGUN_DAMAGE = 0.005f;
 
+	int NORMAL = 0, BOUNCING = 1, AROUND = 2;
+	int RAILGUN_SHOOTING_TYPE = BOUNCING;
 	float RAILGUN_LEGNTH = 2.3f;
 	float RAILGUN_WIDTH = 0.2f;
 	float RAILGUN_LINE_INITIAL_WIDTH = 0.18f;

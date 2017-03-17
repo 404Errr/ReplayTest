@@ -50,8 +50,6 @@ public class FragGrenadeProjectile extends WeaponEntity implements GameData, Til
 	}
 
 	private void bounce() {
-//		Hitscan contactPointFinder = new Hitscan(0f, 0.2f, Color.magenta, x, y, Util.getAngle(0, 0, dX, dY));
-//		Game.addEntity(contactPointFinder);
 		ScanLine contactPointFinder = new ScanLine(x, y, Util.getAngle(dX, dY), TileData.getHitable(SOLID_WALLS));
 		move(contactPointFinder.getfX()-Math.signum(dX)*0.0001f, contactPointFinder.getfY()-Math.signum(dY)*0.0001f);
 		float x = contactPointFinder.getfX(), y = contactPointFinder.getfY();
