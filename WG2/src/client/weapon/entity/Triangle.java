@@ -15,8 +15,9 @@ import data.WeaponData;
 import util.Util;
 
 public class Triangle extends WeaponEntity implements WeaponData, TileData, PlayerData {
+	private static final float DISTANCE = 2.5f;
 	private float facing, size, tX, tY;
-	private int tSign, hits;
+	private int tSign;
 	private boolean destroy;
 	private AStarPathFinder pathFinder;
 
@@ -24,7 +25,6 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 		super(owner, owner.getColor(), x, y, damage);
 		this.pathFinder = new AStarPathFinder();
 		size = RCTRIANGLE_SIZE;
-		hits = 2;
 		tX = owner.getXCenter();
 		tY = owner.getYCenter();
 	}
@@ -78,8 +78,7 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 		for (int i = 0;i<entities.size();i++) {
 			if (entities.get(i) instanceof Player&&((Player) entities.get(i)).getColor()!=color&&((Player) entities.get(i)).getBounds().intersectsLine(hitline)) {
 				damage((Player) entities.get(i));
-				hits--;
-				if (hits<=0) destroy();
+				destroy();
 			}
 		}
 	}
@@ -97,6 +96,22 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 		return false;
 	}
 
+	public void setT(float x, float y, float xOffset, float yOffset, boolean pathFind) {
+		tX = x+xOffset;
+		tY = y+yOffset;
+		//TODO make them target players
+		if (pathFind&&Util.inArrayBounds(tX, tY, TileData.getUseable())&&TileData.getUseable()[(int) tY][(int) tX]
+				&&Util.getDistance(this.x, this.y, tX, tY)>DISTANCE&&Util.lineIsBrokenByBooleanArray(this.x, this.y, tX, tY, Util.negateArray(TileData.getUseable()))) {
+			pathFinder.setPath((int) this.x, (int) this.y, (int) tX, (int) tY, TileData.getUseable());
+			if (pathFinder.getCurrentPath().size()>1) {
+				tX = pathFinder.getCurrentPath().get(1).x+0.5f;//+xOffset;
+				tY = pathFinder.getCurrentPath().get(1).y+0.5f;//+yOffset;
+			}
+		}
+		else {
+			pathFinder.clearCurrentPath();
+		}
+	}
 
 	private void turn() {
 		facing = Util.getAngle(dX, dY);
@@ -138,17 +153,14 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 		destroy = true;
 	}
 
-	private static final float DISTANCE = 2.5f;
-	public void setT(float x, float y, float xOffset, float yOffset, boolean pathFind) {
-		tX = x+xOffset;
-		tY = y+yOffset;
-		if (pathFind&&Util.inArrayBounds(tX, tY, TileData.getUseable())&&TileData.getUseable()[Math.round(tY)][Math.round(tX)]
-				&&(Util.getDistance(this.x, this.y, tX, tY)>DISTANCE||Util.lineIsBrokenByBooleanArray(this.x, this.y, tX, tY, Util.negateArray(TileData.getUseable())))) {
-			pathFinder.setPath(Math.round(this.x), Math.round(this.y), Math.round(tX), Math.round(tY), TileData.getUseable());
-			if (pathFinder.getCurrentPath().size()>1) {
-				tX = pathFinder.getCurrentPath().get(1).x+0.5f;//+xOffset;
-				tY = pathFinder.getCurrentPath().get(1).y+0.5f;//+yOffset;
-			}
-		}
+	public boolean isDestroy() {
+		return destroy;
 	}
+
+	public AStarPathFinder getPathFinder() {
+		return pathFinder;
+	}
+
+
+
 }
