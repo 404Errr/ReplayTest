@@ -27,7 +27,7 @@ import client.weapon.Weapon;
 import client.weapon.entity.AbstractProjectile;
 import client.weapon.entity.FragGrenadeProjectile;
 import client.weapon.entity.Hitscan;
-import client.weapon.weapon.Triangle;
+import client.weapon.entity.Triangle;
 import data.ColorData;
 import data.GameData;
 import data.GraphicsData;

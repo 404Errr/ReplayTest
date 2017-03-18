@@ -14,9 +14,13 @@ public abstract class Weapon implements WeaponData, ControlData, PlayerData, Gam
 	public Weapon(Player owner, float rpm, float length, float width) {
 		this.owner = owner;
 		this.rpf = rpm/60f/UPS;
-		this.length = length;
-		if (this.length>0) this.length+=HALF_PLAYER_SIZE;
+		this.length = length+HALF_PLAYER_SIZE;
 		this.width = width;
+	}
+
+	public Weapon(Player owner, float rpm) {
+		this.owner = owner;
+		this.rpf = rpm/60f/UPS;
 	}
 
 	public void tick() {

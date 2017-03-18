@@ -1,9 +1,10 @@
-package client.weapon.weapon;
+package client.weapon.entity;
 
 import client.level.Level;
 import client.level.pathfinding.AStarPathFinder;
 import client.player.Player;
 import client.weapon.WeaponEntity;
+import data.PlayerData;
 import data.TileData;
 import data.WeaponData;
 import util.Util;
@@ -15,7 +16,7 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 	private AStarPathFinder pathFinder;
 
 	public Triangle(Player owner, float x, float y, float damage) {
-		super(owner.getColor(), x, y, damage);
+		super(owner, owner.getColor(), x, y, damage);
 		this.pathFinder = new AStarPathFinder();
 		size = RCTRIANGLE_SIZE;
 		tX = owner.getXCenter();
@@ -64,6 +65,8 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 			remaining-=inc;
 		}
 	}
+
+//	private boolea TODO player collisions
 
 	private boolean checkWallCollision() {
 		for (int r = getYTile()-1;r<getYTile()+2;r++) {//for each row within the radius
@@ -119,21 +122,18 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 		destroy = true;
 	}
 
-	private static final float distance = 1;
-	public void findOwnT(float xOffset, float yOffset) {todo//TODO
-		if (Util.getDistance(x, y, owner.x, owner.y)>1||Util.BrokenByBooleanArray(/*blah*/)) {
-			pathFinder.setPath(x, y, owner.x+HALF_PLAYER_SIZE, owner.y+HALF_PLAYER_SIZE);
+	private static final float DISTANCE = 4;
+	public void setT(float x, float y, float xOffset, float yOffset, boolean pathFind) {
+		if (pathFind&&Util.inArrayBounds(x, y, TileData.getUseable())&&TileData.getUseable()[(int) y][(int) x]&&Util.getDistance(this.x, this.y, x, y)>DISTANCE) {
+			pathFinder.setPath(Math.round(this.x), Math.round(this.y), Math.round(x), Math.round(y), TileData.getUseable());
 			if (pathFinder.getCurrentPath().size()>1) {
-				if (checkWallCollision()) {
-					tX = pathFinder.getCurrentPoint().get(1).x;
-					tY = pathFinder.getCurrentPoint().get(1).y;
-				}
-				else {
-					tX = pathFinder.getCurrentPoint().get(1).x+XOffset;
-					tY = pathFinder.getCurrentPoint().get(1).y+yOffset;
-				}
-				
+				tX = pathFinder.getCurrentPath().get(1).x+0.5f;//+xOffset;
+				tY = pathFinder.getCurrentPath().get(1).y+0.5f;//+yOffset;
 			}
+		}
+		else {
+			tX = x+xOffset;
+			tY = y+yOffset;
 		}
 	}
 }

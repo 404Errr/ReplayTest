@@ -19,7 +19,7 @@ public class FragGrenadeProjectile extends WeaponEntity implements GameData, Til
 	private int timer;
 
 	public FragGrenadeProjectile(Color color, float x, float y, float dX, float dY) {
-		super(color, x, y, 0);
+		super(color, x, y);
 		this.dX = dX;
 		this.dY = dY;
 		this.grenadeSize = FRAGGRENADE_GRENADE_SIZE;

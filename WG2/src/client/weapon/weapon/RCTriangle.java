@@ -7,6 +7,7 @@ import client.game.Game;
 import client.input.Cursor;
 import client.player.Player;
 import client.weapon.Weapon;
+import client.weapon.entity.Triangle;
 import data.WeaponData;
 import util.Util;
 
@@ -15,7 +16,7 @@ public class RCTriangle extends Weapon implements WeaponData {
 	private float ringAngle;
 
 	public RCTriangle(Player owner) {
-		super(owner, RCTRIANGLE_TPM, 0, 0);
+		super(owner, RCTRIANGLE_TPM);
 		constantUse = true;
 		triangles = new ArrayList<>();
 	}
@@ -24,35 +25,27 @@ public class RCTriangle extends Weapon implements WeaponData {
 	public void tick() {
 		ringAngle+=Math.toRadians(RCTRIANGLE_RING_SPEED/UPS);
 		if (owner.getActiveWeapon()==this) {
-			float x, y, dist = 0;
+			float x, y;
 			int sign = 1;
-			boolean findOwn = true;
+			boolean pathFind = true;
 			if (owner.getMouseControl(USE_1)) {
-				dist = 0.5f;
-				findOwn = false;
 				x = Cursor.getGridX()+0.5f;
 				y = Cursor.getGridY()+0.5f;
 			}
 			else if (owner.getMouseControl(USE_2)) {
 				sign = -1;
-				findOwn = false;
+				pathFind = false;
 				x = Cursor.getGridX()+0.5f;
 				y = Cursor.getGridY()+0.5f;
 			}
 			else {
-				dist = 1;
 				x = owner.getXCenter();
 				y = owner.getYCenter();
 			}
 			for (int i = 0;i<triangles.size();i++) {
 				triangles.get(i).settSign(sign);
 				float a = (float)(Math.PI*2/triangles.size())*i+ringAngle;
-				if (findOwn) {
-					triangles.get(i).findOwnT(Util.getXComp(a, dist), Util.getYComp(a, dist));
-					continue;
-				}
-				triangles.get(i).settX(x+Util.getXComp(a, dist));
-				triangles.get(i).settY(y-Util.getYComp(a, dist));
+				triangles.get(i).setT(x, y, Util.getXComp(a, 1), Util.getYComp(a, 1), pathFind);
 			}
 		}
 		else {

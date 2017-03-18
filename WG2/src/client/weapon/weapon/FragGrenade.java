@@ -12,7 +12,7 @@ import util.Util;
 public class FragGrenade extends Weapon implements WeaponData, GameData, PlayerData {
 
 	public FragGrenade(Player owner) {
-		super(owner, FRAGGRENADE_GRENADE_RPM, 0, 0);
+		super(owner, FRAGGRENADE_GRENADE_RPM);
 	}
 
 	@Override
