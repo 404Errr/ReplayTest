@@ -80,6 +80,7 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 				damage((Player) entities.get(i));
 				destroy();
 			}
+			else break;
 		}
 	}
 
