@@ -1,5 +1,10 @@
 package client.weapon.entity;
 
+import java.awt.geom.Line2D;
+import java.util.List;
+
+import client.entity.Entity;
+import client.game.Game;
 import client.level.Level;
 import client.level.pathfinding.AStarPathFinder;
 import client.player.Player;
@@ -11,7 +16,7 @@ import util.Util;
 
 public class Triangle extends WeaponEntity implements WeaponData, TileData, PlayerData {
 	private float facing, size, tX, tY;
-	private int tSign;
+	private int tSign, hits;
 	private boolean destroy;
 	private AStarPathFinder pathFinder;
 
@@ -19,6 +24,7 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 		super(owner, owner.getColor(), x, y, damage);
 		this.pathFinder = new AStarPathFinder();
 		size = RCTRIANGLE_SIZE;
+		hits = 2;
 		tX = owner.getXCenter();
 		tY = owner.getYCenter();
 	}
@@ -27,6 +33,7 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 	public boolean tick() {
 		move();
 		turn();
+		checkPlayerCollision();
 		return destroy;
 	}
 
@@ -65,7 +72,17 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 		}
 	}
 
-//	private boolea TODO player collisions
+	private void checkPlayerCollision() {
+	Line2D hitline = new Line2D.Float(x+size/2, y+size/2, x-dX+size/2, y-dY+size/2);
+		List<Entity> entities = Game.getEntities();
+		for (int i = 0;i<entities.size();i++) {
+			if (entities.get(i) instanceof Player&&((Player) entities.get(i)).getColor()!=color&&((Player) entities.get(i)).getBounds().intersectsLine(hitline)) {
+				damage((Player) entities.get(i));
+				hits--;
+				if (hits<=0) destroy();
+			}
+		}
+	}
 
 	private boolean checkWallCollision() {
 		for (int r = getYTile()-1;r<getYTile()+2;r++) {//for each row within the radius

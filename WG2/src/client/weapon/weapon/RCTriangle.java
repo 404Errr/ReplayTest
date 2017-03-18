@@ -51,9 +51,10 @@ public class RCTriangle extends Weapon implements WeaponData {
 		else {
 			for (int i = triangles.size()-1;i>=0;i--) {
 				triangles.get(i).destroy();//explode or something
-				triangles.remove(i);
+
 			}
 		}
+		for (int i = 0;i<triangles.size();i++) if (triangles.get(i).isDestroy()) triangles.remove(i);//TODO remove from list if destroyed
 		super.tick();
 	}
 

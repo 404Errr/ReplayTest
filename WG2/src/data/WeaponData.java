@@ -73,5 +73,6 @@ public interface WeaponData {
 //	int RCTRIANGLE_MAX_COUNT = 12;
 	int RCTRIANGLE_MAX_COUNT = 8;
 //	int RCTRIANGLE_MAX_COUNT = 6;
-	float RCTRIANGLE_DAMAGE = 0.125f;
+	float RCTRIANGLE_DAMAGE = 0.001f/GameData.UPS;
+//	float RCTRIANGLE_DAMAGE = 0.125f;
 }
