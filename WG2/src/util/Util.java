@@ -6,7 +6,6 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.Stack;
 
 public final class Util {
@@ -281,7 +279,39 @@ public final class Util {
 		return result;
 	}
 
-	public static <T> void removeRepeats(List<T> list) {//TODO test
+	public static List<String> getStringPermutations(String string) {
+		List<String> combos = new ArrayList<>();
+		char[] str = string.toCharArray();
+		int[] c = new int[string.length()];
+		for (int i = 0;i<string.length();i++) {
+			c[i] = 0;
+		}
+		combos.add(String.valueOf(str));
+		int i = 0;
+		while (i<string.length()) {
+			if (c[i]<i) {
+				if (i%2==0) str = swap(str, 0, i);
+				else str = swap(str, c[i], i);
+				if (!combos.contains(String.valueOf(str))) combos.add(String.valueOf(str));
+				c[i]++;
+				i = 0;
+			}
+			else {
+				c[i] = 0;
+				i++;
+			}
+		}
+		return combos;
+	}
+
+	private static char[] swap(char[] str, int i, int j) {
+		char temp = str[i];
+		str[i] = str[j];
+		str[j] = temp;
+		return str;
+	}
+
+	public static <T> void removeRepeats(List<T> list) {
 		for (int i = 0;i<list.size()-1;i++) {
 			for (int j = i+1;j<list.size();j++) {
 				if (list.get(i)==list.get(j)) {
@@ -415,17 +445,10 @@ public final class Util {
 		return str.toString().substring(0, str.length()-1);
 	}
 
-
-
-
-
-
-
 	public static boolean lineIsBrokenByBooleanArray(float x1, float y1, float x2, float y2, boolean[][] breaks) {
-		int dx = Math.abs(Math.round(x2)-Math.round(x1)), dy = Math.abs(Math.round(y2)-Math.round(y1)), sX = x1<x2?1:-1,  sY = y1<y2?1:-1, err = dx-dy, e2;
-		while (true) {
+		float dx = Math.abs(Math.round(x2)-Math.round(x1)), dy = Math.abs(Math.round(y2)-Math.round(y1)), sX = x1<x2?1:-1,  sY = y1<y2?1:-1, err = dx-dy, e2;
+		while (Math.round(x1)!=Math.round(x2)||Math.round(y1)!=Math.round(y2)) {
 			if (Util.inArrayBounds(x1, y1, breaks)&&breaks[(int)y1][(int)x1]) return true;
-			if (x1==x2&&y1==y2) return false;
 			e2 = 2*err;
 			if (e2>-dy) {
 				err = err-dy;
@@ -436,6 +459,7 @@ public final class Util {
 				y1 = y1+sY;
 			}
 		}
+		return false;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1128,6 +1152,16 @@ public final class Util {
 		return Files.readAllLines(Paths.get(path)).get(line);
 	}
 
+	public static List<String> fileToStringList(String path) {
+		try {
+			return Files.readAllLines(Paths.get(path));
+		}
+		catch (IOException e) {
+			System.err.println("can't read file at "+path);
+		}
+		return new ArrayList<>();
+	}
+
 	public static String readLineInFile(String path, int line) {
 		try {
 			return Files.readAllLines(Paths.get(path)).get(line);
@@ -1176,24 +1210,21 @@ public final class Util {
 
 	public static String fileToString(String path) {
 		try {
-			File theFile = new File(path);
-			Scanner scan = new Scanner(theFile);
-			StringBuilder output = new StringBuilder();
-			while (scan.hasNextLine()) {
-				output.append(scan.nextLine());
+			List<String> lines = Files.readAllLines(Paths.get(path));
+			StringBuilder str = new StringBuilder();
+			for (String line:lines) {
+				str.append(line);
 			}
-			try {
-				return output.toString();
-			}
-			finally {
-				scan.close();
-			}
+			return str.toString();
 		}
 		catch (FileNotFoundException e) {
 			System.err.println("Can't find file at: "+path);
 			System.exit(0);
 		}
-		return null;
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	public static int[] getArraySlice(int[][] array, int side) {//from top or left

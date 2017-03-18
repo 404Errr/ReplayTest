@@ -1,4 +1,4 @@
-package client.level.pathfinding;
+package client.level.pathfindingUnused;
 
 import java.awt.Point;
 import java.io.File;
@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
+import client.level.pathfinding.AStarPathFinder;
+import client.level.pathfinding.PathFinder;
 import data.MapData;
 import data.TileData;
 import util.Util;

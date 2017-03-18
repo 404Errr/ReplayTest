@@ -169,8 +169,9 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, G
 		return false;
 	}
 
+	private static final float ZERO_HEALTH_THREASHOLD = 0.001f;
 	private boolean isDead() {
-		return health<=0;
+		return health<ZERO_HEALTH_THREASHOLD;
 	}
 
 	protected void moveTick() {

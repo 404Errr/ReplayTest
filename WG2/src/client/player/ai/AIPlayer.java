@@ -42,8 +42,8 @@ public class AIPlayer extends Player implements GameData, AIData {
 	@Override
 	public boolean tick() {
 		tickSightLines();
-		targetPathPlayer();
-		targetWeaponPlayer();
+		if (BOTS_TARGET) targetPathPlayer();
+		if (BOTS_TARGET) targetWeaponPlayer();
 		updatePathFinding();
 		pathFinder.refresh();
 		if (control) {
@@ -158,7 +158,7 @@ public class AIPlayer extends Player implements GameData, AIData {
 		}
 		else wandering = true;
 		if (currentTargetPlayer!=null) wandering = false;
-		if (wandering) currentPathGoal = WanderFinder.getWanderLocation(getXTile(), getYTile());
+		if (BOTS_WANDER==new Boolean(true)&wandering) currentPathGoal = WanderFinder.getWanderLocation(getXTile(), getYTile());
 		if (currentPathGoal!=null) updatePath();
 	}
 

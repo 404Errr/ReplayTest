@@ -26,7 +26,6 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 	@Override
 	public boolean tick() {
 		move();
-//		facing = Game.getPlayer().getFacing();
 		turn();
 		return destroy;
 	}
@@ -122,18 +121,17 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 		destroy = true;
 	}
 
-	private static final float DISTANCE = 4;
+	private static final float DISTANCE = 2.5f;
 	public void setT(float x, float y, float xOffset, float yOffset, boolean pathFind) {
-		if (pathFind&&Util.inArrayBounds(x, y, TileData.getUseable())&&TileData.getUseable()[(int) y][(int) x]&&Util.getDistance(this.x, this.y, x, y)>DISTANCE) {
-			pathFinder.setPath(Math.round(this.x), Math.round(this.y), Math.round(x), Math.round(y), TileData.getUseable());
+		tX = x+xOffset;
+		tY = y+yOffset;
+		if (pathFind&&Util.inArrayBounds(tX, tY, TileData.getUseable())&&TileData.getUseable()[Math.round(tY)][Math.round(tX)]
+				&&(Util.getDistance(this.x, this.y, tX, tY)>DISTANCE||Util.lineIsBrokenByBooleanArray(this.x, this.y, tX, tY, Util.negateArray(TileData.getUseable())))) {
+			pathFinder.setPath(Math.round(this.x), Math.round(this.y), Math.round(tX), Math.round(tY), TileData.getUseable());
 			if (pathFinder.getCurrentPath().size()>1) {
 				tX = pathFinder.getCurrentPath().get(1).x+0.5f;//+xOffset;
 				tY = pathFinder.getCurrentPath().get(1).y+0.5f;//+yOffset;
 			}
-		}
-		else {
-			tX = x+xOffset;
-			tY = y+yOffset;
 		}
 	}
 }

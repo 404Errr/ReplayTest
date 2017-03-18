@@ -1,8 +1,10 @@
-package client.level.pathfinding;
+package client.level.pathfindingUnused;
 
 import java.awt.Point;
 import java.util.LinkedList;
 
+import client.level.pathfinding.AStarPathFinder;
+import client.level.pathfinding.PathFinder;
 import util.Util;
 
 public class PreGeneratedPath extends PathFinder {

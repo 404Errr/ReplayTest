@@ -1,7 +1,6 @@
 package util;
 
 public abstract class BreakableLine {
-
 	protected float x1, y1, x2, y2;
 	protected boolean broken;
 	protected boolean[][] breaks;

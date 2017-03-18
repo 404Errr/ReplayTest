@@ -29,14 +29,14 @@ public class RCTriangle extends Weapon implements WeaponData {
 			int sign = 1;
 			boolean pathFind = true;
 			if (owner.getMouseControl(USE_1)) {
-				x = Cursor.getGridX()+0.5f;
-				y = Cursor.getGridY()+0.5f;
+				x = Cursor.getGridX()+HALF_PLAYER_SIZE;
+				y = Cursor.getGridY()+HALF_PLAYER_SIZE;
 			}
 			else if (owner.getMouseControl(USE_2)) {
 				sign = -1;
 				pathFind = false;
-				x = Cursor.getGridX()+0.5f;
-				y = Cursor.getGridY()+0.5f;
+				x = Cursor.getGridX()+HALF_PLAYER_SIZE;
+				y = Cursor.getGridY()+HALF_PLAYER_SIZE;
 			}
 			else {
 				x = owner.getXCenter();

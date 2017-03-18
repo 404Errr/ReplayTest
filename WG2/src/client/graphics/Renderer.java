@@ -204,6 +204,9 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 	private void drawEntity(Triangle triangle) {
 		g.setColor(triangle.getColor());
 		g.fill(getTriange(gridX(triangle.getX()), gridY(triangle.getY()), triangle.getFacing(), triangle.getSize()*Camera.getScale()));
+		g.setColor(COLOR_DEBUG_GREEN);
+		g.setStroke(new BasicStroke(3));
+		g.drawLine(gridX(triangle.getX()), gridY(triangle.getY()), gridX(triangle.gettX()), gridY(triangle.gettY()));
 	}
 
 	private void drawHealth(Player player) {
@@ -263,8 +266,8 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 
 	private static final boolean ROMAN = false;
 	private static String getHealthString(float health) {
-		if (ROMAN) return Util.toRomanNumeral((int)(health*HEALTH_VISUAL_MAX));
-		else return (int)(health*HEALTH_VISUAL_MAX)+"";
+		if (ROMAN) return Util.toRomanNumeral((int) (health*HEALTH_VISUAL_MAX));
+		else return Math.round(health*HEALTH_VISUAL_MAX)+"";
 	}
 
 	public static int gridX(float x) {

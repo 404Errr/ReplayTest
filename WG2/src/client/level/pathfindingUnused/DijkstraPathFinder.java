@@ -1,4 +1,4 @@
-package client.level.pathfinding;
+package client.level.pathfindingUnused;
 //
 //import java.awt.Point;
 //import java.util.LinkedList;
