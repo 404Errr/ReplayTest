@@ -281,7 +281,7 @@ public final class Util {
 		return result;
 	}
 
-	public static <T> void removeRepeats(List<T> list) {
+	public static <T> void removeRepeats(List<T> list) {//TODO test
 		for (int i = 0;i<list.size()-1;i++) {
 			for (int j = i+1;j<list.size();j++) {
 				if (list.get(i)==list.get(j)) {
@@ -685,14 +685,14 @@ public final class Util {
 		System.out.print(str);
 	}
 
-	public static void printArray(int[][] array) {
+	public static void printArray(int[][] array) {//TODO
 		for (int r = 0;r<array.length;r++) {
 			printArray(array[r]);
 		}
 	}
 
 	public static void printArray(int[] array) {
-		System.out.println(combineWith(",", array));
+//		System.out.println(combineWith(",", array));//TODO
 		StringBuilder str = new StringBuilder();
 		for (int i = 0;i<array.length;i++) {
 			str.append(array[i]+",");
@@ -1037,6 +1037,38 @@ public final class Util {
 
 	public static double getYComp(double angleRad, double magnitude) {
 		return Math.sin(angleRad)*magnitude;
+	}
+
+	public static List<int[]> getPermutations(int length) {
+		List<int[]> combos = new ArrayList<>();
+		int[] a = new int[length], c = new int[length];
+		for (int i = 0;i<length;i++) {
+			a[i] = i;
+			c[i] = 0;
+		}
+		combos.add(a.clone());
+		int i = 0;
+		while (i<length) {
+			if (c[i]<i) {
+				if (i%2==0) a = swap(a, 0, i);
+				else a = swap(a, c[i], i);
+				combos.add(a.clone());
+				c[i]+=1;
+				i = 0;
+			}
+			else {
+				c[i] = 0;
+				i+=1;
+			}
+		}
+		return combos;
+	}
+
+	public static int[] swap(int[] array, int i, int j) {
+		int temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+		return array;
 	}
 
 	public static Color getRedGreenColorShift(float value) {//0f = red, 1f = green (probably)
