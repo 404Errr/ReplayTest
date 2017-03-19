@@ -6,6 +6,7 @@ public interface PlayerData {
 	float PLAYER_SPEED_LIMIT = 0.25f;//0.3f;
 	float PLAYER_INITIAL_HEALTH = 1.0f;
 
+//	boolean AIM_ASSIST = false;
 	boolean AIM_ASSIST = false;
-	float AIM_ASSIST_RANGE = 10.0f;
+	float AIM_ASSIST_RANGE = 15.0f;
 }

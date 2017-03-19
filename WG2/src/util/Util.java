@@ -218,8 +218,8 @@ public final class Util {
 
 	public static boolean withinAngle(float angle1Rad, float angle2Rad, float rangeDeg) {
 		double temp1 = Math.toDegrees(angle1Rad), temp2 = Math.toDegrees(angle2Rad);
-		while (temp1>180) temp1-=360;
-		while (temp2>180) temp2-=360;
+		while (temp1>180) temp1-=180;
+		while (temp2>180) temp2-=180;
 		return Math.abs(temp1-temp2)<rangeDeg;
 	}
 
@@ -445,8 +445,8 @@ public final class Util {
 		return str.toString().substring(0, str.length()-1);
 	}
 
-	public static boolean lineIsBrokenByBooleanArray(float x1, float y1, float x2, float y2, boolean[][] breaks) {
-		float dx = Math.abs(Math.round(x2)-Math.round(x1)), dy = Math.abs(Math.round(y2)-Math.round(y1)), sX = x1<x2?1:-1,  sY = y1<y2?1:-1, err = dx-dy, e2;
+	public static boolean lineIsBrokenByBooleanArray(float x1, float y1, float x2, float y2, boolean[][] breaks) {//FIXME
+		float dx = Math.abs(Math.round(x2)-Math.round(x1)), dy = Math.abs(Math.round(y2)-Math.round(y1)), sX = x1<x2?1:-1, sY = y1<y2?1:-1, err = dx-dy, e2;
 		while (Math.round(x1)!=Math.round(x2)||Math.round(y1)!=Math.round(y2)) {
 			if (Util.inArrayBounds(x1, y1, breaks)&&breaks[(int)y1][(int)x1]) return true;
 			e2 = 2*err;
@@ -1064,19 +1064,19 @@ public final class Util {
 	}
 
 	public static List<int[]> getPermutations(int length) {
-		List<int[]> combos = new ArrayList<>();
-		int[] a = new int[length], c = new int[length];
+		List<int[]> permutations = new ArrayList<>();
+		int[] array = new int[length], c = new int[length];
 		for (int i = 0;i<length;i++) {
-			a[i] = i;
+			array[i] = i;
 			c[i] = 0;
 		}
-		combos.add(a.clone());
+		permutations.add(array.clone());
 		int i = 0;
 		while (i<length) {
 			if (c[i]<i) {
-				if (i%2==0) a = swap(a, 0, i);
-				else a = swap(a, c[i], i);
-				combos.add(a.clone());
+				if (i%2==0) array = swap(array, 0, i);
+				else array = swap(array, c[i], i);
+				permutations.add(array.clone());
 				c[i]+=1;
 				i = 0;
 			}
@@ -1085,7 +1085,7 @@ public final class Util {
 				i+=1;
 			}
 		}
-		return combos;
+		return permutations;
 	}
 
 	public static int[] swap(int[] array, int i, int j) {
@@ -1095,7 +1095,7 @@ public final class Util {
 		return array;
 	}
 
-	public static Color getRedGreenColorShift(float value) {//0f = red, 1f = green (probably)
+	public static Color getRedGreenColorShift(float value) {//0 = red, 1 = green (probably)
 		if (value<0) return new Color(1,0,0,1);
 		if (value>1) return new Color(0,1,0,0);
 		return new Color(1-value, value, 0, 1);

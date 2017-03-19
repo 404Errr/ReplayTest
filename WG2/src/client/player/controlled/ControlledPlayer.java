@@ -8,6 +8,7 @@ import client.level.SpawnPoint;
 import client.player.Player;
 import data.GameData;
 import data.PlayerData;
+import data.TileData;
 import data.WeaponData;
 import util.Util;
 
@@ -19,19 +20,21 @@ public class ControlledPlayer extends Player implements PlayerData, GameData, We
 
 	@Override
 	protected void turn() {
-
-		setFacing(Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY()));//rotate the player toward cursor
-		if (AIM_ASSIST) {
-			final float cursorAngle = Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY());
+		final float cursorAngle = Util.getAngle(x, y, Cursor.getGridX(), Cursor.getGridY());
+		setFacing(cursorAngle);//rotate the player toward cursor
+		if (AIM_ASSIST) {//FIXME
 			for (int i = 0;i<Game.getEntities().size();i++) {
 				if (Game.getEntity(i) instanceof Player) {
 					float angle = Util.getAngle(x, y, Game.getPlayer(i).getX(), Game.getPlayer(i).getY());
-					if (Util.withinAngle(cursorAngle, angle, AIM_ASSIST_RANGE)) {
+					if (Util.withinAngle(cursorAngle, angle, AIM_ASSIST_RANGE)
+							&&!Util.lineIsBrokenByBooleanArray(this.x, this.y, Game.getPlayer(i).getX(), Game.getPlayer(i).getY(), Util.negateArray(TileData.getUseable()))) {
 						setFacing(angle);
 						return;
 					}
-				} else
-					break;//no more players
+				}
+				else {
+					break;
+				}
 			}
 		}
 	}

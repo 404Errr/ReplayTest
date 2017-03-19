@@ -9,7 +9,7 @@ public interface GameData {
 	boolean ALL_GUNS_AT_START = true, RECOIL = false, DAMAGE = true;
 	int STARTING_GUN = 0;
 
-	boolean BOTS_WANDER = false;
+	boolean BOTS_WANDER = true;
 	boolean BOTS_TARGET = false;
 
 //	int BOT_COUNT = 0;

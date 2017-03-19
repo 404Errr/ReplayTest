@@ -27,7 +27,7 @@ public class RCTriangle extends Weapon implements WeaponData {
 		if (owner.getActiveWeapon()==this) {
 			float x, y;
 			int sign = 1;
-			boolean pathFind = true;
+			boolean pathFind = true/*, targetPlayers = false*/;
 			if (owner.getMouseControl(USE_1)) {
 				x = Cursor.getGridX()+HALF_PLAYER_SIZE;
 				y = Cursor.getGridY()+HALF_PLAYER_SIZE;
@@ -39,13 +39,14 @@ public class RCTriangle extends Weapon implements WeaponData {
 				y = Cursor.getGridY()+HALF_PLAYER_SIZE;
 			}
 			else {
+				/*targetPlayers = true;*/
 				x = owner.getXCenter();
 				y = owner.getYCenter();
 			}
 			for (int i = 0;i<triangles.size();i++) {
 				triangles.get(i).settSign(sign);
 				float a = (float)(Math.PI*2/triangles.size())*i+ringAngle;
-				triangles.get(i).setT(x, y, Util.getXComp(a, 1), Util.getYComp(a, 1), pathFind);
+				triangles.get(i).setT(x, y, Util.getXComp(a, 1), Util.getYComp(a, 1), pathFind/*, targetPlayers*/);
 			}
 		}
 		else {
@@ -54,7 +55,11 @@ public class RCTriangle extends Weapon implements WeaponData {
 
 			}
 		}
-		for (int i = triangles.size()-1;i>=0;i--) if (triangles.get(i).isDestroy()) triangles.remove(i);//TODO remove from list if destroyed
+		for (int i = triangles.size()-1;i>=0;i--) {
+			if (triangles.get(i).isDestroy()) {
+				triangles.remove(i);
+			}
+		}
 		super.tick();
 	}
 
@@ -64,7 +69,6 @@ public class RCTriangle extends Weapon implements WeaponData {
 			Triangle newTriangle = new Triangle(getOwner(), Game.getPlayer().getXCenter(), Game.getPlayer().getYCenter(), 0.1f);
 			triangles.add(newTriangle);
 			Game.addEntity(newTriangle);
-			System.out.println("rctriangle");
 		}
 	}
 

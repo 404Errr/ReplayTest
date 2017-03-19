@@ -80,7 +80,6 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 				damage((Player) entities.get(i));
 				destroy();
 			}
-			else break;
 		}
 	}
 
@@ -97,10 +96,19 @@ public class Triangle extends WeaponEntity implements WeaponData, TileData, Play
 		return false;
 	}
 
-	public void setT(float x, float y, float xOffset, float yOffset, boolean pathFind) {
+	public void setT(float x, float y, float xOffset, float yOffset, boolean pathFind/*, boolean targetPlayers*/) {
 		tX = x+xOffset;
 		tY = y+yOffset;
-		//TODO make them target players
+		List<Entity> entities = Game.getEntities();
+		for (int i = 0;i<entities.size();i++) {
+			if (entities.get(i) instanceof Player&&entities.get(i)!=owner&&((Player) entities.get(i)).getColor()!=color
+					&&Util.getDistance(this.x, this.y, ((Player) entities.get(i)).getXCenter(), ((Player) entities.get(i)).getYCenter())<DISTANCE
+					&&!Util.lineIsBrokenByBooleanArray(this.x, this.y, ((Player) entities.get(i)).getXCenter(), ((Player) entities.get(i)).getYCenter(), Util.negateArray(TileData.getUseable()))) {
+				tX = ((Player) entities.get(i)).getXCenter();
+				tY = ((Player) entities.get(i)).getYCenter();
+				return;
+			}
+		}
 		if (pathFind&&Util.inArrayBounds(tX, tY, TileData.getUseable())&&TileData.getUseable()[(int) tY][(int) tX]
 				&&Util.getDistance(this.x, this.y, tX, tY)>DISTANCE&&Util.lineIsBrokenByBooleanArray(this.x, this.y, tX, tY, Util.negateArray(TileData.getUseable()))) {
 			pathFinder.setPath((int) this.x, (int) this.y, (int) tX, (int) tY, TileData.getUseable());
