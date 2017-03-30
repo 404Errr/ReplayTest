@@ -23,13 +23,13 @@ public class Window extends JFrame implements GraphicsData {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout());
-		switch (WINDOW_FORMAT) {//FIXME TODO test
+		switch (WINDOW_FORMAT) {
 		case BORDERLESS_FULLSCREEN:
 			frame.setUndecorated(true);
 			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			break;
 		case WINDOWED_FULLSCREEN:
-			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);			
+			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		case WINDOWED:
 			frame.setTitle("WG2");
 			GraphicsDevice screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();

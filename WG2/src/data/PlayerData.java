@@ -7,6 +7,6 @@ public interface PlayerData {
 	float PLAYER_INITIAL_HEALTH = 1.0f;
 
 //	boolean AIM_ASSIST = false;
-	boolean AIM_ASSIST = false;
+	boolean AIM_ASSIST = true;
 	float AIM_ASSIST_RANGE = 15.0f;
 }

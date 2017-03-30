@@ -36,6 +36,12 @@ public final class Util {
 		return Roman.romanToInt(roman);
 	}
 
+	public static void clearConsole() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0;i<100;i++) sb.append("\n");
+		System.out.print(sb);
+	}
+
 	public static <T> List<T> getReverse(List<T> list) {
 		List<T> reverse = getCopy(list);
 		for (int i = reverse.size()-1, j = 0;i>=0;i--,j++) {
@@ -216,8 +222,10 @@ public final class Util {
 		return true;
 	}
 
-	public static boolean withinAngle(float angle1Rad, float angle2Rad, float rangeDeg) {
+	public static boolean withinAngle(float angle1Rad, float angle2Rad, float rangeDeg) {//FIXME
 		double temp1 = Math.toDegrees(angle1Rad), temp2 = Math.toDegrees(angle2Rad);
+		while (temp1<0) temp1+=360;
+		while (temp2<0) temp2+=360;
 		while (temp1>180) temp1-=180;
 		while (temp2>180) temp2-=180;
 		return Math.abs(temp1-temp2)<rangeDeg;
