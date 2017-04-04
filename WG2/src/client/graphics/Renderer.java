@@ -64,7 +64,7 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 			e.printStackTrace();
 		}
 	}
-
+	
 	private void drawGUI() {
 		drawHealthBar();
 		drawInventory();
@@ -147,10 +147,15 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 		poly.addPoint((int) (x+size*0.7f), y+(int) (size*0.65f));
 		g.fill(poly);
 	}
-
+	
 	private void drawHealthBar() {
-		float health = 1-Game.getPlayer().getHealth();
-		g.drawArc(Window.centerX(), Window.centerY(), (int) (Window.height()*0.1f), (int) (Window.height()*0.1f), (int) (-90-health*90), (int) (-90+health*90));
+		final int size = (int) (Window.height()*HEALTH_BAR_SIZE);
+		float health = Game.getPlayer().getHealth();
+		float aS = -(1-health)*90, aE = -(health*2)*90;
+		g.setStroke(new BasicStroke(HEALTH_BAR_WIDTH*Window.height()));
+		float opacity = (1-health)/2f+0.5f;fixme
+		g.setColor(Util.getColorShift(Color.RED, Color.GREEN, health, opacity));
+		g.drawArc(Window.centerX(), Window.centerY(), size, size, Math.round(aS), Math.round(aE));
 	}
 
 	private void drawSpawnPointVisibilityLines() {

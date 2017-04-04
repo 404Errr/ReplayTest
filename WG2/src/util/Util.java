@@ -222,14 +222,14 @@ public final class Util {
 		return true;
 	}
 
-	public static boolean withinAngle(float angle1Rad, float angle2Rad, float rangeDeg) {//FIXME
-		double temp1 = Math.toDegrees(angle1Rad), temp2 = Math.toDegrees(angle2Rad);
-		while (temp1<0) temp1+=360;
-		while (temp2<0) temp2+=360;
-		while (temp1>180) temp1-=180;
-		while (temp2>180) temp2-=180;
-		return Math.abs(temp1-temp2)<rangeDeg;
-	}
+//	public static boolean withinAngle(float angle1Rad, float angle2Rad, float rangeDeg) {//FIXME
+//		double temp1 = Math.toDegrees(angle1Rad), temp2 = Math.toDegrees(angle2Rad);
+//		while (temp1<0) temp1+=360;
+//		while (temp2<0) temp2+=360;
+//		while (temp1>180) temp1-=180;
+//		while (temp2>180) temp2-=180;
+//		return Math.abs(temp1-temp2)<rangeDeg;
+//	}
 
 	public static <T> List<T> removeBetween(List<T> list, int lower, int upper) {
 		for (int i = upper-1;i>lower;i--) {
@@ -1109,8 +1109,12 @@ public final class Util {
 		return new Color(1-value, value, 0, 1);
 	}
 
-	public static Color getColorShift(Color c1, Color c2, float v) {//TODO
-		return null;
+	public static Color getColorShift(Color c0, Color c1, float shift) {
+		return new Color(Util.boundsFix((int) (c0.getRed()*(1-shift)+c1.getRed()*shift), 0, 255), Util.boundsFix((int) (c0.getGreen()*(1-shift)+c1.getGreen()*shift), 0, 255), Util.boundsFix((int) (c0.getBlue()*(1-shift)+c1.getBlue()*shift), 0, 255));
+	}
+	
+	public static Color getColorShift(Color c0, Color c1, float shift, float opacity) {
+		return new Color(Util.boundsFix((int) (c0.getRed()*(1-shift)+c1.getRed()*shift), 0, 255), Util.boundsFix((int) (c0.getGreen()*(1-shift)+c1.getGreen()*shift), 0, 255), Util.boundsFix((int) (c0.getBlue()*(1-shift)+c1.getBlue()*shift), 0, 255), (int) (255*opacity));
 	}
 
 	public static Color colorOpacity(Color color, int opacity) {
@@ -1120,6 +1124,11 @@ public final class Util {
 	public static Color colorOpacity(Color color, float opacity) {
 		float[] colorComps = color.getRGBComponents(null);
 		return new Color(colorComps[0], colorComps[1], colorComps[2], opacity);
+	}
+	
+	public static int boundsFix(int num, int lower, int upper) {
+		if (lower>upper) throw new IllegalArgumentException("lower bound must be less than (or equal to) upper bound.");
+		return Math.min(Math.max(num, lower), upper);
 	}
 
 	public static int[] StringTo1DArray(String string) {//, (and ;)
