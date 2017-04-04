@@ -23,7 +23,7 @@ public interface GraphicsData {
 	int PROJECTILE_LIFE = 400;
 
 	float HEALTH_BAR_WIDTH = 0.01f;
-	float HEALTH_BAR_SIZE = 0.2f;
+	float HEALTH_BAR_SIZE = 0.3f;
 	
 	float INVENTORY_Y = 0.8f;
 	float INVENTORY_SIZE = 0.05f;

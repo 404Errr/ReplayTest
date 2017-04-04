@@ -75,7 +75,7 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 		Weapon hL = Game.getPlayer().getActiveWeapon();
 		final int x = (int) (Window.centerX()-(inventory.size()/2*(Window.height()*(INVENTORY_SIZE+INVENTORY_GAP)))), y = (int) (Window.height()*INVENTORY_Y);
 		final int gap = (int) (Window.height()*INVENTORY_GAP);
-		int highlighted = inventory.indexOf(hL);
+		final int highlighted = inventory.indexOf(hL);
 		int currentX = x;
 		for (int i = 0;i<inventory.size();i++) {
 			int size = (int) (Window.height()*INVENTORY_SIZE*((i==highlighted)?INVENTORY_HIGHLIGHT_SIZE:1));
@@ -86,7 +86,8 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 
 	private void drawInventoryIcon(int x, int y, int size, Weapon weapon) {
 		g.setColor(Color.GRAY);
-		g.fillRect(x, y, size, size);
+//		g.fillRect(x, y, size, size);
+		g.fillOval(x, y, size, size);
 		g.setColor(Color.BLACK);
 		if (weapon instanceof BasicGun) {
 			drawBasicGunIcon(x, y, size);
@@ -107,7 +108,8 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 			drawRCTriangleIcon(x, y, size);
 		}
 		g.setStroke(new BasicStroke(3));
-		g.drawRect(x, y, size, size);
+		g.drawOval(x, y, size, size);
+//		g.drawRect(x, y, size, size);
 	}
 
 	private void drawBasicGunIcon(int x, int y, int size) {
@@ -139,7 +141,7 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 		poly.addPoint((int) (x+size*0.73f), y+(int) (size*0.2f));		
 		g.fill(poly);
 	}
-	
+
 	private void drawRCTriangleIcon(int x, int y, int size) {
 		Polygon poly = new Polygon();
 		poly.addPoint((int) (x+size*0.3), y+(int) (size*0.65f));
@@ -147,15 +149,15 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 		poly.addPoint((int) (x+size*0.7f), y+(int) (size*0.65f));
 		g.fill(poly);
 	}
-	
+
 	private void drawHealthBar() {
 		final int size = (int) (Window.height()*HEALTH_BAR_SIZE);
-		float health = Game.getPlayer().getHealth();
+		float health = Game.getPlayer().getHealth()*0.75f;
 		float aS = -(1-health)*90, aE = -(health*2)*90;
 		g.setStroke(new BasicStroke(HEALTH_BAR_WIDTH*Window.height()));
-		float opacity = (1-health)/2f+0.5f;fixme
+		float opacity = (1-health)/2f+0.5f;
 		g.setColor(Util.getColorShift(Color.RED, Color.GREEN, health, opacity));
-		g.drawArc(Window.centerX(), Window.centerY(), size, size, Math.round(aS), Math.round(aE));
+		g.drawArc(Window.centerX()-size/2, Window.centerY()-size/2, size, size, Math.round(aS), Math.round(aE));
 	}
 
 	private void drawSpawnPointVisibilityLines() {
@@ -167,9 +169,8 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 			g.setColor(COLOR_DEBUG_GREEN);
 			g.drawString(Level.getSpawnPoints().get(i).getSafetyRating(null)+"", gridX(Level.getSpawnPoints().get(i).x+0.35f), gridY(Level.getSpawnPoints().get(i).y+0.8f));
 		}
-	
 	}
-	
+
 	private final static int textX = 25, textY = 30, textSize = 15;
 	private void drawDebug() {
 		if (DEBUG) {
@@ -190,8 +191,6 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 				text.append("Facing = "+((float)Math.toDegrees(Game.getPlayer().getFacing())+((Game.getPlayer().getFacing()<0)?360:0))+" ("+Game.getPlayer().getFacing()+")"+"$");
 				text.append("Cursor = "+Cursor.getScreenX()+","+Cursor.getScreenY()+" ("+Cursor.getPlayerX()+","+Cursor.getPlayerY()+")"+"$");
 				text.append("Active Weapon = "+Game.getPlayer().getActiveWeapon()+"$");
-//				text.append("Cooldown = "+Game.getPlayer().getActiveWeapon().getCooldown()+"$");
-//				text.append("To be fired = "+Game.getPlayer().getActiveWeapon().getToBeFired()+"$");
 				text.append("Debug Text = true, LOS Line = "+Debug.isLosLine()+"$");
 				if (Edit.editMode) text.append("Type = "+(char)Edit.getType());
 
@@ -230,20 +229,20 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 
 	private void drawPath(List<Point> lines, Color color, int size) {
 		if (lines!=null&&Debug.isDrawDebugPathfinding()&&!Edit.editMode) {
-			Renderer.getG().setColor(Util.colorOpacity(color, PathFindingTester.OPACITY));
-			Renderer.getG().setStroke(new BasicStroke(size));
+			g.setColor(Util.colorOpacity(color, PathFindingTester.OPACITY));
+			g.setStroke(new BasicStroke(size));
 			for (int i = 1;i<lines.size();i++) {
-//				Renderer.getG().setColor(Util.colorOpacity(PathFindingTester.COLORS[i%2], PathFindingTester.OPACITY));
-				Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
+//				g.setColor(Util.colorOpacity(PathFindingTester.COLORS[i%2], PathFindingTester.OPACITY));
+				g.drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
 			}
 		}
 	}
 
 	private void drawPathDots() {
-		Renderer.getG().setColor(Color.green);
-		Renderer.getG().setStroke(new BasicStroke(7));
-		Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()));
-		Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
+		g.setColor(Color.green);
+		g.setStroke(new BasicStroke(7));
+		g.drawLine((int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()));
+		g.drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
 	}
 
 	private void drawEntities() {
