@@ -296,11 +296,11 @@ public abstract class Player extends Entity implements WeaponData, PlayerData, G
 		return activeWeapon;
 	}
 
-	public void setGun(Weapon activeGun) {
+	public void setWeapon(Weapon activeGun) {
 		this.activeWeapon = activeGun;
 	}
 
-	public List<Weapon> getGuns() {
+	public List<Weapon> getWeapons() {
 		return weapons;
 	}
 

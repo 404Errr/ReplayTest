@@ -26,8 +26,9 @@ public class ControlledPlayer extends Player implements PlayerData, GameData, We
 			for (int i = 0;i<Game.getEntities().size();i++) {
 				if (Game.getEntity(i) instanceof Player) {
 					float angle = Util.getAngle(x, y, Game.getPlayer(i).getX(), Game.getPlayer(i).getY());
-					if (Util.withinAngle(cursorAngle, angle, AIM_ASSIST_RANGE)
-							&&!Util.lineIsBrokenByBooleanArray(this.x, this.y, Game.getPlayer(i).getX(), Game.getPlayer(i).getY(), Util.negateArray(TileData.getUseable()))) {
+					if (withinAngle(cursorAngle, angle, AIM_ASSIST_RANGE)
+							) {
+//							&&!Util.lineIsBrokenByBooleanArray(this.x, this.y, Game.getPlayer(i).getX(), Game.getPlayer(i).getY(), Util.negateArray(TileData.getUseable()))) {
 						setFacing(angle);
 						return;
 					}
@@ -39,6 +40,13 @@ public class ControlledPlayer extends Player implements PlayerData, GameData, We
 		}
 	}
 
-
-
+	public static boolean withinAngle(float angle1, float angle2, float rangeDeg) {//FIXME
+		double range = Math.toRadians(rangeDeg);
+		
+		
+		
+		
+		
+		return Math.abs(angle1-angle2)<range;
+	}
 }
