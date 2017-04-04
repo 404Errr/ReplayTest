@@ -31,6 +31,7 @@ import client.weapon.entity.Triangle;
 import client.weapon.weapon.BasicGun;
 import client.weapon.weapon.FragGrenade;
 import client.weapon.weapon.MachineGun;
+import client.weapon.weapon.RCTriangle;
 import client.weapon.weapon.RailGun;
 import client.weapon.weapon.ShotGun;
 import data.ColorData;
@@ -83,7 +84,7 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 		}
 	}
 
-	private void drawInventoryIcon(int x, int y, int size, Weapon weapon) {//TODO
+	private void drawInventoryIcon(int x, int y, int size, Weapon weapon) {
 		g.setColor(Color.GRAY);
 		g.fillRect(x, y, size, size);
 		g.setColor(Color.BLACK);
@@ -102,8 +103,8 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 		if (weapon instanceof FragGrenade) {
 			drawFragGrenadeIcon(x, y, size);
 		}
-		if (weapon instanceof triangleefaeaegaaefae) {TODO
-			drawFragGrenadeIcon(x, y, size);
+		if (weapon instanceof RCTriangle) {
+			drawRCTriangleIcon(x, y, size);
 		}
 		g.setStroke(new BasicStroke(3));
 		g.drawRect(x, y, size, size);
@@ -119,7 +120,11 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 	}
 	
 	private void drawShotGunIcon(int x, int y, int size) {
-		for (int i = 0;i<3;i++) for (int j = 0;j<3;j++) g.fillOval(x+(size*1/7)+(i*size*2/7), y+(size*1/7)+(j*size*2/7), size*1/7, size*1/7);
+		for (int i = 0;i<3;i++) {
+			for (int j = 0;j<3;j++) {
+				g.fillOval(x+(size/7)+(i*size*2/7), y+(size/7)+(j*size*2/7), size/7, size/7);
+			}
+		}
 	}
 	
 	private void drawRailGunIcon(int x, int y, int size) {
@@ -128,12 +133,24 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 	}
 	
 	private void drawMachineGunIcon(int x, int y, int size) {
-		g.setStroke(new BasicStroke(size/30));
-		for (int i = 0;i<size/4;i++) g.drawLine(x+size*3/8+i, y+size*3/16, x+size/2, y+size*13/16);
+		Polygon poly = new Polygon();
+		poly.addPoint((int) (x+size*0.5f), y+(int) (size*0.8f));
+		poly.addPoint((int) (x+size*0.27f), y+(int) (size*0.2f));
+		poly.addPoint((int) (x+size*0.73f), y+(int) (size*0.2f));		
+		g.fill(poly);
+	}
+	
+	private void drawRCTriangleIcon(int x, int y, int size) {
+		Polygon poly = new Polygon();
+		poly.addPoint((int) (x+size*0.3), y+(int) (size*0.65f));
+		poly.addPoint((int) (x+size*0.5f), y+(int) (size*0.28f));
+		poly.addPoint((int) (x+size*0.7f), y+(int) (size*0.65f));
+		g.fill(poly);
 	}
 
 	private void drawHealthBar() {
-		// TODO
+		float health = 1-Game.getPlayer().getHealth();
+		g.drawArc(Window.centerX(), Window.centerY(), (int) (Window.height()*0.1f), (int) (Window.height()*0.1f), (int) (-90-health*90), (int) (-90+health*90));
 	}
 
 	private void drawSpawnPointVisibilityLines() {
