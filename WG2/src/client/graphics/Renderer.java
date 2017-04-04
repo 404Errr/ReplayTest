@@ -58,7 +58,7 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 			if (!Edit.editMode) drawEntities();
 			if (Edit.editMode) Edit.drawSelected();
 			if (!Edit.editMode&&Debug.isSpawnPointVisibilityLines()) drawSpawnPointVisibilityLines();
-			drawGUI();
+//			drawGUI();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -152,10 +152,10 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 
 	private void drawHealthBar() {
 		final int size = (int) (Window.height()*HEALTH_BAR_SIZE);
-		float health = Game.getPlayer().getHealth()*0.75f;
-		float aS = -(1-health)*90, aE = -(health*2)*90;
+		float health = Game.getPlayer().getHealth();
+		float aS = -(1-health*0.75f)*90, aE = -health*0.75f*2*90;
 		g.setStroke(new BasicStroke(HEALTH_BAR_WIDTH*Window.height()));
-		float opacity = (1-health)/2f+0.5f;
+		float opacity = (1-health)*0.5f+0.5f;
 		g.setColor(Util.getColorShift(Color.RED, Color.GREEN, health, opacity));
 		g.drawArc(Window.centerX()-size/2, Window.centerY()-size/2, size, size, Math.round(aS), Math.round(aE));
 	}
