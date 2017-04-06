@@ -17,8 +17,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
+import java.util.TreeMap;
 
 public final class Util {
 	private static final int RIGHT = 0, DOWN = 1, LEFT = 2, UP = 3;
@@ -34,6 +36,47 @@ public final class Util {
 
 	public static int fromRomanNumeral(String roman) {
 		return Roman.romanToInt(roman);
+	}
+
+	static class Roman {
+		private static final TreeMap<Integer, String> numerals = new TreeMap<>();
+		private static final char[] NUMERAL_CHARS = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
+
+		static {
+			boolean p = true;
+			for (int i = 1, pI = 0;i<NUMERAL_CHARS.length*2;i++, pI+=(i%5==0)?2:0) {
+				numerals.put((int) (Math.pow(10,(((i-1)/4)+1)-1)*new int[] {1, 4, 5, 9}[(i-1)%4]), ((p=!p)?NUMERAL_CHARS[pI]:"")+""+NUMERAL_CHARS[i/2]);
+			}
+		}
+
+		private static int MIN_VALUE = 1, MAX_VALUE = 4999;
+		public static String intToRoman(int num) {
+			if (num<MIN_VALUE||num>MAX_VALUE) throw new IllegalArgumentException("Number must be between "+MIN_VALUE+" and "+MAX_VALUE);
+			return toRoman(num);
+		}
+
+		private static String toRoman(int number) {
+			int lower = numerals.floorKey(number);
+			if (number==lower) return numerals.get(number);
+			return numerals.get(lower)+toRoman(number-lower);
+		}
+
+		public static int romanToInt(String roman) {
+			roman = roman.toUpperCase();
+			int number = fromRoman(roman);
+			if (number==-1) throw new IllegalArgumentException("\""+roman+"\" is invalid");
+			return number;
+		}
+
+		private static int fromRoman(String roman) {
+			if (roman.isEmpty()) return 0;
+			for (Map.Entry<Integer, String> set:numerals.descendingMap().entrySet()) {
+				if (roman.startsWith(set.getValue())) {
+					return set.getKey()+fromRoman(roman.substring(set.getValue().length()));
+				}
+			}
+			return -1;
+		}
 	}
 
 	public static void clearConsole() {
@@ -717,14 +760,13 @@ public final class Util {
 		System.out.print(str);
 	}
 
-	public static void printArray(int[][] array) {//TODO
+	public static void printArray(int[][] array) {
 		for (int r = 0;r<array.length;r++) {
 			printArray(array[r]);
 		}
 	}
 
 	public static void printArray(int[] array) {
-//		System.out.println(combineWith(",", array));//TODO
 		StringBuilder str = new StringBuilder();
 		for (int i = 0;i<array.length;i++) {
 			str.append(array[i]+",");
