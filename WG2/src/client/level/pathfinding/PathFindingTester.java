@@ -35,7 +35,8 @@ public class PathFindingTester implements TileData {
 //		}
 //	}
 
-	private static AStarPathFinder finder = new AStarPathFinder();
+//	private static AStarPathFinder finder = new AStarPathFinder();
+	private static ShortAStarPathFinder finder = new ShortAStarPathFinder();
 
 	public static void find() {
 		try {
@@ -86,7 +87,8 @@ public class PathFindingTester implements TileData {
 	}
 
 	public static void tick() {
-		lines.set(0, RefinePath.refinePath(finder.getCurrentPath(), 3));
+//		lines.set(0, RefinePath.refinePath(finder.getCurrentPath(), 3));
+		lines.set(0, finder.getCurrentPath());
 	}
 
 	public static void set1(int x, int y) {

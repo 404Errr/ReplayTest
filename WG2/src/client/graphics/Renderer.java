@@ -28,6 +28,12 @@ import client.weapon.entity.AbstractProjectile;
 import client.weapon.entity.FragGrenadeProjectile;
 import client.weapon.entity.Hitscan;
 import client.weapon.entity.Triangle;
+import client.weapon.weapon.BasicGun;
+import client.weapon.weapon.FragGrenade;
+import client.weapon.weapon.MachineGun;
+import client.weapon.weapon.RCTriangle;
+import client.weapon.weapon.RailGun;
+import client.weapon.weapon.ShotGun;
 import data.ColorData;
 import data.GameData;
 import data.GraphicsData;
@@ -51,18 +57,117 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 			drawDebug();
 			if (!Edit.editMode) drawEntities();
 			if (Edit.editMode) Edit.drawSelected();
-
-			if (!Edit.editMode&&Debug.isSpawnPointVisibilityLines()) for (int i = 0;i<Level.getSpawnPoints().size();i++) {
-				if (!Level.getSpawnPoints().get(i).isVisible()) g.setColor(Util.colorOpacity(Color.GREEN, 0.25f));
-				else g.setColor(Util.colorOpacity(Color.RED, 0.1f));
-				g.fillOval(gridX(Level.getSpawnPoints().get(i).x+0.2f), gridY(Level.getSpawnPoints().get(i).y+0.2f), (int) (Camera.getScale()*0.6f), (int) (Camera.getScale()*0.6f));
-				g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/4));
-				g.setColor(COLOR_DEBUG_GREEN);
-				g.drawString(Level.getSpawnPoints().get(i).getSafetyRating(null)+"", gridX(Level.getSpawnPoints().get(i).x+0.35f), gridY(Level.getSpawnPoints().get(i).y+0.8f));
-			}
+			if (!Edit.editMode&&Debug.isSpawnPointVisibilityLines()) drawSpawnPointVisibilityLines();
+//			drawGUI();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void drawGUI() {
+		drawHealthBar();
+		drawInventory();
+	}
+	
+	private void drawInventory() {
+		List<Weapon> inventory = Game.getPlayer().getWeapons();
+		Weapon hL = Game.getPlayer().getActiveWeapon();
+		final int x = (int) (Window.centerX()-(inventory.size()/2*(Window.height()*(INVENTORY_SIZE+INVENTORY_GAP)))), y = (int) (Window.height()*INVENTORY_Y);
+		final int gap = (int) (Window.height()*INVENTORY_GAP);
+		final int highlighted = inventory.indexOf(hL);
+		int currentX = x;
+		for (int i = 0;i<inventory.size();i++) {
+			int size = (int) (Window.height()*INVENTORY_SIZE*((i==highlighted)?INVENTORY_HIGHLIGHT_SIZE:1));
+			drawInventoryIcon(currentX, y-size, size, inventory.get(i));
+			currentX+=size+gap;
+		}
+	}
+
+	private void drawInventoryIcon(int x, int y, int size, Weapon weapon) {
+		g.setColor(Color.GRAY);
+//		g.fillRect(x, y, size, size);
+		g.fillOval(x, y, size, size);
+		g.setColor(Color.BLACK);
+		if (weapon instanceof BasicGun) {
+			drawBasicGunIcon(x, y, size);
+		}
+		if (weapon instanceof ShotGun) {
+			drawShotGunIcon(x, y, size);
+		}
+		if (weapon instanceof MachineGun) {
+			drawMachineGunIcon(x, y, size);
+		}
+		if (weapon instanceof RailGun) {
+			drawRailGunIcon(x, y, size);
+		}
+		if (weapon instanceof FragGrenade) {
+			drawFragGrenadeIcon(x, y, size);
+		}
+		if (weapon instanceof RCTriangle) {
+			drawRCTriangleIcon(x, y, size);
+		}
+		g.setStroke(new BasicStroke(3));
+		g.drawOval(x, y, size, size);
+//		g.drawRect(x, y, size, size);
+	}
+
+	private void drawBasicGunIcon(int x, int y, int size) {
+		g.fillOval(x+size/3, y+size/3, size/3, size/3);
+	}
+	
+	private void drawFragGrenadeIcon(int x, int y, int size) {
+		g.fillOval(x+size/3, y+size/3, size/3, size/2);
+		g.fillRect(x+size/3, y+size/4, size/3, size/8);
+	}
+	
+	private void drawShotGunIcon(int x, int y, int size) {
+		for (int i = 0;i<3;i++) {
+			for (int j = 0;j<3;j++) {
+				g.fillOval(x+(size/7)+(i*size*2/7), y+(size/7)+(j*size*2/7), size/7, size/7);
+			}
+		}
+	}
+	
+	private void drawRailGunIcon(int x, int y, int size) {
+		g.setStroke(new BasicStroke(size/15));
+		g.drawLine(x+size/2, y+size/8, x+size/2, y+size*7/8);
+	}
+	
+	private void drawMachineGunIcon(int x, int y, int size) {
+		Polygon poly = new Polygon();
+		poly.addPoint((int) (x+size*0.5f), y+(int) (size*0.8f));
+		poly.addPoint((int) (x+size*0.27f), y+(int) (size*0.2f));
+		poly.addPoint((int) (x+size*0.73f), y+(int) (size*0.2f));		
+		g.fill(poly);
+	}
+
+	private void drawRCTriangleIcon(int x, int y, int size) {
+		Polygon poly = new Polygon();
+		poly.addPoint((int) (x+size*0.3), y+(int) (size*0.65f));
+		poly.addPoint((int) (x+size*0.5f), y+(int) (size*0.28f));
+		poly.addPoint((int) (x+size*0.7f), y+(int) (size*0.65f));
+		g.fill(poly);
+	}
+
+	private void drawHealthBar() {
+		final int size = (int) (Window.height()*HEALTH_BAR_SIZE);
+		float health = Game.getPlayer().getHealth();
+		float aS = -(1-health*0.75f)*90, aE = -health*0.75f*2*90;
+		g.setStroke(new BasicStroke(HEALTH_BAR_WIDTH*Window.height()));
+		float opacity = (1-health)*0.5f+0.5f;
+		g.setColor(Util.getColorShift(Color.RED, Color.GREEN, health, opacity));
+		g.drawArc(Window.centerX()-size/2, Window.centerY()-size/2, size, size, Math.round(aS), Math.round(aE));
+	}
+
+	private void drawSpawnPointVisibilityLines() {
+		for (int i = 0;i<Level.getSpawnPoints().size();i++) {
+			if (!Level.getSpawnPoints().get(i).isVisible()) g.setColor(Util.colorOpacity(Color.GREEN, 0.25f));
+			else g.setColor(Util.colorOpacity(Color.RED, 0.1f));
+			g.fillOval(gridX(Level.getSpawnPoints().get(i).x+0.2f), gridY(Level.getSpawnPoints().get(i).y+0.2f), (int) (Camera.getScale()*0.6f), (int) (Camera.getScale()*0.6f));
+			g.setFont(new Font("Helvetica", Font.BOLD, Camera.getScale()/4));
+			g.setColor(COLOR_DEBUG_GREEN);
+			g.drawString(Level.getSpawnPoints().get(i).getSafetyRating(null)+"", gridX(Level.getSpawnPoints().get(i).x+0.35f), gridY(Level.getSpawnPoints().get(i).y+0.8f));
 		}
 	}
 
@@ -86,8 +191,6 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 				text.append("Facing = "+((float)Math.toDegrees(Game.getPlayer().getFacing())+((Game.getPlayer().getFacing()<0)?360:0))+" ("+Game.getPlayer().getFacing()+")"+"$");
 				text.append("Cursor = "+Cursor.getScreenX()+","+Cursor.getScreenY()+" ("+Cursor.getPlayerX()+","+Cursor.getPlayerY()+")"+"$");
 				text.append("Active Weapon = "+Game.getPlayer().getActiveWeapon()+"$");
-//				text.append("Cooldown = "+Game.getPlayer().getActiveWeapon().getCooldown()+"$");
-//				text.append("To be fired = "+Game.getPlayer().getActiveWeapon().getToBeFired()+"$");
 				text.append("Debug Text = true, LOS Line = "+Debug.isLosLine()+"$");
 				if (Edit.editMode) text.append("Type = "+(char)Edit.getType());
 
@@ -126,20 +229,20 @@ public class Renderer extends JPanel implements ColorData, GameData, PlayerData,
 
 	private void drawPath(List<Point> lines, Color color, int size) {
 		if (lines!=null&&Debug.isDrawDebugPathfinding()&&!Edit.editMode) {
-			Renderer.getG().setColor(Util.colorOpacity(color, PathFindingTester.OPACITY));
-			Renderer.getG().setStroke(new BasicStroke(size));
+			g.setColor(Util.colorOpacity(color, PathFindingTester.OPACITY));
+			g.setStroke(new BasicStroke(size));
 			for (int i = 1;i<lines.size();i++) {
-//				Renderer.getG().setColor(Util.colorOpacity(PathFindingTester.COLORS[i%2], PathFindingTester.OPACITY));
-				Renderer.getG().drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
+//				g.setColor(Util.colorOpacity(PathFindingTester.COLORS[i%2], PathFindingTester.OPACITY));
+				g.drawLine((int)(Renderer.gridX(lines.get(i-1).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i-1).y)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(lines.get(i).x)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(lines.get(i).y)+Renderer.getHalfPlayerSize()));
 			}
 		}
 	}
 
 	private void drawPathDots() {
-		Renderer.getG().setColor(Color.green);
-		Renderer.getG().setStroke(new BasicStroke(7));
-		Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()));
-		Renderer.getG().drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
+		g.setColor(Color.green);
+		g.setStroke(new BasicStroke(7));
+		g.drawLine((int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x1)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y1)+Renderer.getHalfPlayerSize()));
+		g.drawLine((int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridX(PathFindingTester.x2)+Renderer.getHalfPlayerSize()), (int)(Renderer.gridY(PathFindingTester.y2)+Renderer.getHalfPlayerSize()));
 	}
 
 	private void drawEntities() {

@@ -4,9 +4,10 @@ import client.graphics.Camera;
 import client.graphics.Window;
 
 public interface GraphicsData {
-//	WindowType WINDOW_FORMAT = WindowType.WINDOWED;
-	WindowType WINDOW_FORMAT = WindowType.WINDOWED_FULLSCREEN;
+	WindowType WINDOW_FORMAT = WindowType.WINDOWED;
+//	WindowType WINDOW_FORMAT = WindowType.WINDOWED_FULLSCREEN;
 //	WindowType WINDOW_FORMAT = WindowType.BORDERLESS_FULLSCREEN;
+	
 	enum WindowType {
 		BORDERLESS_FULLSCREEN, WINDOWED_FULLSCREEN, WINDOWED
 	}
@@ -21,7 +22,13 @@ public interface GraphicsData {
 
 	int PROJECTILE_LIFE = 400;
 
-	int HEALTH_BAR_WIDTH = 0;
+	float HEALTH_BAR_WIDTH = 0.01f;
+	float HEALTH_BAR_SIZE = 0.3f;
+	
+	float INVENTORY_Y = 0.8f;
+	float INVENTORY_SIZE = 0.05f;
+	float INVENTORY_GAP = INVENTORY_SIZE*0.4f;
+	float INVENTORY_HIGHLIGHT_SIZE = 1.5f;
 
 	boolean AUTO_RENDER_DISTANCE = true;
 	int RENDER_DISTANCE_X = -1, RENDER_DISTANCE_Y = -1;

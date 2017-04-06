@@ -189,6 +189,11 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			case KeyEvent.VK_N:
 				if (Edit.editMode) Edit.fill();
 				break;
+				
+			case KeyEvent.VK_BACK_SPACE:
+				Game.getPlayer().getWeapons().remove(Game.getPlayer().getActiveWeapon());
+				Game.getPlayer().setWeapon(null);
+				break;
 			}
 		}
 		catch (Exception e1) {}

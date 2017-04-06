@@ -4,7 +4,7 @@ import data.MapData;
 import util.Util;
 
 public class PathfindingTile implements MapData {
-	private int c, r, totalCost, distanceCost, nextToWallCost, dijkstraCost;
+	private int c, r, totalCost, distanceCost, nextToWallCost;//, dijkstraCost;
 	private boolean diagonal;
 	private PathfindingTile previous;
 	private boolean[][] useable;
@@ -85,25 +85,25 @@ public class PathfindingTile implements MapData {
 		distanceCost = (int)(Util.getDistance(c, r, endTile.getC(), endTile.getR())*AStarPathFinder.BASIC_MOVEMENT_COST);
 	}
 
-	public int getDijkstraCost() {
-		return dijkstraCost;
-	}
-
-	public void setDijkstraCost(int dijkstraCost) {
-		this.dijkstraCost = dijkstraCost;
-	}
-
+//	public int getDijkstraCost() {
+//		return dijkstraCost;
+//	}
+//
+//	public void setDijkstraCost(int dijkstraCost) {
+//		this.dijkstraCost = dijkstraCost;
+//	}
+//
 //	public int calculateDijkstraCost(PathfindingTile previousTile) {
 //		return previousTile.getDijkstraCost()+(int)(Util.getDistance(c, r, previousTile.getC(), previousTile.getR())*AStarPathFinder.BASIC_MOVEMENT_COST);
 //	}
-
-	public void setDijkstraCost(int x, int y) {
-		this.dijkstraCost = calculateDijkstraCost(x, y);
-	}
-
-	public int calculateDijkstraCost(int x, int y) {
-		return (int)(Util.getDistance(c, r, x, y)*AStarPathFinder.BASIC_MOVEMENT_COST);
-	}
+//
+//	public void setDijkstraCost(int x, int y) {
+//		this.dijkstraCost = calculateDijkstraCost(x, y);
+//	}
+//
+//	public int calculateDijkstraCost(int x, int y) {
+//		return (int)(Util.getDistance(c, r, x, y)*AStarPathFinder.BASIC_MOVEMENT_COST);
+//	}
 }
 
 
